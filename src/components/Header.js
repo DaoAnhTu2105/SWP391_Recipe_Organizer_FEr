@@ -35,7 +35,7 @@ const Header = () => {
                       <a href="receipe-post.html">4 Vegans</a>
                     </li>
                     <li>
-                      <a href="contact.html">Contact</a>
+                      <a href="/view-plan">Contact</a>
                     </li>
                   </ul>
                 </div>
