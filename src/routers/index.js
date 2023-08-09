@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
+import ViewPlan from '../pages/ViewPlan'
 import CreatePlan from '../pages/CreatePlan'
 import CreateRecipe from '../pages/CreateRecipe'
 import FavoriteRecipe from '../pages/FavortieRecipe'
@@ -53,6 +54,11 @@ export const publicRouters = [
         path: '/user-list',
         name: 'user-list',
         component: UserList
+    },
+    {
+        path: '/view-plan',
+        name: 'view-plan',
+        component: ViewPlan
     }
 
 ]
