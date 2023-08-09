@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
 import bestImg from "../../img/bg-img/r1.jpg";
 
-export default function HomePage() {
+const HomePage = () => {
   return (
     <>
       <h1 className="title-recipes">Best Recipes</h1>
@@ -297,4 +297,6 @@ export default function HomePage() {
       </div>
     </>
   );
-}
+};
+
+export default HomePage;
