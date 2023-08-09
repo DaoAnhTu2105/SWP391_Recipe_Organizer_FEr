@@ -20,11 +20,13 @@ export const publicRouters = [
         path: '/login',
         name: 'login',
         component: Login,
+        layout: null
     },
     {
         path: '/error',
         name: 'error',
-        component: NotFound
+        component: NotFound,
+        layout: null
     },
     {
         path: '/create-plan',
@@ -44,7 +46,8 @@ export const publicRouters = [
     {
         path: '/register',
         name: 'register',
-        component: Register
+        component: Register,
+        layout: null
     },
     {
         path: '/user-list',
