@@ -1,6 +1,7 @@
 import React from "react";
 import imgLogo from "../img/core-img/logo.png";
 import { Search } from "./Search";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 
 const Header = () => {
   return (
@@ -37,6 +38,14 @@ const Header = () => {
                     <li>
                       <a href="contact.html">Contact</a>
                     </li>
+                    <li>
+                      <span>l</span>
+                      <PersonOutlineIcon
+                        fontSize="large"
+                        style={{ display: "flex" }}
+                      />
+                      <a href="contact.html">Login</a>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -50,4 +59,4 @@ const Header = () => {
   );
 };
 
-export default Header
+export default Header;
