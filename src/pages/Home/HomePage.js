@@ -15,7 +15,7 @@ import Rating from "@mui/material/Rating";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import bestImg from "../../img/bg-img/r1.jpg";
 
-export function HomePage() {
+export default function HomePage() {
   return (
     <>
       <h1 className="title-recipes">Best Recipes</h1>
