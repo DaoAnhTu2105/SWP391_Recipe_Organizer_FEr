@@ -57,7 +57,7 @@ import Grid from "@mui/material/Grid";
 import { Facebook, Instagram, Twitter } from "@mui/icons-material";
 import { Box } from "@mui/material";
 
-export function Footer() {
+const Footer = () => {
   return (
     <Box
       component="footer"
@@ -127,3 +127,5 @@ export function Footer() {
     </Box>
   );
 }
+
+export default Footer

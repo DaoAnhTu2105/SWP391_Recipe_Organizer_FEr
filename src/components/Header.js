@@ -2,7 +2,7 @@ import React from "react";
 import imgLogo from "../img/core-img/logo.png";
 import { Search } from "./Search";
 
-export const Header = () => {
+const Header = () => {
   return (
     <header className="header-area">
       <div className="delicious-main-menu">
@@ -49,3 +49,5 @@ export const Header = () => {
     </header>
   );
 };
+
+export default Header
