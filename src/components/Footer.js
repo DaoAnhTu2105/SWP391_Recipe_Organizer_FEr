@@ -72,7 +72,7 @@ export function Footer() {
       <Container maxWidth="lg">
         <Grid container spacing={5}>
           <Grid item xs={12} sm={4}>
-            <Typography variant="h6" color="text.primary" gutterBottom>
+            <Typography variant="h6" style={{ color: "#F39C12" }} gutterBottom>
               About Us
             </Typography>
             <Typography variant="body2" color="text.secondary">
@@ -81,7 +81,7 @@ export function Footer() {
             </Typography>
           </Grid>
           <Grid item xs={12} sm={4}>
-            <Typography variant="h6" color="text.primary" gutterBottom>
+            <Typography variant="h6" style={{ color: "#F39C12" }} gutterBottom>
               Contact Us
             </Typography>
             <Typography variant="body2" color="text.secondary">
@@ -95,7 +95,7 @@ export function Footer() {
             </Typography>
           </Grid>
           <Grid item xs={12} sm={4}>
-            <Typography variant="h6" color="text.primary" gutterBottom>
+            <Typography variant="h6" style={{ color: "#F39C12" }} gutterBottom>
               Follow Us
             </Typography>
             <Link href="https://www.facebook.com/" color="inherit">
