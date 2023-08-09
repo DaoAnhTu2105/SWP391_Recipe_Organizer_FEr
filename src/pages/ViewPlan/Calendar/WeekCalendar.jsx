@@ -1,12 +1,12 @@
 import './weekCalendar.css'
 import React, { useState } from 'react'
 import Calendar from 'react-calendar'
-import PreviousIcon from "../IconComponent/PreviousIcon";
-import NextIcon from "../IconComponent/NextIcon";
+import PreviousIcon from '../IconComponent/PreviousIcon'
+import NextIcon from '../IconComponent/NextIcon'
 
 const WeekCalendar = () => {
     const [date, setDate] = useState(new Date())
-    const onClickWeekNumber = (weekNumber, date, event) => alert(date) //get first day of week 
+    const onClickWeekNumber = (weekNumber, date, event) => alert(date) //get first day of week
 
     return (
         <div className="app">
@@ -17,7 +17,7 @@ const WeekCalendar = () => {
                     selectRange={true} //select range
                     showNeighboringMonth={false}
                     showWeekNumbers={true}
-                    onClickWeekNumber={onClickWeekNumber} 
+                    onClickWeekNumber={onClickWeekNumber}
                     nextLabel={<NextIcon />}
                     prevLabel={<PreviousIcon />}
                 />

@@ -22,56 +22,53 @@ export const publicRouters = [
         path: '/login',
         name: 'login',
         component: Login,
-        layout: null
+        layout: null,
     },
     {
         path: '/error',
         name: 'error',
         component: NotFound,
-        layout: null
+        layout: null,
     },
     {
         path: '/create-plan',
         name: 'create-plan',
-        component: CreatePlan
+        component: CreatePlan,
     },
     {
         path: '/create-recipe',
         name: 'create-recipe',
-        component: CreateRecipe
+        component: CreateRecipe,
     },
     {
         path: '/favorite-recipe',
         name: 'favorite-recipe',
-        component: FavoriteRecipe
+        component: FavoriteRecipe,
     },
     {
         path: '/register',
         name: 'register',
         component: Register,
-        layout: null
+        layout: null,
     },
     {
         path: '/user-list',
         name: 'user-list',
-        component: UserList
+        component: UserList,
     },
     {
         path: '/view-plan',
         name: 'view-plan',
-        component: ViewPlan
+        component: ViewPlan,
     },
     {
         path: '/recipe-detail',
         name: 'recipe-detail',
-        component: RecipeDetail
+        component: RecipeDetail,
     },
-
 ]
 
-export const privateRouters = [
-
-]
+export const privateRouters = []
 
 // export const RouterComponents = () => {
 //     return (

@@ -48,7 +48,6 @@ h6 {
     color: $heading-color;
     line-height: 1.3;
     font-weight: 600;
-
 }
 
 p {
@@ -300,7 +299,7 @@ img {
         left: 0;
         width: 100%;
         height: 100%;
-        content: "";
+        content: '';
     }
 }
 
@@ -350,7 +349,7 @@ textarea:focus {
         background-color: $white-color;
         border: none;
         border-radius: 0;
-        box-shadow: 0 0 4px 0 rgba(0, 0, 0, .1);
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
         margin-top: 0;
         width: 100%;
     }
@@ -785,7 +784,7 @@ textarea:focus {
         width: 100%;
     }
     &::after {
-        content: "";
+        content: '';
         position: absolute;
         height: 100%;
         width: 100%;
@@ -1609,7 +1608,7 @@ textarea:focus {
                 top: 23px;
                 &.accor-open {
                     opacity: 0;
-                    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+                    -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
                     filter: alpha(opacity=0);
                 }
             }
@@ -1620,12 +1619,12 @@ textarea:focus {
                 span {
                     &.accor-close {
                         opacity: 0;
-                        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+                        -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
                         filter: alpha(opacity=0);
                     }
                     &.accor-open {
                         opacity: 1;
-                        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+                        -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';
                         filter: alpha(opacity=100);
                     }
                 }
