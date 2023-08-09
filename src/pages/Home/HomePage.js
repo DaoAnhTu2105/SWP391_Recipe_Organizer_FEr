@@ -15,7 +15,7 @@ import Rating from "@mui/material/Rating";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-export function HomePage() {
+export default function HomePage() {
   return (
     <>
       <h1 className="title-recipes">Lastest Recipes</h1>
