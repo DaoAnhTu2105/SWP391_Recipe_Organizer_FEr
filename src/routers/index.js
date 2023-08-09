@@ -10,6 +10,7 @@ import UserList from '../pages/UserList'
 import Login from '../pages/Login'
 import Home from '../pages/Home/HomePage'
 import NotFound from '../pages/NotFound'
+import RecipeDetail from '../pages/RecipeDetail/RecipeDetail'
 
 export const publicRouters = [
     {
@@ -59,7 +60,12 @@ export const publicRouters = [
         path: '/view-plan',
         name: 'view-plan',
         component: ViewPlan
-    }
+    },
+    {
+        path: '/recipe-detail',
+        name: 'recipe-detail',
+        component: RecipeDetail
+    },
 
 ]
 
