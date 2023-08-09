@@ -12,12 +12,126 @@ import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import Rating from "@mui/material/Rating";
-
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import bestImg from "../../img/bg-img/r1.jpg";
 
 export function HomePage() {
   return (
     <>
+      <h1 className="title-recipes">Best Recipes</h1>
+      <section class="best-receipe-area">
+        <div class="container">
+          <div class="row mt-5">
+            <div class="col-12 col-sm-6 col-lg-4">
+              <div class="single-best-receipe-area mb-30">
+                <img src={bestImg} alt="" />
+                <div class="receipe-content">
+                  <a href="receipe-post.html">
+                    <h5>Sushi Easy Receipy</h5>
+                  </a>
+                  <div class="ratings">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-4">
+              <div class="single-best-receipe-area mb-30">
+                <img src={bestImg} alt="" />
+                <div class="receipe-content">
+                  <a href="receipe-post.html">
+                    <h5>Homemade Burger</h5>
+                  </a>
+                  <div class="ratings">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-4">
+              <div class="single-best-receipe-area mb-30">
+                <img src={bestImg} alt="" />
+                <div class="receipe-content">
+                  <a href="receipe-post.html">
+                    <h5>Vegan Smoothie</h5>
+                  </a>
+                  <div class="ratings">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-4">
+              <div class="single-best-receipe-area mb-30">
+                <img src={bestImg} alt="" />
+                <div class="receipe-content">
+                  <a href="receipe-post.html">
+                    <h5>Calabasa soup</h5>
+                  </a>
+                  <div class="ratings">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-4">
+              <div class="single-best-receipe-area mb-30">
+                <img src={bestImg} alt="" />
+                <div class="receipe-content">
+                  <a href="receipe-post.html">
+                    <h5>Homemade Breakfast</h5>
+                  </a>
+                  <div class="ratings">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-4">
+              <div class="single-best-receipe-area mb-30">
+                <img src={bestImg} alt="" />
+                <div class="receipe-content">
+                  <a href="receipe-post.html">
+                    <h5>Healthy Fruit Desert</h5>
+                  </a>
+                  <div class="ratings">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <h1 className="title-recipes">Lastest Recipes</h1>
       <div
         style={{
