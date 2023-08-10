@@ -9,9 +9,9 @@ import NextIcon from '../../components/IconComponent/NextIcon'
 const ViewPlan = ({ searchQueryList, userRole }) => {
     const [date, setDate] = useState(new Date())
 
-    const [showScheduleMorning, setShowScheduleMorning] = useState(true)
-    const [showScheduleNoon, setShowScheduleNoon] = useState(true)
-    const [showScheduleNight, setShowScheduleNight] = useState(true)
+    // const [showScheduleMorning, setShowScheduleMorning] = useState(true)
+    // const [showScheduleNoon, setShowScheduleNoon] = useState(true)
+    // const [showScheduleNight, setShowScheduleNight] = useState(true)
 
     const getSunday = (currentDate) => {
         currentDate = new Date(currentDate)

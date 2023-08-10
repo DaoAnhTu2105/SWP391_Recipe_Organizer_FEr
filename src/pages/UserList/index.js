@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { Fragment } from 'react';
 import './index.css'
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
@@ -12,6 +12,8 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Paper from '@mui/material/Paper';
 import { visuallyHidden } from '@mui/utils';
+import Typography from '@mui/material/Typography'
+import Container from '@mui/material/Container'
 
 function createData(id, userName, fullName, email, phone, role) {
     return {
@@ -332,10 +334,6 @@ export default function UserList() {
         setPage(0);
     };
 
-    const handleChangeDense = (event) => {
-        setDense(event.target.checked);
-    };
-
     const isSelected = (name) => selected.indexOf(name) !== -1;
 
     // Avoid a layout jump when reaching the last page with empty rows.
@@ -352,78 +350,100 @@ export default function UserList() {
     );
 
     return (
-        <div className='container user-list'>
-            <Box sx={{ width: '100%' }}>
-                <Paper sx={{ width: '100%', mb: 2 }}>
-                    <TableContainer>
-                        <Table
-                            sx={{ minWidth: 750 }}
-                            aria-labelledby="tableTitle"
-                            size={dense ? 'small' : 'medium'}
-                        >
-                            <EnhancedTableHead
-                                numSelected={selected.length}
-                                order={order}
-                                orderBy={orderBy}
-                                onSelectAllClick={handleSelectAllClick}
-                                onRequestSort={handleRequestSort}
-                                rowCount={rows.length}
-                            />
-                            <TableBody>
-                                {visibleRows.map((row, index) => {
-                                    const isItemSelected = isSelected(row.name);
-                                    const labelId = `enhanced-table-checkbox-${index}`;
-                                    return (
-                                        <TableRow
-                                            hover
-                                            onClick={(event) => handleClick(event, row.id)}
-                                            role="checkbox"
-                                            aria-checked={isItemSelected}
-                                            tabIndex={-1}
-                                            key={row.id}
-                                            selected={isItemSelected}
-                                            sx={{ cursor: 'pointer' }}
-                                        >
-                                            <TableCell
-                                                component="th"
-                                                id={labelId}
-                                                scope="row"
-                                                padding="normal"
-                                            >
-                                                {row.id}
-                                            </TableCell>
-                                            <TableCell align="left">{row.userName}</TableCell>
-                                            <TableCell align="left">{row.fullName}</TableCell>
-                                            <TableCell align="left">{row.email}</TableCell>
-                                            <TableCell align="left">{row.phone}</TableCell>
-                                            <TableCell align="left">{row.role}</TableCell>
-                                            <TableCell align="left">. . .</TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                                {emptyRows > 0 && (
-                                    <TableRow
-                                        style={{
-                                            height: (dense ? 33 : 53) * emptyRows,
-                                        }}
-                                    >
-                                        <TableCell colSpan={6} />
-                                    </TableRow>
-                                )}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <TablePagination
-                        rowsPerPageOptions={[10, 20, 50]}
-                        component="div"
-                        count={rows.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                </Paper>
+        <Fragment>
+            <Box
+                sx={{
+                    bgcolor: 'background.paper',
+                    pt: 8,
+                    pb: 6,
+                }}
+            >
+                <Container maxWidth="sm">
+                    <Typography
+                        component="h1"
+                        variant="h2"
+                        align="center"
+                        color="text.primary"
+                        gutterBottom
+                        style={{ color: '#f39c12' }}
+                    >
+                        User List
+                    </Typography>
+                </Container>
             </Box>
-        </div>
+            <div className='container user-list'>
+                <Box sx={{ width: '100%' }}>
+                    <Paper sx={{ width: '100%', mb: 2 }}>
+                        <TableContainer>
+                            <Table
+                                sx={{ minWidth: 750 }}
+                                aria-labelledby="tableTitle"
+                                size={dense ? 'small' : 'medium'}
+                            >
+                                <EnhancedTableHead
+                                    numSelected={selected.length}
+                                    order={order}
+                                    orderBy={orderBy}
+                                    onSelectAllClick={handleSelectAllClick}
+                                    onRequestSort={handleRequestSort}
+                                    rowCount={rows.length}
+                                />
+                                <TableBody>
+                                    {visibleRows.map((row, index) => {
+                                        const isItemSelected = isSelected(row.name);
+                                        const labelId = `enhanced-table-checkbox-${index}`;
+                                        return (
+                                            <TableRow
+                                                hover
+                                                onClick={(event) => handleClick(event, row.id)}
+                                                role="checkbox"
+                                                aria-checked={isItemSelected}
+                                                tabIndex={-1}
+                                                key={row.id}
+                                                selected={isItemSelected}
+                                                sx={{ cursor: 'pointer' }}
+                                            >
+                                                <TableCell
+                                                    component="th"
+                                                    id={labelId}
+                                                    scope="row"
+                                                    padding="normal"
+                                                >
+                                                    {row.id}
+                                                </TableCell>
+                                                <TableCell align="left">{row.userName}</TableCell>
+                                                <TableCell align="left">{row.fullName}</TableCell>
+                                                <TableCell align="left">{row.email}</TableCell>
+                                                <TableCell align="left">{row.phone}</TableCell>
+                                                <TableCell align="left">{row.role}</TableCell>
+                                                <TableCell align="left">. . .</TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                                    {emptyRows > 0 && (
+                                        <TableRow
+                                            style={{
+                                                height: (dense ? 33 : 53) * emptyRows,
+                                            }}
+                                        >
+                                            <TableCell colSpan={6} />
+                                        </TableRow>
+                                    )}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <TablePagination
+                            rowsPerPageOptions={[10, 20, 50]}
+                            component="div"
+                            count={rows.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
+                    </Paper>
+                </Box>
+            </div>
+        </Fragment>
     );
 }
