@@ -63,7 +63,7 @@ const RecipeDetail = () => {
                             <h2>Vegetarian cheese salad</h2>
                             <p>
                                 Recipe by &nbsp;
-                                <a href="/" style={{ textDecoration: 'true', color: "#f39c12" }}>
+                                <a href="/" style={{ textDecoration: 'true', color: '#f39c12' }}>
                                     Anh Tu
                                 </a>
                             </p>
@@ -85,7 +85,7 @@ const RecipeDetail = () => {
                                 <i className="fa fa-star-o" aria-hidden="true"></i>
                             </div>
                             <a href="/#" className="btn delicious-btn">
-                                For Beginners
+                                Add to Favorite
                             </a>
                         </div>
                     </div>
