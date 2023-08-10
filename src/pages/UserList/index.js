@@ -272,7 +272,6 @@ const rows = [
 ]
 
 export default function UserList() {
-<<<<<<< HEAD
     const [page, setPage] = React.useState(0)
     const [rowsPerPage, setRowsPerPage] = React.useState(10)
     const [anchorEl, setAnchorEl] = useState(null)
@@ -280,15 +279,6 @@ export default function UserList() {
     const [open, setOpen] = useState(false)
     const [opens, setOpens] = useState(true)
     const [openDelete, setOpenDelete] = useState(false)
-=======
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const [anchorEl, setAnchorEl] = useState(null);
-    const [id, setID] = useState();
-    const [open, setOpen] = useState(false);
-    const [opens, setOpens] = useState(true);
-    const [openDelete, setOpenDelete] = useState(false);
->>>>>>> 6b5ebe5bda7b2682220eb475fae8cbc9dc49076e
     const handleClickList = () => {
         setOpens(!opens)
     }
