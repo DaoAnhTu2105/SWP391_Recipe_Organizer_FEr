@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+.week_schedule {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    flex: 1;
+    margin: 5px 0;
+}
+
+.week_schedule .dropdown {
+    position: relative;
+    display: inline-block;
+}
+.week_schedule_list {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.list_column {
+    display: flex;
+    flex-direction: column;
+    width: 14.2%;
+    border-right: 1px solid #000;
+}
+
+.list_column:first-child {
+    border: none;
+}
+
+.list_column:last-child {
+    border: none;
+}
+/* .list_class_week_item{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    margin: 2px 5px;
+    gap: 10px;
+    height: 35px;
+    border-radius: 5px;
+} */

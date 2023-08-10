@@ -1,9 +1,7 @@
 import React from 'react'
 
 const FavoriteRecipe = () => {
-    return (
-        <div>FavoriteRecipe</div>
-    )
+    return <div>FavoriteRecipe</div>
 }
 
 export default FavoriteRecipe
