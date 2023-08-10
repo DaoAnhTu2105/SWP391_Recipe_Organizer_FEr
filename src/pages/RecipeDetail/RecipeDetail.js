@@ -61,6 +61,12 @@ const RecipeDetail = () => {
                         <div className="receipe-headline my-5">
                             <span>April 05, 2018</span>
                             <h2>Vegetarian cheese salad</h2>
+                            <p>
+                                Recipe by &nbsp;
+                                <a href="/" style={{ textDecoration: 'true', color: "#f39c12" }}>
+                                    Anh Tu
+                                </a>
+                            </p>
                             <div className="receipe-duration">
                                 <h6>Prep: 15 mins</h6>
                                 <h6>Cook: 30 mins</h6>
@@ -78,7 +84,7 @@ const RecipeDetail = () => {
                                 <i className="fa fa-star" aria-hidden="true"></i>
                                 <i className="fa fa-star-o" aria-hidden="true"></i>
                             </div>
-                            <a href="#" className="btn delicious-btn">
+                            <a href="/#" className="btn delicious-btn">
                                 For Beginners
                             </a>
                         </div>

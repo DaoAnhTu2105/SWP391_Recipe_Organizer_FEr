@@ -14,8 +14,6 @@ import Typography from '@mui/material/Typography'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import background from '../../assets/login-background.jpg'
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme()
 
 const Login = () => {
@@ -87,6 +85,9 @@ const Login = () => {
                                 control={<Checkbox value="remember" color="primary" />}
                                 label="Remember me"
                             />
+                            <Typography component="h1" variant="h5">
+                                Or
+                            </Typography>
                             <Button
                                 type="submit"
                                 fullWidth
