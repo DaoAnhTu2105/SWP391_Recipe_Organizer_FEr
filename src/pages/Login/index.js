@@ -85,9 +85,6 @@ const Login = () => {
                                 control={<Checkbox value="remember" color="primary" />}
                                 label="Remember me"
                             />
-                            <Typography component="h1" variant="h5">
-                                Or
-                            </Typography>
                             <Button
                                 type="submit"
                                 fullWidth
