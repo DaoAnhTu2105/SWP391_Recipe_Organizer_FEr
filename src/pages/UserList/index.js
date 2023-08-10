@@ -1,54 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import './index.css'
-import PropTypes from 'prop-types';
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableFooter from '@mui/material/TableFooter';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import LastPageIcon from '@mui/icons-material/LastPage';
-import { styled } from '@mui/material/styles';
-import TableHead from '@mui/material/TableHead';
-import { Menu, MenuItem } from "@mui/material";
-import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import Collapse from "@mui/material/Collapse";
-import Swal from "sweetalert2";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import DeleteIcon from "@mui/icons-material/Delete";
+import PropTypes from 'prop-types'
+import { useTheme } from '@mui/material/styles'
+import Box from '@mui/material/Box'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell, { tableCellClasses } from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableFooter from '@mui/material/TableFooter'
+import TablePagination from '@mui/material/TablePagination'
+import TableRow from '@mui/material/TableRow'
+import Paper from '@mui/material/Paper'
+import IconButton from '@mui/material/IconButton'
+import FirstPageIcon from '@mui/icons-material/FirstPage'
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
+import LastPageIcon from '@mui/icons-material/LastPage'
+import { styled } from '@mui/material/styles'
+import TableHead from '@mui/material/TableHead'
+import { Menu, MenuItem } from '@mui/material'
+import List from '@mui/material/List'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemText from '@mui/material/ListItemText'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ExpandLess from '@mui/icons-material/ExpandLess'
+import ExpandMore from '@mui/icons-material/ExpandMore'
+import Collapse from '@mui/material/Collapse'
+import Swal from 'sweetalert2'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 function TablePaginationActions(props) {
-    const theme = useTheme();
-    const { count, page, rowsPerPage, onPageChange } = props;
+    const theme = useTheme()
+    const { count, page, rowsPerPage, onPageChange } = props
 
     const handleFirstPageButtonClick = (event) => {
-        onPageChange(event, 0);
-    };
+        onPageChange(event, 0)
+    }
 
     const handleBackButtonClick = (event) => {
-        onPageChange(event, page - 1);
-    };
+        onPageChange(event, page - 1)
+    }
 
     const handleNextButtonClick = (event) => {
-        onPageChange(event, page + 1);
-    };
+        onPageChange(event, page + 1)
+    }
 
     const handleLastPageButtonClick = (event) => {
-        onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-    };
+        onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1))
+    }
 
     return (
         <Box sx={{ flexShrink: 0, ml: 2.5 }}>
@@ -81,7 +81,7 @@ function TablePaginationActions(props) {
                 {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
             </IconButton>
         </Box>
-    );
+    )
 }
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -92,7 +92,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.body}`]: {
         fontSize: 14,
     },
-}));
+}))
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
@@ -102,102 +102,220 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:last-child td, &:last-child th': {
         border: 0,
     },
-}));
+}))
 
 TablePaginationActions.propTypes = {
     count: PropTypes.number.isRequired,
     onPageChange: PropTypes.func.isRequired,
     page: PropTypes.number.isRequired,
     rowsPerPage: PropTypes.number.isRequired,
-};
+}
 
 function createData(id, userName, fullName, email, phone, role) {
-    return { id, userName, fullName, email, phone, role };
+    return { id, userName, fullName, email, phone, role }
 }
 
 const rows = [
     createData('01', 'frozenas12', 'Frozen yoghurt', 'thuoasd@gmail.com', '0124212424', 'Client'),
-    createData('02', 'frozenas12', 'Yvonne Holt', 'cursus.purus.nullam@aol.couk', '0124212424', 'Client'),
-    createData('03', 'frozenas12', 'Frozen yoghurt', 'aliquet.metus@outlook.edu', '0124212424', 'Cooker'),
-    createData('04', 'frozenas12', 'Mannix Mcdowell', 'orci.phasellus@protonmail.net', '0124212424', 'Cooker'),
-    createData('05', 'frozenas12', 'Devin Barry', 'orci.phasellus@protonmail.net', '0124212424', 'Cooker'),
+    createData(
+        '02',
+        'frozenas12',
+        'Yvonne Holt',
+        'cursus.purus.nullam@aol.couk',
+        '0124212424',
+        'Client'
+    ),
+    createData(
+        '03',
+        'frozenas12',
+        'Frozen yoghurt',
+        'aliquet.metus@outlook.edu',
+        '0124212424',
+        'Cooker'
+    ),
+    createData(
+        '04',
+        'frozenas12',
+        'Mannix Mcdowell',
+        'orci.phasellus@protonmail.net',
+        '0124212424',
+        'Cooker'
+    ),
+    createData(
+        '05',
+        'frozenas12',
+        'Devin Barry',
+        'orci.phasellus@protonmail.net',
+        '0124212424',
+        'Cooker'
+    ),
     createData('06', 'frozenas12', 'Paki House', 'etiam@google.edu', '0124212424', 'Client'),
-    createData('07', 'frozenas12', 'Mannix Mcdowell', 'orci.phasellus@protonmail.net', '0124212424', 'Cooker'),
-    createData('08', 'frozenas12', 'Devin Barry', 'orci.phasellus@protonmail.net', '0124212424', 'Cooker'),
+    createData(
+        '07',
+        'frozenas12',
+        'Mannix Mcdowell',
+        'orci.phasellus@protonmail.net',
+        '0124212424',
+        'Cooker'
+    ),
+    createData(
+        '08',
+        'frozenas12',
+        'Devin Barry',
+        'orci.phasellus@protonmail.net',
+        '0124212424',
+        'Cooker'
+    ),
     createData('09', 'frozenas12', 'Paki House', 'etiam@google.edu', '0124212424', 'Client'),
-    createData('10', 'frozenas12', 'Mannix Mcdowell', 'orci.phasellus@protonmail.net', '0124212424', 'Cooker'),
-    createData('11', 'frozenas12', 'Devin Barry', 'orci.phasellus@protonmail.net', '0124212424', 'Cooker'),
+    createData(
+        '10',
+        'frozenas12',
+        'Mannix Mcdowell',
+        'orci.phasellus@protonmail.net',
+        '0124212424',
+        'Cooker'
+    ),
+    createData(
+        '11',
+        'frozenas12',
+        'Devin Barry',
+        'orci.phasellus@protonmail.net',
+        '0124212424',
+        'Cooker'
+    ),
     createData('12', 'frozenas12', 'Paki House', 'etiam@google.edu', '0124212424', 'Client'),
-    createData('13', 'frozenas12', 'Mannix Mcdowell', 'orci.phasellus@protonmail.net', '0124212424', 'Cooker'),
-    createData('14', 'frozenas12', 'Devin Barry', 'orci.phasellus@protonmail.net', '0124212424', 'Cooker'),
+    createData(
+        '13',
+        'frozenas12',
+        'Mannix Mcdowell',
+        'orci.phasellus@protonmail.net',
+        '0124212424',
+        'Cooker'
+    ),
+    createData(
+        '14',
+        'frozenas12',
+        'Devin Barry',
+        'orci.phasellus@protonmail.net',
+        '0124212424',
+        'Cooker'
+    ),
     createData('15', 'frozenas12', 'Paki House', 'etiam@google.edu', '0124212424', 'Client'),
-    createData('16', 'frozenas12', 'Mannix Mcdowell', 'orci.phasellus@protonmail.net', '0124212424', 'Cooker'),
-    createData('17', 'frozenas12', 'Devin Barry', 'orci.phasellus@protonmail.net', '0124212424', 'Cooker'),
+    createData(
+        '16',
+        'frozenas12',
+        'Mannix Mcdowell',
+        'orci.phasellus@protonmail.net',
+        '0124212424',
+        'Cooker'
+    ),
+    createData(
+        '17',
+        'frozenas12',
+        'Devin Barry',
+        'orci.phasellus@protonmail.net',
+        '0124212424',
+        'Cooker'
+    ),
     createData('18', 'frozenas12', 'Paki House', 'etiam@google.edu', '0124212424', 'Client'),
-    createData('19', 'frozenas12', 'Mannix Mcdowell', 'orci.phasellus@protonmail.net', '0124212424', 'Cooker'),
-    createData('20', 'frozenas12', 'Devin Barry', 'orci.phasellus@protonmail.net', '0124212424', 'Cooker'),
+    createData(
+        '19',
+        'frozenas12',
+        'Mannix Mcdowell',
+        'orci.phasellus@protonmail.net',
+        '0124212424',
+        'Cooker'
+    ),
+    createData(
+        '20',
+        'frozenas12',
+        'Devin Barry',
+        'orci.phasellus@protonmail.net',
+        '0124212424',
+        'Cooker'
+    ),
     createData('21', 'frozenas12', 'Paki House', 'etiam@google.edu', '0124212424', 'Client'),
-    createData('22', 'frozenas12', 'Mannix Mcdowell', 'orci.phasellus@protonmail.net', '0124212424', 'Cooker'),
-    createData('23', 'frozenas12', 'Devin Barry', 'orci.phasellus@protonmail.net', '0124212424', 'Cooker'),
+    createData(
+        '22',
+        'frozenas12',
+        'Mannix Mcdowell',
+        'orci.phasellus@protonmail.net',
+        '0124212424',
+        'Cooker'
+    ),
+    createData(
+        '23',
+        'frozenas12',
+        'Devin Barry',
+        'orci.phasellus@protonmail.net',
+        '0124212424',
+        'Cooker'
+    ),
     createData('24', 'frozenas12', 'Paki House', 'etiam@google.edu', '0124212424', 'Client'),
-    createData('25', 'frozenas12', 'Mannix Mcdowell', 'orci.phasellus@protonmail.net', '0124212424', 'Cooker'),
-    createData('26', 'frozenas12', 'Devin Barry', 'orci.phasellus@protonmail.net', '0124212424', 'Cooker'),
+    createData(
+        '25',
+        'frozenas12',
+        'Mannix Mcdowell',
+        'orci.phasellus@protonmail.net',
+        '0124212424',
+        'Cooker'
+    ),
+    createData(
+        '26',
+        'frozenas12',
+        'Devin Barry',
+        'orci.phasellus@protonmail.net',
+        '0124212424',
+        'Cooker'
+    ),
     createData('27', 'frozenas12', 'Paki House', 'etiam@google.edu', '0124212424', 'Client'),
-];
+]
 
-<<<<<<< HEAD
-const UserList = () => {
+export default function UserList() {
     const [page, setPage] = React.useState(0)
     const [rowsPerPage, setRowsPerPage] = React.useState(10)
-=======
-export default function UserList() {
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const [anchorEl, setAnchorEl] = useState(null);
-    const [id, setID] = useState();
-    const [open, setOpen] = useState(false);
-    const [opens, setOpens] = useState(true);
-    const [openDelete, setOpenDelete] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null)
+    const [id, setID] = useState()
+    const [open, setOpen] = useState(false)
+    const [opens, setOpens] = useState(true)
+    const [openDelete, setOpenDelete] = useState(false)
     const handleClickList = () => {
-        setOpens(!opens);
-    };
+        setOpens(!opens)
+    }
 
     // Avoid a layout jump when reaching the last page with empty rows.
-    const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
 
->>>>>>> a7582a3fd4b8b3f16dcbe443fdd68a12b3ef7c97
     const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
+        setPage(newPage)
+    }
 
     const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
+        setRowsPerPage(parseInt(event.target.value, 10))
+        setPage(0)
+    }
 
     const handleShowMenuOpen = (event, id) => {
-        setID(id);
-        setAnchorEl(event.currentTarget);
-    };
+        setID(id)
+        setAnchorEl(event.currentTarget)
+    }
 
     const handleShowMenuClose = () => {
-        setAnchorEl(null);
-    };
-
+        setAnchorEl(null)
+    }
 
     const handleOpenDelete = () => {
-        setOpenDelete(true);
-    };
+        setOpenDelete(true)
+    }
     const handleClickOpen = () => {
-        setOpen(true);
-    };
+        setOpen(true)
+    }
 
     const changeUserRole = (role) => {
         if (true) {
             // dispatch(changeRoleUsers({ id, typeRole: role }));
             // setChangeRoleUser(!changeRoleUser);
-            Swal.fire("Change role successfully !!");
+            Swal.fire('Change role successfully !!')
             // await dispatch(
             //     getUserList({
             //         fullName: searchQuery,
@@ -206,20 +324,30 @@ export default function UserList() {
             //     })
             // );
         }
-    };
+    }
 
     return (
-        <div className='container user-list'>
+        <div className="container user-list">
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
                     <TableHead>
                         <TableRow>
                             <StyledTableCell>ID</StyledTableCell>
-                            <StyledTableCell align="center"><b>Username</b></StyledTableCell>
-                            <StyledTableCell align="left"><b>Full Name</b></StyledTableCell>
-                            <StyledTableCell align="left"><b>Email</b></StyledTableCell>
-                            <StyledTableCell align="center"><b>Phone number</b></StyledTableCell>
-                            <StyledTableCell align="center"><b>Role</b></StyledTableCell>
+                            <StyledTableCell align="center">
+                                <b>Username</b>
+                            </StyledTableCell>
+                            <StyledTableCell align="left">
+                                <b>Full Name</b>
+                            </StyledTableCell>
+                            <StyledTableCell align="left">
+                                <b>Email</b>
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                                <b>Phone number</b>
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                                <b>Role</b>
+                            </StyledTableCell>
                             <StyledTableCell align="center">&nbsp;</StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -237,19 +365,16 @@ export default function UserList() {
                                 <StyledTableCell align="left">{row.email}</StyledTableCell>
                                 <StyledTableCell align="center">{row.phone}</StyledTableCell>
                                 <StyledTableCell align="center">{row.role}</StyledTableCell>
-                                <StyledTableCell align="center"><div
-                                    style={{
-                                        cursor: "pointer",
-                                    }}
-                                    className="moreOption"
-                                    onClick={(event) =>
-                                        handleShowMenuOpen(
-                                            event
-                                        )
-                                    }
-                                >
-                                    ...
-                                </div>
+                                <StyledTableCell align="center">
+                                    <div
+                                        style={{
+                                            cursor: 'pointer',
+                                        }}
+                                        className="moreOption"
+                                        onClick={(event) => handleShowMenuOpen(event)}
+                                    >
+                                        ...
+                                    </div>
                                 </StyledTableCell>
                             </TableRow>
                         ))}
@@ -295,9 +420,9 @@ export default function UserList() {
                         <List
                             className="user_list"
                             sx={{
-                                width: "100%",
+                                width: '100%',
                                 maxWidth: 360,
-                                bgcolor: "background.paper",
+                                bgcolor: 'background.paper',
                             }}
                             component="nav"
                             aria-labelledby="nested-list-subheader"
@@ -309,33 +434,18 @@ export default function UserList() {
                                         style={{ color: "#285d9a" }}
                                     />
                                 </ListItemIcon> */}
-                                <ListItemText
-                                    primary="Change Role"
-                                    className="list_name"
-                                />
+                                <ListItemText primary="Change Role" className="list_name" />
                                 {opens ? (
-                                    <ExpandLess
-                                        style={{ color: "#285d9a" }}
-                                    />
+                                    <ExpandLess style={{ color: '#285d9a' }} />
                                 ) : (
-                                    <ExpandMore
-                                        style={{ color: "#285d9a" }}
-                                    />
+                                    <ExpandMore style={{ color: '#285d9a' }} />
                                 )}
                             </ListItemButton>
-                            <Collapse
-                                in={opens}
-                                timeout="auto"
-                                unmountOnExit
-                            >
+                            <Collapse in={opens} timeout="auto" unmountOnExit>
                                 <List component="div" disablePadding>
                                     <ListItemButton>
                                         <ListItemText
-                                            onClick={() =>
-                                                changeUserRole(
-                                                    "Class Admin"
-                                                )
-                                            }
+                                            onClick={() => changeUserRole('Class Admin')}
                                             className="list_name"
                                         >
                                             Class Admin
@@ -343,19 +453,15 @@ export default function UserList() {
                                     </ListItemButton>
                                     <ListItemButton>
                                         <ListItemText
-                                            onClick={() =>
-                                                changeUserRole("Trainer")
-                                            }
+                                            onClick={() => changeUserRole('Trainer')}
                                             className="list_name"
                                         >
                                             Trainer
-                                        </ListItemText>{" "}
+                                        </ListItemText>{' '}
                                     </ListItemButton>
                                     <ListItemButton>
                                         <ListItemText
-                                            onClick={() =>
-                                                changeUserRole("Trainee")
-                                            }
+                                            onClick={() => changeUserRole('Trainee')}
                                             className="list_name"
                                         >
                                             Trainee
@@ -367,25 +473,17 @@ export default function UserList() {
                     </MenuItem>
                     <MenuItem onClick={handleShowMenuClose}>
                         <div className="popup__menu__option">
-                            <VisibilityOffIcon
-                                style={{ color: "#285d9a" }}
-                            />
+                            <VisibilityOffIcon style={{ color: '#285d9a' }} />
 
-                            <div
-                                className="popup__menu__option__text4"
-                                onClick={handleClickOpen}
-                            >
+                            <div className="popup__menu__option__text4" onClick={handleClickOpen}>
                                 De-active User
                             </div>
                         </div>
                     </MenuItem>
                     <MenuItem onClick={handleShowMenuClose}>
                         <div className="popup__menu__option">
-                            <DeleteIcon style={{ color: "#285d9a" }} />
-                            <div
-                                className="popup__menu__option__text6"
-                                onClick={handleOpenDelete}
-                            >
+                            <DeleteIcon style={{ color: '#285d9a' }} />
+                            <div className="popup__menu__option__text6" onClick={handleOpenDelete}>
                                 Delete User
                             </div>
                         </div>
@@ -393,5 +491,5 @@ export default function UserList() {
                 </div>
             </Menu>
         </div>
-    );
+    )
 }
