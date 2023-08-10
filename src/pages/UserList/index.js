@@ -145,11 +145,6 @@ const rows = [
     createData('27', 'frozenas12', 'Paki House', 'etiam@google.edu', '0124212424', 'Client'),
 ];
 
-<<<<<<< HEAD
-const UserList = () => {
-    const [page, setPage] = React.useState(0)
-    const [rowsPerPage, setRowsPerPage] = React.useState(10)
-=======
 export default function UserList() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -166,7 +161,6 @@ export default function UserList() {
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
->>>>>>> a7582a3fd4b8b3f16dcbe443fdd68a12b3ef7c97
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
