@@ -1,70 +1,42 @@
-# Getting Started with Create React App
+# Team member
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+-   SE151149 Đào Anh Tú
+-   SE151166 Nguyễn Thanh Tùng
+-   SE151180 Nguyễn Hữu Vinh
+-   SE151184 Nguyễn Công Vũ
 
-## Available Scripts
+# Recipe Organizer - SWP391
 
-In the project directory, you can run:
+## Overview
 
-### `npm start`
+Recipe organizer is a web app to store recipe of user. User can read recipe and save it. Beside that, user can create their own plan meal.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+-   Create account and login.
+-   Show all recipe
+-   Show recipe detail.
+-   CRUD recipe as COOKER.
+-   CRUD plan meal as USER.
+-   CRUD user as ADMIN.
 
-### `npm test`
+## Tech:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Project use:
 
-### `npm run build`
+-   [ReactJS]
+-   [.Net]
+-   [Swagger]
+-   [Firebase]
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Diagram of project:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+[Usecase Diagram](https://app.diagrams.net/#G1cMVLekC53uhrUWiSECxhava0g_ns1M7q)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+[ERD](https://lucid.app/lucidchart/a797ee58-3761-4b3a-ac8a-640e3392f2c0/edit?invitationId=inv_07de2345-d8f9-4314-8d38-7a041a972fd7&fbclid=IwAR2nx8tCOLuCGqP77Jp_BWpClTlWb0A4yfMdyv6-0rCf6aSR7RADAl0Mc5w&page=0_0#)
 
-### `npm run eject`
+[ERD Physic](https://lucid.app/lucidchart/4eebda42-b342-4ebd-a64f-a4b2c29a9efe/edit?invitationId=inv_90622ee1-6824-4462-9a21-8e4f3bc99e4e&fbclid=IwAR1beKUmZs8WQsZ9Yn1gNh-7g91zpFr0Rr3tasT8nVRaJbS4qWMQbew2yzE&page=0_0#)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Website of project
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+[Recipe Organizer](https://recipe-organizer-swp391.web.app/)
