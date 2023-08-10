@@ -33,12 +33,11 @@ const Header = () => {
                                             <a href="/user-list">User List</a>
                                         </li>
                                         <li>
-                                            <span>l</span>
                                             <PersonOutlineIcon
                                                 fontSize="large"
                                                 style={{ display: 'flex' }}
                                             />
-                                            {/* <a href="/login">Login</a> */}
+                                            <a href="/login">Login</a>
                                         </li>
                                     </ul>
                                 </div>
