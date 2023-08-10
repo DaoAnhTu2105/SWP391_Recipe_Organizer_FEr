@@ -39,7 +39,7 @@ const HomePage = () => {
                             <div class="single-best-receipe-area mb-30">
                                 <img src={bestImg} alt="" />
                                 <div class="receipe-content">
-                                    <a href="receipe-post.html">
+                                    <a href="/recipe-detail">
                                         <h5>Homemade Burger</h5>
                                     </a>
                                     <div class="ratings">
