@@ -5,7 +5,7 @@ import { Search } from './Search'
 
 const Header = () => {
     return (
-        <header className="header-area">
+        <header className="header-area fixed-top">
             <div className="delicious-main-menu">
                 <div className="classy-nav-container breakpoint-off">
                     <div className="container">
@@ -33,6 +33,10 @@ const Header = () => {
                                             <a href="/user-list">User List</a>
                                         </li>
                                         <li>
+                                            <PersonOutlineIcon
+                                                fontSize="large"
+                                                style={{ display: 'flex' }}
+                                            />
                                             {/* <PersonOutlineIcon
                                                 fontSize="large"
                                                 style={{ display: 'flex' }}
