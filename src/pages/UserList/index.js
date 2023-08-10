@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import './index.css'
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
@@ -18,6 +18,17 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { styled } from '@mui/material/styles';
 import TableHead from '@mui/material/TableHead';
+import { Menu, MenuItem } from "@mui/material";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import Collapse from "@mui/material/Collapse";
+import Swal from "sweetalert2";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function TablePaginationActions(props) {
     const theme = useTheme();
@@ -137,6 +148,14 @@ const rows = [
 export default function UserList() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [id, setID] = useState();
+    const [open, setOpen] = useState(false);
+    const [opens, setOpens] = useState(true);
+    const [openDelete, setOpenDelete] = useState(false);
+    const handleClickList = () => {
+        setOpens(!opens);
+    };
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
@@ -149,6 +168,38 @@ export default function UserList() {
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
+    };
+
+    const handleShowMenuOpen = (event, id) => {
+        setID(id);
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleShowMenuClose = () => {
+        setAnchorEl(null);
+    };
+
+
+    const handleOpenDelete = () => {
+        setOpenDelete(true);
+    };
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const changeUserRole = (role) => {
+        if (true) {
+            // dispatch(changeRoleUsers({ id, typeRole: role }));
+            // setChangeRoleUser(!changeRoleUser);
+            Swal.fire("Change role successfully !!");
+            // await dispatch(
+            //     getUserList({
+            //         fullName: searchQuery,
+            //         field: sortQuery,
+            //         sortType: sortOrder,
+            //     })
+            // );
+        }
     };
 
     return (
@@ -185,11 +236,11 @@ export default function UserList() {
                                         cursor: "pointer",
                                     }}
                                     className="moreOption"
-                                // onClick={(event) =>
-                                //     handleShowMenuOpen(
-                                //         event
-                                //     )
-                                // }
+                                    onClick={(event) =>
+                                        handleShowMenuOpen(
+                                            event
+                                        )
+                                    }
                                 >
                                     ...
                                 </div>
@@ -224,6 +275,117 @@ export default function UserList() {
                     </TableFooter>
                 </Table>
             </TableContainer>
+            <Menu
+                id="row-menu"
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleShowMenuClose}
+                sx={{ borderRadius: 4 }}
+            >
+                <div className="popup__menu">
+                    <div className="popup__text">Manage</div>
+                    <hr className="popup__hr" />
+                    <MenuItem onClick={handleShowMenuClose}>
+                        <List
+                            className="user_list"
+                            sx={{
+                                width: "100%",
+                                maxWidth: 360,
+                                bgcolor: "background.paper",
+                            }}
+                            component="nav"
+                            aria-labelledby="nested-list-subheader"
+                        >
+                            <ListItemButton onClick={handleClickList}>
+                                {/* <ListItemIcon>
+                                    <PersonIcon
+                                        className="person_icon"
+                                        style={{ color: "#285d9a" }}
+                                    />
+                                </ListItemIcon> */}
+                                <ListItemText
+                                    primary="Change Role"
+                                    className="list_name"
+                                />
+                                {opens ? (
+                                    <ExpandLess
+                                        style={{ color: "#285d9a" }}
+                                    />
+                                ) : (
+                                    <ExpandMore
+                                        style={{ color: "#285d9a" }}
+                                    />
+                                )}
+                            </ListItemButton>
+                            <Collapse
+                                in={opens}
+                                timeout="auto"
+                                unmountOnExit
+                            >
+                                <List component="div" disablePadding>
+                                    <ListItemButton>
+                                        <ListItemText
+                                            onClick={() =>
+                                                changeUserRole(
+                                                    "Class Admin"
+                                                )
+                                            }
+                                            className="list_name"
+                                        >
+                                            Class Admin
+                                        </ListItemText>
+                                    </ListItemButton>
+                                    <ListItemButton>
+                                        <ListItemText
+                                            onClick={() =>
+                                                changeUserRole("Trainer")
+                                            }
+                                            className="list_name"
+                                        >
+                                            Trainer
+                                        </ListItemText>{" "}
+                                    </ListItemButton>
+                                    <ListItemButton>
+                                        <ListItemText
+                                            onClick={() =>
+                                                changeUserRole("Trainee")
+                                            }
+                                            className="list_name"
+                                        >
+                                            Trainee
+                                        </ListItemText>
+                                    </ListItemButton>
+                                </List>
+                            </Collapse>
+                        </List>
+                    </MenuItem>
+                    <MenuItem onClick={handleShowMenuClose}>
+                        <div className="popup__menu__option">
+                            <VisibilityOffIcon
+                                style={{ color: "#285d9a" }}
+                            />
+
+                            <div
+                                className="popup__menu__option__text4"
+                                onClick={handleClickOpen}
+                            >
+                                De-active User
+                            </div>
+                        </div>
+                    </MenuItem>
+                    <MenuItem onClick={handleShowMenuClose}>
+                        <div className="popup__menu__option">
+                            <DeleteIcon style={{ color: "#285d9a" }} />
+                            <div
+                                className="popup__menu__option__text6"
+                                onClick={handleOpenDelete}
+                            >
+                                Delete User
+                            </div>
+                        </div>
+                    </MenuItem>
+                </div>
+            </Menu>
         </div>
     );
 }
