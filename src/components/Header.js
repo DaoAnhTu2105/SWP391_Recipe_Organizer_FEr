@@ -2,6 +2,7 @@ import React from 'react'
 import imgLogo from '../img/core-img/logo.png'
 import { Search } from './Search'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
+import SearchFilter from './SearchFilter'
 
 const Header = () => {
     return (
@@ -51,6 +52,8 @@ const Header = () => {
                 </div>
             </div>
             <Search />
+            <br></br>
+            <SearchFilter />
         </header>
     )
 }

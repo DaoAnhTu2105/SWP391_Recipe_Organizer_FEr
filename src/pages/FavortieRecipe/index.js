@@ -1,88 +1,177 @@
 import React from 'react'
-import AppBar from '@mui/material/AppBar'
-import Button from '@mui/material/Button'
-import CameraIcon from '@mui/icons-material/PhotoCamera'
 import Card from '@mui/material/Card'
-import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
-import CssBaseline from '@mui/material/CssBaseline'
-import Grid from '@mui/material/Grid'
-import Stack from '@mui/material/Stack'
-import Box from '@mui/material/Box'
-import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
+import img1 from '../../img/bg-img/r1.jpg'
+import { Rating, CardActions, Button } from '@mui/material'
 import Container from '@mui/material/Container'
-import Link from '@mui/material/Link'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-const defaultTheme = createTheme()
-
 const FavoriteRecipe = () => {
     return (
-        <ThemeProvider theme={defaultTheme}>
-            <main>
-                <Box
-                    sx={{
-                        bgcolor: 'background.paper',
-                        pt: 8,
-                        pb: 6,
-                    }}
+        <>
+            <Container maxWidth="md">
+                <Typography
+                    component="h1"
+                    variant="h2"
+                    align="center"
+                    style={{ color: '#f39c12', marginTop: 20 }}
+                    gutterBottom
                 >
-                    <Container maxWidth="sm">
-                        <Typography
-                            component="h1"
-                            variant="h2"
-                            align="center"
-                            color="text.primary"
-                            gutterBottom
-                            style={{ color: '#f39c12' }}
-                        >
-                            Favorite Recipes
-                        </Typography>
-                    </Container>
-                </Box>
-                <Container sx={{ py: 5 }} maxWidth="md">
-                    {/* End hero unit */}
-                    <Grid container spacing={4}>
-                        {cards.map((card) => (
-                            <Grid item key={card} xs={12} sm={6} md={4}>
-                                <Card
-                                    sx={{
-                                        height: '100%',
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                    }}
-                                >
-                                    <CardMedia
-                                        component="div"
-                                        sx={{
-                                            // 16:9
-                                            pt: '56.25%',
-                                        }}
-                                        image="https://source.unsplash.com/random?wallpapers"
-                                    />
-                                    <CardContent sx={{ flexGrow: 1 }}>
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                            Heading
-                                        </Typography>
-                                        <Typography>
-                                            This is a media card. You can use this section to
-                                            describe the content.
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Button size="small">View</Button>
-                                        <Button size="small">Delete</Button>
-                                    </CardActions>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
-                </Container>
-            </main>
-        </ThemeProvider>
+                    Favorite Recipes
+                </Typography>
+                <Typography variant="h5" align="center" color="text.secondary" paragraph>
+                    All your favorite content in one place!
+                </Typography>
+            </Container>
+
+            <div
+                style={{
+                    textAlign: 'center',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginTop: 40,
+                }}
+            >
+                <div className="container">
+                    <div className="row justify-content-center">
+                        <div className="col-sm-4 mb-4">
+                            <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
+                                <CardMedia
+                                    component="img"
+                                    style={{ width: 350, height: 194 }}
+                                    image={img1}
+                                    alt="Paella dish"
+                                />
+
+                                <Rating
+                                    name="read-only"
+                                    value="4"
+                                    readOnly
+                                    size="small"
+                                    sx={{ mt: 2 }}
+                                />
+
+                                <CardContent>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Shrimp and Chorizo Paella
+                                    </Typography>
+                                </CardContent>
+                                <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
+                                    <Button size="small">View</Button>
+                                    <Button size="small">Delete</Button>
+                                </CardActions>
+                            </Card>
+                        </div>
+                        <div className="col-sm-4 mb-4">
+                            <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
+                                <CardMedia
+                                    component="img"
+                                    style={{ width: 350, height: 194 }}
+                                    image={img1}
+                                    alt="Paella dish"
+                                />
+
+                                <Rating
+                                    name="read-only"
+                                    value="4"
+                                    readOnly
+                                    size="small"
+                                    sx={{ mt: 2 }}
+                                />
+
+                                <CardContent>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Shrimp and Chorizo Paella
+                                    </Typography>
+                                </CardContent>
+                                <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
+                                    <Button size="small">View</Button>
+                                    <Button size="small">Delete</Button>
+                                </CardActions>
+                            </Card>
+                        </div>
+                        <div className="col-sm-4 mb-4">
+                            <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
+                                <CardMedia
+                                    component="img"
+                                    style={{ width: 350, height: 194 }}
+                                    image={img1}
+                                    alt="Paella dish"
+                                />
+                                <Rating
+                                    name="read-only"
+                                    value="4"
+                                    readOnly
+                                    size="small"
+                                    sx={{ mt: 2 }}
+                                />
+                                <CardContent>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Shrimp and Chorizo Paella
+                                    </Typography>
+                                </CardContent>
+                                <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
+                                    <Button size="small">View</Button>
+                                    <Button size="small">Delete</Button>
+                                </CardActions>
+                            </Card>
+                        </div>
+                        <div className="col-sm-4 mb-4">
+                            <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
+                                <CardMedia
+                                    component="img"
+                                    style={{ width: 350, height: 194 }}
+                                    image={img1}
+                                    alt="Paella dish"
+                                />
+                                <Rating
+                                    name="read-only"
+                                    value="4"
+                                    readOnly
+                                    size="small"
+                                    sx={{ mt: 2 }}
+                                />
+                                <CardContent>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Shrimp and Chorizo Paella
+                                    </Typography>
+                                </CardContent>
+                                <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
+                                    <Button size="small">View</Button>
+                                    <Button size="small">Delete</Button>
+                                </CardActions>
+                            </Card>
+                        </div>
+                        <div className="col-sm-4 mb-4">
+                            <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
+                                <CardMedia
+                                    component="img"
+                                    style={{ width: 350, height: 194 }}
+                                    image={img1}
+                                    alt="Paella dish"
+                                />
+                                <Rating
+                                    name="read-only"
+                                    value="4"
+                                    readOnly
+                                    size="small"
+                                    sx={{ mt: 2 }}
+                                />
+                                <CardContent>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Shrimp and Chorizo Paella
+                                    </Typography>
+                                </CardContent>
+                                <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
+                                    <Button size="small">View</Button>
+                                    <Button size="small">Delete</Button>
+                                </CardActions>
+                            </Card>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
     )
 }
 export default FavoriteRecipe
