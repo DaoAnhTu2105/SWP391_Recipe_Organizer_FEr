@@ -7,7 +7,6 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import WeekDropdown from '../DatePicker'
-import { create } from 'lodash'
 
 function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein }
@@ -49,39 +48,14 @@ export default function MealPlan() {
                 </TableHead>
                 <TableBody>
                     {meals.map((meal) => (
-                        rows.map((row) => (
-                            < TableRow
-                                key={meal.meal}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-
-                                <TableCell component="th" scope="row">
-                                    {meal.meal}
-                                </TableCell>
-                                <TableCell component="th" scope="row">
-                                    {row.name}
-                                </TableCell>
-                                <TableCell align="right">{row.calories}</TableCell>
-                                <TableCell align="right">{row.fat}</TableCell>
-                                <TableCell align="right">{row.carbs}</TableCell>
-                                <TableCell align="right">{row.protein}</TableCell>
-                            </TableRow>
-                        ))
-                    ))}
-                    {/* {rows.map((row) => (
-                        <TableRow
-                            key={row.name}
+                        < TableRow
+                            key={meal.meal}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
-                            <TableCell component="th" scope="row">
-                                {row.name}
-                            </TableCell>
-                            <TableCell align="right">{row.calories}</TableCell>
-                            <TableCell align="right">{row.fat}</TableCell>
-                            <TableCell align="right">{row.carbs}</TableCell>
-                            <TableCell align="right">{row.protein}</TableCell>
+                            <TableCell>{meal.meal}</TableCell>
+
                         </TableRow>
-                    ))} */}
+                    ))}
                 </TableBody>
             </Table>
         </TableContainer >
