@@ -2,19 +2,19 @@ import React from 'react'
 
 export const Search = () => {
     return (
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <form class="search-form" action="#" method="post">
-                        <div class="input-container">
+        <div className="container">
+            <div className="row">
+                <div className="col-12">
+                    <form className="search-form" action="#" method="post">
+                        <div className="input-container">
                             <input
                                 type="search"
                                 name="search"
                                 placeholder="Type any keywords..."
-                                class="search-input"
+                                className="search-input"
                             />
-                            <button type="submit" class="search-button">
-                                <i class="fa fa-search" aria-hidden="true"></i>
+                            <button type="submit" className="search-button">
+                                <i className="fa fa-search" aria-hidden="true"></i>
                             </button>
                         </div>
                     </form>

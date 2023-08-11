@@ -1,177 +1,166 @@
 import * as React from 'react'
-import Grid from '@mui/material/Unstable_Grid2'
-import SearchIcon from '@mui/icons-material/Search'
-import Button from '@mui/material/Button'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
+import { styled, useTheme } from '@mui/material/styles'
+import Box from '@mui/material/Box'
+import MuiDrawer from '@mui/material/Drawer'
+import Toolbar from '@mui/material/Toolbar'
+import List from '@mui/material/List'
+import CssBaseline from '@mui/material/CssBaseline'
+import Divider from '@mui/material/Divider'
+import IconButton from '@mui/material/IconButton'
+import MenuIcon from '@mui/icons-material/Menu'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+import InboxIcon from '@mui/icons-material/MoveToInbox'
+import MailIcon from '@mui/icons-material/Mail'
+import { Autocomplete } from '@mui/material'
+import TextField from '@mui/material/TextField'
 
-const SearchFilter = () => {
-    const [anchorEl, setAnchorEl] = React.useState(null)
-    const open = Boolean(anchorEl)
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget)
+const drawerWidth = 240
+
+const openedMixin = (theme) => ({
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+    }),
+    overflowX: 'hidden',
+})
+
+const closedMixin = (theme) => ({
+    transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: 'hidden',
+    width: `calc(${theme.spacing(7)} + 1px)`,
+    [theme.breakpoints.up('sm')]: {
+        width: `calc(${theme.spacing(8)} + 1px)`,
+    },
+})
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: theme.spacing(0, 1),
+    ...theme.mixins.toolbar,
+}))
+
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+    ({ theme, open }) => ({
+        width: drawerWidth,
+        flexShrink: 0,
+        whiteSpace: 'nowrap',
+        boxSizing: 'border-box',
+        ...(open && {
+            ...openedMixin(theme),
+            '& .MuiDrawer-paper': openedMixin(theme),
+        }),
+        ...(!open && {
+            ...closedMixin(theme),
+            '& .MuiDrawer-paper': closedMixin(theme),
+        }),
+    })
+)
+
+export default function MiniDrawer() {
+    const theme = useTheme()
+    const [open, setOpen] = React.useState(false)
+    const countries = ['HCM', 'HN', 'Thu duc']
+
+    const handleDrawerOpen = () => {
+        setOpen(true)
     }
-    const handleClose = () => {
-        setAnchorEl(null)
+
+    const handleDrawerClose = () => {
+        setOpen(false)
     }
+
     return (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <Grid container spacing={4}>
-                <Grid item xs={4}>
-                    <Button
-                        id="fade-button"
-                        aria-controls={open ? 'fade-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? 'true' : undefined}
-                        onClick={handleClick}
-                        style={{ outline: 'none' }}
-                    >
-                        Name Recipe
-                    </Button>
-                    <Menu
-                        id="fade-menu"
-                        MenuListProps={{
-                            'aria-labelledby': 'fade-button',
-                        }}
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                    >
-                        <MenuItem onClick={handleClose}>Name Recipe</MenuItem>
-                        <MenuItem onClick={handleClose}>Name Recipe</MenuItem>
-                        <MenuItem onClick={handleClose}>Name Recipe</MenuItem>
-                    </Menu>
-                </Grid>
-                <Grid item xs={2}>
-                    <Button
-                        id="fade-button"
-                        aria-controls={open ? 'fade-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? 'true' : undefined}
-                        onClick={handleClick}
-                        style={{ outline: 'none' }}
-                    >
-                        Country
-                    </Button>
-                    <Menu
-                        id="fade-menu"
-                        MenuListProps={{
-                            'aria-labelledby': 'fade-button',
-                        }}
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                    >
-                        <MenuItem onClick={handleClose}>country</MenuItem>
-                        <MenuItem onClick={handleClose}>country</MenuItem>
-                        <MenuItem onClick={handleClose}>country</MenuItem>
-                    </Menu>
-                </Grid>
-                <Grid item xs={2}>
-                    <Button
-                        id="fade-button"
-                        aria-controls={open ? 'fade-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? 'true' : undefined}
-                        onClick={handleClick}
-                        style={{ outline: 'none' }}
-                    >
-                        Meal
-                    </Button>
-                    <Menu
-                        id="fade-menu"
-                        MenuListProps={{
-                            'aria-labelledby': 'fade-button',
-                        }}
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                    >
-                        <MenuItem onClick={handleClose}>meal</MenuItem>
-                        <MenuItem onClick={handleClose}>meal</MenuItem>
-                        <MenuItem onClick={handleClose}>meal</MenuItem>
-                    </Menu>
-                </Grid>
-                <Grid item xs={2}>
-                    <Button
-                        id="fade-button"
-                        aria-controls={open ? 'fade-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? 'true' : undefined}
-                        onClick={handleClick}
-                        style={{ outline: 'none' }}
-                    >
-                        Nutrition
-                    </Button>
-                    <Menu
-                        id="fade-menu"
-                        MenuListProps={{
-                            'aria-labelledby': 'fade-button',
-                        }}
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                    >
-                        <MenuItem onClick={handleClose}>nutrition</MenuItem>
-                        <MenuItem onClick={handleClose}>nutrition</MenuItem>
-                        <MenuItem onClick={handleClose}>nutrition</MenuItem>
-                    </Menu>
-                </Grid>
-                <Grid item xs={4}>
-                    <Button
-                        id="fade-button"
-                        aria-controls={open ? 'fade-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? 'true' : undefined}
-                        onClick={handleClick}
-                        style={{ outline: 'none' }}
-                    >
-                        Total Time Cook
-                    </Button>
-                    <Menu
-                        id="fade-menu"
-                        MenuListProps={{
-                            'aria-labelledby': 'fade-button',
-                        }}
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                    >
-                        <MenuItem onClick={handleClose}>totaltimecook</MenuItem>
-                        <MenuItem onClick={handleClose}>totaltimecook</MenuItem>
-                        <MenuItem onClick={handleClose}>totaltimecook</MenuItem>
-                    </Menu>
-                </Grid>
-                <Grid item xs={2}>
-                    <Button
-                        id="fade-button"
-                        aria-controls={open ? 'fade-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? 'true' : undefined}
-                        onClick={handleClick}
-                        style={{ outline: 'none' }}
-                    >
-                        Serving
-                    </Button>
-                    <Menu
-                        id="fade-menu"
-                        MenuListProps={{
-                            'aria-labelledby': 'fade-button',
-                        }}
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                    >
-                        <MenuItem onClick={handleClose}>serving</MenuItem>
-                        <MenuItem onClick={handleClose}>serving</MenuItem>
-                        <MenuItem onClick={handleClose}>serving</MenuItem>
-                    </Menu>
-                </Grid>
-                <Button variant="contained" endIcon={<SearchIcon />} sx={{ marginLeft: 7 }}>
-                    Search
-                </Button>
-            </Grid>
-        </div>
+        <Box sx={{ display: 'flex' }}>
+            <CssBaseline />
+            <Drawer variant="permanent" open={open}>
+                <DrawerHeader>
+                    {!open ? (
+                        <IconButton
+                            color="inherit"
+                            aria-label="open drawer"
+                            onClick={handleDrawerOpen}
+                            edge="start"
+                            style={{
+                                marginLeft: 15,
+                                outline: 'none',
+                                ...(open && { display: 'none' }),
+                            }}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                    ) : (
+                        <IconButton onClick={handleDrawerClose} style={{ outline: 'none' }}>
+                            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                        </IconButton>
+                    )}
+                </DrawerHeader>
+                <Divider />
+                <List>
+                    <ListItem disablePadding sx={{ display: 'block' }}>
+                        <ListItemButton
+                            sx={{
+                                minHeight: 48,
+                                justifyContent: open ? 'initial' : 'center',
+                                px: 2.5,
+                            }}
+                        >
+                            <ListItemIcon
+                                sx={{
+                                    minWidth: 0,
+                                    mr: open ? 3 : 'auto',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <MailIcon />
+                            </ListItemIcon>
+                        </ListItemButton>
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={countries}
+                            sx={{ width: 300, opacity: open ? 1 : 0 }}
+                            renderInput={(params) => <TextField {...params} label="Country" />}
+                        />
+                    </ListItem>
+                </List>
+
+                <Divider />
+                <List>
+                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
+                        <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+                            <ListItemButton
+                                sx={{
+                                    minHeight: 48,
+                                    justifyContent: open ? 'initial' : 'center',
+                                    px: 2.5,
+                                }}
+                            >
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 0,
+                                        mr: open ? 3 : 'auto',
+                                        justifyContent: 'center',
+                                    }}
+                                >
+                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                                </ListItemIcon>
+                                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                            </ListItemButton>
+                        </ListItem>
+                    ))}
+                </List>
+            </Drawer>
+        </Box>
     )
 }
-export default SearchFilter

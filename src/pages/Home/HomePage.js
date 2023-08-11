@@ -14,112 +14,112 @@ const HomePage = () => {
     return (
         <>
             <h1 className="title-recipes">Best Recipes</h1>
-            <section class="best-receipe-area">
-                <div class="container">
-                    <div class="row mt-5">
-                        <div class="col-12 col-sm-6 col-lg-4">
-                            <div class="single-best-receipe-area mb-30">
+            <section className="best-receipe-area">
+                <div className="container">
+                    <div className="row mt-5">
+                        <div className="col-12 col-sm-6 col-lg-4">
+                            <div className="single-best-receipe-area mb-30">
                                 <img src={bestImg} alt="" />
-                                <div class="receipe-content">
+                                <div className="receipe-content">
                                     <a href="receipe-post.html">
                                         <h5>Sushi Easy Receipy</h5>
                                     </a>
-                                    <div class="ratings">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                    <div className="ratings">
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star-o" aria-hidden="true"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-lg-4">
-                            <div class="single-best-receipe-area mb-30">
+                        <div className="col-12 col-sm-6 col-lg-4">
+                            <div className="single-best-receipe-area mb-30">
                                 <img src={bestImg} alt="" />
-                                <div class="receipe-content">
+                                <div className="receipe-content">
                                     <a href="/recipe-detail">
                                         <h5>Homemade Burger</h5>
                                     </a>
-                                    <div class="ratings">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                    <div className="ratings">
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star-o" aria-hidden="true"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-lg-4">
-                            <div class="single-best-receipe-area mb-30">
+                        <div className="col-12 col-sm-6 col-lg-4">
+                            <div className="single-best-receipe-area mb-30">
                                 <img src={bestImg} alt="" />
-                                <div class="receipe-content">
+                                <div className="receipe-content">
                                     <a href="receipe-post.html">
                                         <h5>Vegan Smoothie</h5>
                                     </a>
-                                    <div class="ratings">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                    <div className="ratings">
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star-o" aria-hidden="true"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-lg-4">
-                            <div class="single-best-receipe-area mb-30">
+                        <div className="col-12 col-sm-6 col-lg-4">
+                            <div className="single-best-receipe-area mb-30">
                                 <img src={bestImg} alt="" />
-                                <div class="receipe-content">
+                                <div className="receipe-content">
                                     <a href="receipe-post.html">
                                         <h5>Calabasa soup</h5>
                                     </a>
-                                    <div class="ratings">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                    <div className="ratings">
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star-o" aria-hidden="true"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-lg-4">
-                            <div class="single-best-receipe-area mb-30">
+                        <div className="col-12 col-sm-6 col-lg-4">
+                            <div className="single-best-receipe-area mb-30">
                                 <img src={bestImg} alt="" />
-                                <div class="receipe-content">
+                                <div className="receipe-content">
                                     <a href="receipe-post.html">
                                         <h5>Homemade Breakfast</h5>
                                     </a>
-                                    <div class="ratings">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                    <div className="ratings">
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star-o" aria-hidden="true"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-lg-4">
-                            <div class="single-best-receipe-area mb-30">
+                        <div className="col-12 col-sm-6 col-lg-4">
+                            <div className="single-best-receipe-area mb-30">
                                 <img src={bestImg} alt="" />
-                                <div class="receipe-content">
+                                <div className="receipe-content">
                                     <a href="receipe-post.html">
                                         <h5>Healthy Fruit Desert</h5>
                                     </a>
-                                    <div class="ratings">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                    <div className="ratings">
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star" aria-hidden="true"></i>
+                                        <i className="fa fa-star-o" aria-hidden="true"></i>
                                     </div>
                                 </div>
                             </div>
