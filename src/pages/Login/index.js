@@ -38,12 +38,12 @@ const Login = () => {
 
         try {
             const response = await fetch(baseUrl, {
-                method: "POST",
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ email, ggToken }),
-            });
+            })
             console.log(response)
             if (response.ok) {
                 const responseData = await response.json();
@@ -52,12 +52,11 @@ const Login = () => {
                 navigate("/")
                 console.log("login successful", responseData);
             } else {
-                console.log("login failed");
+                console.log('login failed')
             }
         } catch (error) {
-            console.error("Error calling API:", error);
+            console.error('Error calling API:', error)
         }
-
     }
     useEffect(() => {
         /* global google*/ 
@@ -180,7 +179,7 @@ const Login = () => {
                     </Box>
                 </Grid>
             </Grid>
-        </ThemeProvider >
+        </ThemeProvider>
     )
 }
 

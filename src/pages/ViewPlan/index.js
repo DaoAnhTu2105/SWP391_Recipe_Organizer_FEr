@@ -1,17 +1,13 @@
 import './index.css'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-// import WeekScheduleList from "./WeekScheduleList";
-import Calendar from 'react-calendar'
-import PreviousIcon from '../../components/IconComponent/PreviousIcon'
-import NextIcon from '../../components/IconComponent/NextIcon'
+import MealPlan from './List'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import Container from '@mui/material/Container'
 
 const ViewPlan = ({ searchQueryList, userRole }) => {
     const [date, setDate] = useState(new Date())
-
-    // const [showScheduleMorning, setShowScheduleMorning] = useState(true)
-    // const [showScheduleNoon, setShowScheduleNoon] = useState(true)
-    // const [showScheduleNight, setShowScheduleNight] = useState(true)
 
     const getSunday = (currentDate) => {
         currentDate = new Date(currentDate)
@@ -24,6 +20,7 @@ const ViewPlan = ({ searchQueryList, userRole }) => {
         result.setDate(result.getDate() + days)
         return result
     }
+
     const formatDate = (date) => {
         const yyyy = date.getFullYear()
         let mm = date.getMonth() + 1 // Months start at 0!
@@ -50,73 +47,31 @@ const ViewPlan = ({ searchQueryList, userRole }) => {
     // }, [date, searchQueryList]);
 
     return (
-        <div className="container">
-            <div className="calendar-container">
-                <Calendar
-                    className="week"
-                    onChange={setDate}
-                    value={dateRange}
-                    nextLabel={<NextIcon />}
-                    prevLabel={<PreviousIcon />}
-                    calendarType={'US'}
-                />
-            </div>
-
-            {/* <div>
-                <button
-                    className="button_class"
-                    onClick={() => setShowScheduleMorning(!showScheduleMorning)}
-                >
-                    <b className="day">Morning</b> &nbsp; (8:00 - 12:00)
-                </button>
-                {showScheduleMorning && (
-                    <div
-                        className="WeekScheduleList"
+        <Fragment>
+            <Box
+                sx={{
+                    bgcolor: 'background.paper',
+                    pt: 8,
+                    pb: 6,
+                }}
+            >
+                <Container maxWidth="sm">
+                    <Typography
+                        component="h1"
+                        variant="h2"
+                        align="center"
+                        color="text.primary"
+                        gutterBottom
+                        style={{ color: '#f39c12' }}
                     >
-                        <WeekScheduleList
-                            session="Morning"
-                            scheduleList={schedule}
-                        />
-                    </div>
-                )}
+                        Plan Meal
+                    </Typography>
+                </Container>
+            </Box>
+            <div className="container user-list">
+                <MealPlan />
             </div>
-            <div>
-                <button
-                    className="button_class"
-                    onClick={() => setShowScheduleNoon(!showScheduleNoon)}
-                >
-                    <b className="day">Noon</b> &nbsp; (13:00 - 17:00)
-                </button>
-                {showScheduleNoon && (
-                    <div
-                        className="WeekScheduleList"
-                    >
-                        <WeekScheduleList
-                            session="Noon"
-                            scheduleList={schedule}
-                        />
-                    </div>
-                )}
-            </div>
-            <div>
-                <button
-                    className="button_class"
-                    onClick={() => setShowScheduleNight(!showScheduleNight)}
-                >
-                    <b className="day">Night</b> &nbsp; (18:00 - 22:00)
-                </button>
-                {showScheduleNight && (
-                    <div
-                        className="WeekScheduleList"
-                    >
-                        <WeekScheduleList
-                            session="Night"
-                            scheduleList={schedule}
-                        />
-                    </div>
-                )}
-            </div> */}
-        </div>
+        </Fragment>
     )
 }
 
