@@ -17,20 +17,22 @@ import { useEffect } from 'react'
 import { useState } from 'react';
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from 'react-cookie';
 
 const defaultTheme = createTheme()
 
 const Login = () => {
     const navigate = useNavigate()
+    const [cookies, setCookie] = useCookies(['user']);
     const baseUrl = `https://recipe-organizer-api.azurewebsites.net/api/UserAccounts/CheckLoginEmail`;
 
     const [user, setUser] = useState({})
-    const handleCredentialResponse = async(response) => {
+    const handleCredentialResponse = async (response) => {
         console.log("Encoded JWT ID token: " + response.credential);
         var decoded = jwt_decode(response.credential);
         var email = decoded.email
         var ggToken = decoded.sub
-        
+
         setUser(decoded);
         document.getElementById('buttonDiv').hidden = true;
 
@@ -45,8 +47,10 @@ const Login = () => {
             console.log(response)
             if (response.ok) {
                 const responseData = await response.json();
+                setCookie('user', JSON.stringify(decoded));
+                console.log(cookies.user)
                 navigate("/")
-                console.log("login successful",responseData);
+                console.log("login successful", responseData);
             } else {
                 console.log("login failed");
             }
@@ -56,19 +60,21 @@ const Login = () => {
 
     }
     useEffect(() => {
-        /* global google*/
+        /* global google*/ 
         window.onload = function () {
-            google.accounts.id.initialize({
-                client_id: "299260202858-s0i6pho8rn8cikahgp5vpc5gp7kb9ma7.apps.googleusercontent.com",
-                callback: handleCredentialResponse
-            });
-            google.accounts.id.renderButton(
-                document.getElementById("buttonDiv"),
-                { theme: "outline", size: "large" }  // customization attributes
-            );
-            google.accounts.id.prompt(); // also display the One Tap dialog
+          google.accounts.id.initialize({
+            client_id: "299260202858-s0i6pho8rn8cikahgp5vpc5gp7kb9ma7.apps.googleusercontent.com",
+            callback: handleCredentialResponse
+          });
+          google.accounts.id.renderButton(
+            document.getElementById("buttonDiv"),
+            { theme: "outline", size: "large" }  // customization attributes
+          );
+          google.accounts.id.prompt(); // also display the One Tap dialog
         }
-    }, []);
+      }, []);
+    
+
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -147,6 +153,15 @@ const Login = () => {
                                 Sign In
                             </Button>
                             <div id='buttonDiv'></div>
+
+                            {/* <Button
+                                id="googleSignInButton"  // This ID is used to target the button
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+                            >
+                                Sign in with Google
+                            </Button> */}
 
 
                             <Grid container>
