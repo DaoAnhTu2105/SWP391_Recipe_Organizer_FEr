@@ -18,6 +18,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox'
 import MailIcon from '@mui/icons-material/Mail'
 import { Autocomplete } from '@mui/material'
 import TextField from '@mui/material/TextField'
+import PublicIcon from '@mui/icons-material/Public'
 
 const drawerWidth = 240
 
@@ -116,49 +117,54 @@ export default function MiniDrawer() {
                             }}
                         >
                             <ListItemIcon
+                                temIcon
                                 sx={{
                                     minWidth: 0,
                                     mr: open ? 3 : 'auto',
                                     justifyContent: 'center',
                                 }}
                             >
-                                <MailIcon />
+                                <PublicIcon />
                             </ListItemIcon>
+                            <Autocomplete
+                                disablePortal
+                                id="combo-box-demo"
+                                options={countries}
+                                sx={{ opacity: open ? 1 : 0, width: open ? 300 : 0 }}
+                                renderInput={(params) => <TextField {...params} label="Country" />}
+                            />
                         </ListItemButton>
-                        <Autocomplete
-                            disablePortal
-                            id="combo-box-demo"
-                            options={countries}
-                            sx={{ width: 300, opacity: open ? 1 : 0 }}
-                            renderInput={(params) => <TextField {...params} label="Country" />}
-                        />
                     </ListItem>
                 </List>
 
-                <Divider />
                 <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                        <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-                            <ListItemButton
+                    <ListItem disablePadding sx={{ display: 'block' }}>
+                        <ListItemButton
+                            sx={{
+                                minHeight: 48,
+                                justifyContent: open ? 'initial' : 'center',
+                                px: 2.5,
+                            }}
+                        >
+                            <ListItemIcon
+                                temIcon
                                 sx={{
-                                    minHeight: 48,
-                                    justifyContent: open ? 'initial' : 'center',
-                                    px: 2.5,
+                                    minWidth: 0,
+                                    mr: open ? 3 : 'auto',
+                                    justifyContent: 'center',
                                 }}
                             >
-                                <ListItemIcon
-                                    sx={{
-                                        minWidth: 0,
-                                        mr: open ? 3 : 'auto',
-                                        justifyContent: 'center',
-                                    }}
-                                >
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                </ListItemIcon>
-                                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
+                                <PublicIcon />
+                            </ListItemIcon>
+                            <Autocomplete
+                                disablePortal
+                                id="combo-box-demo"
+                                options={countries}
+                                sx={{ opacity: open ? 1 : 0, width: open ? 300 : 0 }}
+                                renderInput={(params) => <TextField {...params} label="Country" />}
+                            />
+                        </ListItemButton>
+                    </ListItem>
                 </List>
             </Drawer>
         </Box>
