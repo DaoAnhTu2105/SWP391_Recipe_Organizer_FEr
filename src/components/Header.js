@@ -53,7 +53,7 @@ const Header = () => {
             </div>
             <Search />
             <br></br>
-            <SearchFilter />
+            {/* <SearchFilter /> */}
         </header>
     )
 }
