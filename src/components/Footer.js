@@ -1,54 +1,3 @@
-// import React from "react";
-// import imgLogo from "../img/core-img/logo.png";
-// export const Footer = () => {
-//   return (
-//     <footer class="footer-area">
-//       <div class="container h-100">
-//         <div class="row h-100">
-//           <div class="col-12 h-100 d-flex flex-wrap align-items-center justify-content-between">
-//             <div class="footer-social-info text-right">
-//               <a href="/#">
-//                 <i class="fa fa-pinterest" aria-hidden="true"></i>
-//               </a>
-//               <a href="/#">
-//                 <i class="fa fa-facebook" aria-hidden="true"></i>
-//               </a>
-//               <a href="/#">
-//                 <i class="fa fa-twitter" aria-hidden="true"></i>
-//               </a>
-//               <a href="/#">
-//                 <i class="fa fa-dribbble" aria-hidden="true"></i>
-//               </a>
-//               <a href="/#">
-//                 <i class="fa fa-behance" aria-hidden="true"></i>
-//               </a>
-//               <a href="/#">
-//                 <i class="fa fa-linkedin" aria-hidden="true"></i>
-//               </a>
-//             </div>
-
-//             <div class="footer-logo">
-//               <a href="index.html">
-//                 <img src={imgLogo} alt="" />
-//               </a>
-//             </div>
-
-//             <p>
-//               Copyright &copy;
-//               <script>document.write(new Date().getFullYear());</script> All
-//               rights reserved | This template is made with{" "}
-//               <i class="fa fa-heart-o" aria-hidden="true"></i> by{" "}
-//               <a href="/https://colorlib.com" target="_blank">
-//                 Colorlib
-//               </a>
-//             </p>
-//           </div>
-//         </div>
-//       </div>
-//     </footer>
-//   );
-// };
-
 import * as React from 'react'
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
@@ -98,17 +47,13 @@ const Footer = () => {
                         <Typography variant="h6" style={{ color: '#F39C12' }} gutterBottom>
                             Follow Us
                         </Typography>
-                        <Link href="https://www.facebook.com/" color="inherit">
+                        <Link to="https://www.facebook.com/" color="inherit">
                             <Facebook />
                         </Link>
-                        <Link
-                            href="https://www.instagram.com/"
-                            color="inherit"
-                            sx={{ pl: 1, pr: 1 }}
-                        >
+                        <Link to="https://www.instagram.com/" color="inherit" sx={{ pl: 1, pr: 1 }}>
                             <Instagram />
                         </Link>
-                        <Link href="https://www.twitter.com/" color="inherit">
+                        <Link to="https://www.twitter.com/" color="inherit">
                             <Twitter />
                         </Link>
                     </Grid>
@@ -116,7 +61,7 @@ const Footer = () => {
                 <Box mt={5}>
                     <Typography variant="body2" color="text.secondary" align="center">
                         {'Copyright © '}
-                        <Link color="inherit" href="https://your-website.com/">
+                        <Link color="inherit" to="https://your-website.com/">
                             Your Website
                         </Link>{' '}
                         {new Date().getFullYear()}
