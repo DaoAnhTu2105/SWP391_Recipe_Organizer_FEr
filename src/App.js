@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { publicRouters } from './routers'
 import DefaultLayout from './components/DefaultLayout'
@@ -11,6 +11,8 @@ import { getAnalytics } from 'firebase/analytics'
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+import { useLocation } from 'react-router-dom'
+
 const firebaseConfig = {
     apiKey: 'AIzaSyBP7wwbFT9wxZbr-JmKi3xhXbheyenmEGo',
     authDomain: 'recipe-organizer-swp391.firebaseapp.com',
@@ -25,10 +27,22 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 const analytics = getAnalytics(app)
 
+//Scroll Top when clicked another page
+function ScrollToTop() {
+    const location = useLocation()
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [location])
+
+    return null
+}
+
 function App() {
     return (
         <BrowserRouter>
             <div className="App">
+                <ScrollToTop />
                 <Routes>
                     {publicRouters.map((route, index) => {
                         const Page = route.component
