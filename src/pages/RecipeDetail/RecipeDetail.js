@@ -7,6 +7,8 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 // import required modules
 import { Navigation } from 'swiper/modules'
+import { Link } from 'react-router-dom'
+import { Button } from '@mui/material'
 const RecipeDetail = () => {
     return (
         <>
@@ -63,9 +65,9 @@ const RecipeDetail = () => {
                             <h2>Vegetarian cheese salad</h2>
                             <p>
                                 Recipe by &nbsp;
-                                <a href="/" style={{ textDecoration: 'true', color: '#f39c12' }}>
+                                <Link to={''} style={{ textDecoration: 'true', color: '#f39c12' }}>
                                     Anh Tu
-                                </a>
+                                </Link>
                             </p>
                             <div className="receipe-duration">
                                 <h6>Prep: 15 mins</h6>
@@ -84,9 +86,16 @@ const RecipeDetail = () => {
                                 <i className="fa fa-star" aria-hidden="true"></i>
                                 <i className="fa fa-star-o" aria-hidden="true"></i>
                             </div>
-                            <a href="/#" className="btn delicious-btn">
+                            <Button
+                                size="large"
+                                style={{
+                                    color: 'white',
+                                    backgroundColor: '#f39c12',
+                                    outline: 'none',
+                                }}
+                            >
                                 Add to Favorite
-                            </a>
+                            </Button>
                         </div>
                     </div>
                 </div>
@@ -153,7 +162,7 @@ const RecipeDetail = () => {
                                     className="custom-control-input"
                                     id="customCheck1"
                                 />
-                                <label className="custom-control-label" for="customCheck1">
+                                <label className="custom-control-label" htmlFor="customCheck1">
                                     4 Tbsp (57 gr) butter
                                 </label>
                             </div>
@@ -164,7 +173,7 @@ const RecipeDetail = () => {
                                     className="custom-control-input"
                                     id="customCheck2"
                                 />
-                                <label className="custom-control-label" for="customCheck2">
+                                <label className="custom-control-label" htmlFor="customCheck2">
                                     2 large eggs
                                 </label>
                             </div>
@@ -175,7 +184,7 @@ const RecipeDetail = () => {
                                     className="custom-control-input"
                                     id="customCheck3"
                                 />
-                                <label className="custom-control-label" for="customCheck3">
+                                <label className="custom-control-label" htmlFor="customCheck3">
                                     2 yogurt containers granulated sugar
                                 </label>
                             </div>
@@ -186,7 +195,7 @@ const RecipeDetail = () => {
                                     className="custom-control-input"
                                     id="customCheck4"
                                 />
-                                <label className="custom-control-label" for="customCheck4">
+                                <label className="custom-control-label" htmlFor="customCheck4">
                                     1 vanilla or plain yogurt, 170g container
                                 </label>
                             </div>
@@ -197,7 +206,7 @@ const RecipeDetail = () => {
                                     className="custom-control-input"
                                     id="customCheck5"
                                 />
-                                <label className="custom-control-label" for="customCheck5">
+                                <label className="custom-control-label" htmlFor="customCheck5">
                                     2 yogurt containers unbleached white flour
                                 </label>
                             </div>
@@ -208,7 +217,7 @@ const RecipeDetail = () => {
                                     className="custom-control-input"
                                     id="customCheck6"
                                 />
-                                <label className="custom-control-label" for="customCheck6">
+                                <label className="custom-control-label" htmlFor="customCheck6">
                                     1.5 yogurt containers milk
                                 </label>
                             </div>
@@ -219,7 +228,7 @@ const RecipeDetail = () => {
                                     className="custom-control-input"
                                     id="customCheck7"
                                 />
-                                <label className="custom-control-label" for="customCheck7">
+                                <label className="custom-control-label" htmlFor="customCheck7">
                                     1/4 tsp cinnamon
                                 </label>
                             </div>
@@ -230,7 +239,7 @@ const RecipeDetail = () => {
                                     className="custom-control-input"
                                     id="customCheck8"
                                 />
-                                <label className="custom-control-label" for="customCheck8">
+                                <label className="custom-control-label" htmlFor="customCheck8">
                                     1 cup fresh blueberries{' '}
                                 </label>
                             </div>
