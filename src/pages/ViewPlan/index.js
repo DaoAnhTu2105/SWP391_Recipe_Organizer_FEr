@@ -1,7 +1,7 @@
 import './index.css'
 import React, { useState, useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import MealPlan from './List'
+import MealPlan from './MealPlan'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
@@ -48,26 +48,20 @@ const ViewPlan = ({ searchQueryList, userRole }) => {
 
     return (
         <Fragment>
-            <Box
-                sx={{
-                    bgcolor: 'background.paper',
-                    pt: 8,
-                    pb: 6,
-                }}
-            >
-                <Container maxWidth="sm">
-                    <Typography
-                        component="h1"
-                        variant="h2"
-                        align="center"
-                        color="text.primary"
-                        gutterBottom
-                        style={{ color: '#f39c12' }}
-                    >
-                        Plan Meal
-                    </Typography>
-                </Container>
-            </Box>
+            <Container maxWidth="md">
+                <Typography
+                    component="h1"
+                    variant="h2"
+                    align="center"
+                    style={{ color: '#f39c12', marginTop: 20 }}
+                    gutterBottom
+                >
+                    Meal Plan
+                </Typography>
+                <Typography variant="h5" align="center" color="text.secondary" paragraph>
+                    View your meal plan of week
+                </Typography>
+            </Container>
             <div className="container user-list">
                 <MealPlan />
             </div>
