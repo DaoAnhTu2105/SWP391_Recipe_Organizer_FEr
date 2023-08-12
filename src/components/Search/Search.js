@@ -3,7 +3,7 @@ import './index.css'
 
 const Search = () => {
     return (
-        <div className="container search">
+        <div className="search">
             <div className="row">
                 <div className="col-12">
                     <form className="search-form" action="#" method="post">
@@ -21,6 +21,7 @@ const Search = () => {
                     </form>
                 </div>
             </div>
+
         </div>
     )
 }

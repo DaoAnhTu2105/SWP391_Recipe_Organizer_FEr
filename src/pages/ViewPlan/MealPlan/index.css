@@ -1,5 +1,6 @@
 .plan-meal {
-    display: block !important;
+    /* display: block !important; */
+    width: 100%;
 }
 .plan-meal div {
     min-height: 75px;

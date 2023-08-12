@@ -1,35 +1,9 @@
 import * as React from 'react'
 import './index.css'
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein }
-}
-
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-]
-
-const createMeal = (meal) => {
-    return { meal }
-}
-
-const meals = [
-    createMeal('BreakFast'),
-    createMeal('Lunch'),
-    createMeal('Dinner')
-]
-
-const data = [
-    { name: "Anom", age: 19, gender: "Male" },
-    { name: "Megha", age: 19, gender: "Female" },
-    { name: "Subham", age: 25, gender: "Male" },
-]
-
 export default function MealPlan() {
     return (
-        <div className='container plan-meal'>
+        <div className='plan-meal'>
             <div className='table-header'>
                 <div></div>
                 <div className='item'>Monday</div>
