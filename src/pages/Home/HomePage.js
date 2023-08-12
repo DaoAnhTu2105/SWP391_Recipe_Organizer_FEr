@@ -10,10 +10,15 @@ import Typography from '@mui/material/Typography'
 import Rating from '@mui/material/Rating'
 import bestImg from '../../img/bg-img/r1.jpg'
 import { Link } from 'react-router-dom'
+import { Search } from '../../components/Search'
+import SearchFilter from '../../components/SearchFilter'
 
 const HomePage = () => {
     return (
         <>
+            <Search />
+            <br></br>
+            <SearchFilter />
             <h1 className="title-recipes">Best Recipes</h1>
             <section className="best-receipe-area">
                 <div className="container">
