@@ -1,6 +1,5 @@
 import React from 'react'
 import imgLogo from '../img/core-img/logo.png'
-<<<<<<< HEAD
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -15,22 +14,11 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { useNavigate, Link } from 'react-router-dom'
 import { useCookies } from 'react-cookie';
-=======
-import { Search } from './Search'
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
-import SearchFilter from './SearchFilter'
-import { useCookies } from 'react-cookie'
-import { Link } from 'react-router-dom'
->>>>>>> 0d835c2e71d5c25fa424a2e47251e204b8c1c9c7
 
 
 const Header = () => {
-<<<<<<< HEAD
 
     const [cookies, setCookie, removeCookie] = useCookies(['user']);
-=======
-    const [cookies, setCookie] = useCookies(['user'])
->>>>>>> 0d835c2e71d5c25fa424a2e47251e204b8c1c9c7
     const storedUserData = cookies.user
     const [anchorEl, setAnchorEl] = React.useState(null);
     const navigate = useNavigate()
@@ -46,34 +34,35 @@ const Header = () => {
         navigate("/login")
     }
     return (
-<<<<<<< HEAD
 
         <header className="header-area fixed-top">
             <div className="delicious-main-menu">
                 <div className="classy-nav-container breakpoint-off">
                     <div className="container">
                         <nav className="classy-navbar justify-content-between" id="deliciousNav">
-                            <a className="nav-brand" href="/">
+                            <Link className="nav-brand" to="/">
                                 <img src={imgLogo} alt="" />
-                            </a>
+                            </Link>
 
                             <div className="classy-menu">
                                 <div className="classynav">
                                     <ul>
                                         <li className="active">
-                                            <a href="/">Home</a>
+                                            <Link to="/">Home</Link>
                                         </li>
                                         <li>
-                                            <a href="/create-recipe">Create Recipe</a>
+                                            <Link to="/create-recipe">Create Recipe</Link>
                                         </li>
                                         <li>
-                                            <a href="/favorite-recipe">Favorite Receipies</a>
+                                            <Link to="/favorite-recipe">
+                                                Favorite Receipies
+                                            </Link>
                                         </li>
                                         <li>
-                                            <a href="/view-plan">Meal Plan</a>
+                                            <Link to="/view-plan">Meal Plan</Link>
                                         </li>
                                         <li>
-                                            <a href="/user-list">User List</a>
+                                            <Link to="/user-list">User List</Link>
                                         </li>
                                         <li>
                                             {storedUserData ? (
@@ -138,7 +127,7 @@ const Header = () => {
                                                         </MenuItem>
                                                         <Divider />
                                                         <MenuItem onClick={handleClose} style={{ alignContent: "center" }}>
-                                                            <Link to={"/create-recipe"}>
+                                                            <Link to={"/create-recipe"} style={{ textDecoration: 'none', color: 'inherit' }}>
                                                                 <ListItemIcon>
                                                                     <PersonAdd fontSize="small" />
                                                                 </ListItemIcon>
@@ -169,64 +158,13 @@ const Header = () => {
                                             )}
                                         </li>
                                     </ul>
-=======
-        <>
-            <header className="header-area fixed-top">
-                <div className="delicious-main-menu">
-                    <div className="classy-nav-container breakpoint-off">
-                        <div className="container">
-                            <nav
-                                className="classy-navbar justify-content-between"
-                                id="deliciousNav"
-                            >
-                                <Link className="nav-brand" to="/">
-                                    <img src={imgLogo} alt="" />
-                                </Link>
-
-                                <div className="classy-menu">
-                                    <div className="classynav">
-                                        <ul>
-                                            <li className="active">
-                                                <Link to="/">Home</Link>
-                                            </li>
-                                            <li>
-                                                <Link to="/create-recipe">Create Recipe</Link>
-                                            </li>
-                                            <li>
-                                                <Link to="/favorite-recipe">
-                                                    Favorite Receipies
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link to="/view-plan">Meal Plan</Link>
-                                            </li>
-                                            <li>
-                                                <Link to="/user-list">User List</Link>
-                                            </li>
-                                            <li>
-                                                {storedUserData ? (
-                                                    <div
-                                                        style={{
-                                                            display: 'flex',
-                                                            alignItems: 'center',
-                                                        }}
-                                                    >
-                                                        <span>{storedUserData.name}</span>
-                                                    </div>
-                                                ) : (
-                                                    <Link to="/login">Login</Link>
-                                                )}
-                                            </li>
-                                        </ul>
-                                    </div>
->>>>>>> 0d835c2e71d5c25fa424a2e47251e204b8c1c9c7
                                 </div>
                             </div>
                         </nav>
                     </div>
                 </div>
             </div>
-            
+
         </header>
 
     )
