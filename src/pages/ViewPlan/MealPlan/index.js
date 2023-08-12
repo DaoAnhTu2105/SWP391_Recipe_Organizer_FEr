@@ -17,7 +17,10 @@ export default function MealPlan() {
             </div>
             <div className='table-body'>
                 <div className='table-body-content'>
-                    <div style={{ color: "#32a6de" }}><b>BreakFast</b></div>
+                    <div className='meal' style={{ color: "#32a6de" }}>
+                        <div><b>BreakFast</b></div>
+                        <div><b>6 AM - 8 AM</b></div>
+                    </div>
                     <div className='item'>
                         <Food />
                         <Food />
@@ -30,7 +33,10 @@ export default function MealPlan() {
                     <div className='item'></div>
                 </div>
                 <div className='table-body-content'>
-                    <div style={{ color: "#e29d1d" }}><b>Lunch</b></div>
+                    <div style={{ color: "#e29d1d" }}>
+                        <div><b>Lunch</b></div>
+                        <div><b>12:30AM - 2PM</b></div>
+                    </div>
                     <div className='item'></div>
                     <div className='item'></div>
                     <div className='item'></div>
@@ -40,7 +46,10 @@ export default function MealPlan() {
                     <div className='item'></div>
                 </div>
                 <div className='table-body-content'>
-                    <div style={{ color: "#68169c" }}><b>Dinner</b></div>
+                    <div style={{ color: "#68169c" }}>
+                        <div><b>Dinner</b></div>
+                        <div><b>6PM - 9PM</b></div>
+                    </div>
                     <div className='item'></div>
                     <div className='item'></div>
                     <div className='item'></div>

@@ -1,5 +1,4 @@
 .plan-meal {
-    /* display: block !important; */
     width: 100%;
 }
 
@@ -13,6 +12,7 @@
 .plan-meal .table-header > div {
     flex: 1;
     padding: 10px;
+
     border-top: 1px solid #e6e6e6;
     border-left: 1px solid #e6e6e6;
     border-bottom: 1px solid #e6e6e6;
@@ -37,6 +37,7 @@
 .plan-meal .table-body .table-body-content > div {
     flex: 1;
     padding: 10px;
+    min-height: 123px;
     border-left: 1px solid #e6e6e6;
     border-bottom: 1px solid #e6e6e6;
 }
