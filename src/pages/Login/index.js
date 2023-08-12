@@ -26,14 +26,14 @@ const Login = () => {
     const [cookies, setCookie] = useCookies(['user']);
     const baseUrl = `https://recipe-organizer-api.azurewebsites.net/api/UserAccounts/CheckLoginEmail`;
 
-    const [user, setUser] = useState({})
     const handleCredentialResponse = async (response) => {
         console.log("Encoded JWT ID token: " + response.credential);
         var decoded = jwt_decode(response.credential);
         var email = decoded.email
         var ggToken = decoded.sub
-
-        setUser(decoded);
+        var image = decoded.picture
+        var fullname = decoded.name
+        console.log(decoded)
         document.getElementById('buttonDiv').hidden = true;
 
         try {
@@ -48,7 +48,6 @@ const Login = () => {
             if (response.ok) {
                 const responseData = await response.json();
                 setCookie('user', JSON.stringify(decoded));
-                console.log(cookies.user)
                 navigate("/")
                 console.log("login successful", responseData);
             } else {
