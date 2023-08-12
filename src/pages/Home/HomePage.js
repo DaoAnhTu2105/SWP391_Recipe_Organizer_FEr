@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography'
 // import ShareIcon from "@mui/icons-material/Share";
 import Rating from '@mui/material/Rating'
 import bestImg from '../../img/bg-img/r1.jpg'
+import { Link } from 'react-router-dom'
 
 const HomePage = () => {
     return (
@@ -18,111 +19,123 @@ const HomePage = () => {
                 <div className="container">
                     <div className="row mt-5">
                         <div className="col-12 col-sm-6 col-lg-4">
-                            <div className="single-best-receipe-area mb-30">
-                                <img src={bestImg} alt="" />
-                                <div className="receipe-content">
-                                    <a href="receipe-post.html">
-                                        <h5>Sushi Easy Receipy</h5>
-                                    </a>
-                                    <div className="ratings">
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star-o" aria-hidden="true"></i>
+                            <Link to="/recipe-detail">
+                                <div className="single-best-receipe-area mb-30">
+                                    <img src={bestImg} alt="" />
+                                    <div className="receipe-content">
+                                        <Link to="/recipe-detail">
+                                            <h5>Sushi Easy Receipy</h5>
+                                        </Link>
+                                        <div className="ratings">
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star-o" aria-hidden="true"></i>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         </div>
 
                         <div className="col-12 col-sm-6 col-lg-4">
-                            <div className="single-best-receipe-area mb-30">
-                                <img src={bestImg} alt="" />
-                                <div className="receipe-content">
-                                    <a href="/recipe-detail">
-                                        <h5>Homemade Burger</h5>
-                                    </a>
-                                    <div className="ratings">
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star-o" aria-hidden="true"></i>
+                            <Link to="/recipe-detail">
+                                <div className="single-best-receipe-area mb-30">
+                                    <img src={bestImg} alt="" />
+                                    <div className="receipe-content">
+                                        <Link to="/recipe-detail">
+                                            <h5>Sushi Easy Receipy</h5>
+                                        </Link>
+                                        <div className="ratings">
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star-o" aria-hidden="true"></i>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         </div>
 
                         <div className="col-12 col-sm-6 col-lg-4">
-                            <div className="single-best-receipe-area mb-30">
-                                <img src={bestImg} alt="" />
-                                <div className="receipe-content">
-                                    <a href="receipe-post.html">
-                                        <h5>Vegan Smoothie</h5>
-                                    </a>
-                                    <div className="ratings">
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star-o" aria-hidden="true"></i>
+                            <Link to="/recipe-detail">
+                                <div className="single-best-receipe-area mb-30">
+                                    <img src={bestImg} alt="" />
+                                    <div className="receipe-content">
+                                        <Link to="/recipe-detail">
+                                            <h5>Sushi Easy Receipy</h5>
+                                        </Link>
+                                        <div className="ratings">
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star-o" aria-hidden="true"></i>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         </div>
 
                         <div className="col-12 col-sm-6 col-lg-4">
-                            <div className="single-best-receipe-area mb-30">
-                                <img src={bestImg} alt="" />
-                                <div className="receipe-content">
-                                    <a href="receipe-post.html">
-                                        <h5>Calabasa soup</h5>
-                                    </a>
-                                    <div className="ratings">
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star-o" aria-hidden="true"></i>
+                            <Link to="/recipe-detail">
+                                <div className="single-best-receipe-area mb-30">
+                                    <img src={bestImg} alt="" />
+                                    <div className="receipe-content">
+                                        <Link to="/recipe-detail">
+                                            <h5>Sushi Easy Receipy</h5>
+                                        </Link>
+                                        <div className="ratings">
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star-o" aria-hidden="true"></i>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         </div>
 
                         <div className="col-12 col-sm-6 col-lg-4">
-                            <div className="single-best-receipe-area mb-30">
-                                <img src={bestImg} alt="" />
-                                <div className="receipe-content">
-                                    <a href="receipe-post.html">
-                                        <h5>Homemade Breakfast</h5>
-                                    </a>
-                                    <div className="ratings">
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star-o" aria-hidden="true"></i>
+                            <Link to="/recipe-detail">
+                                <div className="single-best-receipe-area mb-30">
+                                    <img src={bestImg} alt="" />
+                                    <div className="receipe-content">
+                                        <Link to="/recipe-detail">
+                                            <h5>Sushi Easy Receipy</h5>
+                                        </Link>
+                                        <div className="ratings">
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star-o" aria-hidden="true"></i>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         </div>
 
                         <div className="col-12 col-sm-6 col-lg-4">
-                            <div className="single-best-receipe-area mb-30">
-                                <img src={bestImg} alt="" />
-                                <div className="receipe-content">
-                                    <a href="receipe-post.html">
-                                        <h5>Healthy Fruit Desert</h5>
-                                    </a>
-                                    <div className="ratings">
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                        <i className="fa fa-star-o" aria-hidden="true"></i>
+                            <Link to="/recipe-detail">
+                                <div className="single-best-receipe-area mb-30">
+                                    <img src={bestImg} alt="" />
+                                    <div className="receipe-content">
+                                        <Link to="/recipe-detail">
+                                            <h5>Sushi Easy Receipy</h5>
+                                        </Link>
+                                        <div className="ratings">
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star" aria-hidden="true"></i>
+                                            <i className="fa fa-star-o" aria-hidden="true"></i>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -139,28 +152,29 @@ const HomePage = () => {
                 <div className="container">
                     <div className="row justify-content-center">
                         <div className="col-sm-4 mb-4">
-                            <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
-                                <CardMedia
-                                    component="img"
-                                    style={{ width: 350, height: 194 }}
-                                    image={img1}
-                                    alt="Paella dish"
-                                />
+                            <Link to="/recipe-detail">
+                                <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
+                                    <CardMedia
+                                        component="img"
+                                        style={{ width: 350, height: 194 }}
+                                        image={img1}
+                                        alt="Paella dish"
+                                    />
 
-                                <Rating
-                                    name="read-only"
-                                    value="4"
-                                    readOnly
-                                    size="small"
-                                    sx={{ mt: 2 }}
-                                />
+                                    <Rating
+                                        name="read-only"
+                                        value="4"
+                                        readOnly
+                                        size="small"
+                                        sx={{ mt: 2 }}
+                                    />
 
-                                <CardContent>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Shrimp and Chorizo Paella
-                                    </Typography>
-                                </CardContent>
-                                {/* <CardActions disableSpacing>
+                                    <CardContent>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Shrimp and Chorizo Paella
+                                        </Typography>
+                                    </CardContent>
+                                    {/* <CardActions disableSpacing>
                   <IconButton aria-label="add to favorites">
                     <FavoriteIcon />
                   </IconButton>
@@ -168,31 +182,33 @@ const HomePage = () => {
                     <ShareIcon />
                   </IconButton>
                 </CardActions> */}
-                            </Card>
+                                </Card>
+                            </Link>
                         </div>
                         <div className="col-sm-4 mb-4">
-                            <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
-                                <CardMedia
-                                    component="img"
-                                    style={{ width: 350, height: 194 }}
-                                    image={img1}
-                                    alt="Paella dish"
-                                />
+                            <Link to="/recipe-detail">
+                                <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
+                                    <CardMedia
+                                        component="img"
+                                        style={{ width: 350, height: 194 }}
+                                        image={img1}
+                                        alt="Paella dish"
+                                    />
 
-                                <Rating
-                                    name="read-only"
-                                    value="4"
-                                    readOnly
-                                    size="small"
-                                    sx={{ mt: 2 }}
-                                />
+                                    <Rating
+                                        name="read-only"
+                                        value="4"
+                                        readOnly
+                                        size="small"
+                                        sx={{ mt: 2 }}
+                                    />
 
-                                <CardContent>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Shrimp and Chorizo Paella
-                                    </Typography>
-                                </CardContent>
-                                {/* <CardActions disableSpacing>
+                                    <CardContent>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Shrimp and Chorizo Paella
+                                        </Typography>
+                                    </CardContent>
+                                    {/* <CardActions disableSpacing>
                   <IconButton aria-label="add to favorites">
                     <FavoriteIcon />
                   </IconButton>
@@ -200,29 +216,33 @@ const HomePage = () => {
                     <ShareIcon />
                   </IconButton>
                 </CardActions> */}
-                            </Card>
+                                </Card>
+                            </Link>
                         </div>
                         <div className="col-sm-4 mb-4">
-                            <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
-                                <CardMedia
-                                    component="img"
-                                    style={{ width: 350, height: 194 }}
-                                    image={img1}
-                                    alt="Paella dish"
-                                />
-                                <Rating
-                                    name="read-only"
-                                    value="4"
-                                    readOnly
-                                    size="small"
-                                    sx={{ mt: 2 }}
-                                />
-                                <CardContent>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Shrimp and Chorizo Paella
-                                    </Typography>
-                                </CardContent>
-                                {/* <CardActions disableSpacing>
+                            <Link to="/recipe-detail">
+                                <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
+                                    <CardMedia
+                                        component="img"
+                                        style={{ width: 350, height: 194 }}
+                                        image={img1}
+                                        alt="Paella dish"
+                                    />
+
+                                    <Rating
+                                        name="read-only"
+                                        value="4"
+                                        readOnly
+                                        size="small"
+                                        sx={{ mt: 2 }}
+                                    />
+
+                                    <CardContent>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Shrimp and Chorizo Paella
+                                        </Typography>
+                                    </CardContent>
+                                    {/* <CardActions disableSpacing>
                   <IconButton aria-label="add to favorites">
                     <FavoriteIcon />
                   </IconButton>
@@ -230,29 +250,33 @@ const HomePage = () => {
                     <ShareIcon />
                   </IconButton>
                 </CardActions> */}
-                            </Card>
+                                </Card>
+                            </Link>
                         </div>
                         <div className="col-sm-4 mb-4">
-                            <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
-                                <CardMedia
-                                    component="img"
-                                    style={{ width: 350, height: 194 }}
-                                    image={img1}
-                                    alt="Paella dish"
-                                />
-                                <Rating
-                                    name="read-only"
-                                    value="4"
-                                    readOnly
-                                    size="small"
-                                    sx={{ mt: 2 }}
-                                />
-                                <CardContent>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Shrimp and Chorizo Paella
-                                    </Typography>
-                                </CardContent>
-                                {/* <CardActions disableSpacing>
+                            <Link to="/recipe-detail">
+                                <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
+                                    <CardMedia
+                                        component="img"
+                                        style={{ width: 350, height: 194 }}
+                                        image={img1}
+                                        alt="Paella dish"
+                                    />
+
+                                    <Rating
+                                        name="read-only"
+                                        value="4"
+                                        readOnly
+                                        size="small"
+                                        sx={{ mt: 2 }}
+                                    />
+
+                                    <CardContent>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Shrimp and Chorizo Paella
+                                        </Typography>
+                                    </CardContent>
+                                    {/* <CardActions disableSpacing>
                   <IconButton aria-label="add to favorites">
                     <FavoriteIcon />
                   </IconButton>
@@ -260,29 +284,33 @@ const HomePage = () => {
                     <ShareIcon />
                   </IconButton>
                 </CardActions> */}
-                            </Card>
+                                </Card>
+                            </Link>
                         </div>
                         <div className="col-sm-4 mb-4">
-                            <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
-                                <CardMedia
-                                    component="img"
-                                    style={{ width: 350, height: 194 }}
-                                    image={img1}
-                                    alt="Paella dish"
-                                />
-                                <Rating
-                                    name="read-only"
-                                    value="4"
-                                    readOnly
-                                    size="small"
-                                    sx={{ mt: 2 }}
-                                />
-                                <CardContent>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Shrimp and Chorizo Paella
-                                    </Typography>
-                                </CardContent>
-                                {/* <CardActions disableSpacing>
+                            <Link to="/recipe-detail">
+                                <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
+                                    <CardMedia
+                                        component="img"
+                                        style={{ width: 350, height: 194 }}
+                                        image={img1}
+                                        alt="Paella dish"
+                                    />
+
+                                    <Rating
+                                        name="read-only"
+                                        value="4"
+                                        readOnly
+                                        size="small"
+                                        sx={{ mt: 2 }}
+                                    />
+
+                                    <CardContent>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Shrimp and Chorizo Paella
+                                        </Typography>
+                                    </CardContent>
+                                    {/* <CardActions disableSpacing>
                   <IconButton aria-label="add to favorites">
                     <FavoriteIcon />
                   </IconButton>
@@ -290,7 +318,8 @@ const HomePage = () => {
                     <ShareIcon />
                   </IconButton>
                 </CardActions> */}
-                            </Card>
+                                </Card>
+                            </Link>
                         </div>
                     </div>
                 </div>
