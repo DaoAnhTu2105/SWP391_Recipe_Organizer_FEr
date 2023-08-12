@@ -3,10 +3,11 @@ import imgLogo from '../img/core-img/logo.png'
 import { Search } from './Search'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
 import SearchFilter from './SearchFilter'
-import { useCookies } from 'react-cookie';
+import { useCookies } from 'react-cookie'
+import { Link } from 'react-router-dom'
 
 const Header = () => {
-    const [cookies, setCookie] = useCookies(['user']);
+    const [cookies, setCookie] = useCookies(['user'])
     const storedUserData = cookies.user
     return (
         <>
@@ -14,39 +15,46 @@ const Header = () => {
                 <div className="delicious-main-menu">
                     <div className="classy-nav-container breakpoint-off">
                         <div className="container">
-                            <nav className="classy-navbar justify-content-between" id="deliciousNav">
-                                <a className="nav-brand" href="/">
+                            <nav
+                                className="classy-navbar justify-content-between"
+                                id="deliciousNav"
+                            >
+                                <Link className="nav-brand" to="/">
                                     <img src={imgLogo} alt="" />
-                                </a>
+                                </Link>
 
                                 <div className="classy-menu">
                                     <div className="classynav">
                                         <ul>
                                             <li className="active">
-                                                <a href="/">Home</a>
+                                                <Link to="/">Home</Link>
                                             </li>
                                             <li>
-                                                <a href="/create-recipe">Create Recipe</a>
+                                                <Link to="/create-recipe">Create Recipe</Link>
                                             </li>
                                             <li>
-                                                <a href="/favorite-recipe">Favorite Receipies</a>
+                                                <Link to="/favorite-recipe">
+                                                    Favorite Receipies
+                                                </Link>
                                             </li>
                                             <li>
-                                                <a href="/view-plan">Meal Plan</a>
+                                                <Link to="/view-plan">Meal Plan</Link>
                                             </li>
                                             <li>
-                                                <a href="/user-list">User List</a>
+                                                <Link to="/user-list">User List</Link>
                                             </li>
                                             <li>
                                                 {storedUserData ? (
-                                                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                       <span>{storedUserData.name}</span>
-                                                        
-                                                            
+                                                    <div
+                                                        style={{
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                        }}
+                                                    >
+                                                        <span>{storedUserData.name}</span>
                                                     </div>
-
                                                 ) : (
-                                                    <a href="/login">Login</a>
+                                                    <Link to="/login">Login</Link>
                                                 )}
                                             </li>
                                         </ul>

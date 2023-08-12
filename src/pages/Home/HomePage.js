@@ -163,7 +163,7 @@ const HomePage = () => {
 
                                     <Rating
                                         name="read-only"
-                                        value="4"
+                                        value={4}
                                         readOnly
                                         size="small"
                                         sx={{ mt: 2 }}
@@ -197,7 +197,7 @@ const HomePage = () => {
 
                                     <Rating
                                         name="read-only"
-                                        value="4"
+                                        value={4}
                                         readOnly
                                         size="small"
                                         sx={{ mt: 2 }}
@@ -231,7 +231,7 @@ const HomePage = () => {
 
                                     <Rating
                                         name="read-only"
-                                        value="4"
+                                        value={4}
                                         readOnly
                                         size="small"
                                         sx={{ mt: 2 }}
@@ -265,7 +265,7 @@ const HomePage = () => {
 
                                     <Rating
                                         name="read-only"
-                                        value="4"
+                                        value={4}
                                         readOnly
                                         size="small"
                                         sx={{ mt: 2 }}
@@ -299,7 +299,7 @@ const HomePage = () => {
 
                                     <Rating
                                         name="read-only"
-                                        value="4"
+                                        value={4}
                                         readOnly
                                         size="small"
                                         sx={{ mt: 2 }}
