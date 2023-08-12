@@ -1,5 +1,6 @@
 import * as React from 'react'
 import './index.css'
+import Food from '../Meal'
 
 export default function MealPlan() {
     return (
@@ -16,8 +17,11 @@ export default function MealPlan() {
             </div>
             <div className='table-body'>
                 <div className='table-body-content'>
-                    <div>BreakFast</div>
-                    <div className='item'>a<br></br>a<br></br>aa<br></br>a<br></br>a</div>
+                    <div style={{ color: "#32a6de" }}><b>BreakFast</b></div>
+                    <div className='item'>
+                        <Food />
+                        <Food />
+                    </div>
                     <div className='item'></div>
                     <div className='item'></div>
                     <div className='item'></div>
@@ -26,24 +30,24 @@ export default function MealPlan() {
                     <div className='item'></div>
                 </div>
                 <div className='table-body-content'>
-                    <div>Lunch</div>
-                    <div className='item'>a</div>
-                    <div className='item'>a</div>
-                    <div className='item'>a</div>
-                    <div className='item'>a</div>
-                    <div className='item'>a</div>
-                    <div className='item'>a</div>
-                    <div className='item'>a</div>
+                    <div style={{ color: "#e29d1d" }}><b>Lunch</b></div>
+                    <div className='item'></div>
+                    <div className='item'></div>
+                    <div className='item'></div>
+                    <div className='item'></div>
+                    <div className='item'></div>
+                    <div className='item'></div>
+                    <div className='item'></div>
                 </div>
                 <div className='table-body-content'>
-                    <div>Dinner</div>
-                    <div className='item'>a</div>
-                    <div className='item'>a</div>
-                    <div className='item'>a</div>
-                    <div className='item'>a</div>
-                    <div className='item'>a</div>
-                    <div className='item'>a</div>
-                    <div className='item'>a</div>
+                    <div style={{ color: "#68169c" }}><b>Dinner</b></div>
+                    <div className='item'></div>
+                    <div className='item'></div>
+                    <div className='item'></div>
+                    <div className='item'></div>
+                    <div className='item'></div>
+                    <div className='item'></div>
+                    <div className='item'></div>
                 </div>
             </div>
         </div>

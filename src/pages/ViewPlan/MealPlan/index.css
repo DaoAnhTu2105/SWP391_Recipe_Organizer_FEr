@@ -2,9 +2,6 @@
     /* display: block !important; */
     width: 100%;
 }
-.plan-meal div {
-    min-height: 75px;
-}
 
 .plan-meal .table-header {
     display: flex;
@@ -12,6 +9,7 @@
     width: 100%;
     min-height: 20px;
 }
+
 .plan-meal .table-header > div {
     flex: 1;
     padding: 10px;
