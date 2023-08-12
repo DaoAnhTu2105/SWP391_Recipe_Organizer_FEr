@@ -1,12 +1,5 @@
 import * as React from 'react'
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
-import WeekDropdown from '../DatePicker'
+import './index.css'
 
 function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein }
@@ -28,36 +21,57 @@ const meals = [
     createMeal('Dinner')
 ]
 
+const data = [
+    { name: "Anom", age: 19, gender: "Male" },
+    { name: "Megha", age: 19, gender: "Female" },
+    { name: "Subham", age: 25, gender: "Male" },
+]
+
 export default function MealPlan() {
     return (
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>
-                            <WeekDropdown />
-                        </TableCell>
-                        <TableCell align="right">Monday</TableCell>
-                        <TableCell align="right">Tuesday</TableCell>
-                        <TableCell align="right">Wednesday</TableCell>
-                        <TableCell align="right">Thursday</TableCell>
-                        <TableCell align="right">Friday</TableCell>
-                        <TableCell align="right">Saturday</TableCell>
-                        <TableCell align="right">Sunday</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {meals.map((meal) => (
-                        < TableRow
-                            key={meal.meal}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                            <TableCell>{meal.meal}</TableCell>
-
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer >
+        <div className='container plan-meal'>
+            <div className='table-header'>
+                <div></div>
+                <div className='item'>Monday</div>
+                <div className='item'>Tuesday</div>
+                <div className='item'>Wednesday</div>
+                <div className='item'>Thursday</div>
+                <div className='item'>Friday</div>
+                <div className='item'>Saturday</div>
+                <div className='item'>Sunday</div>
+            </div>
+            <div className='table-body'>
+                <div className='table-body-content'>
+                    <div>BreakFast</div>
+                    <div className='item'>a<br></br>a<br></br>aa<br></br>a<br></br>a</div>
+                    <div className='item'></div>
+                    <div className='item'></div>
+                    <div className='item'></div>
+                    <div className='item'></div>
+                    <div className='item'></div>
+                    <div className='item'></div>
+                </div>
+                <div className='table-body-content'>
+                    <div>Lunch</div>
+                    <div className='item'>a</div>
+                    <div className='item'>a</div>
+                    <div className='item'>a</div>
+                    <div className='item'>a</div>
+                    <div className='item'>a</div>
+                    <div className='item'>a</div>
+                    <div className='item'>a</div>
+                </div>
+                <div className='table-body-content'>
+                    <div>Dinner</div>
+                    <div className='item'>a</div>
+                    <div className='item'>a</div>
+                    <div className='item'>a</div>
+                    <div className='item'>a</div>
+                    <div className='item'>a</div>
+                    <div className='item'>a</div>
+                    <div className='item'>a</div>
+                </div>
+            </div>
+        </div>
     )
 }

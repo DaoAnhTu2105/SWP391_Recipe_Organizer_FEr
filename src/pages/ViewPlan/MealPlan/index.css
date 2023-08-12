@@ -1,0 +1,50 @@
+.plan-meal {
+    display: block !important;
+}
+.plan-meal div {
+    min-height: 75px;
+}
+
+.plan-meal .table-header {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    min-height: 20px;
+}
+.plan-meal .table-header > div {
+    flex: 1;
+    padding: 10px;
+    border-top: 1px solid #e6e6e6;
+    border-left: 1px solid #e6e6e6;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.plan-meal .table-header > div:last-child {
+    flex: 1;
+    border-left: 1px solid #e6e6e6;
+    border-right: 1px solid #e6e6e6;
+}
+
+.plan-meal .table-body {
+    width: 100%;
+    flex-wrap: nowrap;
+    min-height: 20px;
+}
+
+.plan-meal .table-body .table-body-content {
+    display: flex;
+}
+
+.plan-meal .table-body .table-body-content > div {
+    flex: 1;
+    padding: 10px;
+    border-left: 1px solid #e6e6e6;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.plan-meal .table-body .table-body-content > div:last-child {
+    flex: 1;
+    border-left: 1px solid #e6e6e6;
+    border-right: 1px solid #e6e6e6;
+    border-bottom: 1px solid #e6e6e6;
+}
