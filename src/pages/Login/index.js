@@ -42,7 +42,7 @@ const Login = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, ggToken }),
+                body: JSON.stringify({ email, ggToken,image, fullname }),
             })
             console.log(response)
             if (response.ok) {

@@ -1,9 +1,5 @@
 import React from 'react'
 import imgLogo from '../img/core-img/logo.png'
-import { Search } from './Search'
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
-import SearchFilter from './SearchFilter'
-import { useCookies } from 'react-cookie';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -16,11 +12,16 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import { useNavigate, Link } from 'react-router-dom'
+import { useCookies } from 'react-cookie';
+
 
 const Header = () => {
-    const [cookies, setCookie] = useCookies(['user']);
+
+    const [cookies, setCookie, removeCookie] = useCookies(['user']);
     const storedUserData = cookies.user
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const navigate = useNavigate()
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -28,134 +29,142 @@ const Header = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const handleLogout = () => {
+        removeCookie('user')
+        navigate("/login")
+    }
     return (
-       
-            <header className="header-area fixed-top">
-                <div className="delicious-main-menu">
-                    <div className="classy-nav-container breakpoint-off">
-                        <div className="container">
-                            <nav className="classy-navbar justify-content-between" id="deliciousNav">
-                                <a className="nav-brand" href="/">
-                                    <img src={imgLogo} alt="" />
-                                </a>
 
-                                <div className="classy-menu">
-                                    <div className="classynav">
-                                        <ul>
-                                            <li className="active">
-                                                <a href="/">Home</a>
-                                            </li>
-                                            <li>
-                                                <a href="/create-recipe">Create Recipe</a>
-                                            </li>
-                                            <li>
-                                                <a href="/favorite-recipe">Favorite Receipies</a>
-                                            </li>
-                                            <li>
-                                                <a href="/view-plan">Meal Plan</a>
-                                            </li>
-                                            <li>
-                                                <a href="/user-list">User List</a>
-                                            </li>
-                                            <li>
-                                                {storedUserData ? (
-                                                   
-                                                     <>
-                                                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                            <Tooltip title="Account settings" >
-                                                                <IconButton
-                                                                    onClick={handleClick}
-                                                                    size="small"
-                                                                    style={{outline:"none"}} 
-                                                                    sx={{ ml: 2 }}
-                                                                    aria-controls={open ? 'account-menu' : undefined}
-                                                                    aria-haspopup="true"
-                                                                    aria-expanded={open ? 'true' : undefined}
-                                                                >
-                                                                    <Avatar  sx={{ width: 32, height: 32 }} src={storedUserData.picture}></Avatar>
-                                                                </IconButton>
-                                                                <Typography style={{fontWeight:"bold"}}>My account</Typography>
-                                                            </Tooltip>
-                                                        </Box>
-                                                        <Menu
-                                                            anchorEl={anchorEl}
-                                                            id="account-menu"
-                                                            open={open}
-                                                            onClose={handleClose}
-                                                            onClick={handleClose}
-                                                            PaperProps={{
-                                                                elevation: 0,
-                                                                sx: {
-                                                                    overflow: 'visible',
-                                                                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                                                                    mt: 1.5,
-                                                                    '& .MuiAvatar-root': {
-                                                                        width: 32,
-                                                                        height: 32,
-                                                                        ml: -0.5,
-                                                                        mr: 1,
-                                                                    },
-                                                                    '&:before': {
-                                                                        content: '""',
-                                                                        display: 'block',
-                                                                        position: 'absolute',
-                                                                        top: 0,
-                                                                        right: 14,
-                                                                        width: 10,
-                                                                        height: 10,
-                                                                        bgcolor: 'background.paper',
-                                                                        transform: 'translateY(-50%) rotate(45deg)',
-                                                                        zIndex: 0,
-                                                                    },
+        <header className="header-area fixed-top">
+            <div className="delicious-main-menu">
+                <div className="classy-nav-container breakpoint-off">
+                    <div className="container">
+                        <nav className="classy-navbar justify-content-between" id="deliciousNav">
+                            <a className="nav-brand" href="/">
+                                <img src={imgLogo} alt="" />
+                            </a>
+
+                            <div className="classy-menu">
+                                <div className="classynav">
+                                    <ul>
+                                        <li className="active">
+                                            <a href="/">Home</a>
+                                        </li>
+                                        <li>
+                                            <a href="/create-recipe">Create Recipe</a>
+                                        </li>
+                                        <li>
+                                            <a href="/favorite-recipe">Favorite Receipies</a>
+                                        </li>
+                                        <li>
+                                            <a href="/view-plan">Meal Plan</a>
+                                        </li>
+                                        <li>
+                                            <a href="/user-list">User List</a>
+                                        </li>
+                                        <li>
+                                            {storedUserData ? (
+
+                                                <>
+                                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                                        <Tooltip title="Account settings" >
+                                                            <IconButton
+                                                                onClick={handleClick}
+                                                                size="small"
+                                                                style={{ outline: "none" }}
+                                                                sx={{ ml: 2 }}
+                                                                aria-controls={open ? 'account-menu' : undefined}
+                                                                aria-haspopup="true"
+                                                                aria-expanded={open ? 'true' : undefined}
+                                                            >
+                                                                <Avatar sx={{ width: 32, height: 32 }} src={storedUserData.picture}></Avatar>
+                                                            </IconButton>
+
+                                                        </Tooltip>
+                                                    </Box>
+                                                    <Menu
+                                                        anchorEl={anchorEl}
+                                                        id="account-menu"
+                                                        open={open}
+                                                        onClose={handleClose}
+                                                        onClick={handleClose}
+                                                        PaperProps={{
+                                                            elevation: 0,
+                                                            sx: {
+                                                                overflow: 'visible',
+                                                                filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                                                                mt: 1.5,
+                                                                '& .MuiAvatar-root': {
+                                                                    width: 32,
+                                                                    height: 32,
+                                                                    ml: -0.5,
+                                                                    mr: 1,
                                                                 },
-                                                            }}
-                                                            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                                                            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                                                        >
-                                                            <MenuItem onClick={handleClose}>
-                                                                <Avatar /> Profile
-                                                            </MenuItem>
-                                                            <MenuItem onClick={handleClose}>
-                                                                <Avatar /> My account
-                                                            </MenuItem>
-                                                            <Divider />
-                                                            <MenuItem onClick={handleClose}>
+                                                                '&:before': {
+                                                                    content: '""',
+                                                                    display: 'block',
+                                                                    position: 'absolute',
+                                                                    top: 0,
+                                                                    right: 14,
+                                                                    width: 10,
+                                                                    height: 10,
+                                                                    bgcolor: 'background.paper',
+                                                                    transform: 'translateY(-50%) rotate(45deg)',
+                                                                    zIndex: 0,
+                                                                },
+                                                            },
+                                                        }}
+                                                        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                                                        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                                                    >
+                                                        <MenuItem onClick={handleClose}>
+                                                            <Avatar /> Profile
+                                                        </MenuItem>
+                                                        <MenuItem onClick={handleClose}>
+                                                            <Avatar /> My account
+                                                        </MenuItem>
+                                                        <Divider />
+                                                        <MenuItem onClick={handleClose} style={{ alignContent: "center" }}>
+                                                            <Link to={"/create-recipe"}>
                                                                 <ListItemIcon>
                                                                     <PersonAdd fontSize="small" />
                                                                 </ListItemIcon>
-                                                                Add another account
-                                                            </MenuItem>
-                                                            <MenuItem onClick={handleClose}>
-                                                                <ListItemIcon>
-                                                                    <Settings fontSize="small" />
-                                                                </ListItemIcon>
-                                                                Settings
-                                                            </MenuItem>
-                                                            <MenuItem onClick={handleClose}>
-                                                                <ListItemIcon>
-                                                                    <Logout fontSize="small" />
-                                                                </ListItemIcon>
-                                                                Logout
-                                                            </MenuItem>
-                                                        </Menu>
+                                                                <Typography>
+                                                                    Add recipe
+                                                                </Typography>
 
-                                                        </>
-                                                ) : (
-                                                    <a href="/login">Login</a>
-                                                )}
-                                            </li>
-                                        </ul>
-                                    </div>
+                                                            </Link>
+
+                                                        </MenuItem>
+                                                        <MenuItem onClick={handleClose}>
+                                                            <ListItemIcon>
+                                                                <Settings fontSize="small" />
+                                                            </ListItemIcon>
+                                                            Settings
+                                                        </MenuItem>
+                                                        <MenuItem onClick={handleLogout}>
+                                                            <ListItemIcon>
+                                                                <Logout fontSize="small" />
+                                                            </ListItemIcon>
+                                                            Logout
+                                                        </MenuItem>
+                                                    </Menu>
+
+                                                </>
+                                            ) : (
+                                                <a href="/login">Login</a>
+                                            )}
+                                        </li>
+                                    </ul>
                                 </div>
-                            </nav>
-                        </div>
+                            </div>
+                        </nav>
                     </div>
                 </div>
-                <Search />
-                <br></br>
-                <SearchFilter />
-            </header>
-      
+            </div>
+            
+        </header>
+
     )
 }
 
