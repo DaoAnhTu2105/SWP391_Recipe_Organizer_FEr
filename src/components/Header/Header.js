@@ -1,7 +1,6 @@
 import React from 'react'
-import './index.css'
 import imgLogo from '../../img/core-img/logo.png'
-import { Search } from '../Search'
+import { Search } from '../Search/Search'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
 import { useCookies } from 'react-cookie';
 
@@ -56,7 +55,6 @@ const Header = () => {
                         </div>
                     </div>
                 </div>
-                <Search />
             </header>
         </>
     )
