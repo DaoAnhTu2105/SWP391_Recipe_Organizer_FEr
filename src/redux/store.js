@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
-import getAllRecipes from './reducers/getAllDataRecipes'
+import getAllRecipesReducer from './reducers/getAllDataRecipes'
 const store = configureStore({
     reducer: {
-        getAllRecipes,
+        getAllRecipes: getAllRecipesReducer,
     },
 })
 
