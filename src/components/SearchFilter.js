@@ -215,15 +215,8 @@ const nutrition = [
     { label: 'Vegetables' },
     { label: 'Dairy' },
 ]
-const serving = [
-    { label: 'Protein' },
-    { label: 'Grains' },
-    { label: 'Fruits' },
-    { label: 'Vegetables' },
-    { label: 'Dairy' },
-]
 
-export default function SearchFilter() {
+const SearchFilter = () => {
     const minmin = 0
     const maxmax = 200
     const minServing = 1
@@ -430,3 +423,5 @@ export default function SearchFilter() {
         </>
     )
 }
+
+export default SearchFilter
