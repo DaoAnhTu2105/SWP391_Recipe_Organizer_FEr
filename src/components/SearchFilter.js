@@ -226,6 +226,9 @@ const serving = [
 export default function SearchFilter() {
     const minmin = 0
     const maxmax = 200
+    const minServing = 1
+    const maxServing = 20
+    const [serving, setServing] = useState([1, 20])
     const [timeValue, setTimeValue] = useState([0, 200])
     const [isCollapsed, setIsCollapsed] = useState(true)
 
@@ -355,24 +358,59 @@ export default function SearchFilter() {
                     </Grid>
 
                     <Grid xs={2} md={2}>
-                        <Autocomplete
-                            id="serving"
-                            size="small"
-                            sx={{ width: 200 }}
-                            options={serving}
-                            autoHighlight
-                            getOptionLabel={(option) => option.label}
-                            renderOption={(props, option) => (
-                                <Box
-                                    component="li"
-                                    sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
-                                    {...props}
+                        <Button
+                            size="large"
+                            onClick={() => setIsCollapsed(!isCollapsed)}
+                            style={{ outline: 'none' }}
+                        >
+                            Serving
+                        </Button>
+                        <Collapse in={!isCollapsed}>
+                            <Slider
+                                getAriaLabel={() => 'Serving'}
+                                value={serving}
+                                onChange={handleTimeChange}
+                                valueLabelDisplay="auto"
+                                min={minServing}
+                                max={maxServing}
+                            />
+                            <Stack
+                                direction="row"
+                                justifyContent="space-evenly"
+                                alignItems="center"
+                            >
+                                <TextField
+                                    label="min"
+                                    type="number"
+                                    variant="outlined"
+                                    InputLabelProps={{ shrink: true }}
+                                    sx={{ width: '90px' }}
+                                    value={serving[0]}
+                                    onChange={(e) => {
+                                        setServing([Number(e.target.value), serving[1]])
+                                    }}
+                                />
+                                <Typography> - </Typography>
+                                <TextField
+                                    label="max"
+                                    type="number"
+                                    variant="outlined"
+                                    InputLabelProps={{ shrink: true }}
+                                    sx={{ width: '90px' }}
+                                    value={serving[1]}
+                                    onChange={(e) => {
+                                        setServing([serving[0], Number(e.target.value)])
+                                    }}
+                                />
+                                <Button
+                                    size="large"
+                                    onClick={() => setIsCollapsed(!isCollapsed)}
+                                    style={{ outline: 'none' }}
                                 >
-                                    {option.label} ({option.code}) +{option.phone}
-                                </Box>
-                            )}
-                            renderInput={(params) => <TextField {...params} label="Serving" />}
-                        />
+                                    Enter
+                                </Button>
+                            </Stack>
+                        </Collapse>
                     </Grid>
                     <Grid xs={2} md={2}>
                         <TextField
