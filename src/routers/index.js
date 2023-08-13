@@ -11,6 +11,8 @@ import Login from '../pages/Login'
 import Home from '../pages/Home/HomePage'
 import NotFound from '../pages/NotFound'
 import RecipeDetail from '../pages/RecipeDetail/RecipeDetail'
+import MealDetail from '../pages/MealDetail'
+import LayoutWithoutFilter from '../components/LayoutWithoutFilter'
 
 export const publicRouters = [
     {
@@ -34,11 +36,13 @@ export const publicRouters = [
         path: '/create-plan',
         name: 'create-plan',
         component: CreatePlan,
+        layout: LayoutWithoutFilter,
     },
     {
         path: '/create-recipe',
         name: 'create-recipe',
         component: CreateRecipe,
+        layout: LayoutWithoutFilter,
     },
     {
         path: '/favorite-recipe',
@@ -55,16 +59,25 @@ export const publicRouters = [
         path: '/user-list',
         name: 'user-list',
         component: UserList,
+        layout: LayoutWithoutFilter,
     },
     {
         path: '/view-plan',
         name: 'view-plan',
         component: ViewPlan,
+        layout: LayoutWithoutFilter,
     },
     {
-        path: '/recipe-detail',
+        path: '/recipe-detail/:id',
         name: 'recipe-detail',
         component: RecipeDetail,
+        layout: LayoutWithoutFilter,
+    },
+    {
+        path: '/meal-detail',
+        name: 'meal-detail',
+        component: MealDetail,
+        layout: LayoutWithoutFilter
     },
 ]
 

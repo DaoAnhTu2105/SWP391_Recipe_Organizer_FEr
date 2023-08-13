@@ -1,0 +1,7 @@
+.product {
+    display: flex;
+}
+
+.product .product-detail {
+    margin-left: 30px;
+}

@@ -353,26 +353,20 @@ export default function UserList() {
 
     return (
         <Fragment>
-            <Box
-                sx={{
-                    bgcolor: 'background.paper',
-                    pt: 8,
-                    pb: 6,
-                }}
-            >
-                <Container maxWidth="sm">
-                    <Typography
-                        component="h1"
-                        variant="h2"
-                        align="center"
-                        color="text.primary"
-                        gutterBottom
-                        style={{ color: '#f39c12' }}
-                    >
-                        User List
-                    </Typography>
-                </Container>
-            </Box>
+            <Container maxWidth="md">
+                <Typography
+                    component="h1"
+                    variant="h2"
+                    align="center"
+                    style={{ color: '#f39c12', marginTop: 20 }}
+                    gutterBottom
+                >
+                    User List
+                </Typography>
+                <Typography variant="h5" align="center" color="text.secondary" paragraph>
+                    Manage user accounts
+                </Typography>
+            </Container>
             <div className="container user-list">
                 <Box sx={{ width: '100%' }}>
                     <Paper sx={{ width: '100%', mb: 2 }}>
