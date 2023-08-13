@@ -1,8 +1,9 @@
 import './index.css'
 import React, { useState, useEffect, Fragment } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+// import { useSelector, useDispatch } from 'react-redux'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
+import Food from './Food'
 
 const MealDetail = () => {
     return (
@@ -23,7 +24,25 @@ const MealDetail = () => {
             </Container>
             <div className="container meal-detail">
                 <div className='meal'>
-
+                    <div className='title'>
+                        <h4>
+                            Meal Planner
+                        </h4>
+                        <div>
+                            <button className='add'>
+                                Add More Recipes
+                            </button>
+                            <button className='clear'>
+                                Clear All
+                            </button>
+                        </div>
+                    </div>
+                    <Food
+                        image="https://i.ytimg.com/vi/A_o2qfaTgKs/maxresdefault.jpg"
+                        name="Bun bo"
+                        time="20"
+                        ingredient="10"
+                    />
                 </div>
                 <div className='ingredient'>
 
