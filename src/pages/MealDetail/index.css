@@ -36,6 +36,14 @@
     border-bottom: 1px solid #e6e6e6;
 }
 
+.meal-detail .title .nutrition {
+    display: flex;
+}
+
+.meal-detail .title .nutrition .nutrition-component {
+    flex: 1;
+}
+
 .meal-detail .ingredient {
     flex: 1;
     padding: 20px;
