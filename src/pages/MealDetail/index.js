@@ -21,9 +21,13 @@ const MealDetail = () => {
                     View your meal plan of week
                 </Typography>
             </Container>
-            <div className="container">
-                <div>a</div>
-                <div>b</div>
+            <div className="container meal-detail">
+                <div className='meal'>
+
+                </div>
+                <div className='ingredient'>
+
+                </div>
             </div>
         </Fragment>
     )

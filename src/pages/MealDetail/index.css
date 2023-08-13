@@ -1,0 +1,16 @@
+.meal-detail {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.meal-detail .meal {
+    flex: 2;
+    padding: 30px;
+    border: 1px solid #000;
+}
+
+.meal-detail .ingredient {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #000;
+}
