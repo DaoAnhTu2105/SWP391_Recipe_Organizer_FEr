@@ -35,13 +35,13 @@ export const publicRouters = [
         path: '/create-plan',
         name: 'create-plan',
         component: CreatePlan,
-        layout: LayoutWithoutFilter
+        layout: LayoutWithoutFilter,
     },
     {
         path: '/create-recipe',
         name: 'create-recipe',
         component: CreateRecipe,
-        layout: LayoutWithoutFilter
+        layout: LayoutWithoutFilter,
     },
     {
         path: '/favorite-recipe',
@@ -58,19 +58,19 @@ export const publicRouters = [
         path: '/user-list',
         name: 'user-list',
         component: UserList,
-        layout: LayoutWithoutFilter
+        layout: LayoutWithoutFilter,
     },
     {
         path: '/view-plan',
         name: 'view-plan',
         component: ViewPlan,
-        layout: LayoutWithoutFilter
+        layout: LayoutWithoutFilter,
     },
     {
-        path: '/recipe-detail',
+        path: '/recipe-detail/:id',
         name: 'recipe-detail',
         component: RecipeDetail,
-        layout: LayoutWithoutFilter
+        layout: LayoutWithoutFilter,
     },
 ]
 

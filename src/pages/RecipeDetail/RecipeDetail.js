@@ -8,8 +8,28 @@ import 'swiper/css/navigation'
 // import required modules
 import { Navigation } from 'swiper/modules'
 import { Link } from 'react-router-dom'
-import { Button } from '@mui/material'
+import { Button, Rating, Box, ButtonGroup } from '@mui/material'
+import { useParams } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { fetchDataAsync } from '../../redux/reducers/getAllDataRecipes'
+import { format } from 'date-fns'
+import { Block } from '@mui/icons-material'
+
 const RecipeDetail = () => {
+    const { id } = useParams()
+    const dispatch = useDispatch()
+    const getAllRecipesAPI = useSelector((state) => state.getAllRecipes.data)
+    const recipeDetail =
+        getAllRecipesAPI.data && getAllRecipesAPI.data.find((detail) => detail.recipeId == id)
+    useEffect(() => {
+        dispatch(fetchDataAsync())
+    }, [dispatch])
+    console.log(recipeDetail)
+    const formattedUpdateTime = recipeDetail
+        ? format(new Date(recipeDetail.updateTime), 'yyyy-MM-dd HH:mm')
+        : ''
     return (
         <>
             <div
@@ -56,257 +76,243 @@ const RecipeDetail = () => {
                     <img src={imgBg1} alt="" />
                 </SwiperSlide>
             </Swiper>
-
-            <div className="container-fluid" style={{ paddingLeft: 200, paddingRight: 150 }}>
-                <div className="row d-flex justify-content-between">
-                    <div className="col-md-8">
-                        <div className="receipe-headline my-5">
-                            <span>April 05, 2018</span>
-                            <h2>Vegetarian cheese salad</h2>
-                            <p>
-                                Recipe by &nbsp;
-                                <Link to={''} style={{ textDecoration: 'true', color: '#f39c12' }}>
-                                    Anh Tu
-                                </Link>
-                            </p>
-                            <div className="receipe-duration">
-                                <h6>Prep: 15 mins</h6>
-                                <h6>Cook: 30 mins</h6>
-                                <h6>Yields: 8 Servings</h6>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="col-md-4 my-5">
-                        <div className="receipe-ratings text-right">
-                            <div className="ratings">
-                                <i className="fa fa-star" aria-hidden="true"></i>
-                                <i className="fa fa-star" aria-hidden="true"></i>
-                                <i className="fa fa-star" aria-hidden="true"></i>
-                                <i className="fa fa-star" aria-hidden="true"></i>
-                                <i className="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                            <Button
-                                size="large"
-                                style={{
-                                    color: 'white',
-                                    backgroundColor: '#f39c12',
-                                    outline: 'none',
-                                }}
-                            >
-                                Add to Favorite
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="container">
-                <div className="row">
-                    <div className="col-12 col-lg-8">
-                        <div className="single-preparation-step d-flex">
-                            <h4>01.</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-                                nec varius dui. Suspendisse potenti. Vestibulum ac pellentesque
-                                tortor. Aenean congue sed metus in iaculis. Cras a tortor enim.
-                                Phasellus posuere vestibulum ipsum, eget lobortis purus. Orci varius
-                                natoque penatibus et magnis dis parturient montes, nascetur
-                                ridiculus mus.{' '}
-                            </p>
-                        </div>
-
-                        <div className="single-preparation-step d-flex">
-                            <h4>02.</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-                                nec varius dui. Suspendisse potenti. Vestibulum ac pellentesque
-                                tortor. Aenean congue sed metus in iaculis. Cras a tortor enim.
-                                Phasellus posuere vestibulum ipsum, eget lobortis purus. Orci varius
-                                natoque penatibus et magnis dis parturient montes, nascetur
-                                ridiculus mus.{' '}
-                            </p>
-                        </div>
-
-                        <div className="single-preparation-step d-flex">
-                            <h4>03.</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-                                nec varius dui. Suspendisse potenti. Vestibulum ac pellentesque
-                                tortor. Aenean congue sed metus in iaculis. Cras a tortor enim.
-                                Phasellus posuere vestibulum ipsum, eget lobortis purus. Orci varius
-                                natoque penatibus et magnis dis parturient montes, nascetur
-                                ridiculus mus.{' '}
-                            </p>
-                        </div>
-
-                        <div className="single-preparation-step d-flex">
-                            <h4>04.</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-                                nec varius dui. Suspendisse potenti. Vestibulum ac pellentesque
-                                tortor. Aenean congue sed metus in iaculis. Cras a tortor enim.
-                                Phasellus posuere vestibulum ipsum, eget lobortis purus. Orci varius
-                                natoque penatibus et magnis dis parturient montes, nascetur
-                                ridiculus mus.{' '}
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="col-12 col-lg-4">
-                        <div className="ingredients">
-                            <h4>Ingredients</h4>
-
-                            <div className="custom-control custom-checkbox">
-                                <input
-                                    type="checkbox"
-                                    className="custom-control-input"
-                                    id="customCheck1"
-                                />
-                                <label className="custom-control-label" htmlFor="customCheck1">
-                                    4 Tbsp (57 gr) butter
-                                </label>
-                            </div>
-
-                            <div className="custom-control custom-checkbox">
-                                <input
-                                    type="checkbox"
-                                    className="custom-control-input"
-                                    id="customCheck2"
-                                />
-                                <label className="custom-control-label" htmlFor="customCheck2">
-                                    2 large eggs
-                                </label>
-                            </div>
-
-                            <div className="custom-control custom-checkbox">
-                                <input
-                                    type="checkbox"
-                                    className="custom-control-input"
-                                    id="customCheck3"
-                                />
-                                <label className="custom-control-label" htmlFor="customCheck3">
-                                    2 yogurt containers granulated sugar
-                                </label>
-                            </div>
-
-                            <div className="custom-control custom-checkbox">
-                                <input
-                                    type="checkbox"
-                                    className="custom-control-input"
-                                    id="customCheck4"
-                                />
-                                <label className="custom-control-label" htmlFor="customCheck4">
-                                    1 vanilla or plain yogurt, 170g container
-                                </label>
-                            </div>
-
-                            <div className="custom-control custom-checkbox">
-                                <input
-                                    type="checkbox"
-                                    className="custom-control-input"
-                                    id="customCheck5"
-                                />
-                                <label className="custom-control-label" htmlFor="customCheck5">
-                                    2 yogurt containers unbleached white flour
-                                </label>
-                            </div>
-
-                            <div className="custom-control custom-checkbox">
-                                <input
-                                    type="checkbox"
-                                    className="custom-control-input"
-                                    id="customCheck6"
-                                />
-                                <label className="custom-control-label" htmlFor="customCheck6">
-                                    1.5 yogurt containers milk
-                                </label>
-                            </div>
-
-                            <div className="custom-control custom-checkbox">
-                                <input
-                                    type="checkbox"
-                                    className="custom-control-input"
-                                    id="customCheck7"
-                                />
-                                <label className="custom-control-label" htmlFor="customCheck7">
-                                    1/4 tsp cinnamon
-                                </label>
-                            </div>
-
-                            <div className="custom-control custom-checkbox">
-                                <input
-                                    type="checkbox"
-                                    className="custom-control-input"
-                                    id="customCheck8"
-                                />
-                                <label className="custom-control-label" htmlFor="customCheck8">
-                                    1 cup fresh blueberries{' '}
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="container">
-                <div className="row">
-                    <div className="col-md-12">
-                        <div className="section-heading text-left">
-                            <h3>Leave a comment</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="container">
-                <div className="row">
-                    <div className="col-12">
-                        <div className="contact-form-area">
-                            <form action="#" method="post">
-                                <div className="row">
-                                    <div className="col-12 col-lg-6">
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            id="name"
-                                            placeholder="Name"
-                                        />
-                                    </div>
-                                    <div className="col-12 col-lg-6">
-                                        <input
-                                            type="email"
-                                            className="form-control"
-                                            id="email"
-                                            placeholder="E-mail"
-                                        />
-                                    </div>
-                                    <div className="col-12">
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            id="subject"
-                                            placeholder="Subject"
-                                        />
-                                    </div>
-                                    <div className="col-12">
-                                        <textarea
-                                            name="message"
-                                            className="form-control"
-                                            id="message"
-                                            cols="30"
-                                            rows="10"
-                                            placeholder="Message"
-                                        ></textarea>
-                                    </div>
-                                    <div className="col-md-12 text-center mb-5">
-                                        <button className="btn delicious-btn mt-30" type="submit">
-                                            Post Comments
-                                        </button>
+            {/* <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
+                {recipeDetail &&
+                    recipeDetail.photoVMs.map((photo) => (
+                        <SwiperSlide>
+                            <img src={photo.photoName} alt="" />
+                        </SwiperSlide>
+                    ))}
+            </Swiper> */}
+            {recipeDetail && (
+                <>
+                    <div
+                        className="container-fluid"
+                        style={{ paddingLeft: 200, paddingRight: 150 }}
+                    >
+                        <div className="row d-flex justify-content-between">
+                            <div className="col-md-8">
+                                <div className="receipe-headline my-5">
+                                    <span>Updated on {formattedUpdateTime}</span>
+                                    <h2>{recipeDetail.recipeName}</h2>
+                                    <p>
+                                        Recipe by &nbsp;
+                                        <Link
+                                            to={''}
+                                            style={{ textDecoration: 'true', color: '#f39c12' }}
+                                        >
+                                            {recipeDetail.userAccountVMs.username}
+                                        </Link>
+                                    </p>
+                                    <div className="receipe-duration">
+                                        <h6>Prep: {recipeDetail.prepTime}</h6>
+                                        <h6>Cook: {recipeDetail.cookTime}</h6>
+                                        <h6>Stand Time: {recipeDetail.standTime}</h6>
+                                        <h6>Total Time: {recipeDetail.totalTime}</h6>
+                                        <h6>Yields: {recipeDetail.servings}</h6>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
+
+                            <div className="col-md-4 my-5">
+                                <div className="receipe-ratings text-right">
+                                    <div className="ratings">
+                                        <Rating
+                                            name="read-only"
+                                            value={recipeDetail.aveVote}
+                                            readOnly
+                                            size="small"
+                                            sx={{ mt: 2 }}
+                                        />
+                                    </div>
+                                    <Button
+                                        size="large"
+                                        style={{
+                                            color: 'white',
+                                            backgroundColor: '#f39c12',
+                                            outline: 'none',
+                                        }}
+                                    >
+                                        Add to Favorite
+                                    </Button>
+                                </div>
+                                <Box
+                                    size="large"
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        outline: 'none',
+                                        alignItems: 'center',
+                                        '& > *': {
+                                            m: 1,
+                                        },
+                                    }}
+                                    style={{ marginLeft: 165, marginTop: 30 }}
+                                >
+                                    <ButtonGroup
+                                        variant="outlined"
+                                        aria-label="outlined button group"
+                                    >
+                                        <Button
+                                            sx={{
+                                                color: '#f39c12',
+                                                borderColor: '#f39c12',
+                                                outline: 'none',
+                                                '&:hover': {
+                                                    backgroundColor: '#f39c12',
+                                                    color: 'white',
+                                                },
+                                            }}
+                                        >
+                                            Save
+                                        </Button>
+                                        <Button
+                                            sx={{
+                                                color: '#f39c12',
+                                                borderColor: '#f39c12',
+                                                outline: 'none',
+                                                '&:hover': {
+                                                    backgroundColor: '#f39c12',
+                                                    color: 'white',
+                                                },
+                                            }}
+                                        >
+                                            Rate
+                                        </Button>
+                                        <Button
+                                            sx={{
+                                                color: '#f39c12',
+                                                borderColor: '#f39c12',
+                                                outline: 'none',
+                                                '&:hover': {
+                                                    backgroundColor: '#f39c12',
+                                                    color: 'white',
+                                                },
+                                            }}
+                                        >
+                                            Share
+                                        </Button>
+                                    </ButtonGroup>
+                                </Box>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-12 col-lg-8">
+                                {recipeDetail &&
+                                    recipeDetail.directionVMs
+                                        .slice()
+                                        .sort((a, b) => a.directionsNum - b.directionsNum)
+                                        .map((step) => (
+                                            <div className="single-preparation-step d-flex">
+                                                <h4>0{step.directionsNum}.</h4>
+                                                <p>{step.directionsDesc}</p>
+                                            </div>
+                                        ))}
+                            </div>
+
+                            <div className="col-12 col-lg-4">
+                                <div className="ingredients">
+                                    <h4>Ingredients</h4>
+                                    {recipeDetail &&
+                                        recipeDetail.ingredientOfRecipeVMs.map((ingredient) => (
+                                            <div className="custom-control custom-checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                    className="custom-control-input"
+                                                    id="customCheck1"
+                                                />
+                                                <label
+                                                    className="custom-control-label"
+                                                    htmlFor="customCheck1"
+                                                >
+                                                    {ingredient.description}
+                                                </label>
+                                            </div>
+                                        ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-md-12 mt-5 pt-5">
+                                {recipeDetail &&
+                                    recipeDetail.reviewVMs.map((rating) => (
+                                        <>
+                                            <div className="text-left">
+                                                <h3 style={{ color: '#f39c12' }}>Reviews</h3>
+                                            </div>
+                                            <div className="contact-form-area">
+                                                <form
+                                                    action="#"
+                                                    method="post"
+                                                    style={{ width: 750 }}
+                                                >
+                                                    <Rating
+                                                        readOnly
+                                                        name="size-large"
+                                                        defaultValue={rating.voteNum}
+                                                        size="large"
+                                                    />
+                                                    <div className="row">
+                                                        <div className="col-12 col-lg-6">
+                                                            <input
+                                                                type="text"
+                                                                className="form-control"
+                                                                id="name"
+                                                                value={rating.comment}
+                                                                placeholder="Name"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </>
+                                    ))}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="text-left">
+                                    <h3 style={{ color: '#f39c12' }}>Leave a comment</h3>
+                                </div>
+                            </div>
+                            <div className="col-12">
+                                <div className="contact-form-area">
+                                    <form action="#" method="post">
+                                        <Rating name="size-large" defaultValue={0} size="large" />
+                                        <div className="row">
+                                            <div className="col-12">
+                                                <textarea
+                                                    name="message"
+                                                    className="form-control"
+                                                    id="message"
+                                                    cols="30"
+                                                    rows="10"
+                                                    placeholder="Your Reviews"
+                                                ></textarea>
+                                            </div>
+                                            <div className="col-md-12 text-center mb-5">
+                                                <button
+                                                    className="btn delicious-btn mt-30"
+                                                    type="submit"
+                                                >
+                                                    Post Comments
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
         </>
     )
 }

@@ -105,7 +105,7 @@ const HomePage = () => {
                         {getAllRecipesAPI.data &&
                             getAllRecipesAPI.data.map((recipe) => (
                                 <div className="col-sm-4 mb-4" key={recipe.recipeId}>
-                                    <Link to="/recipe-detail">
+                                    <Link to={`/recipe-detail/${recipe.recipeId}`}>
                                         <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
                                             <CardMedia
                                                 component="img"
