@@ -21,7 +21,6 @@ const Search = () => {
                     </form>
                 </div>
             </div>
-
         </div>
     )
 }

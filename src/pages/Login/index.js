@@ -14,27 +14,27 @@ import Typography from '@mui/material/Typography'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import background from '../../assets/login-background.jpg'
 import { useEffect } from 'react'
-import { useState } from 'react';
-import jwt_decode from "jwt-decode";
-import { useNavigate } from "react-router-dom";
-import { useCookies } from 'react-cookie';
+import { useState } from 'react'
+import jwt_decode from 'jwt-decode'
+import { useNavigate } from 'react-router-dom'
+import { useCookies } from 'react-cookie'
 
 const defaultTheme = createTheme()
 
 const Login = () => {
     const navigate = useNavigate()
-    const [cookies, setCookie] = useCookies(['user']);
-    const baseUrl = `https://recipe-organizer-api.azurewebsites.net/api/UserAccounts/CheckLoginEmail`;
+    const [cookies, setCookie] = useCookies(['user'])
+    const baseUrl = `https://recipe-organizer-api.azurewebsites.net/api/UserAccounts/CheckLoginEmail`
 
     const handleCredentialResponse = async (response) => {
-        console.log("Encoded JWT ID token: " + response.credential);
-        var decoded = jwt_decode(response.credential);
+        console.log('Encoded JWT ID token: ' + response.credential)
+        var decoded = jwt_decode(response.credential)
         var email = decoded.email
         var ggToken = decoded.sub
         var image = decoded.picture
         var fullname = decoded.name
         console.log(decoded)
-        document.getElementById('buttonDiv').hidden = true;
+        document.getElementById('buttonDiv').hidden = true
 
         try {
             const response = await fetch(baseUrl, {
@@ -42,14 +42,14 @@ const Login = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, ggToken,image, fullname }),
+                body: JSON.stringify({ email, ggToken, image, fullname }),
             })
             console.log(response)
             if (response.ok) {
-                const responseData = await response.json();
-                setCookie('user', JSON.stringify(decoded));
-                navigate("/")
-                console.log("login successful", responseData);
+                const responseData = await response.json()
+                setCookie('user', JSON.stringify(decoded))
+                navigate('/')
+                console.log('login successful', responseData)
             } else {
                 console.log('login failed')
             }
@@ -58,21 +58,20 @@ const Login = () => {
         }
     }
     useEffect(() => {
-        /* global google*/ 
+        /* global google*/
         window.onload = function () {
-          google.accounts.id.initialize({
-            client_id: "299260202858-s0i6pho8rn8cikahgp5vpc5gp7kb9ma7.apps.googleusercontent.com",
-            callback: handleCredentialResponse
-          });
-          google.accounts.id.renderButton(
-            document.getElementById("buttonDiv"),
-            { theme: "outline", size: "large" }  // customization attributes
-          );
-          google.accounts.id.prompt(); // also display the One Tap dialog
+            google.accounts.id.initialize({
+                client_id:
+                    '299260202858-s0i6pho8rn8cikahgp5vpc5gp7kb9ma7.apps.googleusercontent.com',
+                callback: handleCredentialResponse,
+            })
+            google.accounts.id.renderButton(
+                document.getElementById('buttonDiv'),
+                { theme: 'outline', size: 'large' } // customization attributes
+            )
+            google.accounts.id.prompt() // also display the One Tap dialog
         }
-      }, []);
-    
-
+    }, [])
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -150,7 +149,7 @@ const Login = () => {
                             >
                                 Sign In
                             </Button>
-                            <div id='buttonDiv'></div>
+                            <div id="buttonDiv"></div>
 
                             {/* <Button
                                 id="googleSignInButton"  // This ID is used to target the button
@@ -161,16 +160,15 @@ const Login = () => {
                                 Sign in with Google
                             </Button> */}
 
-
                             <Grid container>
                                 <Grid item xs>
-                                    <Link href="#" variant="body2">
+                                    <Link to="#" variant="body2">
                                         Forgot password?
                                     </Link>
                                 </Grid>
                                 <Grid item>
-                                    <Link href="#" variant="body2">
-                                        {"Don't have an account? Sign Up"}
+                                    <Link to="/register" variant="body2">
+                                        Don't have an account? Sign Up
                                     </Link>
                                 </Grid>
                             </Grid>

@@ -12,6 +12,8 @@ import { getAnalytics } from 'firebase/analytics'
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 import { useLocation } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import store from './redux/store'
 
 const firebaseConfig = {
     apiKey: 'AIzaSyBP7wwbFT9wxZbr-JmKi3xhXbheyenmEGo',
@@ -40,33 +42,35 @@ function ScrollToTop() {
 
 function App() {
     return (
-        <BrowserRouter>
-            <div className="App">
-                <ScrollToTop />
-                <Routes>
-                    {publicRouters.map((route, index) => {
-                        const Page = route.component
-                        let Layout = DefaultLayout
-                        if (route.layout) {
-                            Layout = route.layout
-                        } else if (route.layout === null) {
-                            Layout = Fragment
-                        }
-                        return (
-                            <Route
-                                key={index}
-                                path={route.path}
-                                element={
-                                    <Layout>
-                                        <Page />
-                                    </Layout>
-                                }
-                            />
-                        )
-                    })}
-                </Routes>
-            </div>
-        </BrowserRouter>
+        <Provider store={store}>
+            <BrowserRouter>
+                <div className="App">
+                    <ScrollToTop />
+                    <Routes>
+                        {publicRouters.map((route, index) => {
+                            const Page = route.component
+                            let Layout = DefaultLayout
+                            if (route.layout) {
+                                Layout = route.layout
+                            } else if (route.layout === null) {
+                                Layout = Fragment
+                            }
+                            return (
+                                <Route
+                                    key={index}
+                                    path={route.path}
+                                    element={
+                                        <Layout>
+                                            <Page />
+                                        </Layout>
+                                    }
+                                />
+                            )
+                        })}
+                    </Routes>
+                </div>
+            </BrowserRouter>
+        </Provider>
     )
 }
 

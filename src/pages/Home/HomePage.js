@@ -45,7 +45,10 @@ const HomePage = () => {
                                     (bestRecipe) =>
                                         bestRecipe.aveVote > 4 &&
                                         bestRecipe.totalFavorite > 1 && (
-                                            <div className="col-12 col-sm-6 col-lg-4">
+                                            <div
+                                                className="col-12 col-sm-6 col-lg-4"
+                                                key={bestRecipe.recipeId}
+                                            >
                                                 <Link to="/recipe-detail">
                                                     <div className="single-best-receipe-area mb-30">
                                                         <img src={bestImg} alt="" />
