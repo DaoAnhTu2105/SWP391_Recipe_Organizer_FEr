@@ -11,6 +11,7 @@ import Login from '../pages/Login'
 import Home from '../pages/Home/HomePage'
 import NotFound from '../pages/NotFound'
 import RecipeDetail from '../pages/RecipeDetail/RecipeDetail'
+import MealDetail from '../pages/MealDetail'
 import LayoutWithoutFilter from '../components/LayoutWithoutFilter'
 
 export const publicRouters = [
@@ -71,6 +72,12 @@ export const publicRouters = [
         name: 'recipe-detail',
         component: RecipeDetail,
         layout: LayoutWithoutFilter,
+    },
+    {
+        path: '/meal-detail',
+        name: 'meal-detail',
+        component: MealDetail,
+        layout: LayoutWithoutFilter
     },
 ]
 
