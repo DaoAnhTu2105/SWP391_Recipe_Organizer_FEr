@@ -10,15 +10,22 @@ import Typography from '@mui/material/Typography'
 import Rating from '@mui/material/Rating'
 import bestImg from '../../img/bg-img/r1.jpg'
 import { Link } from 'react-router-dom'
-// import Search from '../../components/Search/Search'
-// import SearchFilter from '../../components/SearchFilter'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { fetchDataAsync } from '../../redux/reducers/getAllDataRecipes'
 
 const HomePage = () => {
+    const dispatch = useDispatch()
+    const getAllRecipesAPI = useSelector((state) => state.getAllRecipes.data)
+    console.log(getAllRecipesAPI.data)
+
+    const isLoading = useSelector((state) => state.getAllRecipes.isLoading)
+    const error = useSelector((state) => state.getAllRecipes.error)
+    useEffect(() => {
+        dispatch(fetchDataAsync())
+    }, [dispatch])
     return (
         <>
-            {/* <Search />
-            <br></br>
-            <SearchFilter /> */}
             <h1 className="title-recipes">Best Recipes</h1>
             <section className="best-receipe-area">
                 <div className="container">
@@ -154,180 +161,38 @@ const HomePage = () => {
                     marginTop: 40,
                 }}
             >
-                <div className="container">
+                {/* <div className="container">
                     <div className="row justify-content-center">
-                        <div className="col-sm-4 mb-4">
-                            <Link to="/recipe-detail">
-                                <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
-                                    <CardMedia
-                                        component="img"
-                                        style={{ width: 350, height: 194 }}
-                                        image={img1}
-                                        alt="Paella dish"
-                                    />
+                        {getAllRecipesAPI.data.map((recipe) => (
+                            <div className="col-sm-4 mb-4" key={recipe.recipeId}>
+                                <Link to="/recipe-detail">
+                                    <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
+                                        <CardMedia
+                                            component="img"
+                                            style={{ width: 350, height: 194 }}
+                                            image={img1}
+                                            alt="Paella dish"
+                                        />
 
-                                    <Rating
-                                        name="read-only"
-                                        value={4}
-                                        readOnly
-                                        size="small"
-                                        sx={{ mt: 2 }}
-                                    />
+                                        <Rating
+                                            name="read-only"
+                                            value={recipe.aveVote}
+                                            readOnly
+                                            size="small"
+                                            sx={{ mt: 2 }}
+                                        />
 
-                                    <CardContent>
-                                        <Typography variant="body2" color="text.secondary">
-                                            Shrimp and Chorizo Paella
-                                        </Typography>
-                                    </CardContent>
-                                    {/* <CardActions disableSpacing>
-                  <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <ShareIcon />
-                  </IconButton>
-                </CardActions> */}
-                                </Card>
-                            </Link>
-                        </div>
-                        <div className="col-sm-4 mb-4">
-                            <Link to="/recipe-detail">
-                                <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
-                                    <CardMedia
-                                        component="img"
-                                        style={{ width: 350, height: 194 }}
-                                        image={img1}
-                                        alt="Paella dish"
-                                    />
-
-                                    <Rating
-                                        name="read-only"
-                                        value={4}
-                                        readOnly
-                                        size="small"
-                                        sx={{ mt: 2 }}
-                                    />
-
-                                    <CardContent>
-                                        <Typography variant="body2" color="text.secondary">
-                                            Shrimp and Chorizo Paella
-                                        </Typography>
-                                    </CardContent>
-                                    {/* <CardActions disableSpacing>
-                  <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <ShareIcon />
-                  </IconButton>
-                </CardActions> */}
-                                </Card>
-                            </Link>
-                        </div>
-                        <div className="col-sm-4 mb-4">
-                            <Link to="/recipe-detail">
-                                <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
-                                    <CardMedia
-                                        component="img"
-                                        style={{ width: 350, height: 194 }}
-                                        image={img1}
-                                        alt="Paella dish"
-                                    />
-
-                                    <Rating
-                                        name="read-only"
-                                        value={4}
-                                        readOnly
-                                        size="small"
-                                        sx={{ mt: 2 }}
-                                    />
-
-                                    <CardContent>
-                                        <Typography variant="body2" color="text.secondary">
-                                            Shrimp and Chorizo Paella
-                                        </Typography>
-                                    </CardContent>
-                                    {/* <CardActions disableSpacing>
-                  <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <ShareIcon />
-                  </IconButton>
-                </CardActions> */}
-                                </Card>
-                            </Link>
-                        </div>
-                        <div className="col-sm-4 mb-4">
-                            <Link to="/recipe-detail">
-                                <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
-                                    <CardMedia
-                                        component="img"
-                                        style={{ width: 350, height: 194 }}
-                                        image={img1}
-                                        alt="Paella dish"
-                                    />
-
-                                    <Rating
-                                        name="read-only"
-                                        value={4}
-                                        readOnly
-                                        size="small"
-                                        sx={{ mt: 2 }}
-                                    />
-
-                                    <CardContent>
-                                        <Typography variant="body2" color="text.secondary">
-                                            Shrimp and Chorizo Paella
-                                        </Typography>
-                                    </CardContent>
-                                    {/* <CardActions disableSpacing>
-                  <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <ShareIcon />
-                  </IconButton>
-                </CardActions> */}
-                                </Card>
-                            </Link>
-                        </div>
-                        <div className="col-sm-4 mb-4">
-                            <Link to="/recipe-detail">
-                                <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
-                                    <CardMedia
-                                        component="img"
-                                        style={{ width: 350, height: 194 }}
-                                        image={img1}
-                                        alt="Paella dish"
-                                    />
-
-                                    <Rating
-                                        name="read-only"
-                                        value={4}
-                                        readOnly
-                                        size="small"
-                                        sx={{ mt: 2 }}
-                                    />
-
-                                    <CardContent>
-                                        <Typography variant="body2" color="text.secondary">
-                                            Shrimp and Chorizo Paella
-                                        </Typography>
-                                    </CardContent>
-                                    {/* <CardActions disableSpacing>
-                  <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <ShareIcon />
-                  </IconButton>
-                </CardActions> */}
-                                </Card>
-                            </Link>
-                        </div>
+                                        <CardContent>
+                                            <Typography variant="body2" color="text.secondary">
+                                                {recipe.recipeName}
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>
+                                </Link>
+                            </div>
+                        ))}
                     </div>
-                </div>
+                </div> */}
             </div>
         </>
     )

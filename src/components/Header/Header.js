@@ -172,7 +172,7 @@ const Header = () => {
                                                     </Menu>
                                                 </>
                                             ) : (
-                                                <a href="/login">Login</a>
+                                                <Link to="/login">Login</Link>
                                             )}
                                         </li>
                                     </ul>
