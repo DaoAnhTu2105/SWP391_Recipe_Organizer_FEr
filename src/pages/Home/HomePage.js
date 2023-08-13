@@ -45,7 +45,10 @@ const HomePage = () => {
                                     (bestRecipe) =>
                                         bestRecipe.aveVote > 4 &&
                                         bestRecipe.totalFavorite > 1 && (
-                                            <div className="col-12 col-sm-6 col-lg-4">
+                                            <div
+                                                className="col-12 col-sm-6 col-lg-4"
+                                                key={bestRecipe.recipeId}
+                                            >
                                                 <Link to="/recipe-detail">
                                                     <div className="single-best-receipe-area mb-30">
                                                         <img src={bestImg} alt="" />
@@ -105,7 +108,7 @@ const HomePage = () => {
                         {getAllRecipesAPI.data &&
                             getAllRecipesAPI.data.map((recipe) => (
                                 <div className="col-sm-4 mb-4" key={recipe.recipeId}>
-                                    <Link to="/recipe-detail">
+                                    <Link to={`/recipe-detail/${recipe.recipeId}`}>
                                         <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
                                             <CardMedia
                                                 component="img"
