@@ -1,5 +1,5 @@
 import React from 'react'
-import imgLogo from '../img/core-img/logo.png'
+import imgLogo from '../../img/core-img/logo.png'
 import Box from '@mui/material/Box'
 import Avatar from '@mui/material/Avatar'
 import Menu from '@mui/material/Menu'
