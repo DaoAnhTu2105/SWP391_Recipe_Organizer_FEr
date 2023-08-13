@@ -59,8 +59,8 @@ const MealDetail = () => {
                     <div className='title'>
                         <h4>Breakfast</h4>
                         <Food
-                            image="https://i.ytimg.com/vi/A_o2qfaTgKs/maxresdefault.jpg"
-                            name="Bún bò Huế"
+                            image="https://www.allrecipes.com/thmb/DZ5WtIe2s6rGk-rIEZDkMA6mGj4=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7568285-perfect-pancakes-KH-4x3-218e2c39174c4a2293fca0ab752b38a8.jpg"
+                            name="Perfect Pancakes"
                             time="120"
                             ingredient="10"
                         />
@@ -68,15 +68,15 @@ const MealDetail = () => {
                     <div className='title'>
                         <h4>Lunch</h4>
                         <Food
-                            image="https://cdn.tgdd.vn/Files/2020/04/29/1252708/ca-nha-ai-cung-thich-me-voi-mon-canh-moc-thap-cam-sieu-ngon-bo-duong-202004292341431198.jpg"
-                            name="Canh sườn mộc rau củ"
+                            image="https://food.fnr.sndimg.com/content/dam/images/food/fullset/2020/07/14/0/FNK_AIR-FRYER-FRIED-OREOS_H-f_s4x3.jpg.rend.hgtvcom.616.493.suffix/1594743965661.jpeg"
+                            name="Deep-Fried Oreos"
                             time="20"
                             ingredient="10"
                         />
                         <br></br>
                         <Food
-                            image="https://i-giadinh.vnecdn.net/2022/05/18/Thanh-pham-1-1-8291-1652849613.jpg"
-                            name="Chả lá lốt"
+                            image="https://pinchofyum.com/wp-content/uploads/Sesame-Noodles-with-Chicken-Square.jpg"
+                            name="Sesame Noodles"
                             time="20"
                             ingredient="10"
                         />
@@ -84,15 +84,105 @@ const MealDetail = () => {
                     <div className='title'>
                         <h4>Dinner</h4>
                         <Food
-                            image="https://cdn.tgdd.vn/2020/08/CookProduct/ava-1200x676-51.jpg"
-                            name="Rau bí xào thịt bò"
+                            image="https://girlscangrill.com/wp-content/uploads/2022/07/turkey-legs-hero.jpg"
+                            name="Grilled Turkey Legs"
                             time="20"
                             ingredient="10"
                         />
                     </div>
                 </div>
                 <div className='ingredient'>
-                    Shopping List
+
+                    <div className="ingredients">
+                        <h4>Shopping List</h4>
+                        <div className="custom-control custom-checkbox">
+                            <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id="customCheck1"
+                            />
+                            <label className="custom-control-label" htmlFor="customCheck1">
+                                4 Tbsp (57 gr) butter
+                            </label>
+                        </div>
+
+                        <div className="custom-control custom-checkbox">
+                            <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id="customCheck2"
+                            />
+                            <label className="custom-control-label" htmlFor="customCheck2">
+                                2 large eggs
+                            </label>
+                        </div>
+
+                        <div className="custom-control custom-checkbox">
+                            <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id="customCheck3"
+                            />
+                            <label className="custom-control-label" htmlFor="customCheck3">
+                                2 yogurt containers granulated sugar
+                            </label>
+                        </div>
+
+                        <div className="custom-control custom-checkbox">
+                            <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id="customCheck4"
+                            />
+                            <label className="custom-control-label" htmlFor="customCheck4">
+                                1 vanilla or plain yogurt, 170g container
+                            </label>
+                        </div>
+
+                        <div className="custom-control custom-checkbox">
+                            <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id="customCheck5"
+                            />
+                            <label className="custom-control-label" htmlFor="customCheck5">
+                                2 yogurt containers unbleached white flour
+                            </label>
+                        </div>
+
+                        <div className="custom-control custom-checkbox">
+                            <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id="customCheck6"
+                            />
+                            <label className="custom-control-label" htmlFor="customCheck6">
+                                1.5 yogurt containers milk
+                            </label>
+                        </div>
+
+                        <div className="custom-control custom-checkbox">
+                            <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id="customCheck7"
+                            />
+                            <label className="custom-control-label" htmlFor="customCheck7">
+                                1/4 tsp cinnamon
+                            </label>
+                        </div>
+
+                        <div className="custom-control custom-checkbox">
+                            <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id="customCheck8"
+                            />
+                            <label className="custom-control-label" htmlFor="customCheck8">
+                                1 cup fresh blueberries{' '}
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </Fragment>
