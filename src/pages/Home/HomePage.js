@@ -18,7 +18,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 const HomePage = () => {
     const dispatch = useDispatch()
     const getAllRecipesAPI = useSelector((state) => state.getAllRecipes.data)
-    console.log(getAllRecipesAPI.data)
+
     const isLoading = useSelector((state) => state.getAllRecipes.isLoading)
     const error = useSelector((state) => state.getAllRecipes.error)
     useEffect(() => {
@@ -38,54 +38,53 @@ const HomePage = () => {
             <h1 className="title-recipes">Best Recipes</h1>
             <section className="best-receipe-area">
                 <div className="container">
-                    {getAllRecipesAPI.data &&
-                    getAllRecipesAPI.data.aveVote > 4 &&
-                    getAllRecipesAPI.data.totalFavorite > 1000 ? (
+                    {getAllRecipesAPI.data ? (
                         <div className="row mt-5">
-                            {getAllRecipesAPI.data.map(
-                                (bestRecipe) =>
-                                    bestRecipe.aveVote > 4 &&
-                                    bestRecipe.totalFavorite > 1000 && (
-                                        <div className="col-12 col-sm-6 col-lg-4">
-                                            <Link to="/recipe-detail">
-                                                <div className="single-best-receipe-area mb-30">
-                                                    <img src={bestImg} alt="" />
-                                                    <div className="receipe-content">
-                                                        <Link to="/recipe-detail">
-                                                            <h5>Sushi Easy Receipy</h5>
-                                                        </Link>
-                                                        <Rating
-                                                            name="read-only"
-                                                            value={bestRecipe.aveVote}
-                                                            readOnly
-                                                            size="small"
-                                                        />
-                                                        <CardContent>
-                                                            <Typography
-                                                                variant="body3"
-                                                                color="text.secondary"
-                                                                style={{
-                                                                    display: 'flex',
-                                                                    alignItems: 'center',
-                                                                    justifyContent: 'center',
-                                                                }}
-                                                            >
-                                                                {bestRecipe.totalFavorite}
-                                                                &nbsp; &nbsp; &nbsp; &nbsp;
-                                                                <FavoriteBorderIcon />
-                                                            </Typography>
-                                                        </CardContent>
+                            {getAllRecipesAPI.data &&
+                                getAllRecipesAPI.data.map(
+                                    (bestRecipe) =>
+                                        bestRecipe.aveVote > 4 &&
+                                        bestRecipe.totalFavorite > 1 && (
+                                            <div className="col-12 col-sm-6 col-lg-4">
+                                                <Link to="/recipe-detail">
+                                                    <div className="single-best-receipe-area mb-30">
+                                                        <img src={bestImg} alt="" />
+                                                        <div className="receipe-content">
+                                                            <Link to="/recipe-detail">
+                                                                <h5>Sushi Easy Receipy</h5>
+                                                            </Link>
+                                                            <Rating
+                                                                name="read-only"
+                                                                value={bestRecipe.aveVote}
+                                                                readOnly
+                                                                size="small"
+                                                            />
+                                                            <CardContent>
+                                                                <Typography
+                                                                    variant="body3"
+                                                                    color="text.secondary"
+                                                                    style={{
+                                                                        display: 'flex',
+                                                                        alignItems: 'center',
+                                                                        justifyContent: 'center',
+                                                                    }}
+                                                                >
+                                                                    {bestRecipe.totalFavorite}
+                                                                    &nbsp; &nbsp; &nbsp; &nbsp;
+                                                                    <FavoriteBorderIcon />
+                                                                </Typography>
+                                                            </CardContent>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </Link>
-                                        </div>
-                                    )
-                            )}
+                                                </Link>
+                                            </div>
+                                        )
+                                )}
                         </div>
                     ) : (
                         <div className="row mt-5">
                             <div className="col-12 col-sm-12 col-lg-12">
-                                There are currently no likes and favorites
+                                There are currently no likes and reviews
                             </div>
                         </div>
                     )}
