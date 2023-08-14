@@ -19,6 +19,7 @@ import { Block } from '@mui/icons-material'
 
 const RecipeDetail = () => {
     const { id } = useParams()
+    // fix getRecipeById
     const dispatch = useDispatch()
     const getAllRecipesAPI = useSelector((state) => state.getAllRecipes.data)
     const recipeDetail =
@@ -119,8 +120,9 @@ const RecipeDetail = () => {
                                     <div className="ratings">
                                         <Rating
                                             name="read-only"
-                                            value={recipeDetail.aveVote}
+                                            value={3.5}
                                             readOnly
+                                            precision={0.5}
                                             size="small"
                                             sx={{ mt: 2 }}
                                         />
@@ -199,7 +201,7 @@ const RecipeDetail = () => {
                     </div>
                     <div className="container">
                         <div className="row">
-                            <div className="col-12 col-lg-8">
+                            {/* <div className="col-12 col-lg-8">
                                 {recipeDetail &&
                                     recipeDetail.directionVMs
                                         .slice()
@@ -213,25 +215,101 @@ const RecipeDetail = () => {
                                                 <p>{step.directionsDesc}</p>
                                             </div>
                                         ))}
+                            </div> */}
+
+                            <div className="col-12 col-lg-8">
+                                <div className="single-preparation-step d-flex">
+                                    <h4>01.</h4>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                                        do eiusmod tempor incididunt ut labore et dolore magna
+                                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                        ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        Duis aute irure dolor in reprehenderit in voluptate velit
+                                        esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                                        occaecat cupidatat non proident, sunt in culpa qui officia
+                                        deserunt mollit anim id est laborum.
+                                    </p>
+                                </div>
+                                <div className="single-preparation-step d-flex">
+                                    <h4>02.</h4>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                                        do eiusmod tempor incididunt ut labore et dolore magna
+                                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                        ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        Duis aute irure dolor in reprehenderit in voluptate velit
+                                        esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                                        occaecat cupidatat non proident, sunt in culpa qui officia
+                                        deserunt mollit anim id est laborum.
+                                    </p>
+                                </div>
+                                <div className="single-preparation-step d-flex">
+                                    <h4>03.</h4>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                                        do eiusmod tempor incididunt ut labore et dolore magna
+                                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                        ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        Duis aute irure dolor in reprehenderit in voluptate velit
+                                        esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                                        occaecat cupidatat non proident, sunt in culpa qui officia
+                                        deserunt mollit anim id est laborum.
+                                    </p>
+                                </div>
+                                <div className="single-preparation-step d-flex">
+                                    <h4>04.</h4>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                                        do eiusmod tempor incididunt ut labore et dolore magna
+                                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                        ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        Duis aute irure dolor in reprehenderit in voluptate velit
+                                        esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                                        occaecat cupidatat non proident, sunt in culpa qui officia
+                                        deserunt mollit anim id est laborum.
+                                    </p>
+                                </div>
+                                <div className="single-preparation-step d-flex">
+                                    <h4>05.</h4>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                                        do eiusmod tempor incididunt ut labore et dolore magna
+                                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                        ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        Duis aute irure dolor in reprehenderit in voluptate velit
+                                        esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                                        occaecat cupidatat non proident, sunt in culpa qui officia
+                                        deserunt mollit anim id est laborum.
+                                    </p>
+                                </div>
+                                <div className="single-preparation-step d-flex">
+                                    <h4>06.</h4>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                                        do eiusmod tempor incididunt ut labore et dolore magna
+                                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                        ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        Duis aute irure dolor in reprehenderit in voluptate velit
+                                        esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                                        occaecat cupidatat non proident, sunt in culpa qui officia
+                                        deserunt mollit anim id est laborum.
+                                    </p>
+                                </div>
                             </div>
 
                             <div className="col-12 col-lg-4">
                                 <div className="ingredients">
-                                    <h4>Ingredients</h4>
+                                    <h4 style={{ color: '#f39c12' }}>Ingredients</h4>
                                     {recipeDetail &&
                                         recipeDetail.ingredientOfRecipeVMs.map((ingredient) => (
-                                            <div
-                                                className="custom-control custom-checkbox"
-                                                key={ingredient.ingredientId}
-                                            >
-                                                <input
-                                                    type="checkbox"
-                                                    className="custom-control-input"
-                                                    id="customCheck1"
-                                                />
+                                            <div key={ingredient.ingredientId}>
                                                 <label
-                                                    className="custom-control-label"
-                                                    htmlFor="customCheck1"
+                                                    style={{
+                                                        fontWeight: 700,
+                                                        marginTop: 10,
+                                                        marginBottom: 10,
+                                                    }}
                                                 >
                                                     {ingredient.description}
                                                 </label>
@@ -245,6 +323,9 @@ const RecipeDetail = () => {
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12 mt-5 pt-5">
+                                <div className="text-left">
+                                    <h3 style={{ color: '#f39c12' }}>Reviews</h3>
+                                </div>
                                 {recipeDetail &&
                                     recipeDetail.reviewVMs.map((rating) => (
                                         <>
@@ -252,9 +333,6 @@ const RecipeDetail = () => {
                                                 key={rating.reviewId}
                                                 className="rating-recipeDetail"
                                             >
-                                                <div className="text-left">
-                                                    <h3 style={{ color: '#f39c12' }}>Reviews</h3>
-                                                </div>
                                                 <div className="contact-form-area">
                                                     <form
                                                         action="#"

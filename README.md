@@ -37,7 +37,7 @@ Project use:
 
 [ERD Physic](https://lucid.app/lucidchart/4eebda42-b342-4ebd-a64f-a4b2c29a9efe/edit?invitationId=inv_90622ee1-6824-4462-9a21-8e4f3bc99e4e&fbclid=IwAR1beKUmZs8WQsZ9Yn1gNh-7g91zpFr0Rr3tasT8nVRaJbS4qWMQbew2yzE&page=0_0#)
 
-## Website of project
+## Deploy project
 
 [Recipe Organizer](https://recipe-organizer-swp391.web.app/)
 

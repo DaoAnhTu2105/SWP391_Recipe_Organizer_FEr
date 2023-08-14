@@ -14,6 +14,8 @@ import Settings from '@mui/icons-material/Settings'
 import Logout from '@mui/icons-material/Logout'
 import { useNavigate, Link } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
+import Button from '@mui/material/Button';
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 
 const Header = () => {
     const [cookies, setCookie, removeCookie] = useCookies(['user'])
@@ -29,13 +31,12 @@ const Header = () => {
     }
     const handleLogout = () => {
         removeCookie('user')
-        navigate('/login')
     }
     return (
         <header className="header-area fixed-top">
             <div className="delicious-main-menu">
-                <div className="classy-nav-container breakpoint-off">
-                    <div className="container">
+                <div className="classy-nav-container breakpoint-off align-items-center">
+                    <div className="container ">
                         <nav className="classy-navbar justify-content-between" id="deliciousNav">
                             <Link className="nav-brand" to="/">
                                 <img src={imgLogo} alt="" />
@@ -47,9 +48,7 @@ const Header = () => {
                                         <li className="active">
                                             <Link to="/">Home</Link>
                                         </li>
-                                        <li>
-                                            <Link to="/create-recipe">Create Recipe</Link>
-                                        </li>
+
                                         <li>
                                             <Link to="/favorite-recipe">Favorite Receipies</Link>
                                         </li>
@@ -97,6 +96,7 @@ const Header = () => {
                                                         open={open}
                                                         onClose={handleClose}
                                                         onClick={handleClose}
+
                                                         PaperProps={{
                                                             elevation: 0,
                                                             sx: {
@@ -133,8 +133,12 @@ const Header = () => {
                                                             vertical: 'bottom',
                                                         }}
                                                     >
-                                                        <MenuItem onClick={handleClose}>
-                                                            <Avatar /> Profile
+                                                        <MenuItem onClick={handleClose} >
+                                                            <Link to="/profile" style={{ display: "flex" }} >
+                                                                <Avatar />
+                                                                <Typography variant='h6' sx={{ fontSize: "20px" }}>Profile</Typography>
+                                                            </Link>
+
                                                         </MenuItem>
                                                         <MenuItem onClick={handleClose}>
                                                             <Avatar /> My account
@@ -142,19 +146,22 @@ const Header = () => {
                                                         <Divider />
                                                         <MenuItem
                                                             onClick={handleClose}
-                                                            style={{ alignContent: 'center' }}
+
                                                         >
                                                             <Link
                                                                 to={'/create-recipe'}
                                                                 style={{
+                                                                    alignContent: 'center',
                                                                     textDecoration: 'none',
                                                                     color: 'inherit',
+                                                                    display: "flex"
                                                                 }}
                                                             >
                                                                 <ListItemIcon>
                                                                     <PersonAdd fontSize="small" />
+
                                                                 </ListItemIcon>
-                                                                <Typography>Add recipe</Typography>
+                                                                <Typography variant='h6' fontSize={20}>Add recipe</Typography>
                                                             </Link>
                                                         </MenuItem>
                                                         <MenuItem onClick={handleClose}>
@@ -164,15 +171,17 @@ const Header = () => {
                                                             Settings
                                                         </MenuItem>
                                                         <MenuItem onClick={handleLogout}>
-                                                            <ListItemIcon>
-                                                                <Logout fontSize="small" />
+                                                            <ListItemIcon >
+                                                                <a style={{display:"flex"}} href="/login"> <Logout fontSize="small" />  <Typography  variant='h6' sx={{paddingLeft:"10px", fontSize: "20px" }}>Logout</Typography></a>
+
                                                             </ListItemIcon>
-                                                            Logout
+
                                                         </MenuItem>
                                                     </Menu>
+
                                                 </>
                                             ) : (
-                                                <Link to="/login">Login</Link>
+                                                <a href="/login">Login</a>
                                             )}
                                         </li>
                                     </ul>
