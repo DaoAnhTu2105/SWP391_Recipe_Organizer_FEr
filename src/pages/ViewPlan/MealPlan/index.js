@@ -241,7 +241,7 @@ export default function MealPlan() {
                     {meal.food.map((meal) => (
                         <div className="item">
                             {meal.breakfast.map((food) => {
-                                if (food.food.length !== 0) {
+                                if (food.food.length !== 0) { 
                                     return (
                                         <Food
                                             foodName={food.food}
