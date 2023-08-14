@@ -5,7 +5,7 @@ import Link from '@mui/material/Link'
 
 const Footer = () => {
     return (
-        <div style={{ borderTop: '1px solid #eee' }}>
+        <div style={{ borderTop: '1px solid #eee', backgroundColor: '#eee' }}>
             <div class="container" >
                 <footer class="py-5 footer-container">
                     <div class="footer-component">
@@ -53,7 +53,7 @@ const Footer = () => {
                 </footer>
 
             </div>
-            <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top container">
+            <div class="d-flex flex-column flex-sm-row justify-content-between py-4 border-top container">
                 <p>© 2022 Company, Inc. All rights reserved.</p>
                 <ul class="list-unstyled d-flex">
                     <Link to="https://www.facebook.com/" color="inherit">
