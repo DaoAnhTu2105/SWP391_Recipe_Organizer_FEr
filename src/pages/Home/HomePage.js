@@ -49,7 +49,7 @@ const HomePage = () => {
                                                 className="col-12 col-sm-6 col-lg-4"
                                                 key={bestRecipe.recipeId}
                                             >
-                                                <Link to="/recipe-detail">
+                                                <Link to={`/recipe-detail/${bestRecipe.recipeId}`}>
                                                     <div className="single-best-receipe-area mb-30">
                                                         <img src={bestImg} alt="" />
                                                         <div className="receipe-content">
@@ -73,7 +73,7 @@ const HomePage = () => {
                                                                     }}
                                                                 >
                                                                     {bestRecipe.totalFavorite}
-                                                                    &nbsp; &nbsp; &nbsp; &nbsp;
+                                                                    &nbsp; &nbsp;
                                                                     <FavoriteBorderIcon />
                                                                 </Typography>
                                                             </CardContent>
