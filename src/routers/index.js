@@ -77,7 +77,7 @@ export const publicRouters = [
         path: '/meal-detail',
         name: 'meal-detail',
         component: MealDetail,
-        layout: LayoutWithoutFilter
+        layout: LayoutWithoutFilter,
     },
 ]
 
