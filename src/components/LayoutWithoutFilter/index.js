@@ -1,7 +1,6 @@
 import React from 'react'
 import Header from '../Header/Header'
-import Footer from '../Footer'
-import Search from '../Search/Search'
+import Footer from '../Footer/Footer'
 
 const DefaultLayout = ({ children }) => {
     return (
