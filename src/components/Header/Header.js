@@ -31,7 +31,6 @@ const Header = () => {
     }
     const handleLogout = () => {
         removeCookie('user')
-        navigate('/login')
     }
     return (
         <header className="header-area fixed-top">
