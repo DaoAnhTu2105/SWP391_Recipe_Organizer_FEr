@@ -520,8 +520,9 @@ pre code {
 }
 @media (min-width: 1200px) {
     .container {
-        max-width: 1275px;
-        min-height: 350px;
+        /* max-width: 1200px;
+        min-height: 350px; */
+        max-width: 1250px;
     }
 }
 .container-fluid {
