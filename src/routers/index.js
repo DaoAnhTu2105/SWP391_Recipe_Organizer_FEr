@@ -13,6 +13,7 @@ import NotFound from '../pages/NotFound'
 import RecipeDetail from '../pages/RecipeDetail/RecipeDetail'
 import MealDetail from '../pages/MealDetail'
 import LayoutWithoutFilter from '../components/LayoutWithoutFilter'
+import Profile from '../pages/Profile'
 
 export const publicRouters = [
     {
@@ -48,6 +49,7 @@ export const publicRouters = [
         path: '/favorite-recipe',
         name: 'favorite-recipe',
         component: FavoriteRecipe,
+        layout: LayoutWithoutFilter,
     },
     {
         path: '/register',
@@ -77,6 +79,12 @@ export const publicRouters = [
         path: '/meal-detail',
         name: 'meal-detail',
         component: MealDetail,
+        layout: LayoutWithoutFilter,
+    },
+    {
+        path: '/profile',
+        name: 'use-profile',
+        component: Profile,
         layout: LayoutWithoutFilter,
     },
 ]
