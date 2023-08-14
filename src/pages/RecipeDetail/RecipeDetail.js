@@ -7,17 +7,11 @@ import 'swiper/css/navigation'
 // import required modules
 import { Navigation } from 'swiper/modules'
 import { Link } from 'react-router-dom'
-import {
-    Button,
-    Rating,
-    Box,
-    ButtonGroup,
-    List,
-    ListItem,
-    ListItemText,
-    Divider,
-} from '@mui/material'
+import { Button, Rating, Box, List, ListItem, ListItemText, Divider } from '@mui/material'
 import { useState } from 'react'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import ShareIcon from '@mui/icons-material/Share'
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
 // import { useParams } from 'react-router-dom'
 // import { useDispatch } from 'react-redux'
 // import { useSelector } from 'react-redux'
@@ -61,34 +55,6 @@ const RecipeDetail = () => {
                 </div>
             </div>
 
-            <Swiper
-                navigation={true}
-                modules={[Navigation]}
-                className="mySwiper"
-                style={{ width: '900px', height: '400px' }}
-            >
-                <SwiperSlide>
-                    <img
-                        style={{ width: '900px', height: '500px' }}
-                        src="https://static.onecms.io/wp-content/uploads/sites/43/2022/02/16/21014-Good-old-Fashioned-Pancakes-mfs_001.jpg"
-                        alt=""
-                    />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <img
-                        style={{ width: '900px', height: '500px' }}
-                        src="https://www.allrecipes.com/thmb/DZ5WtIe2s6rGk-rIEZDkMA6mGj4=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7568285-perfect-pancakes-KH-4x3-218e2c39174c4a2293fca0ab752b38a8.jpg"
-                        alt=""
-                    />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <img
-                        style={{ width: '900px', height: '500px' }}
-                        src="https://www.kingarthurbaking.com/sites/default/files/styles/featured_image/public/recipe_legacy/48-3-large.jpg?itok=inlusIOg"
-                        alt=""
-                    />
-                </SwiperSlide>
-            </Swiper>
             {/* <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
                 {recipeDetail &&
                     recipeDetail.photoVMs.map((photo) => (
@@ -419,9 +385,19 @@ const RecipeDetail = () => {
                 <div className="container-fluid" style={{ paddingLeft: 200, paddingRight: 150 }}>
                     <div className="row d-flex justify-content-between">
                         <div className="col-md-8">
-                            <div className="receipe-headline my-5">
+                            <div className="my-5">
                                 <span>Updated on 2/8/2023</span>
                                 <h2>Perfect Pancakes</h2>
+                                <div className="ratings">
+                                    <Rating
+                                        name="read-only"
+                                        value={5}
+                                        readOnly
+                                        precision={0.5}
+                                        size="large"
+                                        sx={{ mt: 2 }}
+                                    />
+                                </div>
                                 <p>
                                     Recipe by &nbsp;
                                     <Link
@@ -431,97 +407,68 @@ const RecipeDetail = () => {
                                         Darnell Ferguson
                                     </Link>
                                 </p>
-                                <div className="receipe-duration">
-                                    <h6>Prep Time: 5 mins</h6>
-                                    <h6>Cook Time: 20 mins</h6>
-                                    <h6>Stand Time: 3 mins</h6>
-                                    <h6>Total Time: 28 mins</h6>
-                                    <h6>Yields: 6</h6>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-md-4 my-5">
-                            <div className="receipe-ratings text-right">
-                                <div className="ratings">
-                                    <Rating
-                                        name="read-only"
-                                        value={5}
-                                        readOnly
-                                        precision={0.5}
-                                        size="small"
-                                        sx={{ mt: 2 }}
-                                    />
-                                </div>
                                 <Button
-                                    size="large"
+                                    size="medium"
                                     style={{
                                         color: 'white',
                                         backgroundColor: '#f39c12',
                                         outline: 'none',
                                     }}
                                 >
-                                    Add to Favorite
+                                    <FavoriteBorderIcon /> &nbsp; Save
                                 </Button>
+                                &nbsp;
+                                <Button
+                                    size="medium"
+                                    style={{
+                                        color: 'white',
+                                        backgroundColor: '#f39c12',
+                                        outline: 'none',
+                                    }}
+                                >
+                                    <ShareIcon /> &nbsp; Share
+                                </Button>
+                                <div className="receipe-headline my-5">
+                                    <div className="receipe-duration">
+                                        <h6>Prep Time: 5 mins</h6>
+                                        <h6>Cook Time: 20 mins</h6>
+                                        <h6>Stand Time: 3 mins</h6>
+                                        <h6>Total Time: 28 mins</h6>
+                                        <h6>Yields: 6</h6>
+                                    </div>
+                                </div>
                             </div>
-                            <Box
-                                size="large"
-                                sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    outline: 'none',
-                                    alignItems: 'center',
-                                    '& > *': {
-                                        m: 1,
-                                    },
-                                }}
-                                style={{ marginLeft: 165, marginTop: 30 }}
-                            >
-                                <ButtonGroup variant="outlined" aria-label="outlined button group">
-                                    <Button
-                                        sx={{
-                                            color: '#f39c12',
-                                            borderColor: '#f39c12',
-                                            outline: 'none',
-                                            '&:hover': {
-                                                backgroundColor: '#f39c12',
-                                                color: 'white',
-                                            },
-                                        }}
-                                    >
-                                        Save
-                                    </Button>
-                                    <Button
-                                        sx={{
-                                            color: '#f39c12',
-                                            borderColor: '#f39c12',
-                                            outline: 'none',
-                                            '&:hover': {
-                                                backgroundColor: '#f39c12',
-                                                color: 'white',
-                                            },
-                                        }}
-                                    >
-                                        Rate
-                                    </Button>
-                                    <Button
-                                        sx={{
-                                            color: '#f39c12',
-                                            borderColor: '#f39c12',
-                                            outline: 'none',
-                                            '&:hover': {
-                                                backgroundColor: '#f39c12',
-                                                color: 'white',
-                                            },
-                                        }}
-                                    >
-                                        Share
-                                    </Button>
-                                </ButtonGroup>
-                            </Box>
                         </div>
                     </div>
                 </div>
+                <Swiper
+                    navigation={true}
+                    modules={[Navigation]}
+                    className="mySwiper"
+                    style={{ width: '900px', height: '400px', marginBottom: 20 }}
+                >
+                    <SwiperSlide>
+                        <img
+                            style={{ width: '900px', height: '500px' }}
+                            src="https://static.onecms.io/wp-content/uploads/sites/43/2022/02/16/21014-Good-old-Fashioned-Pancakes-mfs_001.jpg"
+                            alt=""
+                        />
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <img
+                            style={{ width: '900px', height: '500px' }}
+                            src="https://www.allrecipes.com/thmb/DZ5WtIe2s6rGk-rIEZDkMA6mGj4=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7568285-perfect-pancakes-KH-4x3-218e2c39174c4a2293fca0ab752b38a8.jpg"
+                            alt=""
+                        />
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <img
+                            style={{ width: '900px', height: '500px' }}
+                            src="https://www.kingarthurbaking.com/sites/default/files/styles/featured_image/public/recipe_legacy/48-3-large.jpg?itok=inlusIOg"
+                            alt=""
+                        />
+                    </SwiperSlide>
+                </Swiper>
                 <div className="container">
                     <div className="row">
                         <div className="col-12 col-lg-12 ml-5 mb-5">
@@ -1002,12 +949,17 @@ const RecipeDetail = () => {
                             <div className="rating-recipeDetail">
                                 <div className="contact-form-area">
                                     <form action="#" method="post" style={{ width: 750 }}>
-                                        <Rating
-                                            readOnly
-                                            name="size-large"
-                                            defaultValue={5}
-                                            size="large"
-                                        />
+                                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                            <PersonOutlineIcon size="medium" />
+                                            &nbsp;
+                                            <Rating
+                                                readOnly
+                                                name="size-large"
+                                                defaultValue={5}
+                                                size="small"
+                                            />
+                                        </Box>
+
                                         <div className="row">
                                             <div className="col-12 col-lg-6">
                                                 <input
