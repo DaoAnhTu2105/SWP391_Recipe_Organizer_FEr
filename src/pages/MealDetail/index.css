@@ -47,5 +47,6 @@
 .meal-detail .ingredient {
     flex: 1;
     padding: 20px;
+    height: fit-content;
     border: 1px solid #e6e6e6;
 }
