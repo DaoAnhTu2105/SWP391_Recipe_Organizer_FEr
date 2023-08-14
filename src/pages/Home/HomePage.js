@@ -1,10 +1,3 @@
-import img1 from '../../img/bg-img/r1.jpg'
-import img2 from '../../img/bg-img/r2.jpg'
-import img3 from '../../img/bg-img/r3.jpg'
-import img4 from '../../img/bg-img/r4.jpg'
-import img5 from '../../img/bg-img/r5.jpg'
-import img6 from '../../img/bg-img/r6.jpg'
-
 import * as React from 'react'
 import Card from '@mui/material/Card'
 import CardMedia from '@mui/material/CardMedia'
@@ -14,12 +7,12 @@ import Typography from '@mui/material/Typography'
 // import FavoriteIcon from "@mui/icons-material/Favorite";
 // import ShareIcon from "@mui/icons-material/Share";
 import Rating from '@mui/material/Rating'
-import bestImg from '../../img/bg-img/r1.jpg'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { fetchDataAsync } from '../../redux/reducers/getAllDataRecipes'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import { Button } from '@mui/material'
 
 const HomePage = () => {
     const dispatch = useDispatch()
@@ -106,11 +99,11 @@ const HomePage = () => {
                                 <div className="receipe-content">
                                     <img
                                         style={{ maxWidth: 400, height: 300 }}
-                                        src="https://www.allrecipes.com/thmb/ClVUDKHEixA1Fu6kzjronzJcInc=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/1034561-empanadas-beef-turnovers-Janet-Henderson-4x3-1-a658a394cfc34f54b1ca408bc931f007.jpg"
-                                        alt="Empanadas (Beef Turnovers)"
+                                        src="https://www.allrecipes.com/thmb/DZ5WtIe2s6rGk-rIEZDkMA6mGj4=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7568285-perfect-pancakes-KH-4x3-218e2c39174c4a2293fca0ab752b38a8.jpg"
+                                        alt="Perfect Pancakes"
                                     />
                                     <Link to="/recipe-detail">
-                                        <h5>Empanadas (Beef Turnovers)</h5>
+                                        <h5 className="mt-3">Perfect Pancakes</h5>
                                     </Link>
                                     <Rating name="read-only" value={5} readOnly size="small" />
                                     <CardContent>
@@ -123,9 +116,21 @@ const HomePage = () => {
                                                 justifyContent: 'center',
                                             }}
                                         >
-                                            {1200}
+                                            {2000}
                                             &nbsp; &nbsp;
-                                            <FavoriteBorderIcon />
+                                            <Button
+                                                style={{
+                                                    backgroundColor: 'white',
+                                                    width: '40px',
+                                                    height: '40px',
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                    outline: 'none',
+                                                }}
+                                            >
+                                                <FavoriteBorderIcon style={{ color: 'orange' }} />
+                                            </Button>
                                         </Typography>
                                     </CardContent>
                                 </div>
@@ -145,7 +150,7 @@ const HomePage = () => {
                                         alt="Chef John's Perfect Prime Rib"
                                     />
                                     <Link to="/recipe-detail">
-                                        <h5>Chef John's Perfect Prime Rib</h5>
+                                        <h5 className="mt-3">Chef John's Perfect Prime Rib</h5>
                                     </Link>
                                     <Rating name="read-only" value={5} readOnly size="small" />
                                     <CardContent>
@@ -180,7 +185,7 @@ const HomePage = () => {
                                         alt="Chicken Al Pastor"
                                     />
                                     <Link to="/recipe-detail">
-                                        <h5>Chicken Al Pastor</h5>
+                                        <h5 className="mt-3">Chicken Al Pastor</h5>
                                     </Link>
                                     <Rating name="read-only" value={5} readOnly size="small" />
                                     <CardContent>
@@ -250,13 +255,13 @@ const HomePage = () => {
                 <div className="container">
                     <div className="row justify-content-center">
                         <div className="col-sm-4 mb-4">
-                            <Link to={``}>
+                            <Link to="/recipe-detail">
                                 <Card style={{ width: 345, maxHeight: 470 }}>
                                     <CardMedia
                                         component="img"
                                         style={{ width: 350, height: 194 }}
-                                        image={img1}
-                                        alt={img1}
+                                        image="https://www.allrecipes.com/thmb/DZ5WtIe2s6rGk-rIEZDkMA6mGj4=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7568285-perfect-pancakes-KH-4x3-218e2c39174c4a2293fca0ab752b38a8.jpg"
+                                        alt="Perfect Pancakes"
                                     />
 
                                     <Rating
@@ -269,19 +274,45 @@ const HomePage = () => {
 
                                     <CardContent>
                                         <Typography variant="body2" color="text.secondary">
-                                            Cuban Ropa Vieja
+                                            Perfect Pancakes
                                         </Typography>
                                     </CardContent>
                                 </Card>
                             </Link>
                         </div>
                         <div className="col-sm-4 mb-4">
-                            <Link to={``}>
+                            <Link to="/recipe-detail">
                                 <Card style={{ width: 345, maxHeight: 470 }}>
                                     <CardMedia
                                         component="img"
                                         style={{ width: 350, height: 194 }}
-                                        image={img2}
+                                        image="https://www.allrecipes.com/thmb/iWAZgeqnbQCmeuFuzhHo4i93d3U=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7567945_One-Pan-Tex-Mex-Pork-Chops-and-Rice_Bibi_4x3-1afe62d1afbc409c8203057ff55f306d.jpg"
+                                        alt="Tex-Mex Pork Chops and Rice Skillet"
+                                    />
+
+                                    <Rating
+                                        name="read-only"
+                                        value={4}
+                                        readOnly
+                                        size="small"
+                                        sx={{ mt: 2 }}
+                                    />
+
+                                    <CardContent>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Tex-Mex Pork Chops and Rice Skillet
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            </Link>
+                        </div>
+                        <div className="col-sm-4 mb-4">
+                            <Link to="/recipe-detail">
+                                <Card style={{ width: 345, maxHeight: 470 }}>
+                                    <CardMedia
+                                        component="img"
+                                        style={{ width: 350, height: 194 }}
+                                        image="https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimages.media-allrecipes.com%2Fuserphotos%2F8370989.jpg&q=60&c=sc&orient=true&poi=auto&h=512"
                                         alt="Slow Cooker Buffalo Chicken Sandwiches"
                                     />
 
@@ -302,12 +333,12 @@ const HomePage = () => {
                             </Link>
                         </div>
                         <div className="col-sm-4 mb-4">
-                            <Link to={``}>
+                            <Link to="/recipe-detail">
                                 <Card style={{ width: 345, maxHeight: 470 }}>
                                     <CardMedia
                                         component="img"
                                         style={{ width: 350, height: 194 }}
-                                        image={img3}
+                                        image="https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimages.media-allrecipes.com%2Fuserphotos%2F9429606.jpg&q=60&c=sc&orient=true&poi=auto&h=512"
                                         alt="Slow Cooker Mac and Cheese"
                                     />
 
@@ -328,12 +359,12 @@ const HomePage = () => {
                             </Link>
                         </div>
                         <div className="col-sm-4 mb-4">
-                            <Link to={``}>
+                            <Link to="/recipe-detail">
                                 <Card style={{ width: 345, maxHeight: 470 }}>
                                     <CardMedia
                                         component="img"
                                         style={{ width: 350, height: 194 }}
-                                        image={img4}
+                                        image="https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimages.media-allrecipes.com%2Fuserphotos%2F2280317.jpg&q=60&c=sc&orient=true&poi=auto&h=512"
                                         alt="Fiesta Slow Cooker Shredded Chicken Tacos"
                                     />
 
@@ -354,12 +385,12 @@ const HomePage = () => {
                             </Link>
                         </div>
                         <div className="col-sm-4 mb-4">
-                            <Link to={``}>
+                            <Link to="/recipe-detail">
                                 <Card style={{ width: 345, maxHeight: 470 }}>
                                     <CardMedia
                                         component="img"
                                         style={{ width: 350, height: 194 }}
-                                        image={img5}
+                                        image="https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fpublic-assets.meredithcorp.io%2Fcd7e43dfe39ceddc5531ac8e027df87b%2F16539182105f8afb602cda5.image.jpg&q=60&c=sc&orient=true&poi=auto&h=512"
                                         alt="Deep-Fried Oreos"
                                     />
 
@@ -380,12 +411,12 @@ const HomePage = () => {
                             </Link>
                         </div>
                         <div className="col-sm-4 mb-4">
-                            <Link to={``}>
+                            <Link to="/recipe-detail">
                                 <Card style={{ width: 345, maxHeight: 470 }}>
                                     <CardMedia
                                         component="img"
                                         style={{ width: 350, height: 194 }}
-                                        image={img6}
+                                        image="https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fpublic-assets.meredithcorp.io%2F5dafa42cae05f8e2ee0f937128bfc67c%2F167794965825420230302_201611.jpg&q=60&c=sc&orient=true&poi=auto&h=512"
                                         alt="Sloppy Joes"
                                     />
 
@@ -400,32 +431,6 @@ const HomePage = () => {
                                     <CardContent>
                                         <Typography variant="body2" color="text.secondary">
                                             Sloppy Joes
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
-                            </Link>
-                        </div>
-                        <div className="col-sm-4 mb-4">
-                            <Link to={``}>
-                                <Card style={{ width: 345, maxHeight: 470 }}>
-                                    <CardMedia
-                                        component="img"
-                                        style={{ width: 350, height: 194 }}
-                                        image="https://www.allrecipes.com/thmb/DZ5WtIe2s6rGk-rIEZDkMA6mGj4=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7568285-perfect-pancakes-KH-4x3-218e2c39174c4a2293fca0ab752b38a8.jpg"
-                                        alt="Perfect Pancakes"
-                                    />
-
-                                    <Rating
-                                        name="read-only"
-                                        value={4}
-                                        readOnly
-                                        size="small"
-                                        sx={{ mt: 2 }}
-                                    />
-
-                                    <CardContent>
-                                        <Typography variant="body2" color="text.secondary">
-                                            Perfect Pancakes
                                         </Typography>
                                     </CardContent>
                                 </Card>

@@ -67,8 +67,14 @@ export const publicRouters = [
         component: ViewPlan,
         layout: LayoutWithoutFilter,
     },
+    // {
+    //     path: '/recipe-detail/:id',
+    //     name: 'recipe-detail',
+    //     component: RecipeDetail,
+    //     layout: LayoutWithoutFilter,
+    // },
     {
-        path: '/recipe-detail/:id',
+        path: '/recipe-detail',
         name: 'recipe-detail',
         component: RecipeDetail,
         layout: LayoutWithoutFilter,
