@@ -165,15 +165,20 @@ const Header = () => {
                                                             </Link>
                                                         </MenuItem>
                                                         <MenuItem onClick={handleClose}>
-                                                            <ListItemIcon>
-                                                                <Settings fontSize="small" />
-                                                            </ListItemIcon>
-                                                            Settings
+                                                            <Link to="/favorite-recipe" style={{ display: "flex" }}>
+                                                                <ListItemIcon>
+                                                                    <Settings fontSize="small" />
+                                                                </ListItemIcon>
+                                                                <Typography variant='h6' fontSize={20}>  Favorite Recipe</Typography>
+                                                            </Link>
+
                                                         </MenuItem>
                                                         <MenuItem onClick={handleLogout}>
                                                             <ListItemIcon >
-                                                                <a style={{display:"flex"}} href="/login"> <Logout fontSize="small" />  <Typography  variant='h6' sx={{paddingLeft:"10px", fontSize: "20px" }}>Logout</Typography></a>
-
+                                                                <a style={{ display: "flex" }} href="/login">
+                                                                    <Logout fontSize="small" />
+                                                                    <Typography variant='h6' sx={{ paddingLeft: "10px", fontSize: "20px" }}>Logout</Typography>
+                                                                </a>
                                                             </ListItemIcon>
 
                                                         </MenuItem>
