@@ -79,7 +79,7 @@ const RecipeDetail = () => {
             {/* <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
                 {recipeDetail &&
                     recipeDetail.photoVMs.map((photo) => (
-                        <SwiperSlide>
+                        <SwiperSlide key={photo.photoId}>
                             <img src={photo.photoName} alt="" />
                         </SwiperSlide>
                     ))}
@@ -205,7 +205,10 @@ const RecipeDetail = () => {
                                         .slice()
                                         .sort((a, b) => a.directionsNum - b.directionsNum)
                                         .map((step) => (
-                                            <div className="single-preparation-step d-flex">
+                                            <div
+                                                className="single-preparation-step d-flex"
+                                                key={step.directionsId}
+                                            >
                                                 <h4>0{step.directionsNum}.</h4>
                                                 <p>{step.directionsDesc}</p>
                                             </div>
@@ -217,7 +220,10 @@ const RecipeDetail = () => {
                                     <h4>Ingredients</h4>
                                     {recipeDetail &&
                                         recipeDetail.ingredientOfRecipeVMs.map((ingredient) => (
-                                            <div className="custom-control custom-checkbox">
+                                            <div
+                                                className="custom-control custom-checkbox"
+                                                key={ingredient.ingredientId}
+                                            >
                                                 <input
                                                     type="checkbox"
                                                     className="custom-control-input"
@@ -242,33 +248,38 @@ const RecipeDetail = () => {
                                 {recipeDetail &&
                                     recipeDetail.reviewVMs.map((rating) => (
                                         <>
-                                            <div className="text-left">
-                                                <h3 style={{ color: '#f39c12' }}>Reviews</h3>
-                                            </div>
-                                            <div className="contact-form-area">
-                                                <form
-                                                    action="#"
-                                                    method="post"
-                                                    style={{ width: 750 }}
-                                                >
-                                                    <Rating
-                                                        readOnly
-                                                        name="size-large"
-                                                        defaultValue={rating.voteNum}
-                                                        size="large"
-                                                    />
-                                                    <div className="row">
-                                                        <div className="col-12 col-lg-6">
-                                                            <input
-                                                                type="text"
-                                                                className="form-control"
-                                                                id="name"
-                                                                value={rating.comment}
-                                                                placeholder="Name"
-                                                            />
+                                            <div
+                                                key={rating.reviewId}
+                                                className="rating-recipeDetail"
+                                            >
+                                                <div className="text-left">
+                                                    <h3 style={{ color: '#f39c12' }}>Reviews</h3>
+                                                </div>
+                                                <div className="contact-form-area">
+                                                    <form
+                                                        action="#"
+                                                        method="post"
+                                                        style={{ width: 750 }}
+                                                    >
+                                                        <Rating
+                                                            readOnly
+                                                            name="size-large"
+                                                            defaultValue={rating.voteNum}
+                                                            size="large"
+                                                        />
+                                                        <div className="row">
+                                                            <div className="col-12 col-lg-6">
+                                                                <input
+                                                                    type="text"
+                                                                    className="form-control"
+                                                                    id="name"
+                                                                    value={rating.comment}
+                                                                    placeholder="Name"
+                                                                />
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </form>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </>
                                     ))}
