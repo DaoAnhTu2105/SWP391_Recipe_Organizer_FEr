@@ -23,40 +23,32 @@ const MealDetail = () => {
                 </Typography>
             </Container>
             <div className="container meal-detail">
-                <div className='meal'>
-                    <div className='title'>
-                        <h4>
-                            Meal Planner
-                        </h4>
+                <div className="meal">
+                    <div className="title">
+                        <h4>Meal Planner</h4>
                         <div>
-                            <button className='add'>
-                                Add More Recipes
-                            </button>
-                            <button className='clear'>
-                                Clear All
-                            </button>
+                            <button className="add">Add More Recipes</button>
+                            <button className="clear">Clear All</button>
                         </div>
                     </div>
-                    <div className='title'>
-                        <h4>
-                            Nutrition Facts (per serving)
-                        </h4>
-                        <div className='nutrition'>
-                            <div className='nutrition-component'>
+                    <div className="title">
+                        <h4>Nutrition Facts (per serving)</h4>
+                        <div className="nutrition">
+                            <div className="nutrition-component">
                                 Calories: <b>409</b>
                             </div>
-                            <div className='nutrition-component'>
+                            <div className="nutrition-component">
                                 Fat: <b>8g</b>
                             </div>
-                            <div className='nutrition-component'>
+                            <div className="nutrition-component">
                                 Carbs: <b>73g</b>
                             </div>
-                            <div className='nutrition-component'>
+                            <div className="nutrition-component">
                                 Protein: <b>11g</b>
                             </div>
                         </div>
                     </div>
-                    <div className='title'>
+                    <div className="title">
                         <h4>Breakfast</h4>
                         <Food
                             image="https://www.allrecipes.com/thmb/DZ5WtIe2s6rGk-rIEZDkMA6mGj4=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7568285-perfect-pancakes-KH-4x3-218e2c39174c4a2293fca0ab752b38a8.jpg"
@@ -65,7 +57,7 @@ const MealDetail = () => {
                             ingredient="10"
                         />
                     </div>
-                    <div className='title'>
+                    <div className="title">
                         <h4>Lunch</h4>
                         <Food
                             image="https://food.fnr.sndimg.com/content/dam/images/food/fullset/2020/07/14/0/FNK_AIR-FRYER-FRIED-OREOS_H-f_s4x3.jpg.rend.hgtvcom.616.493.suffix/1594743965661.jpeg"
@@ -81,7 +73,7 @@ const MealDetail = () => {
                             ingredient="10"
                         />
                     </div>
-                    <div className='title'>
+                    <div className="title">
                         <h4>Dinner</h4>
                         <Food
                             image="https://girlscangrill.com/wp-content/uploads/2022/07/turkey-legs-hero.jpg"
@@ -91,8 +83,7 @@ const MealDetail = () => {
                         />
                     </div>
                 </div>
-                <div className='ingredient'>
-
+                <div className="ingredient">
                     <div className="ingredients">
                         <h4>Shopping List</h4>
                         <div className="custom-control custom-checkbox">
