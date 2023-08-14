@@ -19,6 +19,7 @@ import { Block } from '@mui/icons-material'
 
 const RecipeDetail = () => {
     const { id } = useParams()
+    // fix getRecipeById
     const dispatch = useDispatch()
     const getAllRecipesAPI = useSelector((state) => state.getAllRecipes.data)
     const recipeDetail =
@@ -119,8 +120,9 @@ const RecipeDetail = () => {
                                     <div className="ratings">
                                         <Rating
                                             name="read-only"
-                                            value={recipeDetail.aveVote}
+                                            value={3.5}
                                             readOnly
+                                            precision={0.5}
                                             size="small"
                                             sx={{ mt: 2 }}
                                         />
@@ -298,21 +300,16 @@ const RecipeDetail = () => {
 
                             <div className="col-12 col-lg-4">
                                 <div className="ingredients">
-                                    <h4>Ingredients</h4>
+                                    <h4 style={{ color: '#f39c12' }}>Ingredients</h4>
                                     {recipeDetail &&
                                         recipeDetail.ingredientOfRecipeVMs.map((ingredient) => (
-                                            <div
-                                                className="custom-control custom-checkbox"
-                                                key={ingredient.ingredientId}
-                                            >
-                                                <input
-                                                    type="checkbox"
-                                                    className="custom-control-input"
-                                                    id="customCheck1"
-                                                />
+                                            <div key={ingredient.ingredientId}>
                                                 <label
-                                                    className="custom-control-label"
-                                                    htmlFor="customCheck1"
+                                                    style={{
+                                                        fontWeight: 700,
+                                                        marginTop: 10,
+                                                        marginBottom: 10,
+                                                    }}
                                                 >
                                                     {ingredient.description}
                                                 </label>
@@ -326,6 +323,9 @@ const RecipeDetail = () => {
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12 mt-5 pt-5">
+                                <div className="text-left">
+                                    <h3 style={{ color: '#f39c12' }}>Reviews</h3>
+                                </div>
                                 {recipeDetail &&
                                     recipeDetail.reviewVMs.map((rating) => (
                                         <>
@@ -333,9 +333,6 @@ const RecipeDetail = () => {
                                                 key={rating.reviewId}
                                                 className="rating-recipeDetail"
                                             >
-                                                <div className="text-left">
-                                                    <h3 style={{ color: '#f39c12' }}>Reviews</h3>
-                                                </div>
                                                 <div className="contact-form-area">
                                                     <form
                                                         action="#"
