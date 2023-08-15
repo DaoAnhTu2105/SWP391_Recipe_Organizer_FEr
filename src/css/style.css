@@ -31,48 +31,55 @@
     /* Horizontally center the form */
 }
 
-/* Container for the input and button */
+/* Container styling */
 .input-container {
     display: flex;
+    justify-content: center;
     align-items: center;
-    /* Vertically center the input and button */
+    /* Vertically align the input and button */
+}
+
+/* Styling for the search box */
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+
 }
 
 /* Styling for the search input */
 .search-input {
-    flex: 1;
-    padding: 10px;
+    padding: 10px 40px 10px 10px;
+    /* Adjust the padding to create space for the button */
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
-    width: 900px;
-    /* Limit maximum width if needed */
+    width: 600px;
+    /* Adjust the width as needed */
 }
 
 /* Styling for the search button */
 .search-button {
-    background-color: #f39c12;
-    border: none;
-    border-radius: 4px;
-    color: #fff;
+    border: 2px solid #ccc;
+    border-left: none;
+    color: #f39c12;
+    background-color: white;
     cursor: pointer;
-    padding: 13px 15px;
+    padding: 1px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
     display: flex;
     align-items: center;
-    /* Vertically center the icon */
-    transition: background-color 0.3s ease;
+
 }
 
 /* Styling for the search button icon */
 .search-button i {
     font-size: 16px;
     margin-right: 5px;
-    /* Add some space between icon and text */
-}
 
-/* Change button color on hover */
-.search-button:hover {
-    background-color: #f5b041;
 }
 
 .title-recipes {
@@ -380,6 +387,7 @@ img {
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
+
     .mfp-image-holder .mfp-close,
     .mfp-iframe-holder .mfp-close {
         right: 0;
@@ -387,6 +395,7 @@ img {
 }
 
 @media only screen and (max-width: 767px) {
+
     .mfp-image-holder .mfp-close,
     .mfp-iframe-holder .mfp-close {
         right: 0;
@@ -531,6 +540,7 @@ textarea:focus {
 }
 
 @media only screen and (max-width: 767px) {
+
     .delicious-btn.btn-4.active,
     .delicious-btn.btn-4:hover,
     .delicious-btn.btn-4:focus {
@@ -727,7 +737,7 @@ textarea:focus {
     font-weight: 600;
 }
 
-.header-area .delicious-main-menu .classy-navbar .classynav > ul > li > a {
+.header-area .delicious-main-menu .classy-navbar .classynav>ul>li>a {
     text-transform: uppercase;
     padding: 12px 18px 11px;
     background-color: transparent;
@@ -737,26 +747,26 @@ textarea:focus {
     font-weight: 600;
 }
 
-.header-area .delicious-main-menu .classy-navbar .classynav > ul > li > a:hover,
-.header-area .delicious-main-menu .classy-navbar .classynav > ul > li > a:focus {
+.header-area .delicious-main-menu .classy-navbar .classynav>ul>li>a:hover,
+.header-area .delicious-main-menu .classy-navbar .classynav>ul>li>a:focus {
     font-size: 14px;
     color: #ffffff;
     background-color: #f39c12;
     border-bottom: 3px solid #f5b041;
 }
 
-.header-area .delicious-main-menu .classy-navbar .classynav > ul > li > a:hover::after,
-.header-area .delicious-main-menu .classy-navbar .classynav > ul > li > a:focus::after {
+.header-area .delicious-main-menu .classy-navbar .classynav>ul>li>a:hover::after,
+.header-area .delicious-main-menu .classy-navbar .classynav>ul>li>a:focus::after {
     color: #ffffff;
 }
 
-.header-area .delicious-main-menu .classy-navbar .classynav > ul > li.active > a {
+.header-area .delicious-main-menu .classy-navbar .classynav>ul>li.active>a {
     color: #ffffff;
     background-color: #f39c12;
     border-bottom: 3px solid #f5b041;
 }
 
-.header-area .delicious-main-menu .classy-navbar .classynav > ul > li.active > a::after {
+.header-area .delicious-main-menu .classy-navbar .classynav>ul>li.active>a::after {
     color: #ffffff;
 }
 
@@ -898,6 +908,7 @@ textarea:focus {
 }
 
 @media only screen and (max-width: 767px) {
+
     .hero-slides .owl-prev,
     .hero-slides .owl-next {
         font-size: 13px;
@@ -938,15 +949,17 @@ textarea:focus {
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
-    .breakpoint-on .classynav ul li.cn-dropdown-item > a::after,
-    .breakpoint-on .classynav ul li.megamenu-item > a::after {
+
+    .breakpoint-on .classynav ul li.cn-dropdown-item>a::after,
+    .breakpoint-on .classynav ul li.megamenu-item>a::after {
         top: 10px;
     }
 }
 
 @media only screen and (max-width: 767px) {
-    .breakpoint-on .classynav ul li.cn-dropdown-item > a::after,
-    .breakpoint-on .classynav ul li.megamenu-item > a::after {
+
+    .breakpoint-on .classynav ul li.cn-dropdown-item>a::after,
+    .breakpoint-on .classynav ul li.megamenu-item>a::after {
         top: 10px;
     }
 }
@@ -1471,6 +1484,7 @@ textarea:focus {
 }
 
 @media only screen and (max-width: 767px) {
+
     .receipe-slider .owl-prev,
     .receipe-slider .owl-next {
         font-size: 14px;
@@ -1595,7 +1609,7 @@ textarea:focus {
     height: 20px;
 }
 
-.ingredients .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+.ingredients .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
     background-color: #f39c12;
 }
 
