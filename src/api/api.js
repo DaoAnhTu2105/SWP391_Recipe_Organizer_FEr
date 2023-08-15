@@ -1,5 +1,5 @@
 import axios from "axios";
-import refresh from "./refresh";
+import Cookies from 'js-cookie';
 
 const url = "https://recipe-organizer-api.azurewebsites.net";
 const instance = axios.create({
@@ -11,8 +11,8 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
     (config) => {
-        const user = JSON.parse(localStorage.getItem("user"));
-        const accessToken = user?.accessToken;
+        const user = Cookies.get('userInfor');
+        const accessToken = user?.token;
         if (accessToken) {
             config.headers["Authorization"] = `Bearer ${accessToken}`;
         }
