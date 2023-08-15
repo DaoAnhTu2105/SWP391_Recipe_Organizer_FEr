@@ -1,119 +1,241 @@
-import * as React from 'react'
+import React, { useState } from 'react'
 import './index.css'
 import Food from '../Food'
+// import 'react-day-picker/dist/style.css';
 
 const meal = {
-    status: 1,
-    food: [
-        {
-            breakfast: [{ food: 'Pho', calo: '400' }],
-            lunch: [
-                { food: 'Ca kho', calo: '400' },
-                { food: 'Thit luoc', calo: '400' },
-                { food: 'Ca kho', calo: '400' },
-            ],
-            dinner: [
-                { food: 'Ca kho', calo: '400' },
-                { food: 'Thit luoc', calo: '400' },
-                { food: 'Ca kho', calo: '400' },
-            ],
-        },
-        {
-            breakfast: [{ food: '', calo: '' }],
-            lunch: [
-                { food: 'Ca kho', calo: '400' },
-                { food: 'Thit luoc', calo: '400' },
-                { food: 'Ca kho', calo: '400' },
-            ],
-            dinner: [
-                { food: 'Ca kho', calo: '400' },
-                { food: 'Thit luoc', calo: '400' },
-                { food: 'Ca kho', calo: '400' },
-            ],
-        },
-        {
-            breakfast: [{ food: 'Pho', calo: '400' }],
-            lunch: [
-                { food: 'Ca kho', calo: '400' },
-                { food: 'Thit luoc', calo: '400' },
-                { food: 'Ca kho', calo: '400' },
-            ],
-            dinner: [
-                { food: 'Ca kho', calo: '400' },
-                { food: 'Thit luoc', calo: '400' },
-                { food: 'Ca kho', calo: '400' },
-            ],
-        },
-        {
-            breakfast: [{ food: 'Pho', calo: '400' }],
-            lunch: [
-                { food: '', calo: '' },
-                { food: 'Thit luoc', calo: '400' },
-                { food: 'Ca kho', calo: '400' },
-            ],
-            dinner: [
-                { food: 'Ca kho', calo: '400' },
-                { food: 'Thit luoc', calo: '400' },
-                { food: 'Ca kho', calo: '400' },
-            ],
-        },
-        {
-            breakfast: [{ food: 'Pho', calo: '400' }],
-            lunch: [
-                { food: 'Ca kho', calo: '400' },
-                { food: 'Thit luoc', calo: '400' },
-                { food: 'Ca kho', calo: '400' },
-            ],
-            dinner: [
-                { food: 'Ca kho', calo: '400' },
-                { food: 'Thit luoc', calo: '400' },
-                { food: 'Ca kho', calo: '400' },
-            ],
-        },
-        {
-            breakfast: [{ food: '', calo: '' }],
-            lunch: [
-                { food: 'Ca kho', calo: '400' },
-                { food: 'Thit luoc', calo: '400' },
-                { food: 'Ca kho', calo: '400' },
-            ],
-            dinner: [
-                { food: 'Ca kho', calo: '400' },
-                { food: 'Thit luoc', calo: '400' },
-                { food: 'Ca kho', calo: '400' },
-            ],
-        },
-        {
-            breakfast: [{ food: 'Pho', calo: '400' }],
-            lunch: [
-                { food: 'Ca kho', calo: '400' },
-                { food: 'Thit luoc', calo: '400' },
-                { food: 'Ca kho', calo: '400' },
-            ],
-            dinner: [
-                { food: 'Ca kho', calo: '400' },
-                { food: 'Thit luoc', calo: '400' },
-                { food: 'Ca kho', calo: '400' },
-            ],
-        },
-
-    ],
+    "status": 1,
+    "message": "Success",
+    "data": {
+        "food": [
+            {
+                "breakfast": [
+                    {
+                        "planDetailId": "07b173de8cea44358fd5",
+                        "mealOfDate": 1,
+                        "recipeId": "2baf749109e04231b7ee",
+                        "recipeName": "Delicious Omelette",
+                        "recipeCalo": 250
+                    },
+                    {
+                        "planDetailId": "86b3eb0da0b14d37bb60",
+                        "mealOfDate": 1,
+                        "recipeId": "2baf749109e04231b7ee",
+                        "recipeName": "Delicious Omelette",
+                        "recipeCalo": 250
+                    },
+                    {
+                        "planDetailId": "b6fef38a979b4145be95",
+                        "mealOfDate": 1,
+                        "recipeId": "2baf749109e04231b7ee",
+                        "recipeName": "Delicious Omelette",
+                        "recipeCalo": 250
+                    }
+                ],
+                "lunch": [
+                    {
+                        "planDetailId": "6268126e8ac242f5bf47",
+                        "mealOfDate": 1,
+                        "recipeId": "2baf749109e04231b7ee",
+                        "recipeName": "Delicious Omelette",
+                        "recipeCalo": 250
+                    },
+                    {
+                        "planDetailId": "891d0255661648aaa6f5",
+                        "mealOfDate": 1,
+                        "recipeId": "2baf749109e04231b7ee",
+                        "recipeName": "Delicious Omelette",
+                        "recipeCalo": 250
+                    }
+                ],
+                "dinner": [
+                    {
+                        "planDetailId": "1486d6cc2d3644a0886f",
+                        "mealOfDate": 1,
+                        "recipeId": "2baf749109e04231b7ee",
+                        "recipeName": "Delicious Omelette",
+                        "recipeCalo": 250
+                    },
+                    {
+                        "planDetailId": "2c8d57d36e5a4a8086a9",
+                        "mealOfDate": 1,
+                        "recipeId": "2baf749109e04231b7ee",
+                        "recipeName": "Delicious Omelette",
+                        "recipeCalo": 250
+                    },
+                    {
+                        "planDetailId": "3063939b954f47e1ad8d",
+                        "mealOfDate": 1,
+                        "recipeId": "2baf749109e04231b7ee",
+                        "recipeName": "Delicious Omelette",
+                        "recipeCalo": 250
+                    },
+                    {
+                        "planDetailId": "89a05ae2b80845359068",
+                        "mealOfDate": 1,
+                        "recipeId": "2baf749109e04231b7ee",
+                        "recipeName": "Delicious Omelette",
+                        "recipeCalo": 250
+                    },
+                    {
+                        "planDetailId": "9d2616fb922b40a18e54",
+                        "mealOfDate": 1,
+                        "recipeId": "2baf749109e04231b7ee",
+                        "recipeName": "Delicious Omelette",
+                        "recipeCalo": 250
+                    }
+                ]
+            },
+            {
+                "breakfast": [],
+                "lunch": [],
+                "dinner": []
+            },
+            {
+                "breakfast": [],
+                "lunch": [],
+                "dinner": []
+            },
+            {
+                "breakfast": [],
+                "lunch": [],
+                "dinner": []
+            },
+            {
+                "breakfast": [],
+                "lunch": [],
+                "dinner": []
+            },
+            {
+                "breakfast": [
+                    {
+                        "planDetailId": "1486d6cc2d3644a0886f",
+                        "mealOfDate": 1,
+                        "recipeId": "2baf749109e04231b7ee",
+                        "recipeName": "Delicious Omelette",
+                        "recipeCalo": 250
+                    },
+                    {
+                        "planDetailId": "2c8d57d36e5a4a8086a9",
+                        "mealOfDate": 1,
+                        "recipeId": "2baf749109e04231b7ee",
+                        "recipeName": "Delicious Omelette",
+                        "recipeCalo": 250
+                    },],
+                "lunch": [],
+                "dinner": []
+            },
+            {
+                "breakfast": [],
+                "lunch": [],
+                "dinner": []
+            }
+        ]
+    }
 }
 
+const day = [0, 1, 2, 3, 4, 5, 6];
+
+
 export default function MealPlan() {
+    const [currentDate, setCurrentDate] = useState(new Date());
+
+    const getMonday = (currentDate) => {
+        currentDate = new Date(currentDate);
+        let day = currentDate.getDay(),
+            diff = currentDate.getDate() - day + (day === 0 ? - 6 : 1); // adjust when day is sunday
+        return new Date(currentDate.setDate(diff));
+    };
+    const addDays = (date, days) => {
+        var result = new Date(date);
+        result.setDate(result.getDate() + days);
+        return result;
+    };
+    const formatDate = (date) => {
+        const yyyy = date.getFullYear();
+        let mm = date.getMonth() + 1; // Months start at 0!
+        let dd;
+        if (date.getDay() === 0) {
+            dd = date.getDate() + 1;
+        } else {
+            dd = date.getDate();
+        }
+        if (dd < 10) dd = "0" + dd;
+        if (mm < 10) mm = "0" + mm;
+        return dd + "/" + mm + "/" + yyyy;
+    };
+    const subDays = (date, days) => {
+        var result = new Date(date);
+        result.setDate(result.getDate() - days);
+        return result;
+    };
+
     return (
         <div className="plan-meal">
+            <div>
+                {currentDate.getMonth() + 1} {currentDate.getFullYear()}
+                <button onClick={() => setCurrentDate(subDays(getMonday(currentDate), 3))}>
+                    previous
+                </button>
+                <button onClick={() => setCurrentDate(new Date())}>
+                    Today
+                </button>
+                <button onClick={() => setCurrentDate(addDays(getMonday(currentDate), 8))}>
+                    next
+                </button>
+
+            </div>
             <div className="table-header">
                 <div></div>
-                <div className="">
-                    <a href="/meal-detail">Monday</a>
+                <div className="table-header-component">
+                    <a href="/meal-detail">
+                        Monday
+                        <br></br>
+                        {formatDate(getMonday(currentDate))}
+                    </a>
                 </div>
-                <div className="">Tuesday</div>
-                <div className="">Wednesday</div>
-                <div className="">Thursday</div>
-                <div className="">Friday</div>
-                <div className="">Saturday</div>
-                <div className="">Sunday</div>
+                <div className="table-header-component">
+                    <a href="/meal-detail">
+                        Tuesday
+                        <br></br>
+                        {formatDate(addDays(getMonday(currentDate), 1))}
+                    </a>
+                </div>
+                <div className="table-header-component">
+                    <a href="/meal-detail">
+                        Wednesday
+                        <br></br>
+                        {formatDate(addDays(getMonday(currentDate), 2))}
+                    </a>
+                </div>
+                <div className="table-header-component">
+                    <a href="/meal-detail">
+                        Thursday
+                        <br></br>
+                        {formatDate(addDays(getMonday(currentDate), 3))}
+                    </a>
+                </div>
+                <div className="table-header-component">
+                    <a href="/meal-detail">
+                        Friday
+                        <br></br>
+                        {formatDate(addDays(getMonday(currentDate), 4))}
+                    </a>
+                </div>
+                <div className="table-header-component">
+                    <a href="/meal-detail">
+                        Saturday
+                        <br></br>
+                        {formatDate(addDays(getMonday(currentDate), 5))}
+                    </a>
+                </div>
+                <div className="table-header-component">
+                    <a href="/meal-detail">
+                        Sunday
+                        <br></br>
+                        {formatDate(addDays(getMonday(currentDate), 6))}
+                    </a>
+                </div>
             </div>
             <div className="table-body">
                 <div className="table-body-content">
@@ -125,27 +247,37 @@ export default function MealPlan() {
                             <b>6AM - 8AM</b>
                         </div>
                     </div>
-                    <div className="item">
-                        <Food foodName={'Perfect Pancakes'} calo={'409'} meal={'breakfast'} />
-                    </div>
-                    <div className="item">
-                        <Food foodName={'Slow Cooker Buffalo Chicken Sandwiches'} calo={'578'} meal={'breakfast'} />
-                    </div>
-                    <div className="item">
-                        <Food foodName={'Fiesta Slow Cooker Shredded Chicken Tacos'} calo={'71'} meal={'breakfast'} />
-                    </div>
-                    <div className="item">
-                        <Food foodName={'Deep-Fried Oreos'} calo={'156'} meal={'breakfast'} />
-                    </div>
-                    <div className="item">
-                        <Food foodName={'Funnel Cakes'} calo={'524'} meal={'breakfast'} />
-                    </div>
-                    <div className="item">
-                        <Food foodName={'Fried Egg Tortilla'} calo={'473'} meal={'breakfast'} />
-                    </div>
-                    <div className="item">
-                        <Food foodName={'Breakfast Burrito Bowl'} calo={'152'} meal={'breakfast'} />
-                    </div>
+                    {meal.data.food.map((meal) => (
+                        <div className="item">
+                            {
+                                meal.breakfast.map((food) => {
+                                    return (
+                                        <Food
+                                            foodName={food.recipeName}
+                                            calo={food.recipeCalo}
+                                            meal='breakfast'
+                                        />
+                                    )
+                                })
+                            }
+                        </div>
+                    ))}
+                    {/* {meal.data.food.map((meal) => (
+                        <div className="item">
+                            {meal.data.food.breakfast.map((food) => {
+                                if (food.food.length !== 0) {
+                                    return (
+                                        <Food
+                                            foodName={food.food}
+                                            calo={food.calo}
+                                            meal='breakfast'
+                                        />
+                                    )
+                                }
+                                return null;
+                            })}
+                        </div>
+                    ))} */}
                 </div>
                 <div className="table-body-content">
                     <div style={{ color: '#e29d1d' }}>
@@ -156,28 +288,21 @@ export default function MealPlan() {
                             <b>12:30AM - 2PM</b>
                         </div>
                     </div>
-                    <div className="item">
-                        <Food foodName={'Deep-Fried Oreos'} calo={'450'} meal={'lunch'} />
-                        <Food foodName={'Sesame Noodles'} calo={'450'} meal={'lunch'} />
-                    </div>
-                    <div className="item">
-                        <Food foodName={'Day-After-Thanksgiving Turkey Carcass Soup'} calo={'370'} meal={'lunch'} />
-                        <Food foodName={'Quick Italian Pasta Salad'} calo={'371'} meal={'lunch'} />
-                    </div>
-                    <div className="item"> <Food foodName={'Lemon Chicken Orzo Soup'} calo={'187'} meal={'lunch'} /></div>
-                    <div className="item">
-                        <Food foodName={'Quick Italian Pasta Salad'} calo={'63'} meal={'lunch'} />
-                        <Food foodName={'Garlic Bread Spread'} calo={'167'} meal={'lunch'} />
-                    </div>
-                    <div className="item">
-                        <Food foodName={'Awesome Hot Ham and Cheese'} calo={'200'} meal={'lunch'} />
-                    </div>
-                    <div className="item">
-                        <Food foodName={'Eggplant Caponata (Sicilian Version)'} calo={'320'} meal={'lunch'} />
-                    </div>
-                    <div className="item">
-                        <Food foodName={'Pastrami Reuben Sandwich'} calo={'380'} meal={'lunch'} />
-                    </div>
+                    {meal.data.food.map((meal) => (
+                        <div className="item">
+                            {
+                                meal.lunch.map((food) => {
+                                    return (
+                                        <Food
+                                            foodName={food.recipeName}
+                                            calo={food.recipeCalo}
+                                            meal='lunch'
+                                        />
+                                    )
+                                })
+                            }
+                        </div>
+                    ))}
                 </div>
                 <div className="table-body-content">
                     <div style={{ color: '#68169c' }}>
@@ -188,125 +313,22 @@ export default function MealPlan() {
                             <b>6PM - 9PM</b>
                         </div>
                     </div>
-                    <div className="item"><Food foodName={'Grilled Turkey Legs'} calo={'450'} /></div>
-                    <div className="item">
-                        <Food foodName={'Tex-Mex Pork Chops and Rice Skillet'} calo={'682'} />
-                    </div>
-                    <div className="item">
-                        <Food foodName={'Lasagna Flatbread'} calo={'620'} />
-                    </div>
-                    <div className="item">
-                        <Food foodName={'Slow-Cooker Corned Beef and Cabbage'} calo={'670'} />
-                    </div>
-                    <div className="item">
-                        <Food foodName={'Stout-Braised Lamb Shanks'} calo={'620'} />
-                    </div>
-                    <div className="item">
-                        <Food foodName={'Empanadas (Beef Turnovers)'} calo={'620'} />
-                    </div>
-                    <div className="item">
-                        <Food foodName={'Slow Cooker Texas Pulled Pork'} calo={'620'} />
-                    </div>
+                    {meal.data.food.map((meal) => (
+                        <div className="item">
+                            {
+                                meal.dinner.map((food) => {
+                                    return (
+                                        <Food
+                                            foodName={food.recipeName}
+                                            calo={food.recipeCalo}
+                                        />
+                                    )
+                                })
+                            }
+                        </div>
+                    ))}
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
-
-// export default function MealPlan() {
-//     return (
-//         <div className="plan-meal">
-//             <div className="table-header">
-//                 <div></div>
-//                 <div className="">
-//                     <a href="/meal-detail">Monday</a>
-//                 </div>
-//                 <div className="">Tuesday</div>
-//                 <div className="">Wednesday</div>
-//                 <div className="">Thursday</div>
-//                 <div className="">Friday</div>
-//                 <div className="">Saturday</div>
-//                 <div className="">Sunday</div>
-//             </div>
-//             <div className="table-body">
-//                 <div className="table-body-content">
-//                     <div className="meal" style={{ color: '#32a6de' }}>
-//                         <div>
-//                             <b>BreakFast</b>
-//                         </div>
-//                         <div>
-//                             <b>6AM - 8AM</b>
-//                         </div>
-//                     </div>
-//                     {meal.food.map((meal) => (
-//                         <div className="item">
-//                             {meal.breakfast.map((food) => {
-//                                 if (food.food.length !== 0) {
-//                                     return (
-//                                         <Food
-//                                             foodName={food.food}
-//                                             calo={food.calo}
-//                                             meal='breakfast'
-//                                         />
-//                                     )
-//                                 }
-//                                 return null;
-//                             })}
-//                         </div>
-//                     ))}
-//                 </div>
-//                 <div className="table-body-content">
-//                     <div style={{ color: '#e29d1d' }}>
-//                         <div>
-//                             <b>Lunch</b>
-//                         </div>
-//                         <div>
-//                             <b>12:30AM - 2PM</b>
-//                         </div>
-//                     </div>
-//                     {meal.food.map((meal) => (
-//                         <div className="item">
-//                             {meal.lunch.map((food) => {
-//                                 if (food.food.length !== 0) {
-//                                     return (
-//                                         <Food
-//                                             foodName={food.food}
-//                                             calo={food.calo}
-//                                             meal='lunch'
-//                                         />
-//                                     )
-//                                 }
-//                                 return null;
-//                             })}
-//                         </div>
-//                     ))}
-//                 </div>
-//                 <div className="table-body-content">
-//                     <div style={{ color: '#68169c' }}>
-//                         <div>
-//                             <b>Dinner</b>
-//                         </div>
-//                         <div>
-//                             <b>6PM - 9PM</b>
-//                         </div>
-//                     </div>
-//                     {meal.food.map((meal) => (
-//                         <div className="item">
-//                             {meal.dinner.map((food) => {
-//                                 if (food.food.length !== 0) {
-//                                     return (
-//                                         <Food
-//                                             foodName={food.food}
-//                                             calo={food.calo}
-//                                         />
-//                                     )
-//                                 }
-//                                 return null;
-//                             })}
-//                         </div>
-//                     ))}
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }

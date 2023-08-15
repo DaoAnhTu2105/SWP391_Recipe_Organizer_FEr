@@ -31,6 +31,7 @@ const Header = () => {
     }
     const handleLogout = () => {
         removeCookie('user')
+        removeCookie('userInfor')
     }
     return (
         <header className="header-area fixed-top">

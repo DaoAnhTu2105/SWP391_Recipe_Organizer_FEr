@@ -27,13 +27,13 @@ const Login = () => {
     const baseUrl = `https://recipe-organizer-api.azurewebsites.net/api/UserAccounts/CheckLoginEmail`
 
     const handleCredentialResponse = async (response) => {
-        console.log('Encoded JWT ID token: ' + response.credential)
+        // console.log('Encoded JWT ID token: ' + response.credential)
         var decoded = jwt_decode(response.credential)
         var email = decoded.email
         var ggToken = decoded.sub
         var image = decoded.picture
         var fullname = decoded.name
-        console.log(decoded)
+        // console.log(decoded)
         document.getElementById('buttonDiv').hidden = true
 
         try {
@@ -48,8 +48,9 @@ const Login = () => {
             if (response.ok) {
                 const responseData = await response.json()
                 setCookie('user', JSON.stringify(decoded))
+                setCookie('userInfor', { role: responseData.role, token: responseData.token })
                 navigate('/')
-                console.log('login successful', responseData)
+                console.log('login successful', responseData.role)
             } else {
                 console.log('login failed')
             }
@@ -57,6 +58,7 @@ const Login = () => {
             console.error('Error calling API:', error)
         }
     }
+
     useEffect(() => {
         /* global google*/
         window.onload = function () {

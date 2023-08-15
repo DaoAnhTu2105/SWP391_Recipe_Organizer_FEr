@@ -2,7 +2,7 @@ const getAllRecipesApi = `https://recipe-organizer-api.azurewebsites.net/api/Rec
 
 export const fetchData = async () => {
     try {
-        console.log('Fetching data from:', getAllRecipesApi)
+        // console.log('Fetching data from:', getAllRecipesApi)
         const response = await fetch(getAllRecipesApi)
 
         if (!response.ok) {
@@ -11,7 +11,7 @@ export const fetchData = async () => {
         }
 
         const data = await response.json()
-        console.log('Fetched data:', data)
+        // console.log('Fetched data:', data)
         return data
     } catch (error) {
         console.error('Error fetching data:', error.message)
