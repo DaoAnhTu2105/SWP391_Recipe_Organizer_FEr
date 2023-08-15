@@ -388,7 +388,7 @@ function CreateRecipe() {
               <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom> Servings </Typography>
               <OutlinedInput placeholder="1" type='number' />
             </Box>
-           
+
           </Box>
           <Divider sx={{ width: "70", fontWeight: "bold", marginTop: "20px", marginBottom: "20px" }} />
         </Box>
