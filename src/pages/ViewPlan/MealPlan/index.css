@@ -1,5 +1,6 @@
 .plan-meal {
     width: 100%;
+    margin-bottom: 40px;
 }
 
 .plan-meal .table-header {
@@ -10,10 +11,13 @@
     margin-top: 20px;
 }
 
+.plan-meal .table-header .table-header-component {
+    padding: 0 10px;
+}
+
 .plan-meal .table-header > div {
     flex: 1;
     padding: 10px;
-
     border-top: 1px solid #e6e6e6;
     border-left: 1px solid #e6e6e6;
     border-bottom: 1px solid #e6e6e6;

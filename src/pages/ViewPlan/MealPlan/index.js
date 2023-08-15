@@ -3,6 +3,7 @@ import './index.css'
 import Food from '../Food'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import 'react-day-picker/dist/style.css';
 
 const meal = {
     status: 1,
@@ -100,148 +101,74 @@ const meal = {
 
 const day = [0, 1, 2, 3, 4, 5, 6];
 
-// export default function MealPlan() {
-//     return (
-//         <div className="plan-meal">
-//             <div className="table-header">
-//                 <div></div>
-//                 <div className="">
-//                     <a href="/meal-detail">Monday</a>
-//                 </div>
-//                 <div className="">
-//                     <a href="/meal-detail">Tuesday </a>
-//                 </div>
-//                 <div className="">
-//                     <a href="/meal-detail">Wednesday</a>
-//                 </div>
-//                 <div className="">
-//                     <a href="/meal-detail">Thursday</a>
-//                 </div>
-//                 <div className="">
-//                     <a href="/meal-detail">Friday</a>
-//                 </div>
-//                 <div className="">
-//                     <a href="/meal-detail">Saturday</a>
-//                 </div>
-//                 <div className="">
-//                     <a href="/meal-detail">Sunday</a>
-//                 </div>
-//             </div>
-//             <div className="table-body">
-//                 <div className="table-body-content">
-//                     <div className="meal" style={{ color: '#32a6de' }}>
-//                         <div>
-//                             <b>BreakFast</b>
-//                         </div>
-//                         <div>
-//                             <b>6AM - 8AM</b>
-//                         </div>
-//                     </div>
-//                     <div className="item">
-//                         <Food foodName={'Perfect Pancakes'} calo={'409'} meal={'breakfast'} />
-//                     </div>
-//                     <div className="item">
-//                         <Food foodName={'Slow Cooker Buffalo Chicken Sandwiches'} calo={'578'} meal={'breakfast'} />
-//                     </div>
-//                     <div className="item">
-//                         <Food foodName={'Fiesta Slow Cooker Shredded Chicken Tacos'} calo={'71'} meal={'breakfast'} />
-//                     </div>
-//                     <div className="item">
-//                         <Food foodName={'Deep-Fried Oreos'} calo={'156'} meal={'breakfast'} />
-//                     </div>
-//                     <div className="item">
-//                         <Food foodName={'Funnel Cakes'} calo={'524'} meal={'breakfast'} />
-//                     </div>
-//                     <div className="item">
-//                         <Food foodName={'Fried Egg Tortilla'} calo={'473'} meal={'breakfast'} />
-//                     </div>
-//                     <div className="item">
-//                         <Food foodName={'Breakfast Burrito Bowl'} calo={'152'} meal={'breakfast'} />
-//                     </div>
-//                 </div>
-//                 <div className="table-body-content">
-//                     <div style={{ color: '#e29d1d' }}>
-//                         <div>
-//                             <b>Lunch</b>
-//                         </div>
-//                         <div>
-//                             <b>12:30AM - 2PM</b>
-//                         </div>
-//                     </div>
-//                     <div className="item">
-//                         <Food foodName={'Deep-Fried Oreos'} calo={'450'} meal={'lunch'} />
-//                         <Food foodName={'Sesame Noodles'} calo={'450'} meal={'lunch'} />
-//                     </div>
-//                     <div className="item">
-//                         <Food foodName={'Day-After-Thanksgiving Turkey Carcass Soup'} calo={'370'} meal={'lunch'} />
-//                         <Food foodName={'Quick Italian Pasta Salad'} calo={'371'} meal={'lunch'} />
-//                     </div>
-//                     <div className="item"> <Food foodName={'Lemon Chicken Orzo Soup'} calo={'187'} meal={'lunch'} /></div>
-//                     <div className="item">
-//                         <Food foodName={'Quick Italian Pasta Salad'} calo={'63'} meal={'lunch'} />
-//                         <Food foodName={'Garlic Bread Spread'} calo={'167'} meal={'lunch'} />
-//                     </div>
-//                     <div className="item">
-//                         <Food foodName={'Awesome Hot Ham and Cheese'} calo={'200'} meal={'lunch'} />
-//                     </div>
-//                     <div className="item">
-//                         <Food foodName={'Eggplant Caponata (Sicilian Version)'} calo={'320'} meal={'lunch'} />
-//                     </div>
-//                     <div className="item">
-//                         <Food foodName={'Pastrami Reuben Sandwich'} calo={'380'} meal={'lunch'} />
-//                     </div>
-//                 </div>
-//                 <div className="table-body-content">
-//                     <div style={{ color: '#68169c' }}>
-//                         <div>
-//                             <b>Dinner</b>
-//                         </div>
-//                         <div>
-//                             <b>6PM - 9PM</b>
-//                         </div>
-//                     </div>
-//                     <div className="item"><Food foodName={'Grilled Turkey Legs'} calo={'450'} /></div>
-//                     <div className="item">
-//                         <Food foodName={'Tex-Mex Pork Chops and Rice Skillet'} calo={'682'} />
-//                     </div>
-//                     <div className="item">
-//                         <Food foodName={'Lasagna Flatbread'} calo={'620'} />
-//                     </div>
-//                     <div className="item">
-//                         <Food foodName={'Slow-Cooker Corned Beef and Cabbage'} calo={'670'} />
-//                     </div>
-//                     <div className="item">
-//                         <Food foodName={'Stout-Braised Lamb Shanks'} calo={'620'} />
-//                     </div>
-//                     <div className="item">
-//                         <Food foodName={'Empanadas (Beef Turnovers)'} calo={'620'} />
-//                     </div>
-//                     <div className="item">
-//                         <Food foodName={'Slow Cooker Texas Pulled Pork'} calo={'620'} />
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
 
 export default function MealPlan() {
-    const [startDate, setStartDate] = useState(new Date());
+    const [currentDate, setCurrentDate] = useState(new Date());
+
+    const getMonday = (currentDate) => {
+        currentDate = new Date(currentDate);
+        let day = currentDate.getDay(),
+            diff = currentDate.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is sunday
+        return new Date(currentDate.setDate(diff));
+    };
+    const addDays = (date, days) => {
+        var result = new Date(date);
+        result.setDate(result.getDate() + days);
+        return result;
+    };
+    const formatDate = (date) => {
+        const yyyy = date.getFullYear();
+        let mm = date.getMonth() + 1; // Months start at 0!
+        let dd;
+        if (date.getDay() === 0) {
+            dd = date.getDate() + 1;
+        } else {
+            dd = date.getDate();
+        }
+        if (dd < 10) dd = "0" + dd;
+        if (mm < 10) mm = "0" + mm;
+        return dd + "/" + mm + "/" + yyyy;
+    };
+
+    // console.log(currentDate);
+    console.log(Date(getMonday(currentDate)));
 
     return (
         <div className="plan-meal">
-            <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+            {/* <DatePicker selected={currentDate} onChange={(date) => setCurrentDate(date)} /> */}
+            <div>
+                {currentDate.getMonth() + 1} {currentDate.getFullYear()}
+            </div>
             <div className="table-header">
                 <div></div>
-                <div className="">
-                    <a href="/meal-detail">Monday</a>
+                {}
+                <div className="table-header-component">
+                    <a href="/meal-detail">
+                        Monday
+                        <br></br>
+                        {formatDate(getMonday(currentDate))}
+                    </a>
                 </div>
-                <div className="">Tuesday</div>
-                <div className="">Wednesday</div>
-                <div className="">Thursday</div>
-                <div className="">Friday</div>
-                <div className="">Saturday</div>
-                <div className="">Sunday</div>
+                <div className="table-header-component">
+                    <a href="/meal-detail">
+                        Tuesday
+                        <br></br>
+                        {formatDate(addDays(getMonday(currentDate), 1))}
+                    </a>
+                </div>
+                <div className="table-header-component">
+                    <a href="/meal-detail">
+                        Wednesday
+                        <br></br>
+                    </a>
+                </div>
+                <div className="table-header-component">
+                    Thursday
+                    <br></br>
+                </div>
+                <div className="table-header-component">Friday</div>
+                <div className="table-header-component">Saturday</div>
+                <div className="table-header-component">Sunday</div>
             </div>
             <div className="table-body">
                 <div className="table-body-content">
@@ -322,6 +249,6 @@ export default function MealPlan() {
                     ))}
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
