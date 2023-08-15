@@ -3,6 +3,29 @@
     margin-bottom: 40px;
 }
 
+.plan-meal .date-info {
+    display: flex;
+    position: relative;
+    padding: 20px;
+}
+
+.plan-meal .date-info .date {
+    position: absolute;
+    left: 0;
+}
+
+.plan-meal .date-info .button {
+    position: absolute;
+    right: 0;
+}
+
+.plan-meal .date-info .button button {
+    border: none;
+    background-color: #fff;
+    padding: 0 15px;
+    cursor: pointer;
+}
+
 .plan-meal .table-header {
     display: flex;
     flex-wrap: nowrap;

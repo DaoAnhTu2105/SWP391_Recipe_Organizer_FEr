@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import './index.css'
 import Food from '../Food'
-// import 'react-day-picker/dist/style.css';
+import NextIcon from '../../../components/IconComponent/NextIcon'
+import PreviousIcon from '../../../components/IconComponent/PreviousIcon'
 
 const meal = {
     "status": 1,
@@ -134,11 +135,10 @@ const meal = {
     }
 }
 
-const day = [0, 1, 2, 3, 4, 5, 6];
-
-
 export default function MealPlan() {
     const [currentDate, setCurrentDate] = useState(new Date());
+    // const [month, month = ] = useState("");
+    let month;
 
     const getMonday = (currentDate) => {
         currentDate = new Date(currentDate);
@@ -154,12 +154,7 @@ export default function MealPlan() {
     const formatDate = (date) => {
         const yyyy = date.getFullYear();
         let mm = date.getMonth() + 1; // Months start at 0!
-        let dd;
-        if (date.getDay() === 0) {
-            dd = date.getDate() + 1;
-        } else {
-            dd = date.getDate();
-        }
+        let dd = date.getDate();
         if (dd < 10) dd = "0" + dd;
         if (mm < 10) mm = "0" + mm;
         return dd + "/" + mm + "/" + yyyy;
@@ -170,20 +165,62 @@ export default function MealPlan() {
         return result;
     };
 
+    switch (getMonday(currentDate).getMonth() + 1) {
+        case 1:
+            month = ("January")
+            break;
+        case 2:
+            month = ('February')
+            break;
+        case 3:
+            month = ('March')
+            break;
+        case 4:
+            month = ('April')
+            break;
+        case 5:
+            month = ('May')
+            break;
+        case 6:
+            month = ('June')
+            break;
+        case 7:
+            month = ('July')
+            break;
+        case 8:
+            month = ("August")
+            break;
+        case 9:
+            month = ('September')
+            break;
+        case 10:
+            month = ('October')
+            break;
+        case 11:
+            month = ('November')
+            break;
+        default:
+            month = ('December')
+            break;
+    }
+
     return (
         <div className="plan-meal">
-            <div>
-                {currentDate.getMonth() + 1} {currentDate.getFullYear()}
-                <button onClick={() => setCurrentDate(subDays(getMonday(currentDate), 3))}>
-                    previous
-                </button>
-                <button onClick={() => setCurrentDate(new Date())}>
-                    Today
-                </button>
-                <button onClick={() => setCurrentDate(addDays(getMonday(currentDate), 8))}>
-                    next
-                </button>
-
+            <div className='date-info'>
+                <div className='date'>
+                    <b>{month} {currentDate.getFullYear()}</b>
+                </div>
+                <div className='button'>
+                    <button onClick={() => setCurrentDate(subDays(getMonday(currentDate), 7))}>
+                        <PreviousIcon />
+                    </button>
+                    <button onClick={() => setCurrentDate(new Date())}>
+                        Today
+                    </button>
+                    <button onClick={() => setCurrentDate(addDays(getMonday(currentDate), 7))}>
+                        <NextIcon />
+                    </button>
+                </div>
             </div>
             <div className="table-header">
                 <div></div>
@@ -262,22 +299,6 @@ export default function MealPlan() {
                             }
                         </div>
                     ))}
-                    {/* {meal.data.food.map((meal) => (
-                        <div className="item">
-                            {meal.data.food.breakfast.map((food) => {
-                                if (food.food.length !== 0) {
-                                    return (
-                                        <Food
-                                            foodName={food.food}
-                                            calo={food.calo}
-                                            meal='breakfast'
-                                        />
-                                    )
-                                }
-                                return null;
-                            })}
-                        </div>
-                    ))} */}
                 </div>
                 <div className="table-body-content">
                     <div style={{ color: '#e29d1d' }}>
@@ -314,7 +335,7 @@ export default function MealPlan() {
                         </div>
                     </div>
                     {meal.data.food.map((meal) => (
-                        <div className="item">
+                        <div className="item" >
                             {
                                 meal.dinner.map((food) => {
                                     return (

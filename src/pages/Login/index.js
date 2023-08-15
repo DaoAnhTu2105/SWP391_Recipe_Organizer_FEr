@@ -16,7 +16,7 @@ import background from '../../assets/login-background.jpg'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import jwt_decode from 'jwt-decode'
-import { useNavigate } from 'react-router-dom'
+import { json, useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
 
 const defaultTheme = createTheme()
@@ -27,13 +27,13 @@ const Login = () => {
     const baseUrl = `https://recipe-organizer-api.azurewebsites.net/api/UserAccounts/CheckLoginEmail`
 
     const handleCredentialResponse = async (response) => {
-        // console.log('Encoded JWT ID token: ' + response.credential)
+        console.log('Encoded JWT ID token: ' + response.credential)
         var decoded = jwt_decode(response.credential)
         var email = decoded.email
         var ggToken = decoded.sub
         var image = decoded.picture
         var fullname = decoded.name
-        // console.log(decoded)
+        console.log(decoded)
         document.getElementById('buttonDiv').hidden = true
 
         try {
@@ -48,9 +48,10 @@ const Login = () => {
             if (response.ok) {
                 const responseData = await response.json()
                 setCookie('user', JSON.stringify(decoded))
-                setCookie('userInfor', { role: responseData.role, token: responseData.token })
+                // const userInfo = { role: responseData.role, token: responseData.token }
+                // document.cookie = `userInfo=${encodeURIComponent(JSON.stringify(userInfo))}`;
                 navigate('/')
-                console.log('login successful', responseData.role)
+                console.log('login successful', responseData)
             } else {
                 console.log('login failed')
             }
@@ -58,7 +59,6 @@ const Login = () => {
             console.error('Error calling API:', error)
         }
     }
-
     useEffect(() => {
         /* global google*/
         window.onload = function () {
