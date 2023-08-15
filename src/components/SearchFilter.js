@@ -42,6 +42,7 @@ const SearchFilter = () => {
     const [serving, setServing] = useState([1, 20])
     const [timeValue, setTimeValue] = useState([0, 200])
     const [isCollapsed, setIsCollapsed] = useState(true)
+
     const [isCollapsedServing, setIsCollapsedServing] = useState(true)
     const [openFilter, setOpenFilter] = useState(false)
 
