@@ -1,6 +1,8 @@
-import * as React from 'react'
+import React, { useState } from 'react'
 import './index.css'
 import Food from '../Food'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const meal = {
     status: 1,
@@ -95,6 +97,8 @@ const meal = {
 
     ],
 }
+
+const day = [0, 1, 2, 3, 4, 5, 6];
 
 // export default function MealPlan() {
 //     return (
@@ -222,8 +226,11 @@ const meal = {
 // }
 
 export default function MealPlan() {
+    const [startDate, setStartDate] = useState(new Date());
+
     return (
         <div className="plan-meal">
+            <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
             <div className="table-header">
                 <div></div>
                 <div className="">

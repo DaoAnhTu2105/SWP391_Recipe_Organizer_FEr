@@ -61,7 +61,7 @@ const ViewPlan = ({ searchQueryList, userRole }) => {
                     View your meal plan of week
                 </Typography>
             </Container>
-            <div className="container user-list">
+            <div className="container">
                 <MealPlan />
             </div>
         </Fragment>
