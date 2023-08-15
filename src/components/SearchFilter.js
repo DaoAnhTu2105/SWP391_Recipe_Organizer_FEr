@@ -40,12 +40,16 @@ const SearchFilter = () => {
     const [serving, setServing] = useState([1, 20])
     const [timeValue, setTimeValue] = useState([0, 200])
     const [isCollapsed, setIsCollapsed] = useState(true)
+    const [isCollapsedServing, setIsCollapsedServing] = useState(true)
 
     const handleTimeChange = (event, newValue) => {
         setTimeValue(newValue)
     }
+    const handleServingChange = (event, newValue) => {
+        setServing(newValue)
+    }
     return (
-        <div style={{ alignContent: 'center' }}>
+        <div style={{ alignContent: 'center' }} className="container-fluid">
             <Grid container spacing={2} style={{ display: 'flex', justifyContent: 'center' }}>
                 <Grid xs={2} md={2}>
                     <Autocomplete
@@ -107,13 +111,14 @@ const SearchFilter = () => {
                         renderInput={(params) => <TextField {...params} label="Nutrition" />}
                     />
                 </Grid>
-                <Grid xs={2} md={2}>
+                <Grid xs={2} md={2} textAlign={'center'}>
                     <Button
                         size="large"
                         onClick={() => setIsCollapsed(!isCollapsed)}
-                        style={{ outline: 'none' }}
+                        style={{ outline: 'none', backgroundColor: '#f39c12' }}
+                        variant="contained"
                     >
-                        Total Time Cook
+                        Total Time
                     </Button>
                     <Collapse in={!isCollapsed}>
                         <Slider
@@ -123,10 +128,11 @@ const SearchFilter = () => {
                             valueLabelDisplay="auto"
                             min={minmin}
                             max={maxmax}
+                            style={{ color: '#f39c12', width: 220 }}
                         />
                         <Stack direction="row" justifyContent="space-evenly" alignItems="center">
                             <TextField
-                                label="min"
+                                label="min(s)"
                                 type="number"
                                 variant="outlined"
                                 InputLabelProps={{ shrink: true }}
@@ -136,9 +142,9 @@ const SearchFilter = () => {
                                     setTimeValue([Number(e.target.value), timeValue[1]])
                                 }}
                             />
-                            <Typography> - </Typography>
+                            &nbsp; &nbsp; <Typography> - </Typography> &nbsp; &nbsp;
                             <TextField
-                                label="max"
+                                label="min(s)"
                                 type="number"
                                 variant="outlined"
                                 InputLabelProps={{ shrink: true }}
@@ -151,7 +157,7 @@ const SearchFilter = () => {
                             <Button
                                 size="large"
                                 onClick={() => setIsCollapsed(!isCollapsed)}
-                                style={{ outline: 'none' }}
+                                style={{ outline: 'none', color: '#f39c12' }}
                             >
                                 Enter
                             </Button>
@@ -161,39 +167,51 @@ const SearchFilter = () => {
                 <Grid xs={2} md={2}>
                     <Button
                         size="large"
-                        onClick={() => setIsCollapsed(!isCollapsed)}
-                        style={{ outline: 'none' }}
+                        onClick={() => setIsCollapsedServing(!isCollapsedServing)}
+                        style={{
+                            outline: 'none',
+                            backgroundColor: '#f39c12',
+                            width: 250,
+                            marginLeft: 10,
+                        }}
+                        variant="contained"
                     >
                         Serving
                     </Button>
-                    <Collapse in={!isCollapsed}>
+                    <Collapse in={!isCollapsedServing} style={{ marginLeft: 20 }}>
                         <Slider
                             getAriaLabel={() => 'Serving'}
                             value={serving}
-                            onChange={handleTimeChange}
+                            onChange={handleServingChange}
                             valueLabelDisplay="auto"
                             min={minServing}
                             max={maxServing}
+                            style={{ color: '#f39c12', width: 220 }}
                         />
-                        <Stack direction="row" justifyContent="space-evenly" alignItems="center">
+                        <Stack
+                            direction="row"
+                            justifyContent="space-evenly"
+                            alignItems="center"
+                            style={{ width: 250 }}
+                        >
                             <TextField
-                                label="min"
+                                label="person(s)"
                                 type="number"
                                 variant="outlined"
                                 InputLabelProps={{ shrink: true }}
-                                sx={{ width: '90px' }}
+                                sx={{ width: '100px' }}
                                 value={serving[0]}
                                 onChange={(e) => {
                                     setServing([Number(e.target.value), serving[1]])
                                 }}
                             />
-                            <Typography> - </Typography>
+                            &nbsp; &nbsp; <Typography> - </Typography> &nbsp; &nbsp;
                             <TextField
-                                label="max"
+                                label="person(s)"
                                 type="number"
                                 variant="outlined"
                                 InputLabelProps={{ shrink: true }}
-                                sx={{ width: '90px' }}
+                                sx={{ width: '100px' }}
                                 value={serving[1]}
                                 onChange={(e) => {
                                     setServing([serving[0], Number(e.target.value)])
@@ -201,8 +219,8 @@ const SearchFilter = () => {
                             />
                             <Button
                                 size="large"
-                                onClick={() => setIsCollapsed(!isCollapsed)}
-                                style={{ outline: 'none' }}
+                                onClick={() => setIsCollapsedServing(!isCollapsedServing)}
+                                style={{ outline: 'none', color: '#f39c12' }}
                             >
                                 Enter
                             </Button>

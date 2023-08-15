@@ -1,16 +1,14 @@
 import * as React from 'react';
 import { Box, Avatar } from '@mui/material';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Divider from '@mui/material/Divider';
 import Tab from '@mui/material/Tab';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
-import Typography from '@mui/material/Typography';
-
+import { Typography, OutlinedInput } from '@mui/material';
 import { useCookies } from 'react-cookie'
+import CssBaseline from '@mui/material/CssBaseline';
+import Container from '@mui/material/Container';
+import Fab from '@mui/material/Fab';
+
 
 
 function TabPanel(props) {
@@ -43,6 +41,7 @@ function a11yProps(index) {
     return {
         id: `vertical-tab-${index}`,
         'aria-controls': `vertical-tabpanel-${index}`,
+        
     };
 }
 const Profile = () => {
@@ -62,80 +61,103 @@ const Profile = () => {
 
     return (
         <>
-            <Box>
-                <Box sx={{ width: '30%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                    <List component="nav" aria-label="main mailbox folders">
-                        <ListItemButton>
-                            <ListItemIcon>
-                                <Avatar
-                                    sx={{ width: 32, height: 32 }}
-                                    src={storedUserData.picture}
-                                ></Avatar>
-                            </ListItemIcon>
-                            <ListItemText primary={storedUserData.name} />
-                        </ListItemButton>
+            <CssBaseline />
+            <Container maxWidth="lg" >
+                <Box sx={{ display: "flex", paddingTop: "20px", paddingLeft: "200px" }}>
 
-                    </List>
-                    <Divider />
-                    <List component="nav" aria-label="secondary mailbox folder">
-                        <ListItemButton
-                            selected={selectedIndex === 0}
-                            onClick={(event) => handleListItemClick(event, 0)}
-                        >
-                            <ListItemText sx={{ fontSize: "30px", fontWeight: "bold" }} primary="Personal Info" />
-                        </ListItemButton>
-                        <ListItemButton
-                            selected={selectedIndex === 1}
-                            onClick={(event) => handleListItemClick(event, 1)}
-                        >
-                            <ListItemText primary="Change password" />
-                        </ListItemButton>
-                    </List>
+                    <Typography sx={{ color: "#f5b041" }} variant='h6' gutterBottom>Hi ! </Typography><Typography sx={{ paddingLeft: "5px", fontWeight: "bold" }} variant='h6' gutterBottom>
+                        {storedUserData.name}
+                    </Typography>
+                    <Avatar
+                        sx={{ width: 32, height: 32 }}
+                        src={storedUserData.picture}
+                    ></Avatar>
+
                 </Box>
-
-
-                <Box
-                    sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 224 }}
-                >
-                    <Tabs
-                        orientation="vertical"
-                        variant="scrollable"
-                        value={value}
-                        onChange={handleChange}
-                        aria-label="Vertical tabs example"
-                        sx={{ borderRight: 1, borderColor: 'divider' }}
+                <Box sx={{ padding: "50px 50px" }}>
+                    <Box
+                        sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 380 }}
                     >
-                        <Tab label="Item One" {...a11yProps(0)} />
-                        <Tab label="Item Two" {...a11yProps(1)} />
-                        <Tab label="Item Three" {...a11yProps(2)} />
-                        <Tab label="Item Four" {...a11yProps(3)} />
-                        <Tab label="Item Five" {...a11yProps(4)} />
-                        <Tab label="Item Six" {...a11yProps(5)} />
-                        <Tab label="Item Seven" {...a11yProps(6)} />
-                    </Tabs>
-                    <TabPanel value={value} index={0}>
-                        Item One
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
-                        Item Two
-                    </TabPanel>
-                    <TabPanel value={value} index={2}>
-                        Item Three
-                    </TabPanel>
-                    <TabPanel value={value} index={3}>
-                        Item Four
-                    </TabPanel>
-                    <TabPanel value={value} index={4}>
-                        Item Five
-                    </TabPanel>
-                    <TabPanel value={value} index={5}>
-                        Item Six
-                    </TabPanel>
-                    <TabPanel value={value} index={6}>
-                        Item Seven
-                    </TabPanel>
-                </Box>
-            </Box>
+                        <Tabs
+                            orientation="vertical"
+                            variant="scrollable"
+                            value={value}
+                            onChange={handleChange}
+                            aria-label="Vertical tabs example"
+                            sx={{ borderRight: 1, borderColor: '#f39c12', width: "250px" }}
+                        >
+                            <Tab sx={{fontWeight:"bold"}} label="Personal Info" {...a11yProps(0)} />
+                            <Tab sx={{fontWeight:"bold"}} label="Change Password" {...a11yProps(1)} />
+                        </Tabs>
+                        <TabPanel value={value} index={0}>
+                            <CssBaseline />
+                            <Container maxWidth="lg">
+                                <Box sx={{ border: "ridge", padding: "30px 25px", maxWidth: "800px" }} >
+
+                                    <div style={{ paddingBottom: "20px" }}>
+                                        <Typography variant='h5' sx={{ textAlign: "center", fontWeight: "bold", fontFamily: "Bebas Neue" }}>My Basic Info</Typography>
+                                    </div>
+
+                                    <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom> Email Address* </Typography>
+                                    <OutlinedInput placeholder={storedUserData.email} sx={{ width: "320px" }} readOnly />
+                                    <Box sx={{ display: "flex" }}>
+                                        <Box sx={{ paddingTop: "25px" }}>
+                                            <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom> Name </Typography>
+                                            <OutlinedInput placeholder={storedUserData.name} sx={{ width: "320px" }} />
+                                        </Box>
+
+                                        <Box sx={{ paddingLeft: "20px", paddingTop: "25px" }}>
+                                            <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom>Phone num </Typography>
+                                            <OutlinedInput placeholder="123456789" sx={{ width: "320px" }} />
+                                        </Box>
+
+                                    </Box>
+                                    <Box sx={{ paddingTop: "30px", display: "flex", justifyContent: "flex-end" }}>
+                                        <Fab variant="extended">
+                                            SAVE CHANGES
+                                        </Fab>
+                                    </Box>
+
+                                </Box>
+                            </Container>
+
+                        </TabPanel>
+                        <TabPanel value={value} index={1}>
+                            <CssBaseline />
+                            <Container maxWidth="lg">
+                                <Box sx={{ border: "ridge", padding: "30px 25px", maxWidth: "800px" }} >
+
+                                    <div style={{ paddingBottom: "20px" }}>
+                                        <Typography variant='h5' sx={{ textAlign: "center", fontWeight: "bold", fontFamily: "Bebas Neue" }}>Change password</Typography>
+                                    </div>
+
+                                    <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom> Email Address* </Typography>
+                                    <OutlinedInput placeholder={storedUserData.email} sx={{ width: "320px" }} readOnly />
+                                    <Box sx={{ display: "flex" }}>
+                                        <Box sx={{ paddingTop: "25px" }}>
+                                            <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom> Name </Typography>
+                                            <OutlinedInput placeholder={storedUserData.name} sx={{ width: "320px" }} />
+                                        </Box>
+
+                                        <Box sx={{ paddingLeft: "20px", paddingTop: "25px" }}>
+                                            <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom>Phone num </Typography>
+                                            <OutlinedInput placeholder="123456789" sx={{ width: "320px" }} />
+                                        </Box>
+
+                                    </Box>
+                                    <Box sx={{ paddingTop: "30px", display: "flex", justifyContent: "flex-end" }}>
+                                        <Fab variant="extended">
+                                            SAVE CHANGES
+                                        </Fab>
+                                    </Box>
+                                </Box>
+                            </Container>
+                        </TabPanel>
+
+                    </Box>
+                </Box >
+            </Container >
+
 
 
         </>

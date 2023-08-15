@@ -10,12 +10,12 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
 import PersonAdd from '@mui/icons-material/PersonAdd'
-import Settings from '@mui/icons-material/Settings'
 import Logout from '@mui/icons-material/Logout'
 import { useNavigate, Link } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
-import Button from '@mui/material/Button';
-import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const Header = () => {
     const [cookies, setCookie, removeCookie] = useCookies(['user'])
@@ -49,9 +49,7 @@ const Header = () => {
                                             <Link to="/">Home</Link>
                                         </li>
 
-                                        <li>
-                                            <Link to="/favorite-recipe">Favorite Receipies</Link>
-                                        </li>
+
                                         <li>
                                             <Link to="/view-plan">Meal Plan</Link>
                                         </li>
@@ -65,6 +63,7 @@ const Header = () => {
                                                         sx={{
                                                             display: 'flex',
                                                             alignItems: 'center',
+                                                            width:"110px"
                                                         }}
                                                     >
                                                         <Tooltip title="Account settings">
@@ -83,10 +82,16 @@ const Header = () => {
                                                                     open ? 'true' : undefined
                                                                 }
                                                             >
-                                                                <Avatar
-                                                                    sx={{ width: 32, height: 32 }}
-                                                                    src={storedUserData.picture}
-                                                                ></Avatar>
+                                                               
+                                                                <Typography variant='h6' sx={{
+                                                                    paddingTop:"30px",
+                                                                    textTransform: "uppercase",
+                                                                    fontSize: "20px",
+                                                                    borderBottom: "3px solid transparent",
+                                                                    lineHeight: "1",
+                                                                    color: "#474747",
+                                                                    fontWeight: "600"
+                                                                }} gutterBottom> My Account <ArrowDropDownIcon fontSize='small' sx={{paddingTop:"5px"}}/> </Typography>
                                                             </IconButton>
                                                         </Tooltip>
                                                     </Box>
@@ -140,9 +145,9 @@ const Header = () => {
                                                             </Link>
 
                                                         </MenuItem>
-                                                        <MenuItem onClick={handleClose}>
+                                                        {/* <MenuItem onClick={handleClose}>
                                                             <Avatar /> My account
-                                                        </MenuItem>
+                                                        </MenuItem> */}
                                                         <Divider />
                                                         <MenuItem
                                                             onClick={handleClose}
@@ -158,7 +163,7 @@ const Header = () => {
                                                                 }}
                                                             >
                                                                 <ListItemIcon>
-                                                                    <PersonAdd fontSize="small" />
+                                                                    <AddCircleOutlineIcon fontSize='small' />
 
                                                                 </ListItemIcon>
                                                                 <Typography variant='h6' fontSize={20}>Add recipe</Typography>
@@ -167,7 +172,7 @@ const Header = () => {
                                                         <MenuItem onClick={handleClose}>
                                                             <Link to="/favorite-recipe" style={{ display: "flex" }}>
                                                                 <ListItemIcon>
-                                                                    <Settings fontSize="small" />
+                                                                    <FavoriteBorderIcon fontSize="small" />
                                                                 </ListItemIcon>
                                                                 <Typography variant='h6' fontSize={20}>  Favorite Recipe</Typography>
                                                             </Link>
@@ -195,8 +200,8 @@ const Header = () => {
                         </nav>
                     </div>
                 </div>
-            </div>
-        </header>
+            </div >
+        </header >
     )
 }
 
