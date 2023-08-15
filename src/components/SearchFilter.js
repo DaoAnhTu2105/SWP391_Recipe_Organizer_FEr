@@ -49,7 +49,7 @@ const SearchFilter = () => {
         setServing(newValue)
     }
     return (
-        <div style={{ alignContent: 'center' }}>
+        <div style={{ alignContent: 'center' }} className="container-fluid">
             <Grid container spacing={2} style={{ display: 'flex', justifyContent: 'center' }}>
                 <Grid xs={2} md={2}>
                     <Autocomplete
@@ -136,7 +136,7 @@ const SearchFilter = () => {
                                 type="number"
                                 variant="outlined"
                                 InputLabelProps={{ shrink: true }}
-                                sx={{ width: '100px' }}
+                                sx={{ width: '90px' }}
                                 value={timeValue[0]}
                                 onChange={(e) => {
                                     setTimeValue([Number(e.target.value), timeValue[1]])
@@ -148,7 +148,7 @@ const SearchFilter = () => {
                                 type="number"
                                 variant="outlined"
                                 InputLabelProps={{ shrink: true }}
-                                sx={{ width: '100px' }}
+                                sx={{ width: '90px' }}
                                 value={timeValue[1]}
                                 onChange={(e) => {
                                     setTimeValue([timeValue[0], Number(e.target.value)])

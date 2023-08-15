@@ -13,11 +13,17 @@ import { useEffect } from 'react'
 import { fetchDataAsync } from '../../redux/reducers/getAllDataRecipes'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import { Button } from '@mui/material'
+import { useState } from 'react'
 
 const HomePage = () => {
+    const [favorite1, setFavorite1] = useState(false)
+    const [favorite2, setFavorite2] = useState(false)
+    const [favorite3, setFavorite3] = useState(false)
+    const [numberOfFavor1, setNumberOfFavor1] = useState(1000)
+    const [numberOfFavor2, setNumberOfFavor2] = useState(1000)
+    const [numberOfFavor3, setNumberOfFavor3] = useState(1000)
     const dispatch = useDispatch()
     const getAllRecipesAPI = useSelector((state) => state.getAllRecipes.data)
-
     const isLoading = useSelector((state) => state.getAllRecipes.isLoading)
     const error = useSelector((state) => state.getAllRecipes.error)
     useEffect(() => {
@@ -30,6 +36,35 @@ const HomePage = () => {
 
     if (error === 'failed') {
         return <div>Error: {error}</div>
+    }
+
+    const handleFavorite1 = () => {
+        if (!favorite1) {
+            setFavorite1(true)
+            setNumberOfFavor1(numberOfFavor1 + 1)
+        } else {
+            setFavorite1(false)
+            setNumberOfFavor1(numberOfFavor1 - 1)
+        }
+    }
+    const handleFavorite2 = () => {
+        if (!favorite2) {
+            setFavorite2(true)
+            setNumberOfFavor2(numberOfFavor2 + 1)
+        } else {
+            setFavorite2(false)
+            setNumberOfFavor2(numberOfFavor2 - 1)
+        }
+    }
+
+    const handleFavorite3 = () => {
+        if (!favorite3) {
+            setFavorite3(true)
+            setNumberOfFavor3(numberOfFavor3 + 1)
+        } else {
+            setFavorite3(false)
+            setNumberOfFavor3(numberOfFavor3 - 1)
+        }
     }
 
     return (
@@ -98,7 +133,7 @@ const HomePage = () => {
                             >
                                 <div className="receipe-content">
                                     <img
-                                        style={{ maxWidth: 400, height: 300 }}
+                                        style={{ maxWidth: 350, height: 250 }}
                                         src="https://www.allrecipes.com/thmb/DZ5WtIe2s6rGk-rIEZDkMA6mGj4=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7568285-perfect-pancakes-KH-4x3-218e2c39174c4a2293fca0ab752b38a8.jpg"
                                         alt="Perfect Pancakes"
                                     />
@@ -116,7 +151,7 @@ const HomePage = () => {
                                                 justifyContent: 'center',
                                             }}
                                         >
-                                            {2000}
+                                            {numberOfFavor1}
                                             &nbsp; &nbsp;
                                             <Button
                                                 style={{
@@ -128,8 +163,17 @@ const HomePage = () => {
                                                     alignItems: 'center',
                                                     outline: 'none',
                                                 }}
+                                                onClick={() => handleFavorite1()}
                                             >
-                                                <FavoriteBorderIcon style={{ color: 'orange' }} />
+                                                {favorite1 ? (
+                                                    <FavoriteBorderIcon
+                                                        style={{ color: 'orange' }}
+                                                    />
+                                                ) : (
+                                                    <FavoriteBorderIcon
+                                                        style={{ color: 'black' }}
+                                                    />
+                                                )}
                                             </Button>
                                         </Typography>
                                     </CardContent>
@@ -145,7 +189,7 @@ const HomePage = () => {
                             >
                                 <div className="receipe-content">
                                     <img
-                                        style={{ maxWidth: 400, height: 300 }}
+                                        style={{ maxWidth: 350, height: 250 }}
                                         src="https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fpublic-assets.meredithcorp.io%2F065c6583a6d9192451b2edd4d81324b3%2F168235712348320230423_144426.jpg&q=60&c=sc&orient=true&poi=auto&h=512"
                                         alt="Chef John's Perfect Prime Rib"
                                     />
@@ -163,9 +207,30 @@ const HomePage = () => {
                                                 justifyContent: 'center',
                                             }}
                                         >
-                                            {1200}
+                                            {numberOfFavor2}
                                             &nbsp; &nbsp;
-                                            <FavoriteBorderIcon />
+                                            <Button
+                                                style={{
+                                                    backgroundColor: 'white',
+                                                    width: '40px',
+                                                    height: '40px',
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                    outline: 'none',
+                                                }}
+                                                onClick={handleFavorite2}
+                                            >
+                                                {favorite2 ? (
+                                                    <FavoriteBorderIcon
+                                                        style={{ color: 'orange' }}
+                                                    />
+                                                ) : (
+                                                    <FavoriteBorderIcon
+                                                        style={{ color: 'black' }}
+                                                    />
+                                                )}
+                                            </Button>
                                         </Typography>
                                     </CardContent>
                                 </div>
@@ -180,7 +245,7 @@ const HomePage = () => {
                             >
                                 <div className="receipe-content">
                                     <img
-                                        style={{ maxWidth: 400, height: 300 }}
+                                        style={{ maxWidth: 350, height: 250 }}
                                         src="https://www.allrecipes.com/thmb/CXHI4rajc40Y6V5l8lpy6DSN_Xk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/chicken-al-pastor-ddmfs-0831-4x3-1-07333bb010104b059996d70da5c02be0.jpg"
                                         alt="Chicken Al Pastor"
                                     />
@@ -198,9 +263,30 @@ const HomePage = () => {
                                                 justifyContent: 'center',
                                             }}
                                         >
-                                            {1200}
+                                            {numberOfFavor3}
                                             &nbsp; &nbsp;
-                                            <FavoriteBorderIcon />
+                                            <Button
+                                                style={{
+                                                    backgroundColor: 'white',
+                                                    width: '40px',
+                                                    height: '40px',
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                    outline: 'none',
+                                                }}
+                                                onClick={handleFavorite3}
+                                            >
+                                                {favorite3 ? (
+                                                    <FavoriteBorderIcon
+                                                        style={{ color: 'orange' }}
+                                                    />
+                                                ) : (
+                                                    <FavoriteBorderIcon
+                                                        style={{ color: 'black' }}
+                                                    />
+                                                )}
+                                            </Button>
                                         </Typography>
                                     </CardContent>
                                 </div>
