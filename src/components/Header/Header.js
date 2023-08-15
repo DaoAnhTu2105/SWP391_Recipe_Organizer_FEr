@@ -13,9 +13,9 @@ import PersonAdd from '@mui/icons-material/PersonAdd'
 import Logout from '@mui/icons-material/Logout'
 import { useNavigate, Link } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 
 const Header = () => {
     const [cookies, setCookie, removeCookie] = useCookies(['user'])
@@ -49,7 +49,6 @@ const Header = () => {
                                             <Link to="/">Home</Link>
                                         </li>
 
-
                                         <li>
                                             <Link to="/view-plan">Meal Plan</Link>
                                         </li>
@@ -63,7 +62,7 @@ const Header = () => {
                                                         sx={{
                                                             display: 'flex',
                                                             alignItems: 'center',
-                                                            width:"110px"
+                                                            width: '110px',
                                                         }}
                                                     >
                                                         <Tooltip title="Account settings">
@@ -82,16 +81,27 @@ const Header = () => {
                                                                     open ? 'true' : undefined
                                                                 }
                                                             >
-                                                               
-                                                                <Typography variant='h6' sx={{
-                                                                    paddingTop:"30px",
-                                                                    textTransform: "uppercase",
-                                                                    fontSize: "20px",
-                                                                    borderBottom: "3px solid transparent",
-                                                                    lineHeight: "1",
-                                                                    color: "#474747",
-                                                                    fontWeight: "600"
-                                                                }} gutterBottom> My Account <ArrowDropDownIcon fontSize='small' sx={{paddingTop:"5px"}}/> </Typography>
+                                                                <Typography
+                                                                    variant="h6"
+                                                                    sx={{
+                                                                        paddingTop: '30px',
+                                                                        textTransform: 'uppercase',
+                                                                        fontSize: '20px',
+                                                                        borderBottom:
+                                                                            '3px solid transparent',
+                                                                        lineHeight: '1',
+                                                                        color: '#474747',
+                                                                        fontWeight: '600',
+                                                                    }}
+                                                                    gutterBottom
+                                                                >
+                                                                    {' '}
+                                                                    My Account{' '}
+                                                                    <ArrowDropDownIcon
+                                                                        fontSize="small"
+                                                                        sx={{ paddingTop: '5px' }}
+                                                                    />{' '}
+                                                                </Typography>
                                                             </IconButton>
                                                         </Tooltip>
                                                     </Box>
@@ -101,7 +111,6 @@ const Header = () => {
                                                         open={open}
                                                         onClose={handleClose}
                                                         onClick={handleClose}
-
                                                         PaperProps={{
                                                             elevation: 0,
                                                             sx: {
@@ -138,57 +147,82 @@ const Header = () => {
                                                             vertical: 'bottom',
                                                         }}
                                                     >
-                                                        <MenuItem onClick={handleClose} >
-                                                            <Link to="/profile" style={{ display: "flex" }} >
+                                                        <MenuItem onClick={handleClose}>
+                                                            <Link
+                                                                to="/profile"
+                                                                style={{ display: 'flex' }}
+                                                            >
                                                                 <Avatar />
-                                                                <Typography variant='h6' sx={{ fontSize: "20px" }}>Profile</Typography>
+                                                                <Typography
+                                                                    variant="h6"
+                                                                    sx={{ fontSize: '20px' }}
+                                                                >
+                                                                    Profile
+                                                                </Typography>
                                                             </Link>
-
                                                         </MenuItem>
                                                         {/* <MenuItem onClick={handleClose}>
                                                             <Avatar /> My account
                                                         </MenuItem> */}
                                                         <Divider />
-                                                        <MenuItem
-                                                            onClick={handleClose}
-
-                                                        >
+                                                        <MenuItem onClick={handleClose}>
                                                             <Link
                                                                 to={'/create-recipe'}
                                                                 style={{
                                                                     alignContent: 'center',
                                                                     textDecoration: 'none',
                                                                     color: 'inherit',
-                                                                    display: "flex"
+                                                                    display: 'flex',
                                                                 }}
                                                             >
                                                                 <ListItemIcon>
-                                                                    <AddCircleOutlineIcon fontSize='small' />
-
+                                                                    <AddCircleOutlineIcon fontSize="small" />
                                                                 </ListItemIcon>
-                                                                <Typography variant='h6' fontSize={20}>Add recipe</Typography>
+                                                                <Typography
+                                                                    variant="h6"
+                                                                    fontSize={20}
+                                                                >
+                                                                    Add recipe
+                                                                </Typography>
                                                             </Link>
                                                         </MenuItem>
                                                         <MenuItem onClick={handleClose}>
-                                                            <Link to="/favorite-recipe" style={{ display: "flex" }}>
+                                                            <Link
+                                                                to="/favorite-recipe"
+                                                                style={{ display: 'flex' }}
+                                                            >
                                                                 <ListItemIcon>
                                                                     <FavoriteBorderIcon fontSize="small" />
                                                                 </ListItemIcon>
-                                                                <Typography variant='h6' fontSize={20}>  Favorite Recipe</Typography>
+                                                                <Typography
+                                                                    variant="h6"
+                                                                    fontSize={20}
+                                                                >
+                                                                    {' '}
+                                                                    Favorite Recipe
+                                                                </Typography>
                                                             </Link>
-
                                                         </MenuItem>
                                                         <MenuItem onClick={handleLogout}>
-                                                            <ListItemIcon >
-                                                                <a style={{ display: "flex" }} href="/login">
+                                                            <ListItemIcon>
+                                                                <a
+                                                                    style={{ display: 'flex' }}
+                                                                    href="/login"
+                                                                >
                                                                     <Logout fontSize="small" />
-                                                                    <Typography variant='h6' sx={{ paddingLeft: "10px", fontSize: "20px" }}>Logout</Typography>
+                                                                    <Typography
+                                                                        variant="h6"
+                                                                        sx={{
+                                                                            paddingLeft: '10px',
+                                                                            fontSize: '20px',
+                                                                        }}
+                                                                    >
+                                                                        Logout
+                                                                    </Typography>
                                                                 </a>
                                                             </ListItemIcon>
-
                                                         </MenuItem>
                                                     </Menu>
-
                                                 </>
                                             ) : (
                                                 <a href="/login">Login</a>
@@ -200,8 +234,8 @@ const Header = () => {
                         </nav>
                     </div>
                 </div>
-            </div >
-        </header >
+            </div>
+        </header>
     )
 }
 
