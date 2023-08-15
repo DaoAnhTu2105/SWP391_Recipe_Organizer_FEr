@@ -130,8 +130,7 @@ export default function MealPlan() {
         return dd + "/" + mm + "/" + yyyy;
     };
 
-    // console.log(currentDate);
-    console.log(Date(getMonday(currentDate)));
+    
 
     return (
         <div className="plan-meal">
@@ -141,7 +140,7 @@ export default function MealPlan() {
             </div>
             <div className="table-header">
                 <div></div>
-                {}
+                { }
                 <div className="table-header-component">
                     <a href="/meal-detail">
                         Monday
