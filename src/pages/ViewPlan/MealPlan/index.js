@@ -4,8 +4,8 @@ import Food from '../Food'
 
 const meal = {
     status: 1,
-    food: {
-        mon: {
+    food: [
+        {
             breakfast: [{ food: 'Pho', calo: '400' }],
             lunch: [
                 { food: 'Ca kho', calo: '400' },
@@ -18,7 +18,86 @@ const meal = {
                 { food: 'Ca kho', calo: '400' },
             ],
         },
-    },
+        {
+            breakfast: [{ food: '', calo: '' }],
+            lunch: [
+                { food: 'Ca kho', calo: '400' },
+                { food: 'Thit luoc', calo: '400' },
+                { food: 'Ca kho', calo: '400' },
+            ],
+            dinner: [
+                { food: 'Ca kho', calo: '400' },
+                { food: 'Thit luoc', calo: '400' },
+                { food: 'Ca kho', calo: '400' },
+            ],
+        },
+        {
+            breakfast: [{ food: 'Pho', calo: '400' }],
+            lunch: [
+                { food: 'Ca kho', calo: '400' },
+                { food: 'Thit luoc', calo: '400' },
+                { food: 'Ca kho', calo: '400' },
+            ],
+            dinner: [
+                { food: 'Ca kho', calo: '400' },
+                { food: 'Thit luoc', calo: '400' },
+                { food: 'Ca kho', calo: '400' },
+            ],
+        },
+        {
+            breakfast: [{ food: 'Pho', calo: '400' }],
+            lunch: [
+                { food: '', calo: '' },
+                { food: 'Thit luoc', calo: '400' },
+                { food: 'Ca kho', calo: '400' },
+            ],
+            dinner: [
+                { food: 'Ca kho', calo: '400' },
+                { food: 'Thit luoc', calo: '400' },
+                { food: 'Ca kho', calo: '400' },
+            ],
+        },
+        {
+            breakfast: [{ food: 'Pho', calo: '400' }],
+            lunch: [
+                { food: 'Ca kho', calo: '400' },
+                { food: 'Thit luoc', calo: '400' },
+                { food: 'Ca kho', calo: '400' },
+            ],
+            dinner: [
+                { food: 'Ca kho', calo: '400' },
+                { food: 'Thit luoc', calo: '400' },
+                { food: 'Ca kho', calo: '400' },
+            ],
+        },
+        {
+            breakfast: [{ food: '', calo: '' }],
+            lunch: [
+                { food: 'Ca kho', calo: '400' },
+                { food: 'Thit luoc', calo: '400' },
+                { food: 'Ca kho', calo: '400' },
+            ],
+            dinner: [
+                { food: 'Ca kho', calo: '400' },
+                { food: 'Thit luoc', calo: '400' },
+                { food: 'Ca kho', calo: '400' },
+            ],
+        },
+        {
+            breakfast: [{ food: 'Pho', calo: '400' }],
+            lunch: [
+                { food: 'Ca kho', calo: '400' },
+                { food: 'Thit luoc', calo: '400' },
+                { food: 'Ca kho', calo: '400' },
+            ],
+            dinner: [
+                { food: 'Ca kho', calo: '400' },
+                { food: 'Thit luoc', calo: '400' },
+                { food: 'Ca kho', calo: '400' },
+            ],
+        },
+
+    ],
 }
 
 export default function MealPlan() {
@@ -133,3 +212,101 @@ export default function MealPlan() {
         </div>
     )
 }
+
+// export default function MealPlan() {
+//     return (
+//         <div className="plan-meal">
+//             <div className="table-header">
+//                 <div></div>
+//                 <div className="">
+//                     <a href="/meal-detail">Monday</a>
+//                 </div>
+//                 <div className="">Tuesday</div>
+//                 <div className="">Wednesday</div>
+//                 <div className="">Thursday</div>
+//                 <div className="">Friday</div>
+//                 <div className="">Saturday</div>
+//                 <div className="">Sunday</div>
+//             </div>
+//             <div className="table-body">
+//                 <div className="table-body-content">
+//                     <div className="meal" style={{ color: '#32a6de' }}>
+//                         <div>
+//                             <b>BreakFast</b>
+//                         </div>
+//                         <div>
+//                             <b>6AM - 8AM</b>
+//                         </div>
+//                     </div>
+//                     {meal.food.map((meal) => (
+//                         <div className="item">
+//                             {meal.breakfast.map((food) => {
+//                                 if (food.food.length !== 0) {
+//                                     return (
+//                                         <Food
+//                                             foodName={food.food}
+//                                             calo={food.calo}
+//                                             meal='breakfast'
+//                                         />
+//                                     )
+//                                 }
+//                                 return null;
+//                             })}
+//                         </div>
+//                     ))}
+//                 </div>
+//                 <div className="table-body-content">
+//                     <div style={{ color: '#e29d1d' }}>
+//                         <div>
+//                             <b>Lunch</b>
+//                         </div>
+//                         <div>
+//                             <b>12:30AM - 2PM</b>
+//                         </div>
+//                     </div>
+//                     {meal.food.map((meal) => (
+//                         <div className="item">
+//                             {meal.lunch.map((food) => {
+//                                 if (food.food.length !== 0) {
+//                                     return (
+//                                         <Food
+//                                             foodName={food.food}
+//                                             calo={food.calo}
+//                                             meal='lunch'
+//                                         />
+//                                     )
+//                                 }
+//                                 return null;
+//                             })}
+//                         </div>
+//                     ))}
+//                 </div>
+//                 <div className="table-body-content">
+//                     <div style={{ color: '#68169c' }}>
+//                         <div>
+//                             <b>Dinner</b>
+//                         </div>
+//                         <div>
+//                             <b>6PM - 9PM</b>
+//                         </div>
+//                     </div>
+//                     {meal.food.map((meal) => (
+//                         <div className="item">
+//                             {meal.dinner.map((food) => {
+//                                 if (food.food.length !== 0) {
+//                                     return (
+//                                         <Food
+//                                             foodName={food.food}
+//                                             calo={food.calo}
+//                                         />
+//                                     )
+//                                 }
+//                                 return null;
+//                             })}
+//                         </div>
+//                     ))}
+//                 </div>
+//             </div>
+//         </div>
+//     )
+// }
