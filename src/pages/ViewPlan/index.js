@@ -4,9 +4,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import MealPlan from './MealPlan'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
+import Cookies from 'js-cookie';
 
-const ViewPlan = ({ searchQueryList, userRole }) => {
-
+const ViewPlan = () => {
     // const dispatch = useDispatch();
     // useEffect(() => {
     //     dispatch(
@@ -16,6 +16,8 @@ const ViewPlan = ({ searchQueryList, userRole }) => {
     //         })
     //     );
     // }, [date, searchQueryList]);
+    const userRole = Cookies.get('userInfor');
+    console.log(userRole);
     return (
         <Fragment>
             <Container maxWidth="md">
