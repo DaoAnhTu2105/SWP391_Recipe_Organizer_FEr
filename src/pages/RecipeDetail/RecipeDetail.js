@@ -4,8 +4,9 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 // Import Swiper styles
 import 'swiper/css'
 import 'swiper/css/navigation'
+import 'swiper/css/pagination'
 // import required modules
-import { Navigation } from 'swiper/modules'
+import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules'
 import { Link } from 'react-router-dom'
 import { Button, Rating, Box, List, ListItem, ListItemText, Divider } from '@mui/material'
 import { useState } from 'react'
@@ -443,27 +444,30 @@ const RecipeDetail = () => {
                 </div>
                 <Swiper
                     navigation={true}
-                    modules={[Navigation]}
+                    pagination={true}
+                    mousewheel={true}
+                    keyboard={true}
+                    modules={[Navigation, Pagination, Mousewheel, Keyboard]}
                     className="mySwiper"
-                    style={{ width: '900px', height: '400px', marginBottom: 20 }}
+                    style={{ width: '1000px', height: '500px', marginBottom: 20 }}
                 >
                     <SwiperSlide>
                         <img
-                            style={{ width: '900px', height: '500px' }}
+                            style={{ width: '1000px', height: '500px' }}
                             src="https://static.onecms.io/wp-content/uploads/sites/43/2022/02/16/21014-Good-old-Fashioned-Pancakes-mfs_001.jpg"
                             alt=""
                         />
                     </SwiperSlide>
                     <SwiperSlide>
                         <img
-                            style={{ width: '900px', height: '500px' }}
+                            style={{ width: '1000px', height: '500px' }}
                             src="https://www.allrecipes.com/thmb/DZ5WtIe2s6rGk-rIEZDkMA6mGj4=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7568285-perfect-pancakes-KH-4x3-218e2c39174c4a2293fca0ab752b38a8.jpg"
                             alt=""
                         />
                     </SwiperSlide>
                     <SwiperSlide>
                         <img
-                            style={{ width: '900px', height: '500px' }}
+                            style={{ width: '1000px', height: '500px' }}
                             src="https://www.kingarthurbaking.com/sites/default/files/styles/featured_image/public/recipe_legacy/48-3-large.jpg?itok=inlusIOg"
                             alt=""
                         />
