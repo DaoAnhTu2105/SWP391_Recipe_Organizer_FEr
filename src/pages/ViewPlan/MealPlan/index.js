@@ -208,7 +208,7 @@ export default function MealPlan() {
         <div className="plan-meal">
             <div className='date-info'>
                 <div className='date'>
-                    <b>{month} {currentDate.getFullYear()}</b>
+                    <a href="/create-plan"><button>Create Meal Plan</button></a>
                 </div>
                 <div className='button'>
                     <button onClick={() => setCurrentDate(subDays(getMonday(currentDate), 7))}>

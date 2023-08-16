@@ -77,7 +77,7 @@ const SearchFilter = () => {
             </div>
 
             {openFilter && (
-                <div className="container">
+                <div className="" style={{ position: 'absolute', zIndex: 100, backgroundColor: '#fff' }}>
                     <FormControl>
                         <FormGroup>
                             <Grid container spacing={2}>

@@ -15,6 +15,79 @@ import { visuallyHidden } from '@mui/utils'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 
+const data = [
+    {
+        "userId": "2700e8b6af184fa493f3",
+        "username": null,
+        "userInfo": null,
+        "fullName": null,
+        "email": "vuncse151184@fpt.edu.vn",
+        "avatarName": null,
+        "phoneNum": null,
+        "address": null
+    },
+    {
+        "userId": "28cf0dbd03794d7ba580",
+        "username": "guest",
+        "userInfo": null,
+        "fullName": null,
+        "email": null,
+        "avatarName": null,
+        "phoneNum": null,
+        "address": null
+    },
+    {
+        "userId": "4d04771382964a2ea2bb",
+        "username": null,
+        "userInfo": null,
+        "fullName": "Dao Anh Tu (K15 HCM)",
+        "email": "tudase151149@fpt.edu.vn",
+        "avatarName": "https://lh3.googleusercontent.com/a/AAcHTtd0JVTUPG83TCmj3DX9cAop6AJtIJQt2cahlxa0k0SRiHk=s96-c",
+        "phoneNum": null,
+        "address": null
+    },
+    {
+        "userId": "733e042343a2405d83dd",
+        "username": "admin",
+        "userInfo": null,
+        "fullName": null,
+        "email": null,
+        "avatarName": null,
+        "phoneNum": null,
+        "address": null
+    },
+    {
+        "userId": "a3ece52d053445ad9f3c",
+        "username": null,
+        "userInfo": null,
+        "fullName": "Thanh Tùng Nguyễn",
+        "email": "tungnt14062001@gmail.com",
+        "avatarName": "https://lh3.googleusercontent.com/a/AAcHTteamewrdtg8vW3004yDUGU6HEGkdyA6NnkY4g6zpGzI=s96-c",
+        "phoneNum": null,
+        "address": null
+    },
+    {
+        "userId": "a94a6e75f3284093a2e5",
+        "username": null,
+        "userInfo": null,
+        "fullName": null,
+        "email": "vinhnhse151180@fpt.edu.vn",
+        "avatarName": null,
+        "phoneNum": null,
+        "address": null
+    },
+    {
+        "userId": "e473c8b9c32946af84bc",
+        "username": "cooker",
+        "userInfo": null,
+        "fullName": null,
+        "email": null,
+        "avatarName": null,
+        "phoneNum": null,
+        "address": null
+    }
+]
+
 function createData(id, userName, fullName, email, phone, role) {
     return {
         id,
@@ -26,161 +99,12 @@ function createData(id, userName, fullName, email, phone, role) {
     }
 }
 
-const rows = [
-    createData('01', 'frozenas12', 'Frozen yoghurt', 'thuoasd@gmail.com', '0124212424', 'Client'),
-    createData(
-        '02',
-        'frozenas12',
-        'Yvonne Holt',
-        'cursus.purus.nullam@aol.couk',
-        '0124212424',
-        'Client'
-    ),
-    createData(
-        '03',
-        'frozenas12',
-        'Frozen yoghurt',
-        'aliquet.metus@outlook.edu',
-        '0124212424',
-        'Cooker'
-    ),
-    createData(
-        '04',
-        'frozenas12',
-        'Mannix Mcdowell',
-        'orci.phasellus@protonmail.net',
-        '0124212424',
-        'Cooker'
-    ),
-    createData(
-        '05',
-        'frozenas12',
-        'Devin Barry',
-        'orci.phasellus@protonmail.net',
-        '0124212424',
-        'Cooker'
-    ),
-    createData('06', 'frozenas12', 'Paki House', 'etiam@google.edu', '0124212424', 'Client'),
-    createData(
-        '07',
-        'frozenas12',
-        'Mannix Mcdowell',
-        'orci.phasellus@protonmail.net',
-        '0124212424',
-        'Cooker'
-    ),
-    createData(
-        '08',
-        'frozenas12',
-        'Devin Barry',
-        'orci.phasellus@protonmail.net',
-        '0124212424',
-        'Cooker'
-    ),
-    createData('09', 'frozenas12', 'Paki House', 'etiam@google.edu', '0124212424', 'Client'),
-    createData(
-        '10',
-        'frozenas12',
-        'Mannix Mcdowell',
-        'orci.phasellus@protonmail.net',
-        '0124212424',
-        'Cooker'
-    ),
-    createData(
-        '11',
-        'frozenas12',
-        'Devin Barry',
-        'orci.phasellus@protonmail.net',
-        '0124212424',
-        'Cooker'
-    ),
-    createData('12', 'frozenas12', 'Paki House', 'etiam@google.edu', '0124212424', 'Client'),
-    createData(
-        '13',
-        'frozenas12',
-        'Mannix Mcdowell',
-        'orci.phasellus@protonmail.net',
-        '0124212424',
-        'Cooker'
-    ),
-    createData(
-        '14',
-        'frozenas12',
-        'Devin Barry',
-        'orci.phasellus@protonmail.net',
-        '0124212424',
-        'Cooker'
-    ),
-    createData('15', 'frozenas12', 'Paki House', 'etiam@google.edu', '0124212424', 'Client'),
-    createData(
-        '16',
-        'frozenas12',
-        'Mannix Mcdowell',
-        'orci.phasellus@protonmail.net',
-        '0124212424',
-        'Cooker'
-    ),
-    createData(
-        '17',
-        'frozenas12',
-        'Devin Barry',
-        'orci.phasellus@protonmail.net',
-        '0124212424',
-        'Cooker'
-    ),
-    createData('18', 'frozenas12', 'Paki House', 'etiam@google.edu', '0124212424', 'Client'),
-    createData(
-        '19',
-        'frozenas12',
-        'Mannix Mcdowell',
-        'orci.phasellus@protonmail.net',
-        '0124212424',
-        'Cooker'
-    ),
-    createData(
-        '20',
-        'frozenas12',
-        'Devin Barry',
-        'orci.phasellus@protonmail.net',
-        '0124212424',
-        'Cooker'
-    ),
-    createData('21', 'frozenas12', 'Paki House', 'etiam@google.edu', '0124212424', 'Client'),
-    createData(
-        '22',
-        'frozenas12',
-        'Mannix Mcdowell',
-        'orci.phasellus@protonmail.net',
-        '0124212424',
-        'Cooker'
-    ),
-    createData(
-        '23',
-        'frozenas12',
-        'Devin Barry',
-        'orci.phasellus@protonmail.net',
-        '0124212424',
-        'Cooker'
-    ),
-    createData('24', 'frozenas12', 'Paki House', 'etiam@google.edu', '0124212424', 'Client'),
-    createData(
-        '25',
-        'frozenas12',
-        'Mannix Mcdowell',
-        'orci.phasellus@protonmail.net',
-        '0124212424',
-        'Cooker'
-    ),
-    createData(
-        '26',
-        'frozenas12',
-        'Devin Barry',
-        'orci.phasellus@protonmail.net',
-        '0124212424',
-        'Cooker'
-    ),
-    createData('27', 'frozenas12', 'Paki House', 'etiam@google.edu', '0124212424', 'Client'),
-]
+const rows = []
+
+data.map((user) => {
+    rows.push(createData(user.userId, user.username, user.fullName, user.email, user.phoneNum, user.role))
+    return 1;
+})
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {

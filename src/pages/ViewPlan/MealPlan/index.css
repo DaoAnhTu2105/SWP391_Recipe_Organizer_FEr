@@ -7,6 +7,7 @@
     display: flex;
     position: relative;
     padding: 20px;
+    align-items: center;
 }
 
 .plan-meal .date-info .date {
@@ -26,12 +27,27 @@
     cursor: pointer;
 }
 
+.plan-meal .date-info .date button {
+    border: 1px #f39c12 solid;
+    background-color: #fff;
+    color: #f39c12;
+    padding: 5px 10px;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.plan-meal .date-info .date button:hover {
+    background-color: #f39c12;
+    color: #fff;
+}
+
 .plan-meal .table-header {
     display: flex;
     flex-wrap: nowrap;
     width: 100%;
     min-height: 20px;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .plan-meal .table-header .table-header-component {
