@@ -41,7 +41,7 @@ function a11yProps(index) {
     return {
         id: `vertical-tab-${index}`,
         'aria-controls': `vertical-tabpanel-${index}`,
-        
+
     };
 }
 const Profile = () => {
@@ -64,15 +64,14 @@ const Profile = () => {
             <CssBaseline />
             <Container maxWidth="lg" >
                 <Box sx={{ display: "flex", paddingTop: "20px", paddingLeft: "200px" }}>
-
-                    <Typography sx={{ color: "#f5b041" }} variant='h6' gutterBottom>Hi ! </Typography><Typography sx={{ paddingLeft: "5px", fontWeight: "bold" }} variant='h6' gutterBottom>
-                        {storedUserData.name}
-                    </Typography>
-                    <Avatar
-                        sx={{ width: 32, height: 32 }}
-                        src={storedUserData.picture}
-                    ></Avatar>
-
+                
+                        <Typography sx={{ color: "#f5b041" }} variant='h6' gutterBottom>Hi ! </Typography><Typography sx={{ paddingLeft: "5px", fontWeight: "bold" }} variant='h6' gutterBottom>
+                            {storedUserData.name}
+                        </Typography>
+                        <Avatar
+                            sx={{ width: 32, height: 32 }}
+                            src={storedUserData.picture}
+                        ></Avatar>
                 </Box>
                 <Box sx={{ padding: "50px 50px" }}>
                     <Box
@@ -86,8 +85,8 @@ const Profile = () => {
                             aria-label="Vertical tabs example"
                             sx={{ borderRight: 1, borderColor: '#f39c12', width: "250px" }}
                         >
-                            <Tab sx={{fontWeight:"bold"}} label="Personal Info" {...a11yProps(0)} />
-                            <Tab sx={{fontWeight:"bold"}} label="Change Password" {...a11yProps(1)} />
+                            <Tab sx={{ fontWeight: "bold" }} label="Personal Info" {...a11yProps(0)} />
+                            <Tab sx={{ fontWeight: "bold" }} label="Change Password" {...a11yProps(1)} />
                         </Tabs>
                         <TabPanel value={value} index={0}>
                             <CssBaseline />

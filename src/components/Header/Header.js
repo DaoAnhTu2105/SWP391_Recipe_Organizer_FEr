@@ -31,7 +31,6 @@ const Header = () => {
     }
     const handleLogout = () => {
         removeCookie('user')
-        removeCookie('userInfor')
     }
     return (
         <>

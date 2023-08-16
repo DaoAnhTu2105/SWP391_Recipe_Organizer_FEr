@@ -1,15 +1,10 @@
 import * as React from 'react'
-import Avatar from '@mui/material/Avatar'
-import Button from '@mui/material/Button'
+import imgLogo from '../../img/core-img/logo.png'
 import CssBaseline from '@mui/material/CssBaseline'
-import TextField from '@mui/material/TextField'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Checkbox from '@mui/material/Checkbox'
 import Link from '@mui/material/Link'
 import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import background from '../../assets/login-background.jpg'
@@ -47,7 +42,7 @@ const Login = () => {
             console.log(response)
             if (response.ok) {
                 const responseData = await response.json()
-                setCookie('user', JSON.stringify(decoded))
+                setCookie('user',responseData)
                 // const userInfo = { role: responseData.role, token: responseData.token }
                 // document.cookie = `userInfo=${encodeURIComponent(JSON.stringify(userInfo))}`;
                 navigate('/')
@@ -75,14 +70,6 @@ const Login = () => {
         }
     }, [])
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        const data = new FormData(event.currentTarget)
-        // console.log({
-        //     email: data.get('email'),
-        //     password: data.get('password'),
-        // })
-    }
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -112,7 +99,7 @@ const Login = () => {
                             alignItems: 'center',
                         }}
                     >
-                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                        {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                             <LockOutlinedIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">
@@ -150,10 +137,29 @@ const Login = () => {
                                 sx={{ mt: 3, mb: 2 }}
                             >
                                 Sign In
-                            </Button>
-                            <div id="buttonDiv"></div>
+                            </Button> */}
+                        <Box sx={{ paddingTop: "30px", textAlign: "center" }}>
+                            <Box sx={{}}>
+                                <Link to="/" sx={{ textAlign: "center" }}>
+                                    <img src={imgLogo} alt="" />
+                                </Link>
+                            </Box>
 
-                            {/* <Button
+                            <Box sx={{ paddingTop: "30px" }}>
+                                <Typography variant='subtitle1' sx={{ color: "#f39c12", fontWeight: "600", paddingLeft: "40px", fontFamily: "Cursive" }}>A recipe has no soul.</Typography>
+                                <Typography variant='subtitle2' sx={{ fontStyle: "italic", color: "#f39c12", fontFamily: "Cursive" }}>You as the cook must bring soul to the recipe.</Typography>
+                            </Box>
+
+                        </Box>
+                        <Box sx={{ paddingTop: "70px", display: "flex" }}>
+                            <Typography variant='h4' sx={{ fontWeight: "600", fontFamily: "Courier New, Courier" }}>Welcome to </Typography>
+                            <Typography variant='h4' sx={{ paddingLeft: "5px", color: "red", fontWeight: "600", fontFamily: "Lucida Handwriting, cursive" }}>Delicious </Typography>
+                        </Box>
+
+
+                        <div id="buttonDiv" style={{paddingTop:"50px"}}></div>
+
+                        {/* <Button
                                 id="googleSignInButton"  // This ID is used to target the button
                                 fullWidth
                                 variant="contained"
@@ -162,19 +168,19 @@ const Login = () => {
                                 Sign in with Google
                             </Button> */}
 
-                            <Grid container>
-                                <Grid item xs>
-                                    <Link to="#" variant="body2">
-                                        Forgot password?
-                                    </Link>
-                                </Grid>
-                                <Grid item>
-                                    <Link to="/register" variant="body2">
-                                        Don't have an account? Sign Up
-                                    </Link>
-                                </Grid>
+                        {/* <Grid container>
+                            <Grid item xs>
+                                <Link to="#" variant="body2">
+                                    Forgot password?
+                                </Link>
                             </Grid>
-                        </Box>
+                            <Grid item>
+                                <Link to="/register" variant="body2">
+                                    Don't have an account? Sign Up
+                                </Link>
+                            </Grid> */}
+                        {/* </Grid> */}
+                        {/* </Box> */}
                     </Box>
                 </Grid>
             </Grid>
