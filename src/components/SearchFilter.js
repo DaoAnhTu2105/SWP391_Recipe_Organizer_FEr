@@ -59,7 +59,7 @@ const SearchFilter = () => {
                 <div>
                     <Search />
                 </div>
-                <div style={{ marginLeft: 10 }}>
+                <div style={{ marginLeft: 10, marginTop: 130 }}>
                     <Button
                         variant="contained"
                         size="small"
