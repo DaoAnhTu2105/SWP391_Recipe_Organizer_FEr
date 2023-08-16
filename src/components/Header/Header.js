@@ -31,7 +31,6 @@ const Header = () => {
     }
     const handleLogout = () => {
         removeCookie('user')
-        removeCookie('userInfor')
     }
     return (
         <header className="header-area fixed-top">
@@ -205,11 +204,8 @@ const Header = () => {
                                                             </Link>
                                                         </MenuItem>
                                                         <MenuItem onClick={handleLogout}>
-                                                            <ListItemIcon>
-                                                                <a
-                                                                    style={{ display: 'flex' }}
-                                                                    href="/login"
-                                                                >
+                                                            <ListItemIcon >
+                                                                <a style={{ display: "flex" }} href="/#">
                                                                     <Logout fontSize="small" />
                                                                     <Typography
                                                                         variant="h6"

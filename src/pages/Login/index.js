@@ -42,7 +42,7 @@ const Login = () => {
             console.log(response)
             if (response.ok) {
                 const responseData = await response.json()
-                setCookie('user', JSON.stringify(decoded))
+                setCookie('user',responseData)
                 // const userInfo = { role: responseData.role, token: responseData.token }
                 // document.cookie = `userInfo=${encodeURIComponent(JSON.stringify(userInfo))}`;
                 navigate('/')
@@ -70,14 +70,6 @@ const Login = () => {
         }
     }, [])
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        const data = new FormData(event.currentTarget)
-        // console.log({
-        //     email: data.get('email'),
-        //     password: data.get('password'),
-        // })
-    }
 
     return (
         <ThemeProvider theme={defaultTheme}>
