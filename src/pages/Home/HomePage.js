@@ -492,7 +492,7 @@ const HomePage = () => {
                                             />
 
                                             <CardContent>
-                                                <Typography variant="body2" color="text.secondary">
+                                                <Typography variant="body2" color="text.primary">
                                                     Perfect Pancakes
                                                 </Typography>
                                             </CardContent>
