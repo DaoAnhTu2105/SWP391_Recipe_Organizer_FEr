@@ -303,7 +303,7 @@ const Header = () => {
                                                         aria-expanded={open ? 'true' : undefined}
                                                     >
                                                         <img
-                                                            src="https://github.com/mdo.png"
+                                                            src={storedUserData.photo}
                                                             alt="mdo"
                                                             width="32"
                                                             height="32"
