@@ -45,6 +45,7 @@ const Login = () => {
                 setCookie('user', responseData)
                 // const userInfo = { role: responseData.role, token: responseData.token }
                 // document.cookie = `userInfo=${encodeURIComponent(JSON.stringify(userInfo))}`;
+                localStorage.setItem("user", JSON.stringify(responseData));
                 navigate('/')
                 console.log('login successful', responseData)
             } else {

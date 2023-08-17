@@ -9,3 +9,15 @@ body {
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+* button {
+    border: none;
+}
+
+* button:hover {
+    background-color: #fff !important;
+}
+
+* button::before {
+    background-color: #fff;
+}
