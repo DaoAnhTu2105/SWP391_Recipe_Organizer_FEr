@@ -267,13 +267,7 @@ function CreateRecipe() {
 
             <Stack spacing={2} sx={{ width: "auto" }}>
               <div style={{ display: "flex" }}>
-                <Autocomplete
-                  id="free-solo-demo"
-                  freeSolo
-                  sx={{ width: 500, paddingRight: 2 }}
-                  options={top100Films.map((option) => option.title)}
-                  renderInput={(params) => <TextField {...params} label="Select nutrition" />}
-                />
+                <OutlinedInput placeholder="Fats" sx={{ width: 425, marginRight: 2 }} />
                 <TextField
                   label="gram(s)"
                   type="number"
@@ -285,13 +279,7 @@ function CreateRecipe() {
                 />
               </div>
               <div style={{ display: "flex" }}>
-                <Autocomplete
-                  id="free-solo-demo"
-                  freeSolo
-                  sx={{ width: 500, paddingRight: 2 }}
-                  options={top100Films.map((option) => option.title)}
-                  renderInput={(params) => <TextField {...params} label="Select nutrition" />}
-                />
+                <OutlinedInput placeholder="Fats" sx={{ width: 425, marginRight: 2 }} />
                 <TextField
                   label="gram(s)"
                   type="number"
@@ -303,13 +291,7 @@ function CreateRecipe() {
                 />
               </div>
               <div style={{ display: "flex" }}>
-                <Autocomplete
-                  id="free-solo-demo"
-                  freeSolo
-                  sx={{ width: 500, paddingRight: 2 }}
-                  options={top100Films.map((option) => option.title)}
-                  renderInput={(params) => <TextField {...params} label="Select nutrition" />}
-                />
+                <OutlinedInput placeholder="Fats" sx={{ width: 425, marginRight: 2 }} />
                 <TextField
                   label="gram(s)"
                   type="number"

@@ -17,6 +17,7 @@ import RecipeDetail from '../pages/RecipeDetail/RecipeDetail'
 import PlanDetail from '../pages/PlanDetail'
 import LayoutWithoutFilter from '../components/LayoutWithoutFilter'
 import Profile from '../pages/Profile'
+import ViewCooker from '../pages/ViewCooker'
 import PrivateRouters from './PrivateRouters'
 
 export const publicRouters = [
@@ -53,7 +54,6 @@ export const publicRouters = [
         path: '/favorite-recipe',
         name: 'favorite-recipe',
         component: FavoriteRecipe,
-        layout: LayoutWithoutFilter,
     },
     {
         path: '/register',
@@ -83,12 +83,6 @@ export const publicRouters = [
 
 export const privateRouters = [
     {
-        path: '/user-list',
-        name: 'user-list',
-        component: UserList,
-        layout: LayoutWithoutFilter,
-    },
-    {
         path: '/profile',
         name: 'user-profile',
         component: Profile,
@@ -98,6 +92,20 @@ export const privateRouters = [
         path: '/plan-detail',
         name: 'plan-detail',
         component: PlanDetail,
+        layout: LayoutWithoutFilter,
+    }, {
+        path: '/repice-cooker',
+        name: 'repice-cooker',
+        component: ViewCooker,
+        layout: LayoutWithoutFilter,
+    },
+]
+
+export const adminRouters = [
+    {
+        path: '/user-list',
+        name: 'user-list',
+        component: UserList,
         layout: LayoutWithoutFilter,
     },
 ]
@@ -139,8 +147,35 @@ export const RouterComponents = () => {
                             />
                         )
                     })}
-                    {privateRouters.map((route, index) => {
-                        let isAuthenticated = JSON.parse(localStorage.getItem("user"));
+                    <Route exact path='/' element={<PrivateRouters />}>
+                        {privateRouters.map((route, index) => {
+                            const user = JSON.parse(localStorage.getItem('user'))
+                            const Page = route.component
+                            let Layout = DefaultLayout
+                            if (route.layout) {
+                                Layout = route.layout
+                            } else if (route.layout === null) {
+                                Layout = Fragment
+                            }
+                            return (
+                                <Route
+                                    key={index}
+                                    path={route.path}
+                                    element={
+                                        user ? (
+                                            <Layout>
+                                                <Page />
+                                            </Layout>
+                                        ) : (
+                                            <Navigate to="/error" replace />
+                                        )
+                                    }
+                                />
+                            );
+                        })}
+                    </Route>
+                    {adminRouters.map((route, index) => {
+                        const user = JSON.parse(localStorage.getItem('user'))
                         const Page = route.component
                         let Layout = DefaultLayout
                         if (route.layout) {
@@ -153,7 +188,7 @@ export const RouterComponents = () => {
                                 key={index}
                                 path={route.path}
                                 element={
-                                    isAuthenticated ? (
+                                    (user && user.role === 'Admin') ? (
                                         <Layout>
                                             <Page />
                                         </Layout>
