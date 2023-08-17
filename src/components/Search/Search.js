@@ -3,7 +3,7 @@ import './index.css'
 
 const Search = () => {
     return (
-        <div className="search">
+        <div className="search" style={{ marginTop: 140 }}>
             <div className="row">
                 <div className="col-12">
                     <form className="search-form" action="#" method="post">

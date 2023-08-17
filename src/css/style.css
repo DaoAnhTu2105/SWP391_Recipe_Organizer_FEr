@@ -157,6 +157,7 @@
     animation: showOverlay 0.3s ease 1s forwards;
 }
 
+
 @keyframes showOverlay {
     to {
         transform: translateY(0);

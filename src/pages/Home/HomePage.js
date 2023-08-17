@@ -97,23 +97,23 @@ const HomePage = () => {
         <>
             <div className="container-fluid">
                 <div className="mt-5">
-                    <Link to="/recipe-detail">
-                        <Swiper
-                            spaceBetween={30}
-                            centeredSlides={true}
-                            mousewheel={true}
-                            autoplay={{
-                                delay: 3000,
-                                disableOnInteraction: false,
-                            }}
-                            pagination={{
-                                clickable: true,
-                            }}
-                            navigation={true}
-                            modules={[Autoplay, Pagination, Navigation, Mousewheel]}
-                            className="mySwiper"
-                            style={{ width: 1200, height: 700, cursor: 'pointer' }}
-                        >
+                    <Swiper
+                        spaceBetween={30}
+                        centeredSlides={true}
+                        mousewheel={true}
+                        autoplay={{
+                            delay: 3000,
+                            disableOnInteraction: false,
+                        }}
+                        pagination={{
+                            clickable: true,
+                        }}
+                        navigation={true}
+                        modules={[Autoplay, Pagination, Navigation, Mousewheel]}
+                        className="mySwiper"
+                        style={{ width: 1200, height: 700, cursor: 'pointer' }}
+                    >
+                        <Link to="/recipe-detail">
                             {images.map((image, index) => (
                                 <SwiperSlide key={index}>
                                     <div className="slide-container">
@@ -134,8 +134,8 @@ const HomePage = () => {
                                     </div>
                                 </SwiperSlide>
                             ))}
-                        </Swiper>
-                    </Link>
+                        </Link>
+                    </Swiper>
                 </div>
                 <div className="mt-5">
                     <Box style={{ display: 'flex', justifyContent: 'space-evenly' }}>
@@ -492,7 +492,7 @@ const HomePage = () => {
                                             />
 
                                             <CardContent>
-                                                <Typography variant="body2" color="text.secondary">
+                                                <Typography variant="body2" color="text.primary">
                                                     Perfect Pancakes
                                                 </Typography>
                                             </CardContent>
