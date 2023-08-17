@@ -177,8 +177,6 @@ export default function MealPlan() {
 
     const mealPlan = useSelector((state) => state.plan);
     const dataStatus = useSelector((state) => state.plan.loading);
-    // console.log(mealPlan);
-    // console.log(formatDate(getMonday(currentDate)));
 
     switch (getMonday(currentDate).getMonth() + 1) {
         case 1:
