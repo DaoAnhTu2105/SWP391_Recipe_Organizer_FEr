@@ -14,7 +14,7 @@ import RecipeDetail from '../pages/RecipeDetail/RecipeDetail'
 import MealDetail from '../pages/MealDetail'
 import LayoutWithoutFilter from '../components/LayoutWithoutFilter'
 import Profile from '../pages/Profile'
-
+import ViewCooker from '../pages/ViewCooker'
 export const publicRouters = [
     {
         path: '/',
@@ -91,6 +91,12 @@ export const publicRouters = [
         path: '/profile',
         name: 'use-profile',
         component: Profile,
+        layout: LayoutWithoutFilter,
+    },
+    {
+        path: '/repice-cooker',
+        name: 'repice-cooker',
+        component: ViewCooker,
         layout: LayoutWithoutFilter,
     },
 ]
