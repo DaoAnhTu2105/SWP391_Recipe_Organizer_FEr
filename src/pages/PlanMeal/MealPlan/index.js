@@ -2,143 +2,10 @@ import './index.css'
 import React, { useState, useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getPlanByWeek } from "../../../redux/apiThunk/planThunk";
-
 import Food from '../Food'
 import NextIcon from '../../../components/IconComponent/NextIcon'
 import PreviousIcon from '../../../components/IconComponent/PreviousIcon'
-
 import CircularProgress from "@mui/material/CircularProgress";
-
-// const meal = {
-//     "status": 1,
-//     "message": "Success",
-//     "data": {
-//         "food": [
-//             {
-//                 "breakfast": [
-//                     {
-//                         "planDetailId": "07b173de8cea44358fd5",
-//                         "mealOfDate": 1,
-//                         "recipeId": "2baf749109e04231b7ee",
-//                         "recipeName": "Delicious Omelette",
-//                         "recipeCalo": 250
-//                     },
-//                     {
-//                         "planDetailId": "86b3eb0da0b14d37bb60",
-//                         "mealOfDate": 1,
-//                         "recipeId": "2baf749109e04231b7ee",
-//                         "recipeName": "Delicious Omelette",
-//                         "recipeCalo": 250
-//                     },
-//                     {
-//                         "planDetailId": "b6fef38a979b4145be95",
-//                         "mealOfDate": 1,
-//                         "recipeId": "2baf749109e04231b7ee",
-//                         "recipeName": "Delicious Omelette",
-//                         "recipeCalo": 250
-//                     }
-//                 ],
-//                 "lunch": [
-//                     {
-//                         "planDetailId": "6268126e8ac242f5bf47",
-//                         "mealOfDate": 1,
-//                         "recipeId": "2baf749109e04231b7ee",
-//                         "recipeName": "Delicious Omelette",
-//                         "recipeCalo": 250
-//                     },
-//                     {
-//                         "planDetailId": "891d0255661648aaa6f5",
-//                         "mealOfDate": 1,
-//                         "recipeId": "2baf749109e04231b7ee",
-//                         "recipeName": "Delicious Omelette",
-//                         "recipeCalo": 250
-//                     }
-//                 ],
-//                 "dinner": [
-//                     {
-//                         "planDetailId": "1486d6cc2d3644a0886f",
-//                         "mealOfDate": 1,
-//                         "recipeId": "2baf749109e04231b7ee",
-//                         "recipeName": "Delicious Omelette",
-//                         "recipeCalo": 250
-//                     },
-//                     {
-//                         "planDetailId": "2c8d57d36e5a4a8086a9",
-//                         "mealOfDate": 1,
-//                         "recipeId": "2baf749109e04231b7ee",
-//                         "recipeName": "Delicious Omelette",
-//                         "recipeCalo": 250
-//                     },
-//                     {
-//                         "planDetailId": "3063939b954f47e1ad8d",
-//                         "mealOfDate": 1,
-//                         "recipeId": "2baf749109e04231b7ee",
-//                         "recipeName": "Delicious Omelette",
-//                         "recipeCalo": 250
-//                     },
-//                     {
-//                         "planDetailId": "89a05ae2b80845359068",
-//                         "mealOfDate": 1,
-//                         "recipeId": "2baf749109e04231b7ee",
-//                         "recipeName": "Delicious Omelette",
-//                         "recipeCalo": 250
-//                     },
-//                     {
-//                         "planDetailId": "9d2616fb922b40a18e54",
-//                         "mealOfDate": 1,
-//                         "recipeId": "2baf749109e04231b7ee",
-//                         "recipeName": "Delicious Omelette",
-//                         "recipeCalo": 250
-//                     }
-//                 ]
-//             },
-//             {
-//                 "breakfast": [],
-//                 "lunch": [],
-//                 "dinner": []
-//             },
-//             {
-//                 "breakfast": [],
-//                 "lunch": [],
-//                 "dinner": []
-//             },
-//             {
-//                 "breakfast": [],
-//                 "lunch": [],
-//                 "dinner": []
-//             },
-//             {
-//                 "breakfast": [],
-//                 "lunch": [],
-//                 "dinner": []
-//             },
-//             {
-//                 "breakfast": [
-//                     {
-//                         "planDetailId": "1486d6cc2d3644a0886f",
-//                         "mealOfDate": 1,
-//                         "recipeId": "2baf749109e04231b7ee",
-//                         "recipeName": "Delicious Omelette",
-//                         "recipeCalo": 250
-//                     },
-//                     {
-//                         "planDetailId": "2c8d57d36e5a4a8086a9",
-//                         "mealOfDate": 1,
-//                         "recipeId": "2baf749109e04231b7ee",
-//                         "recipeName": "Delicious Omelette",
-//                         "recipeCalo": 250
-//                     },],
-//                 "lunch": [],
-//                 "dinner": []
-//             },
-//             {
-//                 "breakfast": [],
-//                 "lunch": [],
-//                 "dinner": []
-//             }
-//         ]
-//     }
-// }
 
 export default function MealPlan() {
     let month, contentAuth;
@@ -217,8 +84,13 @@ export default function MealPlan() {
     console.log(mealPlan);
 
     const content = (
-        <div>
+        <div className='container' style={{ margin: '30px 0' }}>
             You must Login to use this feature
+            <a href="/login">
+                <button>
+                    Login Page
+                </button>
+            </a>
         </div>
     )
     if (dataStatus === 'loading') {
@@ -253,49 +125,49 @@ export default function MealPlan() {
                 <div className="table-header">
                     <div></div>
                     <div className="table-header-component">
-                        <a href="/meal-detail">
+                        <a href="/plan-detail">
                             Monday
                             <br></br>
                             {formatDate(getMonday(currentDate))}
                         </a>
                     </div>
                     <div className="table-header-component">
-                        <a href="/meal-detail">
+                        <a href="/plan-detail">
                             Tuesday
                             <br></br>
                             {formatDate(addDays(getMonday(currentDate), 1))}
                         </a>
                     </div>
                     <div className="table-header-component">
-                        <a href="/meal-detail">
+                        <a href="/plan-detail">
                             Wednesday
                             <br></br>
                             {formatDate(addDays(getMonday(currentDate), 2))}
                         </a>
                     </div>
                     <div className="table-header-component">
-                        <a href="/meal-detail">
+                        <a href="/plan-detail">
                             Thursday
                             <br></br>
                             {formatDate(addDays(getMonday(currentDate), 3))}
                         </a>
                     </div>
                     <div className="table-header-component">
-                        <a href="/meal-detail">
+                        <a href="/plan-detail">
                             Friday
                             <br></br>
                             {formatDate(addDays(getMonday(currentDate), 4))}
                         </a>
                     </div>
                     <div className="table-header-component">
-                        <a href="/meal-detail">
+                        <a href="/plan-detail">
                             Saturday
                             <br></br>
                             {formatDate(addDays(getMonday(currentDate), 5))}
                         </a>
                     </div>
                     <div className="table-header-component">
-                        <a href="/meal-detail">
+                        <a href="/plan-detail">
                             Sunday
                             <br></br>
                             {formatDate(addDays(getMonday(currentDate), 6))}
@@ -378,49 +250,49 @@ export default function MealPlan() {
                 <div className="table-header">
                     <div></div>
                     <div className="table-header-component">
-                        <a href="/meal-detail">
+                        <a href="/plan-detail">
                             Monday
                             <br></br>
                             {formatDate(getMonday(currentDate))}
                         </a>
                     </div>
                     <div className="table-header-component">
-                        <a href="/meal-detail">
+                        <a href="/plan-detail">
                             Tuesday
                             <br></br>
                             {formatDate(addDays(getMonday(currentDate), 1))}
                         </a>
                     </div>
                     <div className="table-header-component">
-                        <a href="/meal-detail">
+                        <a href="/plan-detail">
                             Wednesday
                             <br></br>
                             {formatDate(addDays(getMonday(currentDate), 2))}
                         </a>
                     </div>
                     <div className="table-header-component">
-                        <a href="/meal-detail">
+                        <a href="/plan-detail">
                             Thursday
                             <br></br>
                             {formatDate(addDays(getMonday(currentDate), 3))}
                         </a>
                     </div>
                     <div className="table-header-component">
-                        <a href="/meal-detail">
+                        <a href="/plan-detail">
                             Friday
                             <br></br>
                             {formatDate(addDays(getMonday(currentDate), 4))}
                         </a>
                     </div>
                     <div className="table-header-component">
-                        <a href="/meal-detail">
+                        <a href="/plan-detail">
                             Saturday
                             <br></br>
                             {formatDate(addDays(getMonday(currentDate), 5))}
                         </a>
                     </div>
                     <div className="table-header-component">
-                        <a href="/meal-detail">
+                        <a href="/plan-detail">
                             Sunday
                             <br></br>
                             {formatDate(addDays(getMonday(currentDate), 6))}

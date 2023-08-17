@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import Food from './Food'
 
-const MealDetail = () => {
+const PlanDetail = () => {
     return (
         <Fragment>
             <Container maxWidth="md">
@@ -180,4 +180,4 @@ const MealDetail = () => {
     )
 }
 
-export default MealDetail
+export default PlanDetail

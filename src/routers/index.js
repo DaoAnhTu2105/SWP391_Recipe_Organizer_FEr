@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-import ViewPlan from '../pages/ViewPlan'
+import PlanMeal from '../pages/PlanMeal'
 import CreatePlan from '../pages/CreatePlan'
 import CreateRecipe from '../pages/CreateRecipe'
 import FavoriteRecipe from '../pages/FavortieRecipe'
@@ -11,7 +11,7 @@ import Login from '../pages/Login'
 import Home from '../pages/Home/HomePage'
 import NotFound from '../pages/NotFound'
 import RecipeDetail from '../pages/RecipeDetail/RecipeDetail'
-import MealDetail from '../pages/MealDetail'
+import PlanDetail from '../pages/PlanDetail'
 import LayoutWithoutFilter from '../components/LayoutWithoutFilter'
 import Profile from '../pages/Profile'
 
@@ -64,9 +64,9 @@ export const publicRouters = [
         layout: LayoutWithoutFilter,
     },
     {
-        path: '/view-plan',
-        name: 'view-plan',
-        component: ViewPlan,
+        path: '/plan',
+        name: 'plan',
+        component: PlanMeal,
         layout: LayoutWithoutFilter,
     },
     // {
@@ -82,14 +82,14 @@ export const publicRouters = [
         layout: LayoutWithoutFilter,
     },
     {
-        path: '/meal-detail',
-        name: 'meal-detail',
-        component: MealDetail,
+        path: '/plan-detail',
+        name: 'plan-detail',
+        component: PlanDetail,
         layout: LayoutWithoutFilter,
     },
     {
         path: '/profile',
-        name: 'use-profile',
+        name: 'user-profile',
         component: Profile,
         layout: LayoutWithoutFilter,
     },
