@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const [cookies, setCookie, removeCookie] = useCookies(['user'])
+// const [cookies, setCookie, removeCookie] = useCookies(['user'])
 const url = 'https://recipe-organizer-api.azurewebsites.net'
 const instance = axios.create({
     baseURL: url,
