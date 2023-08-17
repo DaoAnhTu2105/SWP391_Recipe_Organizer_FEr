@@ -2,146 +2,13 @@ import './index.css'
 import React, { useState, useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getPlanByWeek } from "../../../redux/apiThunk/planThunk";
-
 import Food from '../Food'
 import NextIcon from '../../../components/IconComponent/NextIcon'
 import PreviousIcon from '../../../components/IconComponent/PreviousIcon'
-
 import CircularProgress from "@mui/material/CircularProgress";
 
-const meal = {
-    "status": 1,
-    "message": "Success",
-    "data": {
-        "food": [
-            {
-                "breakfast": [
-                    {
-                        "planDetailId": "07b173de8cea44358fd5",
-                        "mealOfDate": 1,
-                        "recipeId": "2baf749109e04231b7ee",
-                        "recipeName": "Delicious Omelette",
-                        "recipeCalo": 250
-                    },
-                    {
-                        "planDetailId": "86b3eb0da0b14d37bb60",
-                        "mealOfDate": 1,
-                        "recipeId": "2baf749109e04231b7ee",
-                        "recipeName": "Delicious Omelette",
-                        "recipeCalo": 250
-                    },
-                    {
-                        "planDetailId": "b6fef38a979b4145be95",
-                        "mealOfDate": 1,
-                        "recipeId": "2baf749109e04231b7ee",
-                        "recipeName": "Delicious Omelette",
-                        "recipeCalo": 250
-                    }
-                ],
-                "lunch": [
-                    {
-                        "planDetailId": "6268126e8ac242f5bf47",
-                        "mealOfDate": 1,
-                        "recipeId": "2baf749109e04231b7ee",
-                        "recipeName": "Delicious Omelette",
-                        "recipeCalo": 250
-                    },
-                    {
-                        "planDetailId": "891d0255661648aaa6f5",
-                        "mealOfDate": 1,
-                        "recipeId": "2baf749109e04231b7ee",
-                        "recipeName": "Delicious Omelette",
-                        "recipeCalo": 250
-                    }
-                ],
-                "dinner": [
-                    {
-                        "planDetailId": "1486d6cc2d3644a0886f",
-                        "mealOfDate": 1,
-                        "recipeId": "2baf749109e04231b7ee",
-                        "recipeName": "Delicious Omelette",
-                        "recipeCalo": 250
-                    },
-                    {
-                        "planDetailId": "2c8d57d36e5a4a8086a9",
-                        "mealOfDate": 1,
-                        "recipeId": "2baf749109e04231b7ee",
-                        "recipeName": "Delicious Omelette",
-                        "recipeCalo": 250
-                    },
-                    {
-                        "planDetailId": "3063939b954f47e1ad8d",
-                        "mealOfDate": 1,
-                        "recipeId": "2baf749109e04231b7ee",
-                        "recipeName": "Delicious Omelette",
-                        "recipeCalo": 250
-                    },
-                    {
-                        "planDetailId": "89a05ae2b80845359068",
-                        "mealOfDate": 1,
-                        "recipeId": "2baf749109e04231b7ee",
-                        "recipeName": "Delicious Omelette",
-                        "recipeCalo": 250
-                    },
-                    {
-                        "planDetailId": "9d2616fb922b40a18e54",
-                        "mealOfDate": 1,
-                        "recipeId": "2baf749109e04231b7ee",
-                        "recipeName": "Delicious Omelette",
-                        "recipeCalo": 250
-                    }
-                ]
-            },
-            {
-                "breakfast": [],
-                "lunch": [],
-                "dinner": []
-            },
-            {
-                "breakfast": [],
-                "lunch": [],
-                "dinner": []
-            },
-            {
-                "breakfast": [],
-                "lunch": [],
-                "dinner": []
-            },
-            {
-                "breakfast": [],
-                "lunch": [],
-                "dinner": []
-            },
-            {
-                "breakfast": [
-                    {
-                        "planDetailId": "1486d6cc2d3644a0886f",
-                        "mealOfDate": 1,
-                        "recipeId": "2baf749109e04231b7ee",
-                        "recipeName": "Delicious Omelette",
-                        "recipeCalo": 250
-                    },
-                    {
-                        "planDetailId": "2c8d57d36e5a4a8086a9",
-                        "mealOfDate": 1,
-                        "recipeId": "2baf749109e04231b7ee",
-                        "recipeName": "Delicious Omelette",
-                        "recipeCalo": 250
-                    },],
-                "lunch": [],
-                "dinner": []
-            },
-            {
-                "breakfast": [],
-                "lunch": [],
-                "dinner": []
-            }
-        ]
-    }
-}
-
 export default function MealPlan() {
-    let month;
+    let month, contentAuth;
     const [currentDate, setCurrentDate] = useState(new Date());
     const dispatch = useDispatch();
 
@@ -169,15 +36,6 @@ export default function MealPlan() {
         result.setDate(result.getDate() - days);
         return result;
     };
-
-
-    useEffect(() => {
-        dispatch(getPlanByWeek({ date: formatDate(getMonday(currentDate)) }))
-    }, [currentDate])
-
-    const mealPlan = useSelector((state) => state.plan);
-    const dataStatus = useSelector((state) => state.plan.loading);
-
     switch (getMonday(currentDate).getMonth() + 1) {
         case 1:
             month = ("January")
@@ -217,9 +75,26 @@ export default function MealPlan() {
             break;
     }
 
-    let content;
+    useEffect(() => {
+        dispatch(getPlanByWeek({ date: formatDate(getMonday(currentDate)) }))
+    }, [currentDate])
+    const mealPlan = useSelector((state) => state.plan);
+    const dataStatus = useSelector((state) => state.plan.loading);
+    const user = JSON.parse(localStorage.getItem("user"));
+    console.log(mealPlan);
+
+    const content = (
+        <div className='container' style={{ margin: '30px 0' }}>
+            You must Login to use this feature
+            <a href="/login">
+                <button>
+                    Login Page
+                </button>
+            </a>
+        </div>
+    )
     if (dataStatus === 'loading') {
-        content = (
+        contentAuth = (
             <CircularProgress
                 sx={{
                     marginTop: '10%',
@@ -229,108 +104,195 @@ export default function MealPlan() {
             />
         )
     } else if (dataStatus === 'failed' || mealPlan.data === {}) {
-        content = (<div className='table-body'>
-            <div className='table-body-content'>
-                <div className="meal" style={{ color: '#32a6de' }}>
-                    <div>
-                        <b>BreakFast</b>
-                    </div>
-                    <div>
-                        <b>6AM - 8AM</b>
-                    </div>
-                </div>
-                <div className='item'></div>
-                <div className='item'></div>
-                <div className='item'></div>
-                <div className='item'></div>
-                <div className='item'></div>
-                <div className='item'></div>
-                <div className='item'></div>
-            </div>
-            <div className='table-body-content'>
-                <div style={{ color: '#e29d1d' }}>
-                    <div>
-                        <b>Lunch</b>
-                    </div>
-                    <div>
-                        <b>12:30AM - 2PM</b>
-                    </div>
-                </div>
-                <div className='item'></div>
-                <div className='item'></div>
-                <div className='item'></div>
-                <div className='item'></div>
-                <div className='item'></div>
-                <div className='item'></div>
-                <div className='item'></div>
-            </div>
-            <div className='table-body-content'>
-                <div style={{ color: '#68169c' }}>
-                    <div>
-                        <b>Dinner</b>
-                    </div>
-                    <div>
-                        <b>6PM - 9PM</b>
-                    </div>
-                </div>
-                <div className='item'></div>
-                <div className='item'></div>
-                <div className='item'></div>
-                <div className='item'></div>
-                <div className='item'></div>
-                <div className='item'></div>
-                <div className='item'></div>
-            </div>
-        </div>);
-    } else if (dataStatus === 'succeeded' && mealPlan.data !== {}) {
-        content = (
+        contentAuth = (
             <Fragment>
+                <div className='date-info'>
+                    <div className='date'>
+                        <a href="/create-plan"><button>Create Meal Plan</button></a>
+                    </div>
+                    <div className='button'>
+                        <button onClick={() => setCurrentDate(subDays(getMonday(currentDate), 7))}>
+                            <PreviousIcon />
+                        </button>
+                        <button onClick={() => setCurrentDate(new Date())}>
+                            Today
+                        </button>
+                        <button onClick={() => setCurrentDate(addDays(getMonday(currentDate), 7))}>
+                            <NextIcon />
+                        </button>
+                    </div>
+                </div>
                 <div className="table-header">
                     <div></div>
                     <div className="table-header-component">
-                        <a href="/meal-detail">
+                        <a href="/plan-detail">
                             Monday
                             <br></br>
                             {formatDate(getMonday(currentDate))}
                         </a>
                     </div>
                     <div className="table-header-component">
-                        <a href="/meal-detail">
+                        <a href="/plan-detail">
                             Tuesday
                             <br></br>
                             {formatDate(addDays(getMonday(currentDate), 1))}
                         </a>
                     </div>
                     <div className="table-header-component">
-                        <a href="/meal-detail">
+                        <a href="/plan-detail">
                             Wednesday
                             <br></br>
                             {formatDate(addDays(getMonday(currentDate), 2))}
                         </a>
                     </div>
                     <div className="table-header-component">
-                        <a href="/meal-detail">
+                        <a href="/plan-detail">
                             Thursday
                             <br></br>
                             {formatDate(addDays(getMonday(currentDate), 3))}
                         </a>
                     </div>
                     <div className="table-header-component">
-                        <a href="/meal-detail">
+                        <a href="/plan-detail">
                             Friday
                             <br></br>
                             {formatDate(addDays(getMonday(currentDate), 4))}
                         </a>
                     </div>
                     <div className="table-header-component">
-                        <a href="/meal-detail">
+                        <a href="/plan-detail">
                             Saturday
                             <br></br>
                             {formatDate(addDays(getMonday(currentDate), 5))}
                         </a>
                     </div>
                     <div className="table-header-component">
-                        <a href="/meal-detail">
+                        <a href="/plan-detail">
+                            Sunday
+                            <br></br>
+                            {formatDate(addDays(getMonday(currentDate), 6))}
+                        </a>
+                    </div>
+                </div>
+                <div className='table-body'>
+                    <div className='table-body-content'>
+                        <div className="meal" style={{ color: '#32a6de' }}>
+                            <div>
+                                <b>BreakFast</b>
+                            </div>
+                            <div>
+                                <b>6AM - 8AM</b>
+                            </div>
+                        </div>
+                        <div className='item'></div>
+                        <div className='item'></div>
+                        <div className='item'></div>
+                        <div className='item'></div>
+                        <div className='item'></div>
+                        <div className='item'></div>
+                        <div className='item'></div>
+                    </div>
+                    <div className='table-body-content'>
+                        <div style={{ color: '#e29d1d' }}>
+                            <div>
+                                <b>Lunch</b>
+                            </div>
+                            <div>
+                                <b>12:30AM - 2PM</b>
+                            </div>
+                        </div>
+                        <div className='item'></div>
+                        <div className='item'></div>
+                        <div className='item'></div>
+                        <div className='item'></div>
+                        <div className='item'></div>
+                        <div className='item'></div>
+                        <div className='item'></div>
+                    </div>
+                    <div className='table-body-content'>
+                        <div style={{ color: '#68169c' }}>
+                            <div>
+                                <b>Dinner</b>
+                            </div>
+                            <div>
+                                <b>6PM - 9PM</b>
+                            </div>
+                        </div>
+                        <div className='item'></div>
+                        <div className='item'></div>
+                        <div className='item'></div>
+                        <div className='item'></div>
+                        <div className='item'></div>
+                        <div className='item'></div>
+                        <div className='item'></div>
+                    </div>
+                </div>
+            </Fragment>);
+    } else if (dataStatus === 'succeeded' && mealPlan.data !== {}) {
+        contentAuth = (
+            <Fragment>
+                <div className='date-info'>
+                    <div className='date'>
+                        <a href="/create-plan"><button>Create Meal Plan</button></a>
+                    </div>
+                    <div className='button'>
+                        <button onClick={() => setCurrentDate(subDays(getMonday(currentDate), 7))}>
+                            <PreviousIcon />
+                        </button>
+                        <button onClick={() => setCurrentDate(new Date())}>
+                            Today
+                        </button>
+                        <button onClick={() => setCurrentDate(addDays(getMonday(currentDate), 7))}>
+                            <NextIcon />
+                        </button>
+                    </div>
+                </div>
+                <div className="table-header">
+                    <div></div>
+                    <div className="table-header-component">
+                        <a href="/plan-detail">
+                            Monday
+                            <br></br>
+                            {formatDate(getMonday(currentDate))}
+                        </a>
+                    </div>
+                    <div className="table-header-component">
+                        <a href="/plan-detail">
+                            Tuesday
+                            <br></br>
+                            {formatDate(addDays(getMonday(currentDate), 1))}
+                        </a>
+                    </div>
+                    <div className="table-header-component">
+                        <a href="/plan-detail">
+                            Wednesday
+                            <br></br>
+                            {formatDate(addDays(getMonday(currentDate), 2))}
+                        </a>
+                    </div>
+                    <div className="table-header-component">
+                        <a href="/plan-detail">
+                            Thursday
+                            <br></br>
+                            {formatDate(addDays(getMonday(currentDate), 3))}
+                        </a>
+                    </div>
+                    <div className="table-header-component">
+                        <a href="/plan-detail">
+                            Friday
+                            <br></br>
+                            {formatDate(addDays(getMonday(currentDate), 4))}
+                        </a>
+                    </div>
+                    <div className="table-header-component">
+                        <a href="/plan-detail">
+                            Saturday
+                            <br></br>
+                            {formatDate(addDays(getMonday(currentDate), 5))}
+                        </a>
+                    </div>
+                    <div className="table-header-component">
+                        <a href="/plan-detail">
                             Sunday
                             <br></br>
                             {formatDate(addDays(getMonday(currentDate), 6))}
@@ -347,7 +309,7 @@ export default function MealPlan() {
                                 <b>6AM - 8AM</b>
                             </div>
                         </div>
-                        {meal.data.food.map((meal) => (
+                        {mealPlan.plan.data.food.map((meal) => (
                             <div className="item">
                                 {
                                     meal.breakfast.map((food) => {
@@ -372,7 +334,7 @@ export default function MealPlan() {
                                 <b>12:30AM - 2PM</b>
                             </div>
                         </div>
-                        {meal.data.food.map((meal) => (
+                        {mealPlan.plan.data.food.map((meal) => (
                             <div className="item">
                                 {
                                     meal.lunch.map((food) => {
@@ -397,7 +359,7 @@ export default function MealPlan() {
                                 <b>6PM - 9PM</b>
                             </div>
                         </div>
-                        {meal.data.food.map((meal) => (
+                        {mealPlan.plan.data.food.map((meal) => (
                             <div className="item" >
                                 {
                                     meal.dinner.map((food) => {
@@ -418,23 +380,7 @@ export default function MealPlan() {
 
     return (
         <div className="plan-meal">
-            <div className='date-info'>
-                <div className='date'>
-                    <a href="/create-plan"><button>Create Meal Plan</button></a>
-                </div>
-                <div className='button'>
-                    <button onClick={() => setCurrentDate(subDays(getMonday(currentDate), 7))}>
-                        <PreviousIcon />
-                    </button>
-                    <button onClick={() => setCurrentDate(new Date())}>
-                        Today
-                    </button>
-                    <button onClick={() => setCurrentDate(addDays(getMonday(currentDate), 7))}>
-                        <NextIcon />
-                    </button>
-                </div>
-            </div>
-            {content}
+            {user?.role ? (contentAuth) : (content)}
         </div >
     )
 }
