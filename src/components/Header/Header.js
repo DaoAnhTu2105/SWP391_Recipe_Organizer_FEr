@@ -333,7 +333,6 @@ const Header = () => {
                                                         },
                                                         '&:before': {
                                                             content: '""',
-                                                            display: 'block',
                                                             position: 'absolute',
                                                             top: 0,
                                                             right: 14,

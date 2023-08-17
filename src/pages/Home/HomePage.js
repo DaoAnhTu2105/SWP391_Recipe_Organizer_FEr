@@ -29,19 +29,9 @@ const HomePage = () => {
     const [numberOfFavor3, setNumberOfFavor3] = useState(1000)
     const dispatch = useDispatch()
     const getAllRecipesAPI = useSelector((state) => state.getAllRecipes.data)
-    const isLoading = useSelector((state) => state.getAllRecipes.isLoading)
-    const error = useSelector((state) => state.getAllRecipes.error)
     useEffect(() => {
         dispatch(fetchDataAsync())
     }, [dispatch])
-
-    if (isLoading === 'loading') {
-        return <div>Loading...</div>
-    }
-
-    if (error === 'failed') {
-        return <div>Error: {error}</div>
-    }
 
     const handleFavorite1 = () => {
         if (!favorite1) {
@@ -205,59 +195,6 @@ const HomePage = () => {
                 <section className="best-receipe-area">
                     <h1 className="title-recipes">Best Recipes</h1>
                     <div className="container">
-                        {/* {getAllRecipesAPI.data ? (
-                        <div className="row mt-5">
-                            {getAllRecipesAPI.data &&
-                                getAllRecipesAPI.data.map(
-                                    (bestRecipe) =>
-                                        bestRecipe.aveVote > 4 &&
-                                        bestRecipe.totalFavorite > 1 && (
-                                            <div
-                                                className="col-12 col-sm-6 col-lg-4"
-                                                key={bestRecipe.recipeId}
-                                            >
-                                                <Link to={`/recipe-detail/${bestRecipe.recipeId}`}>
-                                                    <div className="single-best-receipe-area mb-30">
-                                                        <img src={bestImg} alt="" />
-                                                        <div className="receipe-content">
-                                                            <Link to="/recipe-detail">
-                                                                <h5>Sushi Easy Receipy</h5>
-                                                            </Link>
-                                                            <Rating
-                                                                name="read-only"
-                                                                value={bestRecipe.aveVote}
-                                                                readOnly
-                                                                size="small"
-                                                            />
-                                                            <CardContent>
-                                                                <Typography
-                                                                    variant="body3"
-                                                                    color="text.secondary"
-                                                                    style={{
-                                                                        display: 'flex',
-                                                                        alignItems: 'center',
-                                                                        justifyContent: 'center',
-                                                                    }}
-                                                                >
-                                                                    {bestRecipe.totalFavorite}
-                                                                    &nbsp; &nbsp;
-                                                                    <FavoriteBorderIcon />
-                                                                </Typography>
-                                                            </CardContent>
-                                                        </div>
-                                                    </div>
-                                                </Link>
-                                            </div>
-                                        )
-                                )}
-                        </div>
-                    ) : (
-                        <div className="row mt-5">
-                            <div className="col-12 col-sm-12 col-lg-12">
-                                There are currently no likes and reviews
-                            </div>
-                        </div>
-                    )} */}
                         <div className="mt-5">
                             <div>
                                 <div
@@ -265,32 +202,47 @@ const HomePage = () => {
                                     style={{ display: 'flex', justifyContent: 'center' }}
                                 >
                                     <div className="receipe-content">
-                                        <img
-                                            style={{ maxWidth: 350, height: 250 }}
-                                            src="https://www.allrecipes.com/thmb/DZ5WtIe2s6rGk-rIEZDkMA6mGj4=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7568285-perfect-pancakes-KH-4x3-218e2c39174c4a2293fca0ab752b38a8.jpg"
-                                            alt="Perfect Pancakes"
-                                        />
                                         <Link to="/recipe-detail">
-                                            <h5 className="mt-3">Perfect Pancakes</h5>
-                                        </Link>
-                                        <Rating name="read-only" value={5} readOnly size="small" />
-                                        <CardContent>
-                                            <Typography
-                                                variant="body3"
-                                                color="text.secondary"
+                                            <img
+                                                style={{ maxWidth: 350, height: 250 }}
+                                                src="https://www.allrecipes.com/thmb/DZ5WtIe2s6rGk-rIEZDkMA6mGj4=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7568285-perfect-pancakes-KH-4x3-218e2c39174c4a2293fca0ab752b38a8.jpg"
+                                                alt="Perfect Pancakes"
+                                            />
+                                            <h5 className="mt-3" style={{ fontWeight: '600' }}>
+                                                Perfect Pancakes
+                                            </h5>
+                                            <Box
                                                 style={{
                                                     display: 'flex',
                                                     alignItems: 'center',
                                                     justifyContent: 'center',
                                                 }}
                                             >
-                                                {numberOfFavor1}
+                                                <Rating
+                                                    name="read-only"
+                                                    value={5}
+                                                    readOnly
+                                                    size="small"
+                                                />
                                                 &nbsp; &nbsp;
+                                                <span style={{ color: 'rgba(71,71,71, 0.6)' }}>
+                                                    1000 ratings
+                                                </span>
+                                            </Box>
+                                            <CardContent
+                                                style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                }}
+                                            >
+                                                <Typography variant="body3" color="text.primary">
+                                                    {numberOfFavor1}
+                                                </Typography>
                                                 <Button
                                                     style={{
                                                         backgroundColor: 'white',
-                                                        width: '40px',
-                                                        height: '40px',
+                                                        height: '20px',
                                                         display: 'flex',
                                                         justifyContent: 'center',
                                                         alignItems: 'center',
@@ -308,8 +260,8 @@ const HomePage = () => {
                                                         />
                                                     )}
                                                 </Button>
-                                            </Typography>
-                                        </CardContent>
+                                            </CardContent>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
@@ -321,38 +273,55 @@ const HomePage = () => {
                                     style={{ display: 'flex', justifyContent: 'center' }}
                                 >
                                     <div className="receipe-content">
-                                        <img
-                                            style={{ maxWidth: 350, height: 250 }}
-                                            src="https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fpublic-assets.meredithcorp.io%2F065c6583a6d9192451b2edd4d81324b3%2F168235712348320230423_144426.jpg&q=60&c=sc&orient=true&poi=auto&h=512"
-                                            alt="Chef John's Perfect Prime Rib"
-                                        />
                                         <Link to="/recipe-detail">
-                                            <h5 className="mt-3">Chef John's Perfect Prime Rib</h5>
-                                        </Link>
-                                        <Rating name="read-only" value={5} readOnly size="small" />
-                                        <CardContent>
-                                            <Typography
-                                                variant="body3"
-                                                color="text.secondary"
+                                            <img
+                                                style={{ maxWidth: 350, height: 250 }}
+                                                src="https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fpublic-assets.meredithcorp.io%2F065c6583a6d9192451b2edd4d81324b3%2F168235712348320230423_144426.jpg&q=60&c=sc&orient=true&poi=auto&h=512"
+                                                alt="Chef John's Perfect Prime Rib"
+                                            />
+
+                                            <h5 className="mt-3" style={{ fontWeight: '600' }}>
+                                                Chef John's Perfect Prime Rib
+                                            </h5>
+
+                                            <Box
                                                 style={{
                                                     display: 'flex',
                                                     alignItems: 'center',
                                                     justifyContent: 'center',
                                                 }}
                                             >
-                                                {numberOfFavor2}
+                                                <Rating
+                                                    name="read-only"
+                                                    value={5}
+                                                    readOnly
+                                                    size="small"
+                                                />
                                                 &nbsp; &nbsp;
+                                                <span style={{ color: 'rgba(71,71,71, 0.6)' }}>
+                                                    1000 ratings
+                                                </span>
+                                            </Box>
+                                            <CardContent
+                                                style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                }}
+                                            >
+                                                <Typography variant="body3" color="text.primary">
+                                                    {numberOfFavor2}
+                                                </Typography>
                                                 <Button
                                                     style={{
                                                         backgroundColor: 'white',
-                                                        width: '40px',
-                                                        height: '40px',
+                                                        height: '20px',
                                                         display: 'flex',
                                                         justifyContent: 'center',
                                                         alignItems: 'center',
                                                         outline: 'none',
                                                     }}
-                                                    onClick={handleFavorite2}
+                                                    onClick={() => handleFavorite2()}
                                                 >
                                                     {favorite2 ? (
                                                         <FavoriteBorderIcon
@@ -364,8 +333,8 @@ const HomePage = () => {
                                                         />
                                                     )}
                                                 </Button>
-                                            </Typography>
-                                        </CardContent>
+                                            </CardContent>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
@@ -374,41 +343,64 @@ const HomePage = () => {
                             <div>
                                 <div
                                     className="single-best-receipe-area mb-30"
-                                    style={{ display: 'flex', justifyContent: 'center' }}
+                                    style={{
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignContent: 'center',
+                                    }}
                                 >
                                     <div className="receipe-content">
-                                        <img
-                                            style={{ maxWidth: 350, height: 250 }}
-                                            src="https://www.allrecipes.com/thmb/CXHI4rajc40Y6V5l8lpy6DSN_Xk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/chicken-al-pastor-ddmfs-0831-4x3-1-07333bb010104b059996d70da5c02be0.jpg"
-                                            alt="Chicken Al Pastor"
-                                        />
+                                        {' '}
                                         <Link to="/recipe-detail">
-                                            <h5 className="mt-3">Chicken Al Pastor</h5>
-                                        </Link>
-                                        <Rating name="read-only" value={5} readOnly size="small" />
-                                        <CardContent>
-                                            <Typography
-                                                variant="body3"
-                                                color="text.secondary"
+                                            <img
+                                                style={{ maxWidth: 350, height: 250 }}
+                                                src="https://www.allrecipes.com/thmb/CXHI4rajc40Y6V5l8lpy6DSN_Xk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/chicken-al-pastor-ddmfs-0831-4x3-1-07333bb010104b059996d70da5c02be0.jpg"
+                                                alt="Chicken Al Pastor"
+                                            />
+
+                                            <h5 className="mt-3" style={{ fontWeight: '600' }}>
+                                                Chicken Al Pastor
+                                            </h5>
+
+                                            <Box
                                                 style={{
                                                     display: 'flex',
                                                     alignItems: 'center',
                                                     justifyContent: 'center',
                                                 }}
                                             >
-                                                {numberOfFavor3}
+                                                <Rating
+                                                    name="read-only"
+                                                    value={5}
+                                                    readOnly
+                                                    size="small"
+                                                />
                                                 &nbsp; &nbsp;
+                                                <span style={{ color: 'rgba(71,71,71, 0.6)' }}>
+                                                    1000 ratings
+                                                </span>
+                                            </Box>
+
+                                            <CardContent
+                                                style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                }}
+                                            >
+                                                <Typography variant="body3" color="text.primary">
+                                                    {numberOfFavor3}
+                                                </Typography>
                                                 <Button
                                                     style={{
                                                         backgroundColor: 'white',
-                                                        width: '40px',
-                                                        height: '40px',
+                                                        height: '20px',
                                                         display: 'flex',
                                                         justifyContent: 'center',
                                                         alignItems: 'center',
                                                         outline: 'none',
                                                     }}
-                                                    onClick={handleFavorite3}
+                                                    onClick={() => handleFavorite3()}
                                                 >
                                                     {favorite3 ? (
                                                         <FavoriteBorderIcon
@@ -420,8 +412,8 @@ const HomePage = () => {
                                                         />
                                                     )}
                                                 </Button>
-                                            </Typography>
-                                        </CardContent>
+                                            </CardContent>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
@@ -438,39 +430,6 @@ const HomePage = () => {
                             marginTop: 40,
                         }}
                     >
-                        {/* <div className="container">
-                    <div className="row justify-content-center">
-                        {getAllRecipesAPI.data &&
-                            getAllRecipesAPI.data.map((recipe) => (
-                                <div className="col-sm-4 mb-4" key={recipe.recipeId}>
-                                    <Link to={`/recipe-detail/${recipe.recipeId}`}>
-                                        <Card sx={{ maxWidth: 345, maxHeight: 470 }}>
-                                            <CardMedia
-                                                component="img"
-                                                style={{ width: 350, height: 194 }}
-                                                image={img1}
-                                                alt={recipe.photoVMs[0].photoName}
-                                            />
-
-                                            <Rating
-                                                name="read-only"
-                                                value={recipe.aveVote}
-                                                readOnly
-                                                size="small"
-                                                sx={{ mt: 2 }}
-                                            />
-
-                                            <CardContent>
-                                                <Typography variant="body2" color="text.secondary">
-                                                    {recipe.recipeName}
-                                                </Typography>
-                                            </CardContent>
-                                        </Card>
-                                    </Link>
-                                </div>
-                            ))}
-                    </div>
-                </div> */}
                         <div className="container">
                             <div className="row justify-content-center">
                                 <div className="col-sm-4 mb-4">

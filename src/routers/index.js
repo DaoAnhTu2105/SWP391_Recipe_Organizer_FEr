@@ -49,7 +49,6 @@ export const publicRouters = [
         path: '/favorite-recipe',
         name: 'favorite-recipe',
         component: FavoriteRecipe,
-        layout: LayoutWithoutFilter,
     },
     {
         path: '/register',
