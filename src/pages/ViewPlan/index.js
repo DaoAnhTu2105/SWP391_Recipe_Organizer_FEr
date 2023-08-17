@@ -1,21 +1,12 @@
 import './index.css'
-import React, { useState, useEffect, Fragment } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React, { Fragment } from 'react'
 import MealPlan from './MealPlan'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import Cookies from 'js-cookie';
 
 const ViewPlan = () => {
-    // const dispatch = useDispatch();
-    // useEffect(() => {
-    //     dispatch(
-    //         getScheduleByWeek({
-    //             date: formatDate(date),
-    //             keywordArray: searchQueryList,
-    //         })
-    //     );
-    // }, [date, searchQueryList]);
+    
     const userRole = Cookies.get('userInfor');
     console.log(userRole);
     return (

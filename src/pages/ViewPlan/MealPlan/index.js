@@ -1,9 +1,14 @@
-import React, { useState } from 'react'
 import './index.css'
+import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { getPlanByWeek } from "../../../redux/apiThunk/planThunk";
+
 import Food from '../Food'
 import NextIcon from '../../../components/IconComponent/NextIcon'
 import PreviousIcon from '../../../components/IconComponent/PreviousIcon'
 
+
+import Cookies from 'js-cookie';
 const meal = {
     "status": 1,
     "message": "Success",
@@ -136,9 +141,12 @@ const meal = {
 }
 
 export default function MealPlan() {
-    const [currentDate, setCurrentDate] = useState(new Date());
-    // const [month, month = ] = useState("");
     let month;
+    const user = Cookies.get('user');
+    const [currentDate, setCurrentDate] = useState(new Date());
+    const dispatch = useDispatch();
+
+    // console.log(user.token);
 
     const getMonday = (currentDate) => {
         currentDate = new Date(currentDate);
@@ -157,13 +165,20 @@ export default function MealPlan() {
         let dd = date.getDate();
         if (dd < 10) dd = "0" + dd;
         if (mm < 10) mm = "0" + mm;
-        return dd + "/" + mm + "/" + yyyy;
+        return mm + "/" + dd + "/" + yyyy;
     };
     const subDays = (date, days) => {
         var result = new Date(date);
         result.setDate(result.getDate() - days);
         return result;
     };
+
+    useEffect(() => {
+        dispatch(getPlanByWeek({ date: formatDate(getMonday(currentDate)) }));
+    }, [currentDate]);
+    const mealPlan = useSelector((state) => state.plan);
+
+    console.log(mealPlan);
 
     switch (getMonday(currentDate).getMonth() + 1) {
         case 1:
@@ -208,7 +223,7 @@ export default function MealPlan() {
         <div className="plan-meal">
             <div className='date-info'>
                 <div className='date'>
-                    <b>{month} {currentDate.getFullYear()}</b>
+                    <a href="/create-plan"><button>Create Meal Plan</button></a>
                 </div>
                 <div className='button'>
                     <button onClick={() => setCurrentDate(subDays(getMonday(currentDate), 7))}>
