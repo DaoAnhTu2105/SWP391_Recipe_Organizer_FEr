@@ -28,7 +28,8 @@ const HomePage = () => {
     const [numberOfFavor2, setNumberOfFavor2] = useState(1000)
     const [numberOfFavor3, setNumberOfFavor3] = useState(1000)
     const dispatch = useDispatch()
-    const getAllRecipesAPI = useSelector((state) => state.getAllRecipes.data)
+    const getAllRecipesAPI = useSelector((state) => state.getAllRecipes)
+    console.log(getAllRecipesAPI)
     useEffect(() => {
         dispatch(fetchDataAsync())
     }, [dispatch])
