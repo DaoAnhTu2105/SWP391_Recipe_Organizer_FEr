@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { useCookies } from 'react-cookie'
 
 const [cookies, setCookie, removeCookie] = useCookies(['user'])
 const url = 'https://recipe-organizer-api.azurewebsites.net'

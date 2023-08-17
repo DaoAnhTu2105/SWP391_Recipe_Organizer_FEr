@@ -6,6 +6,6 @@ export const getPlanWeek = async (date) => {
 };
 
 export const getPlanDate = async (date) => {
-    const response = await api.get(`/api/Plans/GetPlan?date=${date}`);
+    const response = await api.get(`/api/Plans/GetPlanDate?date=${date}`);
     return response.data;
 };
