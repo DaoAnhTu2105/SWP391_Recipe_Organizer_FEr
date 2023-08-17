@@ -42,7 +42,7 @@ const Login = () => {
             console.log(response)
             if (response.ok) {
                 const responseData = await response.json()
-                setCookie('user',responseData)
+                setCookie('user', responseData)
                 // const userInfo = { role: responseData.role, token: responseData.token }
                 // document.cookie = `userInfo=${encodeURIComponent(JSON.stringify(userInfo))}`;
                 navigate('/')
@@ -69,7 +69,6 @@ const Login = () => {
             google.accounts.id.prompt() // also display the One Tap dialog
         }
     }, [])
-
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -138,26 +137,58 @@ const Login = () => {
                             >
                                 Sign In
                             </Button> */}
-                        <Box sx={{ paddingTop: "30px", textAlign: "center" }}>
+                        <Box sx={{ paddingTop: '30px', textAlign: 'center' }}>
                             <Box sx={{}}>
-                                <Link to="/" sx={{ textAlign: "center" }}>
+                                <Link to="/" sx={{ textAlign: 'center' }}>
                                     <img src={imgLogo} alt="" />
                                 </Link>
                             </Box>
 
-                            <Box sx={{ paddingTop: "30px" }}>
-                                <Typography variant='subtitle1' sx={{ color: "#f39c12", fontWeight: "600", paddingLeft: "40px", fontFamily: "Cursive" }}>A recipe has no soul.</Typography>
-                                <Typography variant='subtitle2' sx={{ fontStyle: "italic", color: "#f39c12", fontFamily: "Cursive" }}>You as the cook must bring soul to the recipe.</Typography>
+                            <Box sx={{ paddingTop: '30px' }}>
+                                <Typography
+                                    variant="subtitle1"
+                                    sx={{
+                                        color: '#f39c12',
+                                        fontWeight: '600',
+                                        paddingLeft: '40px',
+                                        fontFamily: 'Cursive',
+                                    }}
+                                >
+                                    A recipe has no soul.
+                                </Typography>
+                                <Typography
+                                    variant="subtitle2"
+                                    sx={{
+                                        fontStyle: 'italic',
+                                        color: '#f39c12',
+                                        fontFamily: 'Cursive',
+                                    }}
+                                >
+                                    You as the cook must bring soul to the recipe.
+                                </Typography>
                             </Box>
-
                         </Box>
-                        <Box sx={{ paddingTop: "70px", display: "flex" }}>
-                            <Typography variant='h4' sx={{ fontWeight: "600", fontFamily: "Courier New, Courier" }}>Welcome to </Typography>
-                            <Typography variant='h4' sx={{ paddingLeft: "5px", color: "red", fontWeight: "600", fontFamily: "Lucida Handwriting, cursive" }}>Delicious </Typography>
+                        <Box sx={{ paddingTop: '70px', display: 'flex' }}>
+                            <Typography
+                                variant="h4"
+                                sx={{ fontWeight: '600', fontFamily: 'Courier New, Courier' }}
+                            >
+                                Welcome to{' '}
+                            </Typography>
+                            <Typography
+                                variant="h4"
+                                sx={{
+                                    paddingLeft: '5px',
+                                    color: 'red',
+                                    fontWeight: '600',
+                                    fontFamily: 'Lucida Handwriting, cursive',
+                                }}
+                            >
+                                Delicious{' '}
+                            </Typography>
                         </Box>
 
-
-                        <div id="buttonDiv" style={{paddingTop:"50px"}}></div>
+                        <div id="buttonDiv" style={{ paddingTop: '50px' }}></div>
 
                         {/* <Button
                                 id="googleSignInButton"  // This ID is used to target the button
