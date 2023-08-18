@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import getAllRecipesReducer from './reducers/getAllDataRecipes'
-import getAllIngredients from './reducers/getAllDataIngredients'
+import planSlice from "./reducers/planSlice";
+import userSlice from './reducers/userSlice';
 const store = configureStore({
     reducer: {
         getAllRecipes: getAllRecipesReducer,
-        getAllIngredients : getAllIngredients,
+        plan: planSlice,
+        user: userSlice
     },
 })
 

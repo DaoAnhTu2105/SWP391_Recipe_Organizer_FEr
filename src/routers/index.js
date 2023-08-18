@@ -1,7 +1,10 @@
-import React from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import React, { Fragment, useEffect } from 'react'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
-import ViewPlan from '../pages/ViewPlan'
+import DefaultLayout from '../components/DefaultLayout'
+
+import PlanMeal from '../pages/PlanMeal'
 import CreatePlan from '../pages/CreatePlan'
 import CreateRecipe from '../pages/CreateRecipe'
 import FavoriteRecipe from '../pages/FavortieRecipe'
@@ -11,10 +14,13 @@ import Login from '../pages/Login'
 import Home from '../pages/Home/HomePage'
 import NotFound from '../pages/NotFound'
 import RecipeDetail from '../pages/RecipeDetail/RecipeDetail'
-import MealDetail from '../pages/MealDetail'
+import PlanDetail from '../pages/PlanDetail'
 import LayoutWithoutFilter from '../components/LayoutWithoutFilter'
 import Profile from '../pages/Profile'
 import ViewCooker from '../pages/ViewCooker'
+import PrivateRouters from './PrivateRouters'
+import AdminRouters from './AdminRouters'
+
 export const publicRouters = [
     {
         path: '/',
@@ -49,7 +55,6 @@ export const publicRouters = [
         path: '/favorite-recipe',
         name: 'favorite-recipe',
         component: FavoriteRecipe,
-        layout: LayoutWithoutFilter,
     },
     {
         path: '/register',
@@ -58,15 +63,9 @@ export const publicRouters = [
         layout: null,
     },
     {
-        path: '/user-list',
-        name: 'user-list',
-        component: UserList,
-        layout: LayoutWithoutFilter,
-    },
-    {
-        path: '/view-plan',
-        name: 'view-plan',
-        component: ViewPlan,
+        path: '/plan',
+        name: 'plan',
+        component: PlanMeal,
         layout: LayoutWithoutFilter,
     },
     // {
@@ -81,19 +80,21 @@ export const publicRouters = [
         component: RecipeDetail,
         layout: LayoutWithoutFilter,
     },
-    {
-        path: '/meal-detail',
-        name: 'meal-detail',
-        component: MealDetail,
-        layout: LayoutWithoutFilter,
-    },
+]
+
+export const privateRouters = [
     {
         path: '/profile',
-        name: 'use-profile',
+        name: 'user-profile',
         component: Profile,
         layout: LayoutWithoutFilter,
     },
     {
+        path: '/plan-detail',
+        name: 'plan-detail',
+        component: PlanDetail,
+        layout: LayoutWithoutFilter,
+    }, {
         path: '/recipe-cooker',
         name: 'recipe-cooker',
         component: ViewCooker,
@@ -101,32 +102,100 @@ export const publicRouters = [
     },
 ]
 
-export const privateRouters = []
+export const adminRouters = [
+    {
+        path: '/user-list',
+        name: 'user-list',
+        component: UserList,
+        layout: LayoutWithoutFilter,
+    },
+]
 
-// export const RouterComponents = () => {
-//     return (
-//         <Router>
-//             <Route exact path="/home" component={Home} />
-//                 <Redirect exact from="/" to="/home" />
-//                 <Route exact path="" render={() => <Redirect to="" />} />
-//                 <Route path="" component={} />
-//                 {privateRouters.map((route) => (
-//                     <PrivateRouters
-//                         key={route.name}
-//                         path={route.path}
-//                         component={route.component}
-//                         exact
-//                     />
-//                 ))}
-//             {publicRouters.map((route) => (
-//                 <PublicRouters
-//                     key={route.name}
-//                     path={route.path}
-//                     component={route.component}
-//                     exact
-//                 />
-//             ))}
-//             <Route component={NotFound} />
-//         </Router>
-//     )
-// }
+//Scroll Top when clicked another page
+function ScrollToTop() {
+    const location = useLocation()
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [location])
+
+    return null
+}
+
+export const RouterComponents = () => {
+    return (
+        <BrowserRouter>
+            <div className="App">
+                <ScrollToTop />
+                <Routes>
+                    {publicRouters.map((route, index) => {
+                        const Page = route.component
+                        let Layout = DefaultLayout
+                        if (route.layout) {
+                            Layout = route.layout
+                        } else if (route.layout === null) {
+                            Layout = Fragment
+                        }
+                        return (
+                            <Route
+                                key={index}
+                                path={route.path}
+                                element={
+                                    <Layout>
+                                        <Page />
+                                    </Layout>
+                                }
+                            />
+                        )
+                    })}
+                    <Route exact path='/' element={<PrivateRouters />}>
+                        {privateRouters.map((route, index) => {
+                            // const user = JSON.parse(localStorage.getItem('user'))
+                            const Page = route.component
+                            let Layout = DefaultLayout
+                            if (route.layout) {
+                                Layout = route.layout
+                            } else if (route.layout === null) {
+                                Layout = Fragment
+                            }
+                            return (
+                                <Route
+                                    key={index}
+                                    path={route.path}
+                                    element={
+                                        <Layout>
+                                            <Page />
+                                        </Layout>
+                                    }
+                                />
+                            );
+                        })}
+                    </Route>
+                    <Route exact path='/' element={<AdminRouters />}>
+                        {adminRouters.map((route, index) => {
+                            // const user = JSON.parse(localStorage.getItem('user'))
+                            const Page = route.component
+                            let Layout = DefaultLayout
+                            if (route.layout) {
+                                Layout = route.layout
+                            } else if (route.layout === null) {
+                                Layout = Fragment
+                            }
+                            return (
+                                <Route
+                                    key={index}
+                                    path={route.path}
+                                    element={
+                                        <Layout>
+                                            <Page />
+                                        </Layout>
+                                    }
+                                />
+                            );
+                        })}
+                    </Route>
+                </Routes>
+            </div>
+        </BrowserRouter>
+    )
+}

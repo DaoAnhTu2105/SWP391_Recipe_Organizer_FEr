@@ -78,7 +78,7 @@ const RecipeDetail = () => {
                                 <p>
                                     Recipe by &nbsp;
                                     <Link
-                                        to={''}
+                                        to="/repice-cooker"
                                         style={{ textDecoration: 'true', color: '#f39c12' }}
                                     >
                                         Darnell Ferguson
@@ -111,7 +111,7 @@ const RecipeDetail = () => {
                                         <h6>Cook Time: 20 mins</h6>
                                         <h6>Stand Time: 3 mins</h6>
                                         <h6>Total Time: 28 mins</h6>
-                                        <h6>Yields: 6</h6>
+                                        <h6>Serving: 6</h6>
                                     </div>
                                 </div>
                             </div>
