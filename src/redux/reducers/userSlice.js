@@ -9,6 +9,19 @@ const userSlice = createSlice({
         loading: false,
     },
     extraReducers: {
+        [changeRole.pending]: (state, action) => {
+            state.loading = true;
+            state.loading = "loading"
+        },
+        [changeRole.fulfilled]: (state, action) => {
+            state.loading = false;
+            state.loading = "succeeded";
+            // state.users = action.payload;
+        },
+        [changeRole.rejected]: (state, action) => {
+            state.loading = false;
+            state.loading = "failed";
+        },
         [getAllUser.pending]: (state, action) => {
             state.loading = true;
             state.loading = "loading"
@@ -22,19 +35,7 @@ const userSlice = createSlice({
             state.loading = false;
             state.loading = "failed";
         },
-        [changeRole.pending]: (state, action) => {
-            state.loading = true;
-            state.loading = "loading"
-        },
-        [changeRole.fulfilled]: (state, action) => {
-            state.loading = false;
-            state.loading = "succeeded";
-            state.users = action.payload;
-        },
-        [changeRole.rejected]: (state, action) => {
-            state.loading = false;
-            state.loading = "failed";
-        },
+
     },
 });
 

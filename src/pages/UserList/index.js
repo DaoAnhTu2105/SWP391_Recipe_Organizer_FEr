@@ -14,12 +14,64 @@ import Paper from '@mui/material/Paper'
 import { visuallyHidden } from '@mui/utils'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
+import MenuSharpIcon from '@mui/icons-material/MenuSharp';
+import { styled, alpha } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import EditIcon from '@mui/icons-material/Edit';
+import Divider from '@mui/material/Divider';
+import ClearSharpIcon from '@mui/icons-material/ClearSharp';
+import FileCopyIcon from '@mui/icons-material/FileCopy';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useSelector, useDispatch } from 'react-redux'
 import {
     getAllUser,
     changeRole
 } from '../../redux/apiThunk/userThunk'
 import CircularProgress from "@mui/material/CircularProgress";
+
+const StyledMenu = styled((props) => (
+    <Menu
+        elevation={0}
+        anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+        }}
+        transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+        }}
+        {...props}
+    />
+))(({ theme }) => ({
+    '& .MuiPaper-root': {
+        borderRadius: 6,
+        marginTop: theme.spacing(1),
+        minWidth: 180,
+        color:
+            theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
+        boxShadow:
+            'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+        '& .MuiMenu-list': {
+            padding: '4px 0',
+        },
+        '& .MuiMenuItem-root': {
+            '& .MuiSvgIcon-root': {
+                fontSize: 18,
+                color: theme.palette.text.secondary,
+                marginRight: theme.spacing(1.5),
+            },
+            '&:active': {
+                backgroundColor: alpha(
+                    theme.palette.primary.main,
+                    theme.palette.action.selectedOpacity,
+                ),
+            },
+        },
+    },
+}));
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -67,12 +119,12 @@ const headCells = [
         label: 'Email',
     },
     {
-        id: 'phone',
-        label: 'Phone',
-    },
-    {
         id: 'role',
         label: 'role',
+    },
+    {
+        id: 'status',
+        label: 'Status',
     },
     {
         id: '',
@@ -133,14 +185,14 @@ export default function UserList() {
     const [dense, setDense] = React.useState(false)
     const [rowsPerPage, setRowsPerPage] = React.useState(20)
     const [update, setUpdate] = useState(false)
+    const [id, setId] = useState();
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(getAllUser())
     }, [update])
     const userList = useSelector((state) => state.user)
     const status = useSelector((state) => state.user.loading)
-    console.log(userList);
-    // const visibleRows = userList?.users.data
+    // console.log(userList);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc'
@@ -199,10 +251,33 @@ export default function UserList() {
     //     [order, orderBy, page, rowsPerPage]
     // )
 
-    const updateRole = async (id) => {
-        await dispatch(changeRole({ id: id, role: 'User' }))
-        console.log(id);
+
+    // const updateStatusActice = async (id) => {
+    //     await dispatch(changeRole({ id: id, role: 'User' }))
+    //     console.log(id);
+    //     setUpdate(!update)
+    // }
+    // const updateStatusDeActice = async (id) => {
+    //     await dispatch(changeRole({ id: id, role: 'User' }))
+    //     console.log(id);
+    //     setUpdate(!update)
+    // }
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClickMenu = (event, id) => {
+        setId(id)
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const updateRole = async (role) => {
+        await dispatch(changeRole({ id: id, role: role }))
+        // console.log(id, role);
         setUpdate(!update)
+        handleClose()
     }
 
     let content
@@ -217,60 +292,126 @@ export default function UserList() {
             />
         )
     } else if (status === 'fail' || (userList.users.data && userList.users.data.length === 0)) {
-        content = <div style={{ paddingLeft: "45%" }}> No data</div>;
+        content = <div style={{ paddingLeft: "45%%" }}> No data</div>;
     } else {
         const visibleRows = stableSort(userList?.users.data, getComparator(order, orderBy))?.slice(
             page * rowsPerPage,
             page * rowsPerPage + rowsPerPage
         );
-        content = (<TableBody>
-            {visibleRows?.map((row, index) => {
-                const isItemSelected = isSelected(row.name)
-                const labelId = `enhanced-table-checkbox-${index}`
-                return (
-                    <TableRow
-                        hover
-                        onClick={(event) => handleClick(event, row.id)}
-                        role="checkbox"
-                        aria-checked={isItemSelected}
-                        tabIndex={-1}
-                        key={row.id}
-                        selected={isItemSelected}
-                        sx={{ cursor: 'pointer' }}
-                    >
-                        <TableCell
-                            component="th"
-                            id={labelId}
-                            scope="row"
-                            padding="normal"
+        content = (<div className="container user-list">
+            <Box sx={{ width: '100%' }}>
+                <Paper sx={{ width: '100%', mb: 2 }}>
+                    <TableContainer>
+                        <Table
+                            sx={{ minWidth: 750 }}
+                            aria-labelledby="tableTitle"
+                            size={dense ? 'small' : 'medium'}
                         >
-                            {row.userId}
-                        </TableCell>
-                        <TableCell align="left">
-                            <img src={row.avatarName} alt='avatar' />
-                        </TableCell>
-                        <TableCell align="left">{row.fullName}</TableCell>
-                        <TableCell align="left">{row.email}</TableCell>
-                        <TableCell align="left">{row.phoneNum}</TableCell>
-                        <TableCell align="left">{row.roleName}</TableCell>
-                        <TableCell align="left">
-                            <button onClick={() => updateRole(row.userId)}>
-                                change
-                            </button>
-                        </TableCell>
-                    </TableRow>
-                )
-            })}
-            {emptyRows > 0 && (
-                <TableRow
-                    style={{
-                        height: (dense ? 33 : 53) * emptyRows,
-                    }}
-                >
-                    <TableCell colSpan={6} />
-                </TableRow>
-            )}
-        </TableBody>)
+                            <EnhancedTableHead
+                                numSelected={selected?.length}
+                                order={order}
+                                orderBy={orderBy}
+                                onSelectAllClick={handleSelectAllClick}
+                                onRequestSort={handleRequestSort}
+                                rowCount={userList?.users.data?.length}
+                            />
+                            <TableBody>
+                                {visibleRows?.map((row, index) => {
+                                    const isItemSelected = isSelected(row.name)
+                                    const labelId = `enhanced-table-checkbox-${index}`
+
+                                    return (
+                                        <TableRow
+                                            hover
+                                            onClick={(event) => handleClick(event, row.id)}
+                                            role="checkbox"
+                                            aria-checked={isItemSelected}
+                                            tabIndex={-1}
+                                            key={row.id}
+                                            selected={isItemSelected}
+                                            sx={{ cursor: 'pointer' }}
+                                        >
+                                            <TableCell
+                                                component="th"
+                                                id={labelId}
+                                                scope="row"
+                                                padding="normal"
+                                            >
+                                                {row.userId}
+                                            </TableCell>
+                                            <TableCell align="left">
+                                                <img src={row.avatarName} alt='avatar' />
+                                            </TableCell>
+                                            <TableCell align="left">{row.fullName}</TableCell>
+                                            <TableCell align="left">{row.email}</TableCell>
+                                            <TableCell align="left">{row.roleName}</TableCell>
+                                            <TableCell align="left">{row.status}</TableCell>
+                                            <TableCell align="left">
+                                                <div>
+                                                    <Button
+                                                        id="demo-customized-button"
+                                                        aria-controls={open ? 'demo-customized-menu' : undefined}
+                                                        aria-haspopup="true"
+                                                        aria-expanded={open ? 'true' : undefined}
+                                                        variant="contained"
+                                                        disableElevation
+                                                        onClick={(event) => handleClickMenu(event, row.userId)}
+                                                        endIcon={<KeyboardArrowDownIcon />}
+                                                    >
+                                                        Options
+                                                    </Button>
+                                                    <StyledMenu
+                                                        id="demo-customized-menu"
+                                                        MenuListProps={{
+                                                            'aria-labelledby': 'demo-customized-button',
+                                                        }}
+                                                        anchorEl={anchorEl}
+                                                        open={open}
+                                                        onClose={handleClose}
+                                                    >
+                                                        <MenuItem onClick={handleClose} disableRipple>
+                                                            <ClearSharpIcon />
+                                                            DeActivate User
+                                                        </MenuItem>
+                                                        <Divider sx={{ my: 0.5 }} />
+                                                        <MenuItem onClick={() => updateRole('User')} disableRipple>
+                                                            <EditIcon />
+                                                            Change to User
+                                                        </MenuItem>
+                                                        <MenuItem onClick={() => updateRole('Cooker')} disableRipple>
+                                                            <EditIcon />
+                                                            Change to Cooker
+                                                        </MenuItem>
+                                                    </StyledMenu>
+                                                </div>
+                                            </TableCell>
+                                        </TableRow>
+                                    )
+                                })}
+                                {emptyRows > 0 && (
+                                    <TableRow
+                                        style={{
+                                            height: (dense ? 33 : 53) * emptyRows,
+                                        }}
+                                    >
+                                        <TableCell colSpan={6} />
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <TablePagination
+                        rowsPerPageOptions={[20, 35, 50]}
+                        component="div"
+                        count={userList?.users.data?.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                </Paper>
+            </Box>
+        </div>)
     }
 
     return (
@@ -289,38 +430,8 @@ export default function UserList() {
                     Manage user accounts
                 </Typography>
             </Container>
-            <div className="container user-list">
-                <Box sx={{ width: '100%' }}>
-                    <Paper sx={{ width: '100%', mb: 2 }}>
-                        <TableContainer>
-                            <Table
-                                sx={{ minWidth: 750 }}
-                                aria-labelledby="tableTitle"
-                                size={dense ? 'small' : 'medium'}
-                            >
-                                <EnhancedTableHead
-                                    numSelected={selected?.length}
-                                    order={order}
-                                    orderBy={orderBy}
-                                    onSelectAllClick={handleSelectAllClick}
-                                    onRequestSort={handleRequestSort}
-                                    rowCount={userList?.users.data?.length}
-                                />
-                                {content}
-                            </Table>
-                        </TableContainer>
-                        <TablePagination
-                            rowsPerPageOptions={[20, 35, 50]}
-                            component="div"
-                            count={userList?.users.data?.length}
-                            rowsPerPage={rowsPerPage}
-                            page={page}
-                            onPageChange={handleChangePage}
-                            onRowsPerPageChange={handleChangeRowsPerPage}
-                        />
-                    </Paper>
-                </Box>
-            </div>
+
+            {content}
         </Fragment>
     )
 }

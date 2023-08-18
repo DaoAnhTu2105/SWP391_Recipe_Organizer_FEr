@@ -76,6 +76,15 @@ const Header = () => {
                                     </Link>
                                 </li>
                                 <li>
+                                    <Link
+                                        to="/ingredient-list"
+                                        className="nav-link px-2 link-dark"
+                                        style={{ fontSize: '20px' }}
+                                    >
+                                        Ingredients List
+                                    </Link>
+                                </li>
+                                <li>
                                     {storedUserData ? (
                                         <>
                                             <Box
