@@ -19,6 +19,7 @@ import LayoutWithoutFilter from '../components/LayoutWithoutFilter'
 import Profile from '../pages/Profile'
 import ViewCooker from '../pages/ViewCooker'
 import PrivateRouters from './PrivateRouters'
+import AdminRouters from './AdminRouters'
 
 export const publicRouters = [
     {
@@ -149,7 +150,7 @@ export const RouterComponents = () => {
                     })}
                     <Route exact path='/' element={<PrivateRouters />}>
                         {privateRouters.map((route, index) => {
-                            const user = JSON.parse(localStorage.getItem('user'))
+                            // const user = JSON.parse(localStorage.getItem('user'))
                             const Page = route.component
                             let Layout = DefaultLayout
                             if (route.layout) {
@@ -162,43 +163,37 @@ export const RouterComponents = () => {
                                     key={index}
                                     path={route.path}
                                     element={
-                                        user ? (
-                                            <Layout>
-                                                <Page />
-                                            </Layout>
-                                        ) : (
-                                            <Navigate to="/error" replace />
-                                        )
+                                        <Layout>
+                                            <Page />
+                                        </Layout>
                                     }
                                 />
                             );
                         })}
                     </Route>
-                    {adminRouters.map((route, index) => {
-                        const user = JSON.parse(localStorage.getItem('user'))
-                        const Page = route.component
-                        let Layout = DefaultLayout
-                        if (route.layout) {
-                            Layout = route.layout
-                        } else if (route.layout === null) {
-                            Layout = Fragment
-                        }
-                        return (
-                            <Route
-                                key={index}
-                                path={route.path}
-                                element={
-                                    (user && user.role === 'Admin') ? (
+                    <Route exact path='/' element={<AdminRouters />}>
+                        {adminRouters.map((route, index) => {
+                            // const user = JSON.parse(localStorage.getItem('user'))
+                            const Page = route.component
+                            let Layout = DefaultLayout
+                            if (route.layout) {
+                                Layout = route.layout
+                            } else if (route.layout === null) {
+                                Layout = Fragment
+                            }
+                            return (
+                                <Route
+                                    key={index}
+                                    path={route.path}
+                                    element={
                                         <Layout>
                                             <Page />
                                         </Layout>
-                                    ) : (
-                                        <Navigate to="/error" replace />
-                                    )
-                                }
-                            />
-                        );
-                    })}
+                                    }
+                                />
+                            );
+                        })}
+                    </Route>
                 </Routes>
             </div>
         </BrowserRouter>

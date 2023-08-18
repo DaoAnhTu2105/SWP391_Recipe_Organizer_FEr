@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
-import React, { Fragment } from 'react'
+import React from 'react'
 // import PropTypes from 'prop-types'
 import { Navigate, Outlet } from 'react-router'
 
-const PrivateRouters = () => {
+const AdminRouters = () => {
     let isAuthenticated = JSON.parse(localStorage.getItem("user"));
-    return isAuthenticated ? <Outlet /> : <Navigate to="/error" />;
+    return isAuthenticated?.role === 'Admin' ? <Outlet /> : <Navigate to="/error" />;
 }
 
-export default PrivateRouters
+export default AdminRouters
