@@ -1,15 +1,10 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { fetchData } from '../../api/getAllData'
-
-export const fetchDataAsync = createAsyncThunk('data/fetchData', async () => {
-    const data = await fetchData()
-    return data
-})
+import { createSlice } from '@reduxjs/toolkit'
+import { fetchDataAsync } from '../apiThunk/getAllRecipesThunk'
 
 const getAllDataSlice = createSlice({
     name: 'getAllRecipes',
     initialState: {
-        data: [],
+        getAllRecipes: [],
         isLoading: false,
         error: null,
     },
@@ -18,14 +13,17 @@ const getAllDataSlice = createSlice({
         builder
             .addCase(fetchDataAsync.pending, (state) => {
                 state.isLoading = true
+                state.isLoading = 'loading'
                 state.error = null
             })
             .addCase(fetchDataAsync.fulfilled, (state, action) => {
                 state.isLoading = false
-                state.data = action.payload
+                state.isLoading = 'success'
+                state.getAllRecipes = action.payload
             })
             .addCase(fetchDataAsync.rejected, (state, action) => {
                 state.isLoading = false
+                state.isLoading = 'error'
                 state.error = action.error.message
             })
     },
