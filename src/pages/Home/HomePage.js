@@ -23,30 +23,15 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 const HomePage = () => {
     const dispatch = useDispatch()
     const getAllRecipesAPI = useSelector((state) => state.getAllRecipes.data)
-    console.log(getAllRecipesAPI)
+    const item1 = getAllRecipesAPI.data
+        ? getAllRecipesAPI.data[Math.floor(Math.random() * getAllRecipesAPI.data.length)]
+        : ''
+    const item2 = getAllRecipesAPI.data
+        ? getAllRecipesAPI.data[Math.floor(Math.random() * getAllRecipesAPI.data.length)]
+        : ''
     useEffect(() => {
         dispatch(fetchDataAsync())
     }, [dispatch])
-    const images = [
-        {
-            image: 'https://static.onecms.io/wp-content/uploads/sites/43/2022/02/16/21014-Good-old-Fashioned-Pancakes-mfs_001.jpg',
-            name: 'Perfect Pancakes',
-            description:
-                'Serve these pancakes with butter and syrup, or up the ante with toppings such as sprinkles, chopped bittersweet chocolate, and sliced or chopped fruit for a perfect breakfast.',
-        },
-        {
-            image: 'https://www.allrecipes.com/thmb/aIj82l62AOxezVyHOMXg7HJojgk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7567649_Briquette-Grilled-Ribeye-Steak_Yoly_4x3-7c200441d55e4eeda1f90c7902a0e147.jpg',
-            name: 'Charcoal-Grilled Ribeye Steak',
-            description:
-                'Ribeye steak, seasoned salt, and pepper are all you need for a perfectly grilled steak. Make sure your briquettes are red hot.',
-        },
-        {
-            image: 'https://www.allrecipes.com/thmb/tWd5RZBorGBNJGltuNhX0-nYIRc=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/263330-instant-pot-mexican-rice-3x4-151-copy-b40cff6ceab84a46beb1c130d15643bc.jpg',
-            name: 'Instant Pot Mexican Rice',
-            description:
-                'Make Spanish rice in an Instant Pot for a wonderful side dish for any Mexican meal.',
-        },
-    ]
 
     return (
         <>
@@ -111,51 +96,64 @@ const HomePage = () => {
                                 <Box sx={{ display: 'flex', alignContent: 'center' }}>
                                     <CardContent>
                                         <Typography component="div" variant="h5">
-                                            Authentic Chicken Adobo
+                                            {item1.recipeName}
                                         </Typography>
                                         <Typography
                                             variant="subtitle1"
                                             color="text.secondary"
                                             component="div"
                                         >
-                                            Philippines
+                                            {item1.countryVM != undefined
+                                                ? item1.countryVM.countryName
+                                                : ''}
                                         </Typography>
                                     </CardContent>
                                 </Box>
                                 <CardMedia
                                     component="img"
                                     sx={{ width: 250, height: 200 }}
-                                    image="https://www.allrecipes.com/thmb/GpCdaXApkRjAUnDyOzaKOgPBxEQ=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/1126855-Slow-Cooker-Chicken-Adobo-Photo-by-Snacking-in-the-Kitchen-resized-82e2e03a907740709abaf4b8c01c9eaf.jpg"
+                                    image={
+                                        item1.photoVMs != undefined
+                                            ? item1.photoVMs[0].photoName
+                                            : ''
+                                    }
                                     alt="Live from space album cover"
                                 />
                             </Card>
                         </Link>
                         <Link to="/recipe-detail">
-                            <Card sx={{ display: 'flex', width: 500, cursor: 'pointer' }}>
-                                <Box
-                                    sx={{
-                                        display: 'flex',
-                                        alignContent: 'center',
-                                        borderLeft: '4px solid #f39c12',
-                                    }}
-                                >
+                            <Card
+                                sx={{
+                                    display: 'flex',
+                                    width: 500,
+                                    borderLeft: '4px solid #f39c12',
+                                    cursor: 'pointer',
+                                }}
+                            >
+                                <Box sx={{ display: 'flex', alignContent: 'center' }}>
                                     <CardContent>
                                         <Typography component="div" variant="h5">
-                                            Prosciutto-Wrapped Pork Tenderloin
+                                            {item2.recipeName}
                                         </Typography>
                                         <Typography
                                             variant="subtitle1"
                                             color="text.secondary"
                                             component="div"
                                         >
-                                            Asian
+                                            {item2.countryVM != undefined
+                                                ? item2.countryVM.countryName
+                                                : ''}
                                         </Typography>
                                     </CardContent>
                                 </Box>
                                 <CardMedia
                                     component="img"
                                     sx={{ width: 250, height: 200 }}
-                                    image="https://www.allrecipes.com/thmb/ifNsu4fHS9Mkk19IXpVKDB24k_s=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/2930533-prosciutto-wrapped-pork-tenderloin-with-crispy-sage-hello-angie-4x3-1-a290eeae1f874874a153339d5398357a.jpg"
+                                    image={
+                                        item2.photoVMs != undefined
+                                            ? item2.photoVMs[0].photoName
+                                            : ''
+                                    }
                                     alt="Live from space album cover"
                                 />
                             </Card>
@@ -264,7 +262,7 @@ const HomePage = () => {
                                 {getAllRecipesAPI.data &&
                                     getAllRecipesAPI.data.map((recipe) => (
                                         <div className="col-sm-4 mb-4" key={recipe.recipeId}>
-                                            <Link to="/recipe-detail">
+                                            <Link to={`/recipe-detail/${recipe.recipeId}`}>
                                                 <Card style={{ width: 345, maxHeight: 470 }}>
                                                     <CardMedia
                                                         component="img"
