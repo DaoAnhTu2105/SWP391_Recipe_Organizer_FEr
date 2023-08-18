@@ -38,7 +38,7 @@
 }
 
 .plan-meal .date-info .date button:hover {
-    background-color: #f39c12;
+    background-color: #f39c12 !important;
     color: #fff;
 }
 
