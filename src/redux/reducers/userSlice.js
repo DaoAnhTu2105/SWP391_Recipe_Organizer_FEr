@@ -3,9 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getAllUser, changeRole } from "../apiThunk/userThunk";
 
 const userSlice = createSlice({
-    name: "plans",
+    name: "users",
     initialState: {
-        plan: [],
+        users: [],
         loading: false,
     },
     extraReducers: {
@@ -16,7 +16,7 @@ const userSlice = createSlice({
         [getAllUser.fulfilled]: (state, action) => {
             state.loading = false;
             state.loading = "succeeded";
-            state.plan = action.payload;
+            state.users = action.payload;
         },
         [getAllUser.rejected]: (state, action) => {
             state.loading = false;
@@ -29,7 +29,7 @@ const userSlice = createSlice({
         [changeRole.fulfilled]: (state, action) => {
             state.loading = false;
             state.loading = "succeeded";
-            state.plan = action.payload;
+            state.users = action.payload;
         },
         [changeRole.rejected]: (state, action) => {
             state.loading = false;

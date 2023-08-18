@@ -6,6 +6,6 @@ export const getUsers = async (date) => {
 };
 
 export const updateRole = async (id, role) => {
-    const response = await api.get(`/api/UserAccounts/ChangeRole?id=${id}roleChange=${role}`);
+    const response = await api.get(`/api/UserAccounts/ChangeRole?id=${id}&roleChange=${role}`);
     return response.data;
 };

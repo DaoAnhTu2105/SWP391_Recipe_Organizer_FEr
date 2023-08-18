@@ -32,7 +32,7 @@ const Header = () => {
     const handleLogout = () => {
         removeCookie('user')
         localStorage.removeItem('user');
-
+        
     }
     return (
         <>
