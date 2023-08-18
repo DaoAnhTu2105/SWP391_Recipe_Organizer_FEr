@@ -11,6 +11,7 @@ import { getAnalytics } from 'firebase/analytics'
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
 import { Provider } from 'react-redux'
+import {getStorage} from 'firebase/storage'
 import store from './redux/store'
 
 const firebaseConfig = {
@@ -26,7 +27,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
 const analytics = getAnalytics(app)
-
+export const storage = getStorage(app)
 function App() {
     return (
         <Provider store={store}>
