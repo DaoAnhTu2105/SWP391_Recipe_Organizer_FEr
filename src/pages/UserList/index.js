@@ -79,35 +79,11 @@ const changeColor = (status) => (
     status === 'Active' ? "#339900" : "#cc3300"
 )
 
-// function descendingComparator(a, b, orderBy) {
-//     if (b[orderBy] < a[orderBy]) {
-//         return -1
-//     }
-//     if (b[orderBy] > a[orderBy]) {
-//         return 1
-//     }
-//     return 0
-// }
-
-// function getComparator(order, orderBy) {
-//     return order === 'desc'
-//         ? (a, b) => descendingComparator(a, b, orderBy)
-//         : (a, b) => -descendingComparator(a, b, orderBy)
-// }
-
-// function stableSort(array, comparator) {
-//     const stabilizedThis = array?.map((el, index) => [el, index])
-//     stabilizedThis?.sort((a, b) => {
-//         const order = comparator(a[0], b[0])
-//         if (order !== 0) {
-//             return order
-//         }
-//         return a[1] - b[1]
-//     })
-//     return stabilizedThis?.map((el) => el[0])
-// }
-
 const headCells = [
+    {
+        id: 'no',
+        label: 'No',
+    },
     {
         id: 'id',
         label: 'ID',
@@ -139,11 +115,6 @@ const headCells = [
 ]
 
 function EnhancedTableHead(props) {
-    // const { order, orderBy, onRequestSort } = props
-    // const createSortHandler = (property) => (event) => {
-    //     onRequestSort(event, property)
-    // }
-
     return (
         <TableHead>
             <TableRow>
@@ -152,20 +123,8 @@ function EnhancedTableHead(props) {
                         key={headCell.id}
                         align={'left'}
                         padding={'normal'}
-                    // sortDirection={orderBy === headCell.id ? order : false}
                     >
-                        {/* <TableSortLabel
-                            active={orderBy === headCell.id}
-                            direction={orderBy === headCell.id ? order : 'asc'}
-                            onClick={createSortHandler(headCell.id)}
-                        > */}
                         <b>{headCell.label}</b>
-                        {/* {orderBy === headCell.id ? (
-                                <Box component="span" sx={visuallyHidden}>
-                                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                </Box>
-                            ) : null}
-                        </TableSortLabel> */}
                     </TableCell>
                 ))}
             </TableRow>
@@ -214,10 +173,6 @@ export default function UserList() {
         setRowsPerPage(parseInt(event.target.value, 10))
         setPage(0)
     }
-
-    const isSelected = (name) => selected.indexOf(name) !== -1
-
-    // const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - userList?.users?.data?.length) : 0
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -274,12 +229,18 @@ export default function UserList() {
                             />
                             <TableBody>
                                 {userList?.users.data?.map((row, index) => {
-
                                     return (
                                         <TableRow
                                             hover
                                             key={row.id}
                                         >
+                                            <TableCell
+                                                component="th"
+                                                scope="row"
+                                                padding="normal"
+                                            >
+                                                {(index + 1) + userList?.users.itemPerPage * (userList?.users.moveToPage - 1)}
+                                            </TableCell>
                                             <TableCell
                                                 component="th"
                                                 scope="row"
@@ -369,7 +330,6 @@ export default function UserList() {
                     Manage user accounts
                 </Typography>
             </Container>
-
             {content}
         </Fragment>
     )
