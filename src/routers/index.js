@@ -11,6 +11,7 @@ import FavoriteRecipe from '../pages/FavortieRecipe'
 import Register from '../pages/Register'
 // import UserList from '../pages/Register/UserList'
 import UserList from '../pages/UserList'
+import IngredientList from '../pages/Ingredients'
 import Login from '../pages/Login'
 import Home from '../pages/Home/HomePage'
 import NotFound from '../pages/NotFound'
@@ -103,6 +104,12 @@ export const adminRouters = [
         path: '/user-list',
         name: 'user-list',
         component: UserList,
+        layout: LayoutWithoutFilter,
+    },
+    {
+        path: '/ingredient-list',
+        name: 'ingredient-list',
+        component: IngredientList,
         layout: LayoutWithoutFilter,
     },
 ]

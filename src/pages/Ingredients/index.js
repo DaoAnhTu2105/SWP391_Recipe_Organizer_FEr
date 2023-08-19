@@ -27,9 +27,12 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useSelector, useDispatch } from 'react-redux'
 import {
-    getAllUser,
-    changeRole
-} from '../../../redux/apiThunk/userThunk'
+    getAllIngredient,
+    getIngredientDetail,
+    addIngredient,
+    updateIngredient,
+    removeIngredient
+} from '../../redux/apiThunk/ingredientThunk'
 import CircularProgress from "@mui/material/CircularProgress";
 
 const StyledMenu = styled((props) => (
@@ -107,24 +110,12 @@ const headCells = [
         label: 'ID',
     },
     {
-        id: 'avatar',
-        label: 'Avatar',
+        id: 'name',
+        label: 'Ingredient Name',
     },
     {
-        id: 'fullName',
-        label: 'Full Name',
-    },
-    {
-        id: 'email',
-        label: 'Email',
-    },
-    {
-        id: 'role',
-        label: 'role',
-    },
-    {
-        id: 'status',
-        label: 'Status',
+        id: 'measure',
+        label: 'Measure',
     },
     {
         id: '',
@@ -176,23 +167,22 @@ EnhancedTableHead.propTypes = {
     rowCount: PropTypes.number.isRequired,
 }
 
-export default function UserList() {
-    const [reload, setReload] = useState(0)
+export default function IngredientList() {
+    const [reload, setReload] = useState(true)
     const [order, setOrder] = React.useState('asc')
     const [orderBy, setOrderBy] = React.useState('calories')
     const [selected, setSelected] = React.useState([])
     const [page, setPage] = React.useState(0)
     const [dense, setDense] = React.useState(false)
     const [rowsPerPage, setRowsPerPage] = React.useState(20)
-    const [update, setUpdate] = useState(false)
     const [id, setId] = useState();
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(getAllUser())
-    }, [update])
-    const userList = useSelector((state) => state.user)
-    const status = useSelector((state) => state.user.loading)
-    // console.log(userList);
+        dispatch(getAllIngredient())
+    }, [dispatch, reload])
+    const ingredientList = useSelector((state) => state.ingredient)
+    const status = useSelector((state) => state.ingredient.loading)
+    console.log(ingredientList);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc'
@@ -202,7 +192,7 @@ export default function UserList() {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelected = userList?.users.data?.map((n) => n.name)
+            const newSelected = ingredientList?.ingredietns.data?.map((n) => n.name)
             setSelected(newSelected)
             return
         }
@@ -241,7 +231,7 @@ export default function UserList() {
     const isSelected = (name) => selected.indexOf(name) !== -1
 
     // Avoid a layout jump when reaching the last page with empty rows.
-    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - userList?.users.data?.length) : 0
+    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - ingredientList?.ingredietns.data?.length) : 0
     // const visibleRows = React.useMemo(
     //     () =>
     //         stableSort(dataRows, getComparator(order, orderBy))?.slice(
@@ -265,20 +255,26 @@ export default function UserList() {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-    const handleClickMenu = (event, id) => {
+    const handleClickMenu = (event, id, status) => {
         setId(id)
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
+        setReload(!reload)
         setAnchorEl(null);
     };
 
-    const updateRole = async (role) => {
-        await dispatch(changeRole({ id: id, role: role }))
-        // console.log(id, role);
-        setUpdate(!update)
-        handleClose()
-    }
+    // const updateRole = async (role) => {
+    //     await dispatch(changeRole({ id: id, role: role }))
+    //     setUpdate(!update)
+    //     handleClose()
+    // }
+    // const updateStatus = () => {
+    //     userStatus === 'Active' ? dispatch(banUser({ id: id })) : dispatch(unbanUser({ id: id }))
+    //     setUpdate(!update)
+    //     // console.log(userStatus);
+    //     handleClose()
+    // }
 
     let content
     if (status === 'loading') {
@@ -291,10 +287,10 @@ export default function UserList() {
                 }}
             />
         )
-    } else if (status === 'fail' || (userList.users.data && userList.users.data.length === 0)) {
+    } else if (status === 'fail' || (ingredientList.ingredients.data && ingredientList.ingredients.data.length === 0)) {
         content = <div style={{ paddingLeft: "45%%" }}> No data</div>;
     } else {
-        const visibleRows = stableSort(userList?.users.data, getComparator(order, orderBy))?.slice(
+        const visibleRows = stableSort(ingredientList?.ingredients.data, getComparator(order, orderBy))?.slice(
             page * rowsPerPage,
             page * rowsPerPage + rowsPerPage
         );
@@ -313,7 +309,7 @@ export default function UserList() {
                                 orderBy={orderBy}
                                 onSelectAllClick={handleSelectAllClick}
                                 onRequestSort={handleRequestSort}
-                                rowCount={userList?.users.data?.length}
+                                rowCount={ingredientList?.ingredients.data?.length}
                             />
                             <TableBody>
                                 {visibleRows?.map((row, index) => {
@@ -337,15 +333,10 @@ export default function UserList() {
                                                 scope="row"
                                                 padding="normal"
                                             >
-                                                {row.userId}
+                                                {row.ingredientId}
                                             </TableCell>
-                                            <TableCell align="left">
-                                                <img src={row.avatarName} alt='avatar' />
-                                            </TableCell>
-                                            <TableCell align="left">{row.fullName}</TableCell>
-                                            <TableCell align="left">{row.email}</TableCell>
-                                            <TableCell align="left">{row.roleName}</TableCell>
-                                            <TableCell align="left">{row.status}</TableCell>
+                                            <TableCell align="left">{row.ingredientName}</TableCell>
+                                            <TableCell align="left">{row.measure}</TableCell>
                                             <TableCell align="left">
                                                 <div>
                                                     <Button
@@ -355,7 +346,7 @@ export default function UserList() {
                                                         aria-expanded={open ? 'true' : undefined}
                                                         variant="contained"
                                                         disableElevation
-                                                        onClick={(event) => handleClickMenu(event, row.userId)}
+                                                        onClick={(event) => handleClickMenu(event, row.ingredientId)}
                                                         endIcon={<KeyboardArrowDownIcon />}
                                                     >
                                                         Options
@@ -374,11 +365,11 @@ export default function UserList() {
                                                             DeActivate User
                                                         </MenuItem>
                                                         <Divider sx={{ my: 0.5 }} />
-                                                        <MenuItem onClick={() => updateRole('User')} disableRipple>
+                                                        <MenuItem onClick={handleClose} disableRipple>
                                                             <EditIcon />
                                                             Change to User
                                                         </MenuItem>
-                                                        <MenuItem onClick={() => updateRole('Cooker')} disableRipple>
+                                                        <MenuItem onClick={handleClose} disableRipple>
                                                             <EditIcon />
                                                             Change to Cooker
                                                         </MenuItem>
@@ -403,7 +394,7 @@ export default function UserList() {
                     <TablePagination
                         rowsPerPageOptions={[20, 35, 50]}
                         component="div"
-                        count={userList?.users.data?.length}
+                        count={ingredientList?.ingredients.data?.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}
@@ -411,7 +402,7 @@ export default function UserList() {
                     />
                 </Paper>
             </Box>
-        </div>)
+        </div >)
     }
 
     return (
@@ -424,10 +415,10 @@ export default function UserList() {
                     style={{ color: '#f39c12', marginTop: 20 }}
                     gutterBottom
                 >
-                    User List
+                    Ingredient List
                 </Typography>
                 <Typography variant="h5" align="center" color="text.secondary" paragraph>
-                    Manage user accounts
+                    Manage ingredient
                 </Typography>
             </Container>
 

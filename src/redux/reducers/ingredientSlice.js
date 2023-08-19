@@ -1,11 +1,18 @@
 
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllUser, changeRole } from "../apiThunk/userThunk";
+import {
+    getAllIngredient,
+    getIngredientDetail,
+    addIngredient,
+    updateIngredient,
+    removeIngredient
 
-const userSlice = createSlice({
-    name: "users",
+} from '../apiThunk/ingredientThunk'
+
+const ingredientSlice = createSlice({
+    name: "ingredients",
     initialState: {
-        users: [],
+        ingredients: [],
         loading: false,
     },
     extraReducers: {
@@ -22,20 +29,20 @@ const userSlice = createSlice({
         //     state.loading = false;
         //     state.loading = "failed";
         // },
-        [getAllUser.pending]: (state, action) => {
+        [getAllIngredient.pending]: (state, action) => {
             state.loading = true;
             state.loading = "loading"
         },
-        [getAllUser.fulfilled]: (state, action) => {
+        [getAllIngredient.fulfilled]: (state, action) => {
             state.loading = false;
             state.loading = "succeeded";
-            state.users = action.payload;
+            state.ingredients = action.payload;
         },
-        [getAllUser.rejected]: (state, action) => {
+        [getAllIngredient.rejected]: (state, action) => {
             state.loading = false;
             state.loading = "failed";
         },
     },
 });
 
-export default userSlice.reducer;
+export default ingredientSlice.reducer;
