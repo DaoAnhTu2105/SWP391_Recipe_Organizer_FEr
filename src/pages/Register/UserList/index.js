@@ -29,7 +29,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import {
     getAllUser,
     changeRole
-} from '../../redux/apiThunk/userThunk'
+} from '../../../redux/apiThunk/userThunk'
 import CircularProgress from "@mui/material/CircularProgress";
 
 const StyledMenu = styled((props) => (
