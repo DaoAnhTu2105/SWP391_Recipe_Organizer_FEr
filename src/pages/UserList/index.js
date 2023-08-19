@@ -183,20 +183,19 @@ EnhancedTableHead.propTypes = {
 }
 
 export default function UserList() {
-    const [reload, setReload] = useState(0)
     const [order, setOrder] = React.useState('asc')
     const [orderBy, setOrderBy] = React.useState('calories')
     const [selected, setSelected] = React.useState([])
     const [page, setPage] = React.useState(0)
     const [dense, setDense] = React.useState(false)
     const [rowsPerPage, setRowsPerPage] = React.useState(20)
-    const [update, setUpdate] = useState(false)
+    const [reload, setReload] = useState(false)
     const [id, setId] = useState();
     const [userStatus, setUserStatus] = useState()
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(getAllUser())
-    }, [update])
+    }, [dispatch, reload])
     const userList = useSelector((state) => state.user)
     const status = useSelector((state) => state.user.loading)
     // console.log(userList);
@@ -249,26 +248,6 @@ export default function UserList() {
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - userList?.users.data?.length) : 0
-    // const visibleRows = React.useMemo(
-    //     () =>
-    //         stableSort(dataRows, getComparator(order, orderBy))?.slice(
-    //             page * rowsPerPage,
-    //             page * rowsPerPage + rowsPerPage
-    //         ),
-    //     [order, orderBy, page, rowsPerPage]
-    // )
-
-
-    // const updateStatusActice = async (id) => {
-    //     await dispatch(changeRole({ id: id, role: 'User' }))
-    //     console.log(id);
-    //     setUpdate(!update)
-    // }
-    // const updateStatusDeActice = async (id) => {
-    //     await dispatch(changeRole({ id: id, role: 'User' }))
-    //     console.log(id);
-    //     setUpdate(!update)
-    // }
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -282,9 +261,17 @@ export default function UserList() {
     };
 
     const updateRole = async (role) => {
-        await dispatch(changeRole({ id: id, role: role }))
-        // console.log(id, role);
-        setUpdate(!update)
+        if (userStatus === 'Active') {
+            await dispatch(changeRole({ id: id, role: role }))
+            setReload(!reload)
+        } else {
+            window.alert(`Role cannot change because User is not active. `)
+        }
+        handleClose()
+    }
+    const updateStatus = () => {
+        userStatus === 'Active' ? dispatch(banUser({ id: id })) : dispatch(unbanUser({ id: id }))
+        setReload(!reload)
         handleClose()
     }
 
@@ -377,7 +364,7 @@ export default function UserList() {
                                                         open={open}
                                                         onClose={handleClose}
                                                     >
-                                                        <MenuItem onClick={handleClose} disableRipple>
+                                                        <MenuItem onClick={() => updateStatus()} disableRipple>
                                                             <ClearSharpIcon />
                                                             DeActivate User
                                                         </MenuItem>
