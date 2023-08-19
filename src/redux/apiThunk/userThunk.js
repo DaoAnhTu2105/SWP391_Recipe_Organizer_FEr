@@ -8,9 +8,9 @@ import {
 
 export const getAllUser = createAsyncThunk(
     "user/fetchUser",
-    async (thunkAPI) => {
+    async ({ movePage, items }, thunkAPI) => {
         try {
-            const response = await getUsers();
+            const response = await getUsers(movePage, items);
             return response;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response.data);

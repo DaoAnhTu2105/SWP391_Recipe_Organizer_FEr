@@ -1,7 +1,7 @@
 import api from "./api";
 
-export const getUsers = async () => {
-    const response = await api.get(`/api/UserAccounts/GetAllUser`);
+export const getUsers = async (movePage, items) => {
+    const response = await api.get(`/api/UserAccounts/GetAllUser?movePage=${movePage}&itemPerPage=${items}`);
     return response.data;
 };
 
