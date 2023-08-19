@@ -3,25 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getAllUser, changeRole } from "../apiThunk/userThunk";
 
 const userSlice = createSlice({
-    name: "plans",
+    name: "users",
     initialState: {
-        plan: [],
+        users: [],
         loading: false,
     },
     extraReducers: {
-        [getAllUser.pending]: (state, action) => {
-            state.loading = true;
-            state.loading = "loading"
-        },
-        [getAllUser.fulfilled]: (state, action) => {
-            state.loading = false;
-            state.loading = "succeeded";
-            state.plan = action.payload;
-        },
-        [getAllUser.rejected]: (state, action) => {
-            state.loading = false;
-            state.loading = "failed";
-        },
         [changeRole.pending]: (state, action) => {
             state.loading = true;
             state.loading = "loading"
@@ -29,12 +16,26 @@ const userSlice = createSlice({
         [changeRole.fulfilled]: (state, action) => {
             state.loading = false;
             state.loading = "succeeded";
-            state.plan = action.payload;
+            // state.users = action.payload;
         },
         [changeRole.rejected]: (state, action) => {
             state.loading = false;
             state.loading = "failed";
         },
+        [getAllUser.pending]: (state, action) => {
+            state.loading = true;
+            state.loading = "loading"
+        },
+        [getAllUser.fulfilled]: (state, action) => {
+            state.loading = false;
+            state.loading = "succeeded";
+            state.users = action.payload;
+        },
+        [getAllUser.rejected]: (state, action) => {
+            state.loading = false;
+            state.loading = "failed";
+        },
+
     },
 });
 
