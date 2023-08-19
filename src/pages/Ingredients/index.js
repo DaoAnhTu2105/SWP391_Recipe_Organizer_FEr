@@ -20,6 +20,7 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Divider from '@mui/material/Divider';
 import ClearSharpIcon from '@mui/icons-material/ClearSharp';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
@@ -27,7 +28,8 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useSelector, useDispatch } from 'react-redux'
 import {
-    getAllIngredient
+    getAllIngredient,
+    removeIngredient
 } from '../../redux/apiThunk/ingredientThunk'
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -132,9 +134,7 @@ export default function UserList() {
     const [rowsPerPage, setRowsPerPage] = React.useState(20)
     const [reload, setReload] = useState(false)
     const [id, setId] = useState();
-    // const [userStatus, setUserStatus] = useState()
     const dispatch = useDispatch()
-
     useEffect(() => {
         dispatch(getAllIngredient({ movePage: page + 1, items: rowsPerPage }))
     }, [dispatch, reload, rowsPerPage, page])
@@ -170,20 +170,11 @@ export default function UserList() {
         setAnchorEl(null);
     };
 
-    // const updateRole = async (role) => {
-    //     if (userStatus === 'Active') {
-    //         await dispatch(changeRole({ id: id, role: role }))
-    //         setReload(!reload)
-    //     } else {
-    //         window.alert(`Role cannot change because User is not active. `)
-    //     }
-    //     handleClose()
-    // }
-    // const updateStatus = () => {
-    //     userStatus === 'Active' ? dispatch(banUser({ id: id })) : dispatch(unbanUser({ id: id }))
-    //     setReload(!reload)
-    //     handleClose()
-    // }
+    const deleteIngredient = () => {
+        dispatch(removeIngredient({ id: id }))
+        setReload(!reload)
+        handleClose()
+    }
 
     let content
     if (status === 'loading') {
@@ -235,7 +226,7 @@ export default function UserList() {
                                             </TableCell>
                                             <TableCell align="left">{row.ingredientName}</TableCell>
                                             <TableCell align="left">{row.measure}</TableCell>
-                                            <TableCell align="left">
+                                            <TableCell align="center">
                                                 <div>
                                                     <Button
                                                         id="demo-customized-button"
@@ -244,7 +235,7 @@ export default function UserList() {
                                                         aria-expanded={open ? 'true' : undefined}
                                                         variant="contained"
                                                         disableElevation
-                                                        onClick={(event) => handleClickMenu(event, row.userId, row.status)}
+                                                        onClick={(event) => handleClickMenu(event, row.ingredientId)}
                                                         endIcon={<KeyboardArrowDownIcon />}
                                                     >
                                                         Options
@@ -258,17 +249,13 @@ export default function UserList() {
                                                         open={open}
                                                         onClose={handleClose}
                                                     >
-                                                        <MenuItem onClick={handleClose} disableRipple>
-                                                            <ClearSharpIcon />
-                                                            
-                                                        </MenuItem>
-                                                        <Divider sx={{ my: 0.5 }} />
+                                                        {/* <Divider sx={{ my: 0.5 }} /> */}
                                                         <MenuItem onClick={handleClose} disableRipple>
                                                             <EditIcon />
-                                                            Edit 
+                                                            Edit
                                                         </MenuItem>
-                                                        <MenuItem onClick={handleClose} disableRipple>
-                                                            <EditIcon />
+                                                        <MenuItem onClick={() => deleteIngredient()} disableRipple>
+                                                            <DeleteIcon />
                                                             Delete
                                                         </MenuItem>
                                                     </StyledMenu>
