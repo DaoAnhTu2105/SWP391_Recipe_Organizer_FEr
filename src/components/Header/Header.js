@@ -32,7 +32,7 @@ const Header = () => {
     const handleLogout = () => {
         removeCookie('user')
         localStorage.removeItem('user');
-
+        
     }
     return (
         <>
@@ -73,6 +73,15 @@ const Header = () => {
                                         style={{ fontSize: '20px' }}
                                     >
                                         User List
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        to="/ingredient-list"
+                                        className="nav-link px-2 link-dark"
+                                        style={{ fontSize: '20px' }}
+                                    >
+                                        Ingredients List
                                     </Link>
                                 </li>
                                 <li>
