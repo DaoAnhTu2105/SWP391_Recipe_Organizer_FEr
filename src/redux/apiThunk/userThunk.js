@@ -1,7 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
     getUsers,
-    updateRole
+    updateRole,
+    banAccount,
+    unBanAccount
 } from '../../api/user'
 
 export const getAllUser = createAsyncThunk(
@@ -21,6 +23,30 @@ export const changeRole = createAsyncThunk(
     async ({ id, role }, thunkAPI) => {
         try {
             const response = await updateRole(id, role);
+            return response;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    }
+);
+
+export const banUser = createAsyncThunk(
+    "uesr/banUser",
+    async ({ id }, thunkAPI) => {
+        try {
+            const response = await banAccount(id);
+            return response;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    }
+);
+
+export const unbanUser = createAsyncThunk(
+    "uesr/unbanUser",
+    async ({ id }, thunkAPI) => {
+        try {
+            const response = await unBanAccount(id);
             return response;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response.data);
