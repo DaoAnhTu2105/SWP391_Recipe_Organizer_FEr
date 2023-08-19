@@ -1,11 +1,6 @@
-
 import { createSlice } from "@reduxjs/toolkit";
 import {
-    getAllIngredient,
-    getIngredientDetail,
-    addIngredient,
-    updateIngredient,
-    removeIngredient
+    getAllIngredient
 
 } from '../apiThunk/ingredientThunk'
 
@@ -16,19 +11,6 @@ const ingredientSlice = createSlice({
         loading: false,
     },
     extraReducers: {
-        // [changeRole.pending]: (state, action) => {
-        //     state.loading = true;
-        //     state.loading = "loading"
-        // },
-        // [changeRole.fulfilled]: (state, action) => {
-        //     state.loading = false;
-        //     state.loading = "succeeded";
-        //     // state.users = action.payload;
-        // },
-        // [changeRole.rejected]: (state, action) => {
-        //     state.loading = false;
-        //     state.loading = "failed";
-        // },
         [getAllIngredient.pending]: (state, action) => {
             state.loading = true;
             state.loading = "loading"

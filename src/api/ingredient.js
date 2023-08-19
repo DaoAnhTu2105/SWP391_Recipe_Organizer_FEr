@@ -1,7 +1,7 @@
 import api from "./api";
 
-export const getAllApi = async () => {
-    const response = await api.get(`/api/Ingredients/GetAll`);
+export const getAllApi = async (movePage, items) => {
+    const response = await api.get(`/api/Ingredients/GetAllByAdmin?movePage=${movePage}&itemPerPage=${items}`);
     return response.data;
 };
 
