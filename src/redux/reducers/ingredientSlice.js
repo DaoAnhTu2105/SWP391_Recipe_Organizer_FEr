@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-    getAllIngredient
-
+    getAllIngredient,
+    getIngredientDetail
 } from '../apiThunk/ingredientThunk'
 
 const ingredientSlice = createSlice({
     name: "ingredients",
     initialState: {
         ingredients: [],
+        detail: [],
         loading: false,
     },
     extraReducers: {
@@ -21,6 +22,19 @@ const ingredientSlice = createSlice({
             state.ingredients = action.payload;
         },
         [getAllIngredient.rejected]: (state, action) => {
+            state.loading = false;
+            state.loading = "failed";
+        },
+        [getIngredientDetail.pending]: (state, action) => {
+            state.loading = true;
+            state.loading = "loading"
+        },
+        [getIngredientDetail.fulfilled]: (state, action) => {
+            state.loading = false;
+            state.loading = "succeeded";
+            state.detail = action.payload;
+        },
+        [getIngredientDetail.rejected]: (state, action) => {
             state.loading = false;
             state.loading = "failed";
         },

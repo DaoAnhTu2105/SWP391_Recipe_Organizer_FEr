@@ -34,6 +34,7 @@ import {
 } from '../../redux/apiThunk/userThunk'
 import CircularProgress from "@mui/material/CircularProgress";
 
+
 const StyledMenu = styled((props) => (
     <Menu
         elevation={0}
@@ -277,6 +278,12 @@ export default function UserList() {
                                                         anchorEl={anchorEl}
                                                         open={open}
                                                         onClose={handleClose}
+                                                        PaperProps={{
+                                                            style: {
+                                                                boxShadow: 'none',
+                                                                border: '1px solid #000',
+                                                            }
+                                                        }}
                                                     >
                                                         <MenuItem onClick={() => updateStatus()} disableRipple>
                                                             <ClearSharpIcon />
