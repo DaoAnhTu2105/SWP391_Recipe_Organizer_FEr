@@ -3,12 +3,16 @@ import getAllRecipesReducer from './reducers/getAllDataRecipes'
 import planSlice from './reducers/planSlice'
 import userSlice from './reducers/userSlice'
 import getRecipeDetail from './reducers/getRecipeDetail'
+import bestRecipe from './reducers/getBestRecipesSlice'
+import favoriteRecipe from './reducers/getFavoritesRecipeSlice'
 const store = configureStore({
     reducer: {
         getAllRecipes: getAllRecipesReducer,
         plan: planSlice,
         user: userSlice,
         getRecipeDetail: getRecipeDetail,
+        bestRecipe: bestRecipe,
+        favoriteRecipe: favoriteRecipe,
     },
 })
 
