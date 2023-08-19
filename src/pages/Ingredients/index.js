@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import './index.css'
+import { Link } from "react-router-dom";
 import PropTypes from 'prop-types'
 import Box from '@mui/material/Box'
 import Table from '@mui/material/Table'
@@ -29,6 +30,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useSelector, useDispatch } from 'react-redux'
 import {
     getAllIngredient,
+    updateIngredient,
     removeIngredient
 } from '../../redux/apiThunk/ingredientThunk'
 import CircularProgress from "@mui/material/CircularProgress";
@@ -73,10 +75,6 @@ const StyledMenu = styled((props) => (
         },
     },
 }));
-
-// const changeColor = (status) => (
-//     status === 'Active' ? "#339900" : "#cc3300"
-// )
 
 const headCells = [
     {
@@ -131,7 +129,7 @@ EnhancedTableHead.propTypes = {
 export default function UserList() {
     const [selected, setSelected] = React.useState([])
     const [page, setPage] = React.useState(0)
-    const [rowsPerPage, setRowsPerPage] = React.useState(20)
+    const [rowsPerPage, setRowsPerPage] = React.useState(10)
     const [reload, setReload] = useState(false)
     const [id, setId] = useState();
     const dispatch = useDispatch()
@@ -248,12 +246,19 @@ export default function UserList() {
                                                         anchorEl={anchorEl}
                                                         open={open}
                                                         onClose={handleClose}
+                                                        PaperProps={{
+                                                            style: {
+                                                                boxShadow: 'none',
+                                                                border: '1px solid #000'
+                                                            }
+                                                        }}
                                                     >
-                                                        {/* <Divider sx={{ my: 0.5 }} /> */}
-                                                        <MenuItem onClick={handleClose} disableRipple>
-                                                            <EditIcon />
-                                                            Edit
-                                                        </MenuItem>
+                                                        <Link to={`/ingredient-detail/${id}`}>
+                                                            <MenuItem disableRipple>
+                                                                <EditIcon />
+                                                                Edit
+                                                            </MenuItem>
+                                                        </Link>
                                                         <MenuItem onClick={() => deleteIngredient()} disableRipple>
                                                             <DeleteIcon />
                                                             Delete
@@ -268,7 +273,7 @@ export default function UserList() {
                         </Table>
                     </TableContainer>
                     <TablePagination
-                        rowsPerPageOptions={[20, 50, 100]}
+                        rowsPerPageOptions={[10, 25, 50]}
                         component="div"
                         count={ingredientList.ingredients.totalData}
                         rowsPerPage={rowsPerPage}
@@ -297,6 +302,17 @@ export default function UserList() {
                     Manage Ingredient in database
                 </Typography>
             </Container>
+            <form className='container form-create'>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" />
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
             {content}
         </Fragment>
     )
