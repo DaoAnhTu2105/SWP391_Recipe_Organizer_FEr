@@ -23,6 +23,7 @@ import Profile from '../pages/Profile'
 import ViewCooker from '../pages/ViewCooker'
 import PrivateRouters from './PrivateRouters'
 import AdminRouters from './AdminRouters'
+import SearchResult from '../pages/SearchResult'
 
 export const publicRouters = [
     {
@@ -80,7 +81,7 @@ export const publicRouters = [
     {
         path: '/search-results',
         name: 'search-results',
-        component: RecipeDetail,
+        component: SearchResult,
         layout: LayoutWithoutFilter,
     },
 ]

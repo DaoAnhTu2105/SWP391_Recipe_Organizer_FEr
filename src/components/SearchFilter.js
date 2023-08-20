@@ -26,10 +26,6 @@ const SearchFilter = () => {
     const mealUrl = `https://recipe-organizer-api.azurewebsites.net/api/Meals/GetAll`
     const countryUrl = `https://recipe-organizer-api.azurewebsites.net/api/Countries/GetCountriesFilter`
 
-    console.log('thoi gian nau: ', timeValue)
-    console.log('thanh pho: ', chooseCountry)
-    console.log('bua an: ', chooseMeal)
-
     const countryApi = () => {
         axios
             .get(countryUrl)

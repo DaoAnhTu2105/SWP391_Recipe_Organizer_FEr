@@ -2,6 +2,7 @@ import React from 'react'
 import './index.css'
 import { useState } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const Search = ({ country, meal, totalTime, serving }) => {
     const [searchName, setSearchName] = useState('')
@@ -9,6 +10,7 @@ const Search = ({ country, meal, totalTime, serving }) => {
     const maxTotalTime = totalTime[1]
     const minServing = totalTime[0]
     const maxServing = totalTime[1]
+    const result = useNavigate()
     const searchUrl = `https://recipe-organizer-api.azurewebsites.net/api/Recipes/SearchRecipe`
     const [searchResult, setSearchResult] = useState([])
 
@@ -29,6 +31,7 @@ const Search = ({ country, meal, totalTime, serving }) => {
             .post(searchUrl, searchData)
             .then((response) => {
                 setSearchResult(response.data)
+                result('/search-results', { state: { searchResult: response.data } })
             })
             .catch((error) => {
                 console.error(error)
