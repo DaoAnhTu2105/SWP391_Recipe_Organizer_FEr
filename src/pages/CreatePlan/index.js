@@ -9,9 +9,11 @@ import Container from '@mui/material/Container'
 const CreatePlan = () => {
     const { id } = useParams();
     const [value, setValue] = useState({
-        ingredientId: id,
-        ingredientName: "",
-        measure: ""
+        planDetailId: "",
+        planId: "",
+        recipeId: "",
+        dateSt: "",
+        mealOfDate: 0
     });
     const dispatch = useDispatch();
 

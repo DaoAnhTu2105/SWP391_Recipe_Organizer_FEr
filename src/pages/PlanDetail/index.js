@@ -1,25 +1,32 @@
 import './index.css'
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate, useParams, Link } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import Food from './Food'
 import { getPlanByDate } from '../../redux/apiThunk/planThunk'
 import CircularProgress from "@mui/material/CircularProgress";
+import { useState } from 'react'
 
 const PlanDetail = () => {
     const { date } = useParams();
     const dispatch = useDispatch();
+    const [reload, setReload] = useState(false)
     const formatDate = (date) => {
         const [d, m, y] = date.split("-");
         return m + "/" + d + "/" + y
     }
     useEffect(() => {
         dispatch(getPlanByDate({ date: formatDate(date) }));
-    }, [dispatch, date]);
+    }, [dispatch, date, reload]);
+
     const planDetail = useSelector((state) => state.plan);
     const dataStatus = useSelector((state) => state.plan.loading)
+
+    const handleDelete = () => {
+        setReload(!reload)
+    }
 
     let content
     if (dataStatus === 'loading') {
@@ -38,11 +45,11 @@ const PlanDetail = () => {
                 <Container maxWidth="md">
                     <Typography variant="h5" align="center" color="text.secondary" paragraph>
                         You have no plan at {date}
-                        <a href="/plan">
+                        <Link to="/plan">
                             <button>
                                 Plan Meal
                             </button>
-                        </a>
+                        </Link>
                     </Typography>
                 </Container>
             </div>
@@ -76,7 +83,7 @@ const PlanDetail = () => {
                 </div>
                 <div className="title">
                     <h4>Breakfast</h4>
-                    {planDetail?.detail.data?.food.breakfast?.map((food, index) => (
+                    {planDetail?.detail.data?.food.breakfast?.map((food) => (
                         <Fragment>
                             <Food
                                 id={food.planDetailId}
@@ -85,6 +92,7 @@ const PlanDetail = () => {
                                 image={food.photos}
                                 time={food.totalTime}
                                 ingredient={food.totalIngredient}
+                                handleDelete={handleDelete}
                             />
                             <br></br>
                         </Fragment>
@@ -92,7 +100,7 @@ const PlanDetail = () => {
                 </div>
                 <div className="title">
                     <h4>Lunch</h4>
-                    {planDetail?.detail.data?.food.lunch?.map((food, index) => (
+                    {planDetail?.detail.data?.food.lunch?.map((food) => (
                         <Fragment>
                             <Food
                                 id={food.planDetailId}
@@ -101,6 +109,7 @@ const PlanDetail = () => {
                                 image={food.photos}
                                 time={food.totalTime}
                                 ingredient={food.totalIngredient}
+                                handleDelete={handleDelete}
                             />
                             <br></br>
                         </Fragment>
@@ -108,7 +117,7 @@ const PlanDetail = () => {
                 </div>
                 <div className="title">
                     <h4>Dinner</h4>
-                    {planDetail?.detail.data?.food.dinner?.map((food, index) => (
+                    {planDetail?.detail.data?.food.dinner?.map((food) => (
                         <Fragment>
                             <Food
                                 id={food.planDetailId}
@@ -117,6 +126,7 @@ const PlanDetail = () => {
                                 image={food.photos}
                                 time={food.totalTime}
                                 ingredient={food.totalIngredient}
+                                handleDelete={handleDelete}
                             />
                             <br></br>
                         </Fragment>
@@ -159,99 +169,6 @@ const PlanDetail = () => {
                     View your meal plan of week
                 </Typography>
             </Container>
-            {/* <div className="container meal-detail">
-                <div className="meal">
-                    <div className="title">
-                        <h4>Meal Planner</h4>
-                        <div>
-                            <button className="add">Add More Recipes</button>
-                            <button className="clear">Clear All</button>
-                        </div>
-                    </div>
-                    <div className="title">
-                        <h4>Nutrition Facts (per serving)</h4>
-                        <div className="nutrition">
-                            <div className="nutrition-component">
-                                Calories: <b>{planDetail?.detail.data?.calories}g</b>
-                            </div>
-                            <div className="nutrition-component">
-                                Fat: <b>{planDetail?.detail.data?.fat}g</b>
-                            </div>
-                            <div className="nutrition-component">
-                                Carbs: <b>{planDetail?.detail.data?.carbs}g</b>
-                            </div>
-                            <div className="nutrition-component">
-                                Protein: <b>{planDetail?.detail.data?.protein}g</b>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="title">
-                        <h4>Breakfast</h4>
-                        {planDetail?.detail.data?.food.breakfast?.map((food, index) => (
-                            <Fragment>
-                                <Food
-                                    id={food.planDetailId}
-                                    foodId={food.recipeId}
-                                    name={food.recipeName}
-                                    image={food.photos}
-                                    time={food.totalTime}
-                                    ingredient={food.totalIngredient}
-                                />
-                                <br></br>
-                            </Fragment>
-                        ))}
-                    </div>
-                    <div className="title">
-                        <h4>Lunch</h4>
-                        {planDetail?.detail.data?.food.lunch?.map((food, index) => (
-                            <Fragment>
-                                <Food
-                                    id={food.planDetailId}
-                                    foodId={food.recipeId}
-                                    name={food.recipeName}
-                                    image={food.photos}
-                                    time={food.totalTime}
-                                    ingredient={food.totalIngredient}
-                                />
-                                <br></br>
-                            </Fragment>
-                        ))}
-                    </div>
-                    <div className="title">
-                        <h4>Dinner</h4>
-                        {planDetail?.detail.data?.food.dinner?.map((food, index) => (
-                            <Fragment>
-                                <Food
-                                    id={food.planDetailId}
-                                    foodId={food.recipeId}
-                                    name={food.recipeName}
-                                    image={food.photos}
-                                    time={food.totalTime}
-                                    ingredient={food.totalIngredient}
-                                />
-                                <br></br>
-                            </Fragment>
-                        ))}
-                    </div>
-                </div>
-                <div className="ingredient">
-                    <div className="ingredients">
-                        <h4>Shopping List</h4>
-                        {planDetail?.detail.data?.ingredient?.map((item, index) => (
-                            <div className="custom-control custom-checkbox">
-                                <input
-                                    type="checkbox"
-                                    className="custom-control-input"
-                                    id="index"
-                                />
-                                <label className="custom-control-label" htmlFor={index}>
-                                    {item?.totalQuantity} {item?.ingredientName}
-                                </label>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div> */}
             {content}
         </Fragment>
     )
