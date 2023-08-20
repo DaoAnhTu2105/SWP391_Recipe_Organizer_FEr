@@ -1,6 +1,6 @@
 
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllUser, changeRole } from "../apiThunk/userThunk";
+import { getAllUser, banUser, unbanUser } from "../apiThunk/userThunk";
 
 const userSlice = createSlice({
     name: "users",
@@ -9,16 +9,29 @@ const userSlice = createSlice({
         loading: false,
     },
     extraReducers: {
-        // [changeRole.pending]: (state, action) => {
+        // [banUser.pending]: (state, action) => {
         //     state.loading = true;
         //     state.loading = "loading"
         // },
-        // [changeRole.fulfilled]: (state, action) => {
+        // [banUser.fulfilled]: (state, action) => {
         //     state.loading = false;
         //     state.loading = "succeeded";
-        //     // state.users = action.payload;
+        //     state.users = action.payload;
         // },
-        // [changeRole.rejected]: (state, action) => {
+        // [banUser.rejected]: (state, action) => {
+        //     state.loading = false;
+        //     state.loading = "failed";
+        // },
+        // [unbanUser.pending]: (state, action) => {
+        //     state.loading = true;
+        //     state.loading = "loading"
+        // },
+        // [unbanUser.fulfilled]: (state, action) => {
+        //     state.loading = false;
+        //     state.loading = "succeeded";
+        //     state.users = action.payload;
+        // },
+        // [unbanUser.rejected]: (state, action) => {
         //     state.loading = false;
         //     state.loading = "failed";
         // },

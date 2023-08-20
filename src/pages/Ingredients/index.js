@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import './index.css'
+import { Link } from "react-router-dom";
 import PropTypes from 'prop-types'
 import Box from '@mui/material/Box'
 import Table from '@mui/material/Table'
@@ -20,6 +21,7 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Divider from '@mui/material/Divider';
 import ClearSharpIcon from '@mui/icons-material/ClearSharp';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
@@ -28,9 +30,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useSelector, useDispatch } from 'react-redux'
 import {
     getAllIngredient,
-    getIngredientDetail,
     addIngredient,
-    updateIngredient,
     removeIngredient
 } from '../../redux/apiThunk/ingredientThunk'
 import CircularProgress from "@mui/material/CircularProgress";
@@ -76,41 +76,17 @@ const StyledMenu = styled((props) => (
     },
 }));
 
-function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-        return -1
-    }
-    if (b[orderBy] > a[orderBy]) {
-        return 1
-    }
-    return 0
-}
-
-function getComparator(order, orderBy) {
-    return order === 'desc'
-        ? (a, b) => descendingComparator(a, b, orderBy)
-        : (a, b) => -descendingComparator(a, b, orderBy)
-}
-
-function stableSort(array, comparator) {
-    const stabilizedThis = array?.map((el, index) => [el, index])
-    stabilizedThis?.sort((a, b) => {
-        const order = comparator(a[0], b[0])
-        if (order !== 0) {
-            return order
-        }
-        return a[1] - b[1]
-    })
-    return stabilizedThis?.map((el) => el[0])
-}
-
 const headCells = [
+    {
+        id: 'no',
+        label: 'No',
+    },
     {
         id: 'id',
         label: 'ID',
     },
     {
-        id: 'name',
+        id: 'ingredientName',
         label: 'Ingredient Name',
     },
     {
@@ -124,11 +100,6 @@ const headCells = [
 ]
 
 function EnhancedTableHead(props) {
-    const { order, orderBy, onRequestSort } = props
-    const createSortHandler = (property) => (event) => {
-        onRequestSort(event, property)
-    }
-
     return (
         <TableHead>
             <TableRow>
@@ -137,20 +108,8 @@ function EnhancedTableHead(props) {
                         key={headCell.id}
                         align={'left'}
                         padding={'normal'}
-                        sortDirection={orderBy === headCell.id ? order : false}
                     >
-                        <TableSortLabel
-                            active={orderBy === headCell.id}
-                            direction={orderBy === headCell.id ? order : 'asc'}
-                            onClick={createSortHandler(headCell.id)}
-                        >
-                            <b>{headCell.label}</b>
-                            {orderBy === headCell.id ? (
-                                <Box component="span" sx={visuallyHidden}>
-                                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                </Box>
-                            ) : null}
-                        </TableSortLabel>
+                        <b>{headCell.label}</b>
                     </TableCell>
                 ))}
             </TableRow>
@@ -167,59 +126,30 @@ EnhancedTableHead.propTypes = {
     rowCount: PropTypes.number.isRequired,
 }
 
-export default function IngredientList() {
-    const [reload, setReload] = useState(true)
-    const [order, setOrder] = React.useState('asc')
-    const [orderBy, setOrderBy] = React.useState('calories')
+export default function UserList() {
     const [selected, setSelected] = React.useState([])
     const [page, setPage] = React.useState(0)
-    const [dense, setDense] = React.useState(false)
-    const [rowsPerPage, setRowsPerPage] = React.useState(20)
+    const [rowsPerPage, setRowsPerPage] = React.useState(10)
+    const [reload, setReload] = useState(false)
     const [id, setId] = useState();
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(getAllIngredient())
-    }, [dispatch, reload])
+        dispatch(getAllIngredient({ movePage: page + 1, items: rowsPerPage }))
+    }, [dispatch, reload, rowsPerPage, page])
     const ingredientList = useSelector((state) => state.ingredient)
     const status = useSelector((state) => state.ingredient.loading)
-    console.log(ingredientList);
-
-    const handleRequestSort = (event, property) => {
-        const isAsc = orderBy === property && order === 'asc'
-        setOrder(isAsc ? 'desc' : 'asc')
-        setOrderBy(property)
-    }
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelected = ingredientList?.ingredietns.data?.map((n) => n.name)
+            const newSelected = ingredientList?.ingredients?.data?.map((n) => n.name)
             setSelected(newSelected)
             return
         }
         setSelected([])
     }
 
-    const handleClick = (event, name) => {
-        const selectedIndex = selected.indexOf(name)
-        let newSelected = []
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name)
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected?.slice(1))
-        } else if (selectedIndex === selected?.length - 1) {
-            newSelected = newSelected.concat(selected?.slice(0, -1))
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected?.slice(0, selectedIndex),
-                selected?.slice(selectedIndex + 1)
-            )
-        }
-
-        setSelected(newSelected)
-    }
-
     const handleChangePage = (event, newPage) => {
+        console.log(newPage);
         setPage(newPage)
     }
 
@@ -228,53 +158,39 @@ export default function IngredientList() {
         setPage(0)
     }
 
-    const isSelected = (name) => selected.indexOf(name) !== -1
-
-    // Avoid a layout jump when reaching the last page with empty rows.
-    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - ingredientList?.ingredietns.data?.length) : 0
-    // const visibleRows = React.useMemo(
-    //     () =>
-    //         stableSort(dataRows, getComparator(order, orderBy))?.slice(
-    //             page * rowsPerPage,
-    //             page * rowsPerPage + rowsPerPage
-    //         ),
-    //     [order, orderBy, page, rowsPerPage]
-    // )
-
-
-    // const updateStatusActice = async (id) => {
-    //     await dispatch(changeRole({ id: id, role: 'User' }))
-    //     console.log(id);
-    //     setUpdate(!update)
-    // }
-    // const updateStatusDeActice = async (id) => {
-    //     await dispatch(changeRole({ id: id, role: 'User' }))
-    //     console.log(id);
-    //     setUpdate(!update)
-    // }
-
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-    const handleClickMenu = (event, id, status) => {
+    const handleClickMenu = (event, id) => {
         setId(id)
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
-        setReload(!reload)
         setAnchorEl(null);
     };
 
-    // const updateRole = async (role) => {
-    //     await dispatch(changeRole({ id: id, role: role }))
-    //     setUpdate(!update)
-    //     handleClose()
-    // }
-    // const updateStatus = () => {
-    //     userStatus === 'Active' ? dispatch(banUser({ id: id })) : dispatch(unbanUser({ id: id }))
-    //     setUpdate(!update)
-    //     // console.log(userStatus);
-    //     handleClose()
-    // }
+
+    const [value, setValue] = useState({
+        ingredientId: "",
+        ingredientName: "",
+        measure: ""
+    });
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(addIngredient({ data: JSON.stringify(value) })).then((result) => {
+            setReload(!reload)
+
+        }).catch((err) => {
+            console.log(err);
+        });
+        setValue({ ...value, ingredientName: "", measure: "" })
+    }
+
+    const deleteIngredient = () => {
+        dispatch(removeIngredient({ id: id }))
+        setReload(!reload)
+        handleClose()
+    }
 
     let content
     if (status === 'loading') {
@@ -290,10 +206,6 @@ export default function IngredientList() {
     } else if (status === 'fail' || (ingredientList.ingredients.data && ingredientList.ingredients.data.length === 0)) {
         content = <div style={{ paddingLeft: "45%%" }}> No data</div>;
     } else {
-        const visibleRows = stableSort(ingredientList?.ingredients.data, getComparator(order, orderBy))?.slice(
-            page * rowsPerPage,
-            page * rowsPerPage + rowsPerPage
-        );
         content = (<div className="container user-list">
             <Box sx={{ width: '100%' }}>
                 <Paper sx={{ width: '100%', mb: 2 }}>
@@ -301,35 +213,28 @@ export default function IngredientList() {
                         <Table
                             sx={{ minWidth: 750 }}
                             aria-labelledby="tableTitle"
-                            size={dense ? 'small' : 'medium'}
                         >
                             <EnhancedTableHead
                                 numSelected={selected?.length}
-                                order={order}
-                                orderBy={orderBy}
                                 onSelectAllClick={handleSelectAllClick}
-                                onRequestSort={handleRequestSort}
                                 rowCount={ingredientList?.ingredients.data?.length}
                             />
                             <TableBody>
-                                {visibleRows?.map((row, index) => {
-                                    const isItemSelected = isSelected(row.name)
-                                    const labelId = `enhanced-table-checkbox-${index}`
-
+                                {ingredientList?.ingredients.data?.map((row, index) => {
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={(event) => handleClick(event, row.id)}
-                                            role="checkbox"
-                                            aria-checked={isItemSelected}
-                                            tabIndex={-1}
                                             key={row.id}
-                                            selected={isItemSelected}
-                                            sx={{ cursor: 'pointer' }}
                                         >
                                             <TableCell
                                                 component="th"
-                                                id={labelId}
+                                                scope="row"
+                                                padding="normal"
+                                            >
+                                                {(index + 1) + ingredientList?.ingredients.itemPerPage * (ingredientList?.ingredients.moveToPage - 1)}
+                                            </TableCell>
+                                            <TableCell
+                                                component="th"
                                                 scope="row"
                                                 padding="normal"
                                             >
@@ -337,7 +242,7 @@ export default function IngredientList() {
                                             </TableCell>
                                             <TableCell align="left">{row.ingredientName}</TableCell>
                                             <TableCell align="left">{row.measure}</TableCell>
-                                            <TableCell align="left">
+                                            <TableCell align="center">
                                                 <div>
                                                     <Button
                                                         id="demo-customized-button"
@@ -359,19 +264,22 @@ export default function IngredientList() {
                                                         anchorEl={anchorEl}
                                                         open={open}
                                                         onClose={handleClose}
+                                                        PaperProps={{
+                                                            style: {
+                                                                boxShadow: 'none',
+                                                                border: '1px solid #000'
+                                                            }
+                                                        }}
                                                     >
-                                                        <MenuItem onClick={handleClose} disableRipple>
-                                                            <ClearSharpIcon />
-                                                            DeActivate User
-                                                        </MenuItem>
-                                                        <Divider sx={{ my: 0.5 }} />
-                                                        <MenuItem onClick={handleClose} disableRipple>
-                                                            <EditIcon />
-                                                            Change to User
-                                                        </MenuItem>
-                                                        <MenuItem onClick={handleClose} disableRipple>
-                                                            <EditIcon />
-                                                            Change to Cooker
+                                                        <Link to={`/ingredient-detail/${id}`}>
+                                                            <MenuItem disableRipple>
+                                                                <EditIcon />
+                                                                Edit
+                                                            </MenuItem>
+                                                        </Link>
+                                                        <MenuItem onClick={() => deleteIngredient()} disableRipple>
+                                                            <DeleteIcon />
+                                                            Delete
                                                         </MenuItem>
                                                     </StyledMenu>
                                                 </div>
@@ -379,22 +287,13 @@ export default function IngredientList() {
                                         </TableRow>
                                     )
                                 })}
-                                {emptyRows > 0 && (
-                                    <TableRow
-                                        style={{
-                                            height: (dense ? 33 : 53) * emptyRows,
-                                        }}
-                                    >
-                                        <TableCell colSpan={6} />
-                                    </TableRow>
-                                )}
                             </TableBody>
                         </Table>
                     </TableContainer>
                     <TablePagination
-                        rowsPerPageOptions={[20, 35, 50]}
+                        rowsPerPageOptions={[10, 25, 50]}
                         component="div"
-                        count={ingredientList?.ingredients.data?.length}
+                        count={ingredientList.ingredients.totalData}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}
@@ -418,11 +317,26 @@ export default function IngredientList() {
                     Ingredient List
                 </Typography>
                 <Typography variant="h5" align="center" color="text.secondary" paragraph>
-                    Manage ingredient
+                    Manage Ingredient in database
                 </Typography>
             </Container>
-
-            {content}
+            <div className=''>
+                <form className='container form-create' onSubmit={e => handleSubmit(e)}>
+                    <h3>Create new Ingredient</h3>
+                    <div class="form-group">
+                        <label htmlFor="exampleInputEmail1">Ingredient name</label>
+                        <input type="text" class="form-control" id="formName" placeholder="Enter name"
+                            value={value.ingredientName} onChange={e => setValue({ ...value, ingredientName: e.target.value })} required />
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">measure</label>
+                        <input type="text" class="form-control" id="formMeasure" placeholder="Enter measure"
+                            value={value.measure} onChange={e => setValue({ ...value, measure: e.target.value })} required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </form>
+                {content}
+            </div>
         </Fragment>
     )
 }

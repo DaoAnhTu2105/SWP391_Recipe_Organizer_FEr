@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 
 import DefaultLayout from '../components/DefaultLayout'
@@ -12,6 +12,7 @@ import Register from '../pages/Register'
 // import UserList from '../pages/Register/UserList'
 import UserList from '../pages/UserList'
 import IngredientList from '../pages/Ingredients'
+import UpdateIngredient from '../pages/UpdateIngredient'
 import Login from '../pages/Login'
 import Home from '../pages/Home/HomePage'
 import NotFound from '../pages/NotFound'
@@ -116,6 +117,12 @@ export const adminRouters = [
         path: '/ingredient-list',
         name: 'ingredient-list',
         component: IngredientList,
+        layout: LayoutWithoutFilter,
+    },
+    {
+        path: '/ingredient-detail/:id',
+        name: 'ingredient-detail',
+        component: UpdateIngredient,
         layout: LayoutWithoutFilter,
     },
 ]

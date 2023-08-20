@@ -8,10 +8,10 @@ import {
 } from '../../api/ingredient'
 
 export const getAllIngredient = createAsyncThunk(
-    "user/fetchUser",
-    async (thunkAPI) => {
+    "ingredient/fetchAllIngredient",
+    async ({ movePage, items }, thunkAPI) => {
         try {
-            const response = await getAllApi();
+            const response = await getAllApi(movePage, items);
             return response;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response.data);
@@ -20,7 +20,7 @@ export const getAllIngredient = createAsyncThunk(
 );
 
 export const getIngredientDetail = createAsyncThunk(
-    "uesr/fetchUser",
+    "ingredient/fetchIngredientDetail",
     async ({ id }, thunkAPI) => {
         try {
             const response = await getDetailApi(id);
@@ -32,7 +32,7 @@ export const getIngredientDetail = createAsyncThunk(
 );
 
 export const addIngredient = createAsyncThunk(
-    "uesr/banUser",
+    "ingredient/addIngredient",
     async ({ data }, thunkAPI) => {
         try {
             const response = await addApi(data);
@@ -44,7 +44,7 @@ export const addIngredient = createAsyncThunk(
 );
 
 export const updateIngredient = createAsyncThunk(
-    "uesr/unbanUser",
+    "ingredient/updateIngredient",
     async ({ id, data }, thunkAPI) => {
         try {
             const response = await updateApi(id, data);
@@ -56,7 +56,7 @@ export const updateIngredient = createAsyncThunk(
 );
 
 export const removeIngredient = createAsyncThunk(
-    "uesr/unbanUser",
+    "ingredient/deleteIngredient",
     async ({ id }, thunkAPI) => {
         try {
             const response = await removeApi(id);
