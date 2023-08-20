@@ -118,7 +118,7 @@ const SearchFilter = () => {
                                                     sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
                                                     {...props}
                                                 >
-                                                    {option.countryName}
+                                                    {option?.countryName}
                                                 </Box>
                                             )}
                                             renderInput={(params) => (
@@ -144,7 +144,7 @@ const SearchFilter = () => {
                                                     sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
                                                     {...props}
                                                 >
-                                                    {option.mealName}
+                                                    {option?.mealName}
                                                 </Box>
                                             )}
                                             renderInput={(params) => (
