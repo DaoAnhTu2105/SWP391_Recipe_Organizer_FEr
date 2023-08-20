@@ -140,13 +140,15 @@ export default function MealPlan() {
                     <div></div>
                     {dayOfWeek.map((day, index) => (
                         <div className="table-header-component" >
-                            <a href='*' onClick={(e) => e.preventDefault()}>
-                                <div style={{ color: changeColor(formatDate(addDays(getMonday(currentDate), index))) }}>
+                            {/* <a href='*' onClick={(e) => e.preventDefault()}> */}
+                            <div style={{ color: changeColor(formatDate(addDays(getMonday(currentDate), index))) }}>
+                                <b>
                                     {day}
                                     <br></br>
                                     {formatDate(addDays(getMonday(currentDate), index))}
-                                </div>
-                            </a>
+                                </b>
+                            </div>
+                            {/* </a> */}
                         </div>
                     ))}
                 </div>
@@ -317,7 +319,6 @@ export default function MealPlan() {
                     </div>
                 </div>
             </Fragment>)
-
     }
 
     return (
