@@ -20,6 +20,7 @@ const UpdateIngredient = () => {
     }, [dispatch, id]);
 
     const ingredient = useSelector((state) => state.ingredient);
+    console.log(ingredient);
 
     useEffect(() => {
         if (ingredient.detail.data) {

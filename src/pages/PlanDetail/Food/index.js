@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import './index.css'
 
-const Food = ({ image, name, time, ingredient }) => {
+const Food = ({ id, foodId, name, image, time, ingredient }) => {
     return (
         <div className="product">
             <div>
@@ -9,7 +9,7 @@ const Food = ({ image, name, time, ingredient }) => {
             </div>
             <div className="product-detail">
                 <div>
-                    <a href="/recipe-detail">
+                    <a href={`/recipe-detail/${foodId}`}>
                         <b>{name}</b>
                     </a>
                 </div>

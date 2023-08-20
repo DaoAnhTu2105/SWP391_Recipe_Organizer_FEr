@@ -17,7 +17,7 @@ export const getPlanByDate = createAsyncThunk(
 );
 
 export const getPlanByWeek = createAsyncThunk(
-    "plan/fetchPlan",
+    "plan/fetchPlanDetail",
     async ({ date }, thunkAPI) => {
         try {
             const response = await getPlanWeek(date);

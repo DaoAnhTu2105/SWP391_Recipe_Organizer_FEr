@@ -104,7 +104,7 @@ export default function MealPlan() {
     const mealPlan = useSelector((state) => state.plan);
     const dataStatus = useSelector((state) => state.plan.loading);
     const user = JSON.parse(localStorage.getItem("user"));
-    // console.log(mealPlan);
+    console.log(mealPlan);
     const content = (
         <div className='container' style={{ margin: '30px 0' }}>
             You must Login to use this feature

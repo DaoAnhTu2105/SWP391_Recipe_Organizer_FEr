@@ -18,7 +18,7 @@ const PlanDetail = () => {
         dispatch(getPlanByDate({ date: formatDate(date) }));
     }, [dispatch, date]);
     const planDetail = useSelector((state) => state.plan);
-    // console.log(planDetail.detail);
+    // console.log(planDetail.detail.data);
     return (
         <Fragment>
             <Container maxWidth="md">
@@ -48,144 +48,83 @@ const PlanDetail = () => {
                         <h4>Nutrition Facts (per serving)</h4>
                         <div className="nutrition">
                             <div className="nutrition-component">
-                                Calories: <b>409</b>
+                                Calories: <b>{planDetail?.detail.data?.calories}g</b>
                             </div>
                             <div className="nutrition-component">
-                                Fat: <b>8g</b>
+                                Fat: <b>{planDetail?.detail.data?.fat}g</b>
                             </div>
                             <div className="nutrition-component">
-                                Carbs: <b>73g</b>
+                                Carbs: <b>{planDetail?.detail.data?.carbs}g</b>
                             </div>
                             <div className="nutrition-component">
-                                Protein: <b>11g</b>
+                                Protein: <b>{planDetail?.detail.data?.protein}g</b>
                             </div>
                         </div>
                     </div>
                     <div className="title">
                         <h4>Breakfast</h4>
-                        <Food
-                            image="https://www.allrecipes.com/thmb/DZ5WtIe2s6rGk-rIEZDkMA6mGj4=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7568285-perfect-pancakes-KH-4x3-218e2c39174c4a2293fca0ab752b38a8.jpg"
-                            name="Perfect Pancakes"
-                            time="120"
-                            ingredient="10"
-                        />
+                        {planDetail?.detail.data?.food.breakfast?.map((food, index) => (
+                            <Fragment>
+                                <Food
+                                    id={food.planDetailId}
+                                    foodId={food.recipeId}
+                                    name={food.recipeName}
+                                    image={food.photos}
+                                    time={food.totalTime}
+                                    ingredient={food.totalIngredient}
+                                />
+                                <br></br>
+                            </Fragment>
+                        ))}
                     </div>
                     <div className="title">
                         <h4>Lunch</h4>
-                        <Food
-                            image="https://food.fnr.sndimg.com/content/dam/images/food/fullset/2020/07/14/0/FNK_AIR-FRYER-FRIED-OREOS_H-f_s4x3.jpg.rend.hgtvcom.616.493.suffix/1594743965661.jpeg"
-                            name="Deep-Fried Oreos"
-                            time="20"
-                            ingredient="10"
-                        />
-                        <br></br>
-                        <Food
-                            image="https://pinchofyum.com/wp-content/uploads/Sesame-Noodles-with-Chicken-Square.jpg"
-                            name="Sesame Noodles"
-                            time="20"
-                            ingredient="10"
-                        />
+                        {planDetail?.detail.data?.food.lunch?.map((food, index) => (
+                            <Fragment>
+                                <Food
+                                    id={food.planDetailId}
+                                    foodId={food.recipeId}
+                                    name={food.recipeName}
+                                    image={food.photos}
+                                    time={food.totalTime}
+                                    ingredient={food.totalIngredient}
+                                />
+                                <br></br>
+                            </Fragment>
+                        ))}
                     </div>
                     <div className="title">
                         <h4>Dinner</h4>
-                        <Food
-                            image="https://girlscangrill.com/wp-content/uploads/2022/07/turkey-legs-hero.jpg"
-                            name="Grilled Turkey Legs"
-                            time="20"
-                            ingredient="10"
-                        />
+                        {planDetail?.detail.data?.food.dinner?.map((food, index) => (
+                            <Fragment>
+                                <Food
+                                    id={food.planDetailId}
+                                    foodId={food.recipeId}
+                                    name={food.recipeName}
+                                    image={food.photos}
+                                    time={food.totalTime}
+                                    ingredient={food.totalIngredient}
+                                />
+                                <br></br>
+                            </Fragment>
+                        ))}
                     </div>
                 </div>
                 <div className="ingredient">
                     <div className="ingredients">
                         <h4>Shopping List</h4>
-                        <div className="custom-control custom-checkbox">
-                            <input
-                                type="checkbox"
-                                className="custom-control-input"
-                                id="customCheck1"
-                            />
-                            <label className="custom-control-label" htmlFor="customCheck1">
-                                4 Tbsp (57 gr) butter
-                            </label>
-                        </div>
-
-                        <div className="custom-control custom-checkbox">
-                            <input
-                                type="checkbox"
-                                className="custom-control-input"
-                                id="customCheck2"
-                            />
-                            <label className="custom-control-label" htmlFor="customCheck2">
-                                2 large eggs
-                            </label>
-                        </div>
-
-                        <div className="custom-control custom-checkbox">
-                            <input
-                                type="checkbox"
-                                className="custom-control-input"
-                                id="customCheck3"
-                            />
-                            <label className="custom-control-label" htmlFor="customCheck3">
-                                2 yogurt containers granulated sugar
-                            </label>
-                        </div>
-
-                        <div className="custom-control custom-checkbox">
-                            <input
-                                type="checkbox"
-                                className="custom-control-input"
-                                id="customCheck4"
-                            />
-                            <label className="custom-control-label" htmlFor="customCheck4">
-                                1 vanilla or plain yogurt, 170g container
-                            </label>
-                        </div>
-
-                        <div className="custom-control custom-checkbox">
-                            <input
-                                type="checkbox"
-                                className="custom-control-input"
-                                id="customCheck5"
-                            />
-                            <label className="custom-control-label" htmlFor="customCheck5">
-                                2 yogurt containers unbleached white flour
-                            </label>
-                        </div>
-
-                        <div className="custom-control custom-checkbox">
-                            <input
-                                type="checkbox"
-                                className="custom-control-input"
-                                id="customCheck6"
-                            />
-                            <label className="custom-control-label" htmlFor="customCheck6">
-                                1.5 yogurt containers milk
-                            </label>
-                        </div>
-
-                        <div className="custom-control custom-checkbox">
-                            <input
-                                type="checkbox"
-                                className="custom-control-input"
-                                id="customCheck7"
-                            />
-                            <label className="custom-control-label" htmlFor="customCheck7">
-                                1/4 tsp cinnamon
-                            </label>
-                        </div>
-
-                        <div className="custom-control custom-checkbox">
-                            <input
-                                type="checkbox"
-                                className="custom-control-input"
-                                id="customCheck8"
-                            />
-                            <label className="custom-control-label" htmlFor="customCheck8">
-                                1 cup fresh blueberries{' '}
-                            </label>
-                        </div>
+                        {planDetail?.detail.data?.ingredient?.map((item, index) => (
+                            <div className="custom-control custom-checkbox">
+                                <input
+                                    type="checkbox"
+                                    className="custom-control-input"
+                                    id="index"
+                                />
+                                <label className="custom-control-label" htmlFor={index}>
+                                    {item?.totalQuantity} {item?.ingredientName}
+                                </label>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
