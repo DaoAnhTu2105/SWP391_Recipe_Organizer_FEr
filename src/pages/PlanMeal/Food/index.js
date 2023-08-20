@@ -18,7 +18,7 @@ const StyledDiv = styled.div`
     }
 `;
 
-const Food = ({ foodName, calo, meal }) => {
+const Food = ({ id, foodName, calo, meal }) => {
     let bgColor, bgColorHover;
     switch (meal) {
         case 'breakfast': {
@@ -37,7 +37,7 @@ const Food = ({ foodName, calo, meal }) => {
         }
     }
     return (
-        <a href="/recipe-detail" className='link'>
+        <a href={`/recipe-detail/${id}`} className='link'>
             <StyledDiv backgroundColor={bgColor} hoverBackgroundColor={bgColorHover}>
                 <div>{foodName}</div>
                 <div style={{ color: '#718093' }}>Calories: {calo} kcal</div>
