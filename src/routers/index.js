@@ -45,12 +45,7 @@ export const publicRouters = [
         component: CreatePlan,
         layout: LayoutWithoutFilter,
     },
-    {
-        path: '/create-recipe',
-        name: 'create-recipe',
-        component: CreateRecipe,
-        layout: LayoutWithoutFilter,
-    },
+    
     {
         path: '/favorite-recipe',
         name: 'favorite-recipe',
@@ -83,6 +78,12 @@ export const publicRouters = [
 ]
 
 export const privateRouters = [
+    {
+        path: '/create-recipe',
+        name: 'create-recipe',
+        component: CreateRecipe,
+        layout: LayoutWithoutFilter,
+    },
     {
         path: '/profile',
         name: 'user-profile',
