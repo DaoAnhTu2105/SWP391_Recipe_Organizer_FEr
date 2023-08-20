@@ -6,10 +6,10 @@ export const fetchIngredientsDataAsync = createAsyncThunk('data/fetchData', asyn
     return data
 })
 
-const getAllDataSlice = createSlice({
+const getAllIngredientsSlice = createSlice({
     name: 'getAllIngredientsApi',
     initialState: {
-        data: [],
+        ingredient: [],
         isLoading: false,
         error: null,
     },
@@ -30,5 +30,5 @@ const getAllDataSlice = createSlice({
             })
     },
 })
-export const getAllIngredients = getAllDataSlice.reducer
+export const getAllIngredients = getAllIngredientsSlice.reducer
 export default getAllIngredients
