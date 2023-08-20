@@ -1,11 +1,18 @@
 import './index.css'
 import React, { useState, useEffect, Fragment } from 'react'
-// import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate, useParams, Link } from 'react-router-dom'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import Food from './Food'
+import { getPlanByDate } from '../../redux/apiThunk/planThunk'
 
 const PlanDetail = () => {
+    const { date } = useParams();
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getPlanByDate({ id: date }));
+    }, [dispatch, date]);
     return (
         <Fragment>
             <Container maxWidth="md">
