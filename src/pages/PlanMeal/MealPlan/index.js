@@ -104,7 +104,7 @@ export default function MealPlan() {
     const mealPlan = useSelector((state) => state.plan);
     const dataStatus = useSelector((state) => state.plan.loading);
     const user = JSON.parse(localStorage.getItem("user"));
-    // console.log(mealPlan);
+    console.log(mealPlan);
     const content = (
         <div className='container' style={{ margin: '30px 0' }}>
             You must Login to use this feature
@@ -289,7 +289,7 @@ export default function MealPlan() {
                                     meal.lunch.map((food) => {
                                         return (
                                             <Food
-                                                id={food.id}
+                                                id={food.recipeId}
                                                 foodName={food.recipeName}
                                                 calo={food.recipeCalo}
                                                 meal='lunch'
@@ -315,7 +315,7 @@ export default function MealPlan() {
                                     meal.dinner.map((food) => {
                                         return (
                                             <Food
-                                                id={food.id}
+                                                id={food.recipeId}
                                                 foodName={food.recipeName}
                                                 calo={food.recipeCalo}
                                             />
