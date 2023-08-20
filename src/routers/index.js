@@ -49,7 +49,7 @@ export const publicRouters = [
         component: CreatePlan,
         layout: LayoutWithoutFilter,
     },
-    
+
     {
         path: '/favorite-recipe',
         name: 'favorite-recipe',

@@ -32,16 +32,16 @@ const UpdateIngredient = () => {
         }
     }, [ingredient, id]);
 
-    const navigate = useNavigate
+    const navigate = useNavigate();
+    // const changePage = () => {
+    //     navigate("/ingredient-list");
+    // }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        dispatch(updateIngredient({ id: id, data: JSON.stringify(value) })).then((result) => {
-            navigate('/ingredient-list')
-        }).catch((err) => {
-            console.log(err);
-        });
-    }
+        await dispatch(updateIngredient({ id: id, data: JSON.stringify(value) }));
+        navigate('/ingredient-list');
+    };
 
     return (
         <Fragment>
@@ -75,7 +75,7 @@ const UpdateIngredient = () => {
                             </div >
                             <br />
                             <button className='btn btn-info'>Update</button>
-                            <Link to="/ingredient-list"><button className='btn btn-info'>Back to ingredient list</button></Link>
+                            {/* <Link to="/ingredient-list"><button className='btn btn-info'>Back to ingredient list</button></Link> */}
                         </form>
                     </div>
                 </div>
