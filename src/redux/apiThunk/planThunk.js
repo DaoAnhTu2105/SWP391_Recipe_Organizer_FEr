@@ -46,9 +46,9 @@ export const getDetail = createAsyncThunk(
 
 export const createPlan = createAsyncThunk(
     "plan/createPlan",
-    async ({ id, data }, thunkAPI) => {
+    async ({ data }, thunkAPI) => {
         try {
-            const response = await createApi(id, data);
+            const response = await createApi(data);
             return response;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response.data);

@@ -138,7 +138,6 @@ export default function IngredientList() {
     }, [dispatch, reload, rowsPerPage, page])
     const ingredientList = useSelector((state) => state.ingredient)
     const status = useSelector((state) => state.ingredient.loading)
-    // console.log(ingredientList);
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {

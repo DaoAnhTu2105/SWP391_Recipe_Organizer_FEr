@@ -4,10 +4,10 @@ import './index.css'
 import { removePlan } from '../../../redux/apiThunk/planThunk'
 import { useDispatch } from 'react-redux'
 
-const Food = ({ id, foodId, name, image, time, ingredient, handleDelete }) => {
+const Food = ({ id, foodId, name, image, time, ingredient, fat, calories, carbohydrate, protein, handleDelete }) => {
     const dispatch = useDispatch()
-    const deletePlanMeal = () => {
-        dispatch(removePlan({ id: id }))
+    const deletePlanMeal = async () => {
+        await dispatch(removePlan({ id: id }))
         handleDelete()
     }
     return (
@@ -23,7 +23,8 @@ const Food = ({ id, foodId, name, image, time, ingredient, handleDelete }) => {
                 </div>
                 <div style={{ fontSize: "14px" }}>
                     Cooking: {time} minutes<br />
-                    Ingredient: {ingredient} Ingredients
+                    Ingredient: {ingredient} Ingredients<br /><br />
+                    Calo: {calories}g Fat: {fat}g Carbs: {carbohydrate}g Protein:{protein}g
                 </div>
             </div>
             <div style={{ alignItems: 'right' }}>

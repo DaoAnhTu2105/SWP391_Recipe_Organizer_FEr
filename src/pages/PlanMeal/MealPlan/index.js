@@ -1,11 +1,16 @@
 import './index.css'
 import React, { useState, useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getPlanByWeek } from "../../../redux/apiThunk/planThunk";
+import { getPlanByWeek, createPlan } from "../../../redux/apiThunk/planThunk";
 import Food from '../Food'
 import NextIcon from '../../../components/IconComponent/NextIcon'
 import PreviousIcon from '../../../components/IconComponent/PreviousIcon'
 import CircularProgress from "@mui/material/CircularProgress";
+import { fetchDataAsync } from '../../../redux/apiThunk/getAllRecipesThunk'
+
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import { set } from 'date-fns';
 
 const dayOfWeek = [
     "Monday",
@@ -17,43 +22,55 @@ const dayOfWeek = [
     "Sunday"
 ]
 
+const getMonday = (currentDate) => {
+    currentDate = new Date(currentDate);
+    let day = currentDate.getDay(),
+        diff = currentDate.getDate() - day + (day === 0 ? - 6 : 1); // adjust when day is sunday
+    return new Date(currentDate.setDate(diff));
+};
+const addDays = (date, days) => {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+};
+const formatDate = (date) => {
+    const yyyy = date.getFullYear();
+    let mm = date.getMonth() + 1; // Months start at 0!
+    let dd = date.getDate();
+    if (dd < 10) dd = "0" + dd;
+    if (mm < 10) mm = "0" + mm;
+    return mm + "/" + dd + "/" + yyyy;
+};
+const formatDateRouter = (date) => {
+    const yyyy = date.getFullYear();
+    let mm = date.getMonth() + 1; // Months start at 0!
+    let dd = date.getDate();
+    if (dd < 10) dd = "0" + dd;
+    if (mm < 10) mm = "0" + mm;
+    return dd + "-" + mm + "-" + yyyy;
+};
+const subDays = (date, days) => {
+    var result = new Date(date);
+    result.setDate(result.getDate() - days);
+    return result;
+};
+
+const changeColor = (date) => {
+    if (date.match(formatDate(new Date()))) {
+        return '#F39C12'
+    }
+}
+
 export default function MealPlan() {
     let month, contentAuth;
     const [currentDate, setCurrentDate] = useState(new Date());
+    const [reload, setReload] = useState(false)
     const dispatch = useDispatch();
-
-    const getMonday = (currentDate) => {
-        currentDate = new Date(currentDate);
-        let day = currentDate.getDay(),
-            diff = currentDate.getDate() - day + (day === 0 ? - 6 : 1); // adjust when day is sunday
-        return new Date(currentDate.setDate(diff));
-    };
-    const addDays = (date, days) => {
-        var result = new Date(date);
-        result.setDate(result.getDate() + days);
-        return result;
-    };
-    const formatDate = (date) => {
-        const yyyy = date.getFullYear();
-        let mm = date.getMonth() + 1; // Months start at 0!
-        let dd = date.getDate();
-        if (dd < 10) dd = "0" + dd;
-        if (mm < 10) mm = "0" + mm;
-        return mm + "/" + dd + "/" + yyyy;
-    };
-    const formatDateRouter = (date) => {
-        const yyyy = date.getFullYear();
-        let mm = date.getMonth() + 1; // Months start at 0!
-        let dd = date.getDate();
-        if (dd < 10) dd = "0" + dd;
-        if (mm < 10) mm = "0" + mm;
-        return dd + "-" + mm + "-" + yyyy;
-    };
-    const subDays = (date, days) => {
-        var result = new Date(date);
-        result.setDate(result.getDate() - days);
-        return result;
-    };
+    const [data, setData] = useState({
+        recipeId: "",
+        dateSt: "",
+        mealOfDate: 1
+    })
     switch (getMonday(currentDate).getMonth() + 1) {
         case 1:
             month = ("January")
@@ -92,19 +109,31 @@ export default function MealPlan() {
             month = ('December')
             break;
     }
-    const changeColor = (date) => {
-        if (date.match(formatDate(new Date()))) {
-            return '#F39C12'
-        }
-    }
 
     useEffect(() => {
+        dispatch(fetchDataAsync())
         dispatch(getPlanByWeek({ date: formatDate(getMonday(currentDate)) }))
-    }, [dispatch, currentDate])
+    }, [dispatch, currentDate, reload])
+
     const mealPlan = useSelector((state) => state.plan);
     const dataStatus = useSelector((state) => state.plan.loading);
+    const getAllRecipesAPI = useSelector((state) => state.getAllRecipes.getAllRecipes)
     const user = JSON.parse(localStorage.getItem("user"));
-    console.log(mealPlan);
+    // console.log(getAllRecipesAPI?.data);
+    const handleFormCreate = async (e) => {
+        e.preventDefault()
+        await dispatch(createPlan({ data: data }))
+        setReload(!reload)
+        setShow(false)
+        // console.log(data);
+    }
+    const [show, setShow] = useState(false);
+    const formatData = (date) => {
+        const [y, m, d] = date.split("-");
+        return m + "/" + d + "/" + y
+    }
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
     const content = (
         <div className='container' style={{ margin: '30px 0' }}>
             You must Login to use this feature
@@ -130,7 +159,25 @@ export default function MealPlan() {
             <Fragment>
                 <div className='date-info'>
                     <div className='date'>
-                        <a href="/create-plan"><button>Create Meal Plan</button></a>
+                        {/* <a href="/create-plan"><button>Create Meal Plan</button></a> */}
+                        <Button variant="primary" onClick={handleShow}>
+                            Create Meal Plan
+                        </Button>
+
+                        <Modal show={show} onHide={handleClose}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Modal heading</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={handleClose}>
+                                    Close
+                                </Button>
+                                <Button variant="primary" onClick={handleClose}>
+                                    Save Changes
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
                     </div>
                     <div className='button'>
                         <button onClick={() => setCurrentDate(subDays(getMonday(currentDate), 7))}>
@@ -219,7 +266,51 @@ export default function MealPlan() {
             <Fragment>
                 <div className='date-info'>
                     <div className='date'>
-                        <a href="/create-plan"><button>Create Meal Plan</button></a>
+                        {/* <a href="/create-plan"><button>Create Meal Plan</button></a> */}
+                        <Button variant="primary" onClick={handleShow}>
+                            Create Meal Plan
+                        </Button>
+                        <Modal show={show} onHide={handleClose}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Modal heading</Modal.Title>
+                            </Modal.Header>
+                            <form onSubmit={e => handleFormCreate(e)}>
+                                <Modal.Body>
+                                    <div class="form-group">
+                                        <label htmFor="recipe">Recipe</label>
+                                        <select id="recipe" class="form-control" onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
+                                            <option>...</option>
+                                            {getAllRecipesAPI?.data?.map((item) => (
+                                                <option value={item.recipeId}>{item.recipeName}</option>
+                                            ))}
+                                        </select>
+                                        <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label htmFor="date">Date</label>
+                                        <input type="date" class="form-control" id="date" placeholder="Date"
+                                            onChange={(e) => setData({ ...data, dateSt: formatData(e.target.value) })} required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label htmFor="meal">Meal of date</label>
+                                        <select id="meal" class="form-control" onChange={(e) => setData({ ...data, mealOfDate: e.target.value })} required>
+                                            <option>...</option>
+                                            <option value="1">BreakFast</option>
+                                            <option value="2">Lunch</option>
+                                            <option value="3">Dinner</option>
+                                        </select>
+                                    </div>
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <Button variant="secondary" onClick={handleClose}>
+                                        Close
+                                    </Button>
+                                    <Button variant="primary" type='submid' >
+                                        Save Changes
+                                    </Button>
+                                </Modal.Footer>
+                            </form>
+                        </Modal>
                     </div>
                     <div className='button'>
                         <button onClick={() => setCurrentDate(subDays(getMonday(currentDate), 7))}>

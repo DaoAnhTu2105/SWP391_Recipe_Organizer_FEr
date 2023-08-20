@@ -5,6 +5,7 @@ import { getIngredientDetail, updateIngredient } from '../../redux/apiThunk/ingr
 import { useDispatch, useSelector } from 'react-redux'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
+import { fetchDataAsync } from '../../redux/apiThunk/getAllRecipesThunk'
 
 const CreatePlan = () => {
     const { id } = useParams();
@@ -18,11 +19,13 @@ const CreatePlan = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        dispatch(fetchDataAsync())
         dispatch(getIngredientDetail({ id: id }));
     }, [dispatch, id]);
 
+    const getAllRecipesAPI = useSelector((state) => state.getAllRecipes.getAllRecipes)
     const ingredient = useSelector((state) => state.ingredient);
-    console.log(ingredient);
+    // console.log(ingredient);
 
     useEffect(() => {
         if (ingredient.detail.data) {

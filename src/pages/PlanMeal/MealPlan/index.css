@@ -10,6 +10,10 @@
     align-items: center;
 }
 
+.plan-meal .date-info .modal {
+    background-color: '#fff' !important;
+}
+
 .plan-meal .date-info .date {
     position: absolute;
     left: 0;

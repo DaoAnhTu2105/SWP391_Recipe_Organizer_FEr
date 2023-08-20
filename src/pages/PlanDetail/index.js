@@ -9,6 +9,9 @@ import { getPlanByDate } from '../../redux/apiThunk/planThunk'
 import CircularProgress from "@mui/material/CircularProgress";
 import { useState } from 'react'
 
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+
 const PlanDetail = () => {
     const { date } = useParams();
     const dispatch = useDispatch();
@@ -27,6 +30,11 @@ const PlanDetail = () => {
     const handleDelete = () => {
         setReload(!reload)
     }
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     let content
     if (dataStatus === 'loading') {
@@ -60,7 +68,25 @@ const PlanDetail = () => {
                 <div className="title">
                     <h4>Meal Planner</h4>
                     <div>
-                        <button className="add">Add More Recipes</button>
+                        {/* <button className="add">Add More Recipes</button> */}
+                        <Button variant="primary" onClick={handleShow}>
+                            Launch demo modal
+                        </Button>
+
+                        <Modal show={show} onHide={handleClose}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Modal heading</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={handleClose}>
+                                    Close
+                                </Button>
+                                <Button variant="primary" onClick={handleClose}>
+                                    Save Changes
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
                         <button className="clear">Clear All</button>
                     </div>
                 </div>
@@ -92,6 +118,10 @@ const PlanDetail = () => {
                                 image={food.photos}
                                 time={food.totalTime}
                                 ingredient={food.totalIngredient}
+                                calories={food.calories}
+                                fat={food.fat}
+                                carbohydrate={food.carbohydrate}
+                                protein={food.protein}
                                 handleDelete={handleDelete}
                             />
                             <br></br>
@@ -109,6 +139,10 @@ const PlanDetail = () => {
                                 image={food.photos}
                                 time={food.totalTime}
                                 ingredient={food.totalIngredient}
+                                calories={food.calories}
+                                fat={food.fat}
+                                carbohydrate={food.carbohydrate}
+                                protein={food.protein}
                                 handleDelete={handleDelete}
                             />
                             <br></br>
@@ -126,6 +160,10 @@ const PlanDetail = () => {
                                 image={food.photos}
                                 time={food.totalTime}
                                 ingredient={food.totalIngredient}
+                                calories={food.calories}
+                                fat={food.fat}
+                                carbohydrate={food.carbohydrate}
+                                protein={food.protein}
                                 handleDelete={handleDelete}
                             />
                             <br></br>
