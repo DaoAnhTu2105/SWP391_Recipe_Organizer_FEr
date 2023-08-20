@@ -9,18 +9,16 @@ import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
-import PersonAdd from '@mui/icons-material/PersonAdd'
 import Logout from '@mui/icons-material/Logout'
 import { useNavigate, Link } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
 import Cookies from 'js-cookie'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import { Fragment } from 'react'
 
 const Header = () => {
-    const [cookies, setCookie, removeCookie] = useCookies(['user'])
+    const [cookies, removeCookie] = useCookies(['user'])
     const storedUserData = cookies.user
     const [anchorEl, setAnchorEl] = React.useState(null)
     const navigate = useNavigate()

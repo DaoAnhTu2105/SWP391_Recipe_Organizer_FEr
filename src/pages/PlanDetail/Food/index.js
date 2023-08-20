@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './index.css'
-import { getDetail, removePlan, updatePlan } from '../../../redux/apiThunk/planThunk'
+import { removePlan, updatePlan } from '../../../redux/apiThunk/planThunk'
 import { useDispatch, useSelector } from 'react-redux'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { useEffect } from 'react'
+// import { useEffect } from 'react'
 
 const formatDate = (date) => {
     const [d, m, y] = date.split("-");
