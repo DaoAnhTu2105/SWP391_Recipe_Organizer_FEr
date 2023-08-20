@@ -37,13 +37,15 @@ const Login = () => {
                 },
                 body: JSON.stringify({ email, ggToken, image, fullname }),
             })
+            console.log('token: ', JSON.stringify({ email, ggToken, image, fullname }))
             console.log(response)
             if (response.ok) {
                 const responseData = await response.json()
                 setCookie('user', responseData)
+
                 // const userInfo = { role: responseData.role, token: responseData.token }
                 // document.cookie = `userInfo=${encodeURIComponent(JSON.stringify(userInfo))}`;
-                localStorage.setItem("user", JSON.stringify(responseData));
+                localStorage.setItem('user', JSON.stringify(responseData))
                 navigate('/')
             } else {
                 console.log('login failed')
