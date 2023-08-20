@@ -9,32 +9,6 @@ const userSlice = createSlice({
         loading: false,
     },
     extraReducers: {
-        // [banUser.pending]: (state, action) => {
-        //     state.loading = true;
-        //     state.loading = "loading"
-        // },
-        // [banUser.fulfilled]: (state, action) => {
-        //     state.loading = false;
-        //     state.loading = "succeeded";
-        //     state.users = action.payload;
-        // },
-        // [banUser.rejected]: (state, action) => {
-        //     state.loading = false;
-        //     state.loading = "failed";
-        // },
-        // [unbanUser.pending]: (state, action) => {
-        //     state.loading = true;
-        //     state.loading = "loading"
-        // },
-        // [unbanUser.fulfilled]: (state, action) => {
-        //     state.loading = false;
-        //     state.loading = "succeeded";
-        //     state.users = action.payload;
-        // },
-        // [unbanUser.rejected]: (state, action) => {
-        //     state.loading = false;
-        //     state.loading = "failed";
-        // },
         [getAllUser.pending]: (state, action) => {
             state.loading = true;
             state.loading = "loading"

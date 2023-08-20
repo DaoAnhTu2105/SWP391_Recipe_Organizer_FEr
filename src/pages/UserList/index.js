@@ -195,9 +195,16 @@ export default function UserList() {
         }
         handleClose()
     }
-    const updateStatus = () => {
-        userStatus === 'Active' ? dispatch(banUser({ id: id })) : dispatch(unbanUser({ id: id }))
-        setReload(!reload)
+    const updateStatus = async () => {
+        await userStatus === 'Active' ? dispatch(banUser({ id: id })).then((result) => {
+            setReload(!reload)
+        }).catch((err) => {
+            console.log(err);
+        }) : dispatch(unbanUser({ id: id })).then((result) => {
+            setReload(!reload)
+        }).catch((err) => {
+            console.log(err);
+        });
         handleClose()
     }
 
