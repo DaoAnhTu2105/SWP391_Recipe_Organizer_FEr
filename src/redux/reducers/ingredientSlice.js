@@ -1,42 +1,44 @@
-
 import { createSlice } from "@reduxjs/toolkit";
-import { getPlanByDate, getPlanByWeek } from "../apiThunk/planThunk";
+import {
+    getAllIngredient,
+    getIngredientDetail
+} from '../apiThunk/ingredientThunk'
 
-const planSlice = createSlice({
-    name: "plans",
+const ingredientSlice = createSlice({
+    name: "ingredients",
     initialState: {
-        plans: [],
+        ingredients: [],
         detail: [],
         loading: false,
     },
     extraReducers: {
-        [getPlanByWeek.pending]: (state, action) => {
+        [getAllIngredient.pending]: (state, action) => {
             state.loading = true;
             state.loading = "loading"
         },
-        [getPlanByWeek.fulfilled]: (state, action) => {
+        [getAllIngredient.fulfilled]: (state, action) => {
             state.loading = false;
             state.loading = "succeeded";
-            state.plans = action.payload;
+            state.ingredients = action.payload;
         },
-        [getPlanByWeek.rejected]: (state, action) => {
+        [getAllIngredient.rejected]: (state, action) => {
             state.loading = false;
             state.loading = "failed";
         },
-        [getPlanByDate.pending]: (state, action) => {
+        [getIngredientDetail.pending]: (state, action) => {
             state.loading = true;
             state.loading = "loading"
         },
-        [getPlanByDate.fulfilled]: (state, action) => {
+        [getIngredientDetail.fulfilled]: (state, action) => {
             state.loading = false;
             state.loading = "succeeded";
             state.detail = action.payload;
         },
-        [getPlanByDate.rejected]: (state, action) => {
+        [getIngredientDetail.rejected]: (state, action) => {
             state.loading = false;
             state.loading = "failed";
         },
     },
 });
 
-export default planSlice.reducer;
+export default ingredientSlice.reducer;

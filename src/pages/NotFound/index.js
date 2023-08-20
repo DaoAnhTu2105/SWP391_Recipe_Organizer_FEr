@@ -18,7 +18,7 @@ const NotFound = () => {
             </section>
             <div className="link__container">
                 <Link to="/" className="more__link">
-                    Go back
+                    Go to Home
                 </Link>
                 {/* <Link to="/" className="more__link">Go to home page</Link> */}
             </div>

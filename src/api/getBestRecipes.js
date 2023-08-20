@@ -1,8 +1,8 @@
 import api from './api'
 
-export const fetchData = async () => {
+export const getBestRecipes = async () => {
     try {
-        const response = await api.get(`/api/Recipes/GetAll`)
+        const response = await api.get(`/api/Recipes/GetBestRecipes`)
         return response.data
     } catch (error) {
         throw new Error(`Error fetching data: ${error.message}`)

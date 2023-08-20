@@ -1,14 +1,40 @@
 
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllUser, changeRole } from "../apiThunk/userThunk";
+import { getAllUser, banUser, unbanUser } from "../apiThunk/userThunk";
 
 const userSlice = createSlice({
-    name: "plans",
+    name: "users",
     initialState: {
-        plan: [],
+        users: [],
         loading: false,
     },
     extraReducers: {
+        // [banUser.pending]: (state, action) => {
+        //     state.loading = true;
+        //     state.loading = "loading"
+        // },
+        // [banUser.fulfilled]: (state, action) => {
+        //     state.loading = false;
+        //     state.loading = "succeeded";
+        //     state.users = action.payload;
+        // },
+        // [banUser.rejected]: (state, action) => {
+        //     state.loading = false;
+        //     state.loading = "failed";
+        // },
+        // [unbanUser.pending]: (state, action) => {
+        //     state.loading = true;
+        //     state.loading = "loading"
+        // },
+        // [unbanUser.fulfilled]: (state, action) => {
+        //     state.loading = false;
+        //     state.loading = "succeeded";
+        //     state.users = action.payload;
+        // },
+        // [unbanUser.rejected]: (state, action) => {
+        //     state.loading = false;
+        //     state.loading = "failed";
+        // },
         [getAllUser.pending]: (state, action) => {
             state.loading = true;
             state.loading = "loading"
@@ -16,22 +42,9 @@ const userSlice = createSlice({
         [getAllUser.fulfilled]: (state, action) => {
             state.loading = false;
             state.loading = "succeeded";
-            state.plan = action.payload;
+            state.users = action.payload;
         },
         [getAllUser.rejected]: (state, action) => {
-            state.loading = false;
-            state.loading = "failed";
-        },
-        [changeRole.pending]: (state, action) => {
-            state.loading = true;
-            state.loading = "loading"
-        },
-        [changeRole.fulfilled]: (state, action) => {
-            state.loading = false;
-            state.loading = "succeeded";
-            state.plan = action.payload;
-        },
-        [changeRole.rejected]: (state, action) => {
             state.loading = false;
             state.loading = "failed";
         },

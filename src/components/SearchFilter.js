@@ -3,36 +3,11 @@ import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import Grid from '@mui/material/Unstable_Grid2'
-import SearchIcon from '@mui/icons-material/Search'
 import { Button, Slider, Stack, Typography, Collapse, FormControl, FormGroup } from '@mui/material'
 import FilterListIcon from '@mui/icons-material/FilterList'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Search from './Search/Search'
-
-const countries = [
-    { code: 'TG', label: 'Togo', phone: '228' },
-    { code: 'TH', label: 'Thailand', phone: '66' },
-    { code: 'TJ', label: 'Tajikistan', phone: '992' },
-    { code: 'TK', label: 'Tokelau', phone: '690' },
-    { code: 'TL', label: 'Timor-Leste', phone: '670' },
-    { code: 'TM', label: 'Turkmenistan', phone: '993' },
-]
-const meal = [
-    { label: 'Lunch' },
-    { label: 'Breakfast' },
-    { label: 'Healthy' },
-    { label: 'Salads' },
-    { label: 'Soups' },
-    { label: 'Drinks' },
-    { label: 'Bread' },
-]
-const nutrition = [
-    { label: 'Protein' },
-    { label: 'Grains' },
-    { label: 'Fruits' },
-    { label: 'Vegetables' },
-    { label: 'Dairy' },
-]
+import axios from 'axios'
 
 const SearchFilter = () => {
     const minmin = 0
@@ -42,9 +17,44 @@ const SearchFilter = () => {
     const [serving, setServing] = useState([1, 20])
     const [timeValue, setTimeValue] = useState([0, 200])
     const [isCollapsed, setIsCollapsed] = useState(true)
-
     const [isCollapsedServing, setIsCollapsedServing] = useState(true)
     const [openFilter, setOpenFilter] = useState(false)
+    const [chooseCountry, setChooseCountry] = useState('')
+    const [chooseMeal, setChooseMeal] = useState('')
+    const [country, setCountry] = useState([])
+    const [meal, setMeal] = useState([])
+    const mealUrl = `https://recipe-organizer-api.azurewebsites.net/api/Meals/GetAll`
+    const countryUrl = `https://recipe-organizer-api.azurewebsites.net/api/Countries/GetCountriesFilter`
+
+    const countryApi = () => {
+        axios
+            .get(countryUrl)
+            .then((response) => {
+                if (response.status === 200) {
+                    setCountry(response.data)
+                }
+            })
+            .catch((error) => {
+                setCountry([])
+            })
+    }
+    const mealApi = () => {
+        axios
+            .get(mealUrl)
+            .then((response) => {
+                if (response.status === 200) {
+                    setMeal(response.data)
+                }
+            })
+            .catch((error) => {
+                setCountry([])
+            })
+    }
+
+    useEffect(() => {
+        countryApi()
+        mealApi()
+    }, [])
 
     const handleTimeChange = (event, newValue) => {
         setTimeValue(newValue)
@@ -52,12 +62,22 @@ const SearchFilter = () => {
     const handleServingChange = (event, newValue) => {
         setServing(newValue)
     }
-
+    const handleCountryChange = (event, newValue) => {
+        setChooseCountry(newValue)
+    }
+    const handleMealChange = (event, newValue) => {
+        setChooseMeal(newValue)
+    }
     return (
         <>
             <div className="container" style={{ display: 'flex', alignItems: 'center' }}>
                 <div>
-                    <Search />
+                    <Search
+                        country={chooseCountry}
+                        meal={chooseMeal}
+                        totalTime={timeValue}
+                        serving={serving}
+                    />
                 </div>
                 <div style={{ marginLeft: 10, marginTop: 130 }}>
                     <Button
@@ -81,72 +101,58 @@ const SearchFilter = () => {
                     <FormControl>
                         <FormGroup>
                             <Grid container spacing={2}>
-                                <Grid xs={4}>
-                                    <Autocomplete
-                                        id="country"
-                                        size="small"
-                                        sx={{ width: 200 }}
-                                        options={countries}
-                                        autoHighlight
-                                        getOptionLabel={(option) => option.label}
-                                        renderOption={(props, option) => (
-                                            <Box
-                                                component="li"
-                                                sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
-                                                {...props}
-                                            >
-                                                {option.label} ({option.code}) +{option.phone}
-                                            </Box>
-                                        )}
-                                        renderInput={(params) => (
-                                            <TextField {...params} label="Choose a country" />
-                                        )}
-                                    />
-                                </Grid>
-                                <Grid xs={4}>
-                                    <Autocomplete
-                                        id="meal"
-                                        size="small"
-                                        sx={{ width: 200 }}
-                                        options={meal}
-                                        autoHighlight
-                                        getOptionLabel={(option) => option.label}
-                                        renderOption={(props, option) => (
-                                            <Box
-                                                component="li"
-                                                sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
-                                                {...props}
-                                            >
-                                                {option.label}
-                                            </Box>
-                                        )}
-                                        renderInput={(params) => (
-                                            <TextField {...params} label="Meal" />
-                                        )}
-                                    />
-                                </Grid>
-                                <Grid xs={4}>
-                                    <Autocomplete
-                                        id="nutrition"
-                                        size="small"
-                                        sx={{ width: 200 }}
-                                        options={nutrition}
-                                        autoHighlight
-                                        getOptionLabel={(option) => option.label}
-                                        renderOption={(props, option) => (
-                                            <Box
-                                                component="li"
-                                                sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
-                                                {...props}
-                                            >
-                                                {option.label} ({option.code}) +{option.phone}
-                                            </Box>
-                                        )}
-                                        renderInput={(params) => (
-                                            <TextField {...params} label="Nutrition" />
-                                        )}
-                                    />
-                                </Grid>
+                                {country.data && (
+                                    <Grid xs={6}>
+                                        <Autocomplete
+                                            key="country-autocomplete"
+                                            id="country"
+                                            size="small"
+                                            sx={{ width: 200 }}
+                                            options={country.data}
+                                            autoHighlight
+                                            getOptionLabel={(option) => option?.countryName}
+                                            onChange={handleCountryChange}
+                                            renderOption={(props, option) => (
+                                                <Box
+                                                    component="li"
+                                                    sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
+                                                    {...props}
+                                                >
+                                                    {option.countryName}
+                                                </Box>
+                                            )}
+                                            renderInput={(params) => (
+                                                <TextField {...params} label="Choose a country" />
+                                            )}
+                                        />
+                                    </Grid>
+                                )}
+                                {meal.data && (
+                                    <Grid xs={6}>
+                                        <Autocomplete
+                                            key="meal-autocomplete"
+                                            id="meal"
+                                            size="small"
+                                            sx={{ width: 200 }}
+                                            options={meal.data}
+                                            autoHighlight
+                                            getOptionLabel={(option) => option?.mealName}
+                                            onChange={handleMealChange}
+                                            renderOption={(props, option) => (
+                                                <Box
+                                                    component="li"
+                                                    sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
+                                                    {...props}
+                                                >
+                                                    {option.mealName}
+                                                </Box>
+                                            )}
+                                            renderInput={(params) => (
+                                                <TextField {...params} label="Meal" />
+                                            )}
+                                        />
+                                    </Grid>
+                                )}
                             </Grid>
                             <Grid container spacing={0} textAlign={'center'} marginTop={5}>
                                 <Grid xs={6}>

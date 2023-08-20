@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 
 import DefaultLayout from '../components/DefaultLayout'
@@ -9,7 +9,10 @@ import CreatePlan from '../pages/CreatePlan'
 import CreateRecipe from '../pages/CreateRecipe'
 import FavoriteRecipe from '../pages/FavortieRecipe'
 import Register from '../pages/Register'
-import UserList from '../pages/Register/UserList'
+// import UserList from '../pages/Register/UserList'
+import UserList from '../pages/UserList'
+import IngredientList from '../pages/Ingredients'
+import UpdateIngredient from '../pages/UpdateIngredient'
 import Login from '../pages/Login'
 import Home from '../pages/Home/HomePage'
 import NotFound from '../pages/NotFound'
@@ -20,6 +23,7 @@ import Profile from '../pages/Profile'
 import ViewCooker from '../pages/ViewCooker'
 import PrivateRouters from './PrivateRouters'
 import AdminRouters from './AdminRouters'
+import SearchResult from '../pages/SearchResult'
 
 export const publicRouters = [
     {
@@ -63,16 +67,16 @@ export const publicRouters = [
         component: PlanMeal,
         layout: LayoutWithoutFilter,
     },
-    // {
-    //     path: '/recipe-detail/:id',
-    //     name: 'recipe-detail',
-    //     component: RecipeDetail,
-    //     layout: LayoutWithoutFilter,
-    // },
     {
-        path: '/recipe-detail',
+        path: '/recipe-detail/:id',
         name: 'recipe-detail',
         component: RecipeDetail,
+        layout: LayoutWithoutFilter,
+    },
+    {
+        path: '/search-results',
+        name: 'search-results',
+        component: SearchResult,
         layout: LayoutWithoutFilter,
     },
 ]
@@ -91,11 +95,12 @@ export const privateRouters = [
         layout: LayoutWithoutFilter,
     },
     {
-        path: '/plan-detail',
+        path: '/plan-detail/:date',
         name: 'plan-detail',
         component: PlanDetail,
         layout: LayoutWithoutFilter,
-    }, {
+    },
+    {
         path: '/recipe-cooker',
         name: 'recipe-cooker',
         component: ViewCooker,
@@ -108,6 +113,18 @@ export const adminRouters = [
         path: '/user-list',
         name: 'user-list',
         component: UserList,
+        layout: LayoutWithoutFilter,
+    },
+    {
+        path: '/ingredient-list',
+        name: 'ingredient-list',
+        component: IngredientList,
+        layout: LayoutWithoutFilter,
+    },
+    {
+        path: '/ingredient-detail/:id',
+        name: 'ingredient-detail',
+        component: UpdateIngredient,
         layout: LayoutWithoutFilter,
     },
 ]
@@ -149,7 +166,7 @@ export const RouterComponents = () => {
                             />
                         )
                     })}
-                    <Route exact path='/' element={<PrivateRouters />}>
+                    <Route exact path="/" element={<PrivateRouters />}>
                         {privateRouters.map((route, index) => {
                             // const user = JSON.parse(localStorage.getItem('user'))
                             const Page = route.component
@@ -169,10 +186,10 @@ export const RouterComponents = () => {
                                         </Layout>
                                     }
                                 />
-                            );
+                            )
                         })}
                     </Route>
-                    <Route exact path='/' element={<AdminRouters />}>
+                    <Route exact path="/" element={<AdminRouters />}>
                         {adminRouters.map((route, index) => {
                             // const user = JSON.parse(localStorage.getItem('user'))
                             const Page = route.component
@@ -192,7 +209,7 @@ export const RouterComponents = () => {
                                         </Layout>
                                     }
                                 />
-                            );
+                            )
                         })}
                     </Route>
                 </Routes>

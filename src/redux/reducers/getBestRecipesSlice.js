@@ -1,32 +1,32 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { fetchDataAsync } from '../apiThunk/getAllRecipesThunk'
+import { bestRecipes } from '../apiThunk/getBestRecipeThunk'
 
-const getAllDataSlice = createSlice({
-    name: 'getAllRecipes',
+const getBestRecipes = createSlice({
+    name: 'getBestRecipes',
     initialState: {
-        getAllRecipes: [],
+        bestRecipes: [],
         isLoading: false,
         error: null,
     },
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(fetchDataAsync.pending, (state) => {
+            .addCase(bestRecipes.pending, (state) => {
                 state.isLoading = true
                 state.isLoading = 'loading'
                 state.error = null
             })
-            .addCase(fetchDataAsync.fulfilled, (state, action) => {
+            .addCase(bestRecipes.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isLoading = 'success'
-                state.getAllRecipes = action.payload
+                state.bestRecipes = action.payload
             })
-            .addCase(fetchDataAsync.rejected, (state, action) => {
+            .addCase(bestRecipes.rejected, (state, action) => {
                 state.isLoading = false
                 state.isLoading = 'error'
                 state.error = action.error.message
             })
     },
 })
-export const getAllRecipes = getAllDataSlice.reducer
-export default getAllRecipes
+export const bestRecipe = getBestRecipes.reducer
+export default bestRecipe
