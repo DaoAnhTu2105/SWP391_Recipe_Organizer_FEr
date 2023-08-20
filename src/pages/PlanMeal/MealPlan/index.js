@@ -7,6 +7,16 @@ import NextIcon from '../../../components/IconComponent/NextIcon'
 import PreviousIcon from '../../../components/IconComponent/PreviousIcon'
 import CircularProgress from "@mui/material/CircularProgress";
 
+const dayOfWeek = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
+]
+
 export default function MealPlan() {
     let month, contentAuth;
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -30,6 +40,14 @@ export default function MealPlan() {
         if (dd < 10) dd = "0" + dd;
         if (mm < 10) mm = "0" + mm;
         return mm + "/" + dd + "/" + yyyy;
+    };
+    const formatDateRouter = (date) => {
+        const yyyy = date.getFullYear();
+        let mm = date.getMonth() + 1; // Months start at 0!
+        let dd = date.getDate();
+        if (dd < 10) dd = "0" + dd;
+        if (mm < 10) mm = "0" + mm;
+        return dd + "-" + mm + "-" + yyyy;
     };
     const subDays = (date, days) => {
         var result = new Date(date);
@@ -74,11 +92,15 @@ export default function MealPlan() {
             month = ('December')
             break;
     }
-
+    const changeColor = (date) => {
+        if (date.match(formatDate(new Date()))) {
+            return '#F39C12'
+        }
+    }
 
     useEffect(() => {
         dispatch(getPlanByWeek({ date: formatDate(getMonday(currentDate)) }))
-    }, [currentDate])
+    }, [dispatch, currentDate])
     const mealPlan = useSelector((state) => state.plan);
     const dataStatus = useSelector((state) => state.plan.loading);
     const user = JSON.parse(localStorage.getItem("user"));
@@ -103,8 +125,7 @@ export default function MealPlan() {
                 }}
             />
         )
-    } else if (dataStatus === 'succeeded') {
-
+    } else if (dataStatus === 'succeeded' && (mealPlan.plans.data && mealPlan.plans.status !== 1)) {
         contentAuth = (
             <Fragment>
                 <div className='date-info'>
@@ -123,205 +144,21 @@ export default function MealPlan() {
                         </button>
                     </div>
                 </div>
-                <div className="table-header">
+                <div className='table-header'>
                     <div></div>
-                    <div className="table-header-component">
-                        <a href="/plan-detail">
-                            Monday
-                            <br></br>
-                            {formatDate(getMonday(currentDate))}
-                        </a>
-                    </div>
-                    <div className="table-header-component">
-                        <a href="/plan-detail">
-                            Tuesday
-                            <br></br>
-                            {formatDate(addDays(getMonday(currentDate), 1))}
-                        </a>
-                    </div>
-                    <div className="table-header-component">
-                        <a href="/plan-detail">
-                            Wednesday
-                            <br></br>
-                            {formatDate(addDays(getMonday(currentDate), 2))}
-                        </a>
-                    </div>
-                    <div className="table-header-component">
-                        <a href="/plan-detail">
-                            Thursday
-                            <br></br>
-                            {formatDate(addDays(getMonday(currentDate), 3))}
-                        </a>
-                    </div>
-                    <div className="table-header-component">
-                        <a href="/plan-detail">
-                            Friday
-                            <br></br>
-                            {formatDate(addDays(getMonday(currentDate), 4))}
-                        </a>
-                    </div>
-                    <div className="table-header-component">
-                        <a href="/plan-detail">
-                            Saturday
-                            <br></br>
-                            {formatDate(addDays(getMonday(currentDate), 5))}
-                        </a>
-                    </div>
-                    <div className="table-header-component">
-                        <a href="/plan-detail">
-                            Sunday
-                            <br></br>
-                            {formatDate(addDays(getMonday(currentDate), 6))}
-                        </a>
-                    </div>
-                </div>
-                <div className="table-body">
-                    <div className="table-body-content">
-                        <div className="meal" style={{ color: '#32a6de' }}>
-                            <div>
-                                <b>BreakFast</b>
+                    {dayOfWeek.map((day, index) => (
+                        <div className="table-header-component" >
+                            {/* <a href='*' onClick={(e) => e.preventDefault()}> */}
+                            <div style={{ color: changeColor(formatDate(addDays(getMonday(currentDate), index))) }}>
+                                <b>
+                                    {day}
+                                    <br></br>
+                                    {formatDate(addDays(getMonday(currentDate), index))}
+                                </b>
                             </div>
-                            <div>
-                                <b>6AM - 8AM</b>
-                            </div>
+                            {/* </a> */}
                         </div>
-                        {mealPlan.plan.data.food && mealPlan.plan.data.food.map((meal) => (
-                            <div className="item">
-                                {
-                                    meal.breakfast.map((food) => {
-                                        return (
-                                            <Food
-                                                foodName={food.recipeName}
-                                                calo={food.recipeCalo}
-                                                meal='breakfast'
-                                            />
-                                        )
-                                    })
-                                }
-                            </div>
-                        ))}
-                    </div>
-                    <div className="table-body-content">
-                        <div style={{ color: '#e29d1d' }}>
-                            <div>
-                                <b>Lunch</b>
-                            </div>
-                            <div>
-                                <b>12:30AM - 2PM</b>
-                            </div>
-                        </div>
-                        {mealPlan.plan.data.food && mealPlan.plan.data.food.map((meal) => (
-                            <div className="item">
-                                {
-                                    meal.lunch.map((food) => {
-                                        return (
-                                            <Food
-                                                foodName={food.recipeName}
-                                                calo={food.recipeCalo}
-                                                meal='lunch'
-                                            />
-                                        )
-                                    })
-                                }
-                            </div>
-                        ))}
-                    </div>
-                    <div className="table-body-content">
-                        <div style={{ color: '#68169c' }}>
-                            <div>
-                                <b>Dinner</b>
-                            </div>
-                            <div>
-                                <b>6PM - 9PM</b>
-                            </div>
-                        </div>
-                        {mealPlan.plan.data.food && mealPlan.plan.data.food.map((meal) => (
-                            <div className="item" >
-                                {
-                                    meal.dinner.map((food) => {
-                                        return (
-                                            <Food
-                                                foodName={food.recipeName}
-                                                calo={food.recipeCalo}
-                                            />
-                                        )
-                                    })
-                                }
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </Fragment>)
-    } else {
-        contentAuth = (
-            <Fragment>
-                <div className='date-info'>
-                    <div className='date'>
-                        <a href="/create-plan"><button>Create Meal Plan</button></a>
-                    </div>
-                    <div className='button'>
-                        <button onClick={() => setCurrentDate(subDays(getMonday(currentDate), 7))}>
-                            <PreviousIcon />
-                        </button>
-                        <button onClick={() => setCurrentDate(new Date())}>
-                            Today
-                        </button>
-                        <button onClick={() => setCurrentDate(addDays(getMonday(currentDate), 7))}>
-                            <NextIcon />
-                        </button>
-                    </div>
-                </div>
-                <div className="table-header">
-                    <div></div>
-                    <div className="table-header-component">
-                        <a href="/plan-detail">
-                            Monday
-                            <br></br>
-                            {formatDate(getMonday(currentDate))}
-                        </a>
-                    </div>
-                    <div className="table-header-component">
-                        <a href="/plan-detail">
-                            Tuesday
-                            <br></br>
-                            {formatDate(addDays(getMonday(currentDate), 1))}
-                        </a>
-                    </div>
-                    <div className="table-header-component">
-                        <a href="/plan-detail">
-                            Wednesday
-                            <br></br>
-                            {formatDate(addDays(getMonday(currentDate), 2))}
-                        </a>
-                    </div>
-                    <div className="table-header-component">
-                        <a href="/plan-detail">
-                            Thursday
-                            <br></br>
-                            {formatDate(addDays(getMonday(currentDate), 3))}
-                        </a>
-                    </div>
-                    <div className="table-header-component">
-                        <a href="/plan-detail">
-                            Friday
-                            <br></br>
-                            {formatDate(addDays(getMonday(currentDate), 4))}
-                        </a>
-                    </div>
-                    <div className="table-header-component">
-                        <a href="/plan-detail">
-                            Saturday
-                            <br></br>
-                            {formatDate(addDays(getMonday(currentDate), 5))}
-                        </a>
-                    </div>
-                    <div className="table-header-component">
-                        <a href="/plan-detail">
-                            Sunday
-                            <br></br>
-                            {formatDate(addDays(getMonday(currentDate), 6))}
-                        </a>
-                    </div>
+                    ))}
                 </div>
                 <div className='table-body'>
                     <div className='table-body-content'>
@@ -377,6 +214,119 @@ export default function MealPlan() {
                     </div>
                 </div>
             </Fragment>);
+    } else {
+        contentAuth = (
+            <Fragment>
+                <div className='date-info'>
+                    <div className='date'>
+                        <a href="/create-plan"><button>Create Meal Plan</button></a>
+                    </div>
+                    <div className='button'>
+                        <button onClick={() => setCurrentDate(subDays(getMonday(currentDate), 7))}>
+                            <PreviousIcon />
+                        </button>
+                        <button onClick={() => setCurrentDate(new Date())}>
+                            Today
+                        </button>
+                        <button onClick={() => setCurrentDate(addDays(getMonday(currentDate), 7))}>
+                            <NextIcon />
+                        </button>
+                    </div>
+                </div>
+                <div className='table-header'>
+                    <div></div>
+                    {dayOfWeek.map((day, index) => (
+                        <div className="table-header-component" >
+                            <a href={`/plan-detail/${formatDateRouter(addDays(getMonday(currentDate), index))}`}>
+                                <div style={{ color: changeColor(formatDate(addDays(getMonday(currentDate), index))) }}>
+                                    {day}
+                                    <br></br>
+                                    {formatDate(addDays(getMonday(currentDate), index))}
+                                </div>
+                            </a>
+                        </div>
+                    ))}
+                </div>
+                <div className="table-body">
+                    <div className="table-body-content">
+                        <div className="meal" style={{ color: '#32a6de' }}>
+                            <div>
+                                <b>BreakFast</b>
+                            </div>
+                            <div>
+                                <b>6AM - 8AM</b>
+                            </div>
+                        </div>
+                        {mealPlan?.plans.data?.food && mealPlan?.plans.data?.food.map((meal) => (
+                            <div className="item">
+                                {
+                                    meal.breakfast.map((food) => {
+                                        return (
+                                            <Food
+                                                id={food.recipeId}
+                                                foodName={food.recipeName}
+                                                calo={food.recipeCalo}
+                                                meal='breakfast'
+                                            />
+                                        )
+                                    })
+                                }
+                            </div>
+                        ))}
+                    </div>
+                    <div className="table-body-content">
+                        <div style={{ color: '#e29d1d' }}>
+                            <div>
+                                <b>Lunch</b>
+                            </div>
+                            <div>
+                                <b>12:30AM - 2PM</b>
+                            </div>
+                        </div>
+                        {mealPlan?.plans.data?.food && mealPlan?.plans.data?.food.map((meal) => (
+                            <div className="item">
+                                {
+                                    meal.lunch.map((food) => {
+                                        return (
+                                            <Food
+                                                id={food.id}
+                                                foodName={food.recipeName}
+                                                calo={food.recipeCalo}
+                                                meal='lunch'
+                                            />
+                                        )
+                                    })
+                                }
+                            </div>
+                        ))}
+                    </div>
+                    <div className="table-body-content">
+                        <div style={{ color: '#68169c' }}>
+                            <div>
+                                <b>Dinner</b>
+                            </div>
+                            <div>
+                                <b>6PM - 9PM</b>
+                            </div>
+                        </div>
+                        {mealPlan?.plans.data?.food && mealPlan?.plans.data?.food.map((meal) => (
+                            <div className="item" >
+                                {
+                                    meal.dinner.map((food) => {
+                                        return (
+                                            <Food
+                                                id={food.id}
+                                                foodName={food.recipeName}
+                                                calo={food.recipeCalo}
+                                            />
+                                        )
+                                    })
+                                }
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </Fragment>)
     }
 
     return (
