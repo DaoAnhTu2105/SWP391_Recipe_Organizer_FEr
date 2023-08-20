@@ -23,6 +23,7 @@ import Profile from '../pages/Profile'
 import ViewCooker from '../pages/ViewCooker'
 import PrivateRouters from './PrivateRouters'
 import AdminRouters from './AdminRouters'
+import SearchResult from '../pages/SearchResult'
 
 export const publicRouters = [
     {
@@ -48,12 +49,7 @@ export const publicRouters = [
         component: CreatePlan,
         layout: LayoutWithoutFilter,
     },
-    {
-        path: '/create-recipe',
-        name: 'create-recipe',
-        component: CreateRecipe,
-        layout: LayoutWithoutFilter,
-    },
+    
     {
         path: '/favorite-recipe',
         name: 'favorite-recipe',
@@ -77,9 +73,21 @@ export const publicRouters = [
         component: RecipeDetail,
         layout: LayoutWithoutFilter,
     },
+    {
+        path: '/search-results',
+        name: 'search-results',
+        component: SearchResult,
+        layout: LayoutWithoutFilter,
+    },
 ]
 
 export const privateRouters = [
+    {
+        path: '/create-recipe',
+        name: 'create-recipe',
+        component: CreateRecipe,
+        layout: LayoutWithoutFilter,
+    },
     {
         path: '/profile',
         name: 'user-profile',

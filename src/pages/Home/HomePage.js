@@ -28,12 +28,12 @@ const HomePage = () => {
     const favoriteRecipeAPI = useSelector((state) => state.favoriteRecipe.favoriteRecipe)
     const status = useSelector((state) => state.getAllRecipes.isLoading)
     const item1 =
-        getAllRecipesAPI.data &&
-        getAllRecipesAPI.data[Math.floor(Math.random() * getAllRecipesAPI.data.length)]
+        getAllRecipesAPI?.data &&
+        getAllRecipesAPI?.data[Math.floor(Math.random() * getAllRecipesAPI.data.length)]
 
     const item2 =
-        getAllRecipesAPI.data &&
-        getAllRecipesAPI.data[Math.floor(Math.random() * getAllRecipesAPI.data.length)]
+        getAllRecipesAPI?.data &&
+        getAllRecipesAPI?.data[Math.floor(Math.random() * getAllRecipesAPI.data.length)]
 
     useEffect(() => {
         dispatch(fetchDataAsync())
@@ -98,7 +98,7 @@ const HomePage = () => {
                                 ))}
                         </Swiper>
                     </div>
-                    <div className="mt-5">
+                    {/* <div className="mt-5">
                         {item1 && item2 && (
                             <Box style={{ display: 'flex', justifyContent: 'space-evenly' }}>
                                 <Link to={`/recipe-detail/${item1.recipeId}`}>
@@ -120,7 +120,7 @@ const HomePage = () => {
                                                     color="text.secondary"
                                                     component="div"
                                                 >
-                                                    {/* {item1 && item1?.countryVM.countryName} */}
+                                                  {item1 && item1?.countryVM.countryName}
                                                 </Typography>
                                             </CardContent>
                                         </Box>
@@ -165,7 +165,7 @@ const HomePage = () => {
                                 </Link>
                             </Box>
                         )}
-                    </div>
+                    </div> */}
                     <section className="best-receipe-area">
                         <h1 className="title-recipes">Best Recipes</h1>
                         <div
