@@ -1,8 +1,10 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useState, useEffect, Fragment } from 'react'
+import { useNavigate, useParams, Link } from 'react-router-dom'
 import { getIngredientDetail, updateIngredient } from '../../redux/apiThunk/ingredientThunk'
 import { useDispatch, useSelector } from 'react-redux'
+import Typography from '@mui/material/Typography'
+import Container from '@mui/material/Container'
 
 const UpdateIngredient = () => {
     const { id } = useParams();
@@ -41,24 +43,44 @@ const UpdateIngredient = () => {
     }
 
     return (
-        <div className='d-flex w-100 vh-100 justify-content-center align-items-center'>
-            <div className='w-50 border bg-secondary text-white p-5'>
-                <form onSubmit={e => handleSubmit(e)}>
-                    <div>
-                        <label htmlFor="name">Name:</label>
-                        <input type="text" name='name' className='form-control' placeholder="Enter Name"
-                            value={value.ingredientName} onChange={e => setValue({ ...value, ingredientName: e.target.value })} />
+        <Fragment>
+            <Container maxWidth="md">
+                <Typography
+                    component="h1"
+                    variant="h2"
+                    align="center"
+                    style={{ color: '#f39c12', marginTop: 20 }}
+                    gutterBottom
+                >
+                    Update Ingredient
+                </Typography>
+                <Typography variant="h5" align="center" color="text.secondary" paragraph>
+                    Update ingredient item with id {id}
+                </Typography>
+            </Container>
+            <div className="container" style={{ marginBottom: '30px' }}>
+                <div className='d-flex w-100 vh-100 justify-content-center align-items-center'>
+                    <div className='w-50 border bg-secondary text-white p-5'>
+                        <form onSubmit={e => handleSubmit(e)}>
+                            <div>
+                                <label htmlFor="name">Name:</label>
+                                <input type="text" name='name' className='form-control' placeholder="Enter Name"
+                                    value={value.ingredientName} onChange={e => setValue({ ...value, ingredientName: e.target.value })} required />
+                            </div>
+                            <div>
+                                <label htmlFor="email">Email:</label>
+                                <input type="text" name='email' className='form-control' placeholder='Enter Email'
+                                    value={value.measure} onChange={e => setValue({ ...value, measure: e.target.value })} required />
+                            </div >
+                            <br />
+                            <button className='btn btn-info'>Update</button>
+                            <Link to="/ingredient-list"><button className='btn btn-info'>Back to ingredient list</button></Link>
+                        </form>
                     </div>
-                    <div>
-                        <label htmlFor="email">Email:</label>
-                        <input type="text" name='email' className='form-control' placeholder='Enter Email'
-                            value={value.measure} onChange={e => setValue({ ...value, measure: e.target.value })} />
-                    </div >
-                    <br />
-                    <button className='btn btn-info'>Update</button>
-                </form>
+                </div>
             </div>
-        </div>
+        </Fragment>
+
     )
 }
 

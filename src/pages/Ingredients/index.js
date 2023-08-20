@@ -30,7 +30,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useSelector, useDispatch } from 'react-redux'
 import {
     getAllIngredient,
-    updateIngredient,
+    addIngredient,
     removeIngredient
 } from '../../redux/apiThunk/ingredientThunk'
 import CircularProgress from "@mui/material/CircularProgress";
@@ -168,6 +168,24 @@ export default function UserList() {
         setAnchorEl(null);
     };
 
+
+    const [value, setValue] = useState({
+        ingredientId: "",
+        ingredientName: "",
+        measure: ""
+    });
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(addIngredient({ data: JSON.stringify(value) })).then((result) => {
+            setReload(!reload)
+
+        }).catch((err) => {
+            console.log(err);
+        });
+        setValue({ ...value, ingredientName: "", measure: "" })
+    }
+
     const deleteIngredient = () => {
         dispatch(removeIngredient({ id: id }))
         setReload(!reload)
@@ -302,18 +320,23 @@ export default function UserList() {
                     Manage Ingredient in database
                 </Typography>
             </Container>
-            <form className='container form-create'>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" />
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-            {content}
+            <div className=''>
+                <form className='container form-create' onSubmit={e => handleSubmit(e)}>
+                    <h3>Create new Ingredient</h3>
+                    <div class="form-group">
+                        <label htmlFor="exampleInputEmail1">Ingredient name</label>
+                        <input type="text" class="form-control" id="formName" placeholder="Enter name"
+                            value={value.ingredientName} onChange={e => setValue({ ...value, ingredientName: e.target.value })} required />
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">measure</label>
+                        <input type="text" class="form-control" id="formMeasure" placeholder="Enter measure"
+                            value={value.measure} onChange={e => setValue({ ...value, measure: e.target.value })} required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </form>
+                {content}
+            </div>
         </Fragment>
     )
 }
