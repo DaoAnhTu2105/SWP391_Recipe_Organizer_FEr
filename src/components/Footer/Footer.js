@@ -103,7 +103,7 @@ const Footer = () => {
                             <h5 style={{ color: '#f39c12' }}>Subscribe to our newsletter</h5>
                             <p>Monthly digest of what's new and exciting from us.</p>
                             <div class="d-flex flex-column flex-sm-row w-100 gap-2">
-                                <label for="newsletter1" class="visually-hidden">
+                                <label htmlFor="newsletter1" class="visually-hidden">
                                     Email address
                                 </label>
                                 <input
