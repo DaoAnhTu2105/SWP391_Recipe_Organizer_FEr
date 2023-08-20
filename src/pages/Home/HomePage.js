@@ -120,7 +120,7 @@ const HomePage = () => {
                                                     color="text.secondary"
                                                     component="div"
                                                 >
-                                                  {item1 && item1?.countryVM.countryName}
+                                                    {item1 && item1?.countryVM.countryName}
                                                 </Typography>
                                             </CardContent>
                                         </Box>
@@ -151,7 +151,7 @@ const HomePage = () => {
                                                     color="text.secondary"
                                                     component="div"
                                                 >
-                                                    {/* {item2 && item2.countryVM.countryName} */}
+                                                    {item2 && item2.countryVM.countryName}
                                                 </Typography>
                                             </CardContent>
                                         </Box>
