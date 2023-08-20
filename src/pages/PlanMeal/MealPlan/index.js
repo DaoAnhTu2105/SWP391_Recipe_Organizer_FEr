@@ -289,7 +289,7 @@ export default function MealPlan() {
                                     meal.lunch.map((food) => {
                                         return (
                                             <Food
-                                                id={food.id}
+                                                id={food.recipeId}
                                                 foodName={food.recipeName}
                                                 calo={food.recipeCalo}
                                                 meal='lunch'
@@ -315,7 +315,7 @@ export default function MealPlan() {
                                     meal.dinner.map((food) => {
                                         return (
                                             <Food
-                                                id={food.id}
+                                                id={food.recipeId}
                                                 foodName={food.recipeName}
                                                 calo={food.recipeCalo}
                                             />
