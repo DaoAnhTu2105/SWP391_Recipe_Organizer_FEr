@@ -32,7 +32,7 @@ const Header = () => {
     const handleLogout = () => {
         removeCookie('user')
         localStorage.removeItem('user');
-        
+        navigate('/')
     }
     return (
         <>
@@ -209,7 +209,7 @@ const Header = () => {
                                                     <ListItemIcon>
                                                         <a
                                                             style={{ display: 'flex' }}
-                                                            href="/login"
+                                                            href="#"
                                                         >
                                                             <Logout fontSize="small" />
                                                             <Typography
