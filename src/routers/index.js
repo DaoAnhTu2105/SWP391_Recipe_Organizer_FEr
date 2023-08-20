@@ -76,6 +76,12 @@ export const publicRouters = [
         component: RecipeDetail,
         layout: LayoutWithoutFilter,
     },
+    {
+        path: '/search-results',
+        name: 'search-results',
+        component: RecipeDetail,
+        layout: LayoutWithoutFilter,
+    },
 ]
 
 export const privateRouters = [
