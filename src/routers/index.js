@@ -87,7 +87,7 @@ export const privateRouters = [
         layout: LayoutWithoutFilter,
     },
     {
-        path: '/plan-detail/:id',
+        path: '/plan-detail/:date',
         name: 'plan-detail',
         component: PlanDetail,
         layout: LayoutWithoutFilter,

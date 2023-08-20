@@ -10,9 +10,15 @@ import { getPlanByDate } from '../../redux/apiThunk/planThunk'
 const PlanDetail = () => {
     const { date } = useParams();
     const dispatch = useDispatch();
+    const formatDate = (date) => {
+        const [d, m, y] = date.split("-");
+        return m + "/" + d + "/" + y
+    }
     useEffect(() => {
-        dispatch(getPlanByDate({ id: date }));
+        dispatch(getPlanByDate({ date: formatDate(date) }));
     }, [dispatch, date]);
+    const planDetail = useSelector((state) => state.plan);
+    // console.log(planDetail.detail);
     return (
         <Fragment>
             <Container maxWidth="md">
