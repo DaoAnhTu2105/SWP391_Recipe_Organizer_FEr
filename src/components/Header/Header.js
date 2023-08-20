@@ -13,6 +13,7 @@ import PersonAdd from '@mui/icons-material/PersonAdd'
 import Logout from '@mui/icons-material/Logout'
 import { useNavigate, Link } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
+import Cookies from 'js-cookie'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
@@ -31,6 +32,7 @@ const Header = () => {
     }
     const handleLogout = () => {
         removeCookie('user')
+        Cookies.remove('user')
         localStorage.removeItem('user');
         navigate('/')
     }
