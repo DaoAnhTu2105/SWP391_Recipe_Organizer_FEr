@@ -9,16 +9,16 @@ import Typography from '@mui/material/Typography'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import background from '../../assets/login-background.jpg'
 import { useEffect } from 'react'
-import { useState } from 'react'
+// import { useState } from 'react'
 import jwt_decode from 'jwt-decode'
-import { json, useNavigate } from 'react-router-dom'
-import { useCookies } from 'react-cookie'
+import { useNavigate } from 'react-router-dom'
+// import { useCookies } from 'react-cookie'
 
 const defaultTheme = createTheme()
 
 const Login = () => {
     const navigate = useNavigate()
-    const [cookies, setCookie] = useCookies(['user'])
+    // const [cookies, setCookie] = useCookies(['user'])
     const baseUrl = `https://recipe-organizer-api.azurewebsites.net/api/UserAccounts/CheckLoginEmail`
 
     const handleCredentialResponse = async (response) => {
@@ -37,11 +37,11 @@ const Login = () => {
                 },
                 body: JSON.stringify({ email, ggToken, image, fullname }),
             })
-            console.log('token: ', JSON.stringify({ email, ggToken, image, fullname }))
-            console.log(response)
+            // console.log('token: ', JSON.stringify({ email, ggToken, image, fullname }))
+            // console.log(response)
             if (response.ok) {
                 const responseData = await response.json()
-                setCookie('user', responseData)
+                // setCookie('user', responseData)
 
                 // const userInfo = { role: responseData.role, token: responseData.token }
                 // document.cookie = `userInfo=${encodeURIComponent(JSON.stringify(userInfo))}`;
@@ -68,7 +68,7 @@ const Login = () => {
             )
             google.accounts.id.prompt() // also display the One Tap dialog
         }
-    }, [])
+    })
 
     return (
         <ThemeProvider theme={defaultTheme}>

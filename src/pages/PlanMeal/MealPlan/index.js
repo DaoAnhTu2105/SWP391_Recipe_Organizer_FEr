@@ -11,6 +11,9 @@ import { fetchDataAsync } from '../../../redux/apiThunk/getAllRecipesThunk'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
+import Swal from "sweetalert2";
+import { ToastContainer, toast } from "react-toastify";
+
 const dayOfWeek = [
     "Monday",
     "Tuesday",
@@ -121,7 +124,29 @@ export default function MealPlan() {
     // console.log(getAllRecipesAPI?.data);
     const handleFormCreate = async (e) => {
         e.preventDefault()
-        await dispatch(createPlan({ data: data }))
+        await Swal.fire({
+            title: "Do you want to save the changes?",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#285D9A",
+            cancelButtonColor: "#e74a3b",
+            confirmButtonText: "Yes, save it!",
+            background: "white",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(createPlan({ data: data }))
+                toast.success("Update Success", {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                });
+            }
+        });
         setReload(!reload)
         setShow(false)
         // console.log(data);

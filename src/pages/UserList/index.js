@@ -9,12 +9,9 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
-import TableSortLabel from '@mui/material/TableSortLabel'
 import Paper from '@mui/material/Paper'
-import { visuallyHidden } from '@mui/utils'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
-import MenuSharpIcon from '@mui/icons-material/MenuSharp';
 import { styled, alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
@@ -22,8 +19,6 @@ import MenuItem from '@mui/material/MenuItem';
 import EditIcon from '@mui/icons-material/Edit';
 import Divider from '@mui/material/Divider';
 import ClearSharpIcon from '@mui/icons-material/ClearSharp';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useSelector, useDispatch } from 'react-redux'
 import {
@@ -34,6 +29,9 @@ import {
 } from '../../redux/apiThunk/userThunk'
 import CircularProgress from "@mui/material/CircularProgress";
 
+import Swal from "sweetalert2";
+// import { ToastContainer, toast } from 'react-toastify';
+import toast, { Toaster } from 'react-hot-toast';
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -149,6 +147,7 @@ export default function UserList() {
     const [reload, setReload] = useState(false)
     const [id, setId] = useState();
     const [userStatus, setUserStatus] = useState()
+    const [userRole, setUserRole] = useState()
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(getAllUser({ movePage: page + 1, items: rowsPerPage }))
@@ -177,9 +176,10 @@ export default function UserList() {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-    const handleClickMenu = (event, id, status) => {
+    const handleClickMenu = (event, id, status, role) => {
         setId(id)
         setUserStatus(status)
+        setUserRole(role)
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
@@ -187,24 +187,77 @@ export default function UserList() {
     };
 
     const updateRole = async (role) => {
-        if (userStatus === 'Active') {
-            await dispatch(changeRole({ id: id, role: role }))
-            setReload(!reload)
-        } else {
-            window.alert(`Role cannot change because User is not active. `)
-        }
         handleClose()
+        if (userStatus === 'Active') {
+            await Swal.fire({
+                title: "Do you want to save the changes?",
+                icon: "info",
+                showCancelButton: true,
+                confirmButtonColor: "#285D9A",
+                cancelButtonColor: "#e74a3b",
+                confirmButtonText: "Yes, save it!",
+                background: "white",
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    await dispatch(changeRole({ id: id, role: role })).then((result) => {
+                        result.payload.message === "Success" ? toast.success('Successfully Update!') : toast.error('co cl')
+                        setReload(!reload)
+                    }).catch((err) => {
+                        console.log(err);
+                    });
+                } else {
+                    toast('Nothing Update!')
+                }
+            });
+        } else {
+            toast.error('Role cannot change because User is not Active!')
+        }
     }
+
     const updateStatus = async () => {
-        await userStatus === 'Active' ? dispatch(banUser({ id: id })).then((result) => {
-            setReload(!reload)
-        }).catch((err) => {
-            console.log(err);
-        }) : dispatch(unbanUser({ id: id })).then((result) => {
-            setReload(!reload)
-        }).catch((err) => {
-            console.log(err);
-        });
+        await userStatus === 'Active' ? (
+            Swal.fire({
+                title: "Do you want to save the changes?",
+                icon: "info",
+                showCancelButton: true,
+                confirmButtonColor: "#285D9A",
+                cancelButtonColor: "#e74a3b",
+                confirmButtonText: "Yes, save it!",
+                background: "white",
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    await dispatch(banUser({ id: id })).then((result) => {
+                        result.payload.message === "Success" ? toast.success('Successfully Active User!') : toast.error(result.payload.message)
+                        setReload(!reload)
+                    }).catch((err) => {
+                        console.log(err);
+                    });
+                } else {
+                    toast('Nothing Update!')
+                }
+            })
+        ) : (
+            Swal.fire({
+                title: "Do you want to save the changes?",
+                icon: "info",
+                showCancelButton: true,
+                confirmButtonColor: "#285D9A",
+                cancelButtonColor: "#e74a3b",
+                confirmButtonText: "Yes, save it!",
+                background: "white",
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    await dispatch(unbanUser({ id: id })).then((result) => {
+                        result.payload.message === "Success" ? toast.success('Successfully DeActive User!') : toast.error(result.payload.message)
+                        setReload(!reload)
+                    }).catch((err) => {
+                        console.log(err);
+                    });
+                } else {
+                    toast('Nothing Update!')
+                }
+            })
+        )
         handleClose()
     }
 
@@ -272,7 +325,7 @@ export default function UserList() {
                                                         aria-expanded={open ? 'true' : undefined}
                                                         variant="contained"
                                                         disableElevation
-                                                        onClick={(event) => handleClickMenu(event, row.userId, row.status)}
+                                                        onClick={(event) => handleClickMenu(event, row.userId, row.status, row.roleName)}
                                                         endIcon={<KeyboardArrowDownIcon />}
                                                     >
                                                         Options
@@ -292,19 +345,25 @@ export default function UserList() {
                                                             }
                                                         }}
                                                     >
-                                                        <MenuItem onClick={() => updateStatus()} disableRipple>
-                                                            <ClearSharpIcon />
-                                                            DeActivate User
-                                                        </MenuItem>
+                                                        {userStatus === "Active"
+                                                            ? (<MenuItem onClick={() => updateStatus()} disableRipple>
+                                                                <ClearSharpIcon />
+                                                                DeActive Account
+                                                            </MenuItem>)
+                                                            : (<MenuItem onClick={() => updateStatus()} disableRipple>
+                                                                <ClearSharpIcon />
+                                                                Active Account
+                                                            </MenuItem>)}
                                                         <Divider sx={{ my: 0.5 }} />
-                                                        <MenuItem onClick={() => updateRole('User')} disableRipple>
-                                                            <EditIcon />
-                                                            Change to User
-                                                        </MenuItem>
-                                                        <MenuItem onClick={() => updateRole('Cooker')} disableRipple>
-                                                            <EditIcon />
-                                                            Change to Cooker
-                                                        </MenuItem>
+                                                        {userRole === "User"
+                                                            ? (<MenuItem onClick={() => updateRole('Cooker')} disableRipple>
+                                                                <EditIcon />
+                                                                Change to Cooker
+                                                            </MenuItem>)
+                                                            : (<MenuItem onClick={() => updateRole('User')} disableRipple>
+                                                                <EditIcon />
+                                                                Change to User
+                                                            </MenuItem>)}
                                                     </StyledMenu>
                                                 </div>
                                             </TableCell>
@@ -330,6 +389,7 @@ export default function UserList() {
 
     return (
         <Fragment>
+            <Toaster />
             <Container maxWidth="md">
                 <Typography
                     component="h1"
