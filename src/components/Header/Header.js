@@ -16,6 +16,7 @@ import { useCookies } from 'react-cookie'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 
 const Header = () => {
     const [cookies, setCookie, removeCookie] = useCookies(['user'])
@@ -34,6 +35,7 @@ const Header = () => {
         localStorage.removeItem('user');
         navigate('/')
     }
+    const user = JSON.parse(localStorage.getItem('user'))
     return (
         <>
             <div
@@ -202,6 +204,24 @@ const Header = () => {
                                                         <Typography variant="h6" fontSize={20}>
                                                             {' '}
                                                             Favorite Recipe
+                                                        </Typography>
+                                                    </Link>
+                                                </MenuItem>
+                                                <MenuItem onClick={handleClose}>
+                                                    <Link
+                                                        to={`/my-recipe`}
+                                                        style={{
+                                                            alignContent: 'center',
+                                                            textDecoration: 'none',
+                                                            color: 'inherit',
+                                                            display: 'flex',
+                                                        }}
+                                                    >
+                                                        <ListItemIcon>
+                                                            <MenuBookIcon fontSize="small" />
+                                                        </ListItemIcon>
+                                                        <Typography variant="h6" fontSize={20}>
+                                                            All my recipes
                                                         </Typography>
                                                     </Link>
                                                 </MenuItem>
