@@ -7,6 +7,7 @@ import ingredientSlice from './reducers/ingredientSlice'
 import bestRecipe from './reducers/getBestRecipesSlice'
 import favoriteRecipe from './reducers/getFavoritesRecipeSlice'
 import uFavor from './reducers/getFavoriteUserSlice'
+
 const store = configureStore({
     reducer: {
         getAllRecipes: getAllRecipesReducer,

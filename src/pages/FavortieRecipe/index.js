@@ -10,12 +10,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { userFavor } from '../../redux/apiThunk/getFavoriteUserThunk'
 import { removeFavor } from '../../redux/apiThunk/getFavoriteUserThunk'
-import axios from 'axios'
 
 const FavoriteRecipe = () => {
     const dispatch = useDispatch()
     const getUserFavor = useSelector((state) => state.uFavor.userFavorites)
-    const user = JSON.parse(localStorage.getItem('user'))
     const favorite = getUserFavor?.data
     const [reload, setReload] = useState(false)
     const handleRemove = async (recipeId) => {
