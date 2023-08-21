@@ -4,10 +4,7 @@ export const userFavorite = async () => {
     try {
         const response = await api.get(`/api/FavoriteRecipes/GetAllFavorite`)
 
-        if (response.status === 401) {
-            //on-going
-            localStorage.removeItem('user')
-        } else if (response.status === 200) {
+        if (response.status === 200) {
             return response.data
         }
     } catch (error) {
