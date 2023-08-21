@@ -10,6 +10,9 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { getStorage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid'
+import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+
 const CustomInput = React.forwardRef(function CustomInput(props, ref) {
   return (
     <Input
@@ -22,6 +25,7 @@ const CustomInput = React.forwardRef(function CustomInput(props, ref) {
 });
 
 function CreateRecipe() {
+  const navigate = useNavigate()
   //-------------------Get APIs HERE-----------------------------
 
   const [allIngredients, setAllInredients] = useState('')
@@ -119,6 +123,8 @@ function CreateRecipe() {
             }
             const directionVMs = directionFields
             const ingredientOfRecipeVMs = ingredientFields
+            const countryId = selectedCountryId
+            const mealId = selectedMealId
             const payload = {
               recipeName,
               description,
@@ -133,7 +139,9 @@ function CreateRecipe() {
               totalTime,
               photoVMs,
               ingredientOfRecipeVMs,
-              directionVMs
+              directionVMs,
+              mealId,
+              countryId
             };
             console.log('nutritionValues:', nutritionValues)
             console.log("payload", JSON.stringify(payload))
@@ -154,18 +162,17 @@ function CreateRecipe() {
               if (response.ok) {
                 try {
                   const data = await response.json();
-
-                  // toast.success('Success Booking!', {
-                  //   position: "top-right",
-                  //   autoClose: 5000,
-                  //   hideProgressBar: false,
-                  //   closeOnClick: true,
-                  //   pauseOnHover: true,
-                  //   draggable: true,
-                  //   progress: undefined,
-                  //   theme: "light",
-                  // });
-
+                  toast.success('Add Success!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                  })
+                  navigate('/')
                   console.log("data", data);
                 } catch (error) {
                   console.error('Error parsing JSON:', error);
@@ -313,11 +320,37 @@ function CreateRecipe() {
     const calculatedTime = (prep || 0) * 1 + (stand || 0) * 1 + (cook || 0) * 1;
     setTotalTime(calculatedTime); // Update totalTime based on the new time values
   };
+  //--------------------------Optional--------------------------
+  const [selectedMeal, setSelectedMeal] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState('');
+
+  const [selectedCountryId, setSelectedCountryId] = useState('')
+  const [selectedMealId, setSelectedMealId] = useState('')
+
+  const countryIdLookup = {};
+  const mealIdLookup = {};
+  allCountries?.data?.forEach(country => {
+    countryIdLookup[country.countryName] = country.countryId;
+  });
+  allMeals?.data?.forEach(meal => {
+    mealIdLookup[meal.mealName] = meal.mealId;
+  });
 
 
+  const handleMealChange = (newValue) => {
+    setSelectedMeal(newValue);
+    const selectedId = mealIdLookup[newValue];
+    setSelectedMealId(selectedId)
+  };
+  const handleCountryChange = (newValue) => {
+    setSelectedCountry(newValue);
+    const selectedId = countryIdLookup[newValue];
+    setSelectedCountryId(selectedId)
+
+  }
   return (
     <React.Fragment>
-
+      <ToastContainer />
 
       <CssBaseline />
       <Box sx={{ width: "100%", display: "flex" }}>
@@ -644,10 +677,15 @@ function CreateRecipe() {
                   sx={{ width: 180, paddingRight: 2 }}
                   options={allMeals?.data && allMeals.data.map((option) => option.mealName)}
                   getOptionLabel={(option) => option}
+                  value={selectedMeal}
+                  onChange={(event, newValue) => handleMealChange(newValue)}
                   renderInput={(params) => (
                     <TextField
                       {...params}
-
+                      value={selectedCountry}
+                      onChange={(e) =>
+                        handleMealChange(e.target.value)
+                      }
                     />
                   )} />
               </Box>
@@ -659,10 +697,15 @@ function CreateRecipe() {
                   sx={{ width: 350, paddingRight: 2 }}
                   options={allCountries?.data && allCountries?.data.map((option) => option.countryName)}
                   getOptionLabel={(option) => option}
+                  value={selectedCountry}
+                  onChange={(event, newValue) => handleCountryChange(newValue)}
                   renderInput={(params) => (
                     <TextField
                       {...params}
-
+                      value={selectedCountry}
+                      onChange={(e) =>
+                        handleCountryChange(e.target.value)
+                      }
                     />
                   )} />
               </Box>

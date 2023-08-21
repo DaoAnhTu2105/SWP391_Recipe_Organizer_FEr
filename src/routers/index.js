@@ -24,6 +24,8 @@ import ViewCooker from '../pages/ViewCooker'
 import PrivateRouters from './PrivateRouters'
 import AdminRouters from './AdminRouters'
 import SearchResult from '../pages/SearchResult'
+import UpdateRecipe from '../pages/UpdateRecipe'
+import MyRecipe from '../pages/MyRecipe'
 
 export const publicRouters = [
     {
@@ -105,7 +107,20 @@ export const privateRouters = [
         name: 'recipe-cooker',
         component: ViewCooker,
         layout: LayoutWithoutFilter,
+    }
+    ,
+    {
+        path: '/my-recipe',
+        name: 'my-recipe',
+        component: MyRecipe,
+        layout: LayoutWithoutFilter,
     },
+    {
+        path: '/update-recipe/:id',
+        name: 'update-recipe',
+        component: UpdateRecipe,
+        layout: LayoutWithoutFilter,
+    }
 ]
 
 export const adminRouters = [
@@ -126,7 +141,7 @@ export const adminRouters = [
         name: 'ingredient-detail',
         component: UpdateIngredient,
         layout: LayoutWithoutFilter,
-    },
+    }
 ]
 
 //Scroll Top when clicked another page
