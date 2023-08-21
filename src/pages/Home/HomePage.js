@@ -208,6 +208,7 @@ const HomePage = () => {
                                                             name="read-only"
                                                             value={bestRecipe?.aveVote}
                                                             readOnly
+                                                            precision={0.5}
                                                             size="small"
                                                         />
                                                         &nbsp; &nbsp;
@@ -287,6 +288,7 @@ const HomePage = () => {
                                                             name="read-only"
                                                             value={recipe.aveVote}
                                                             readOnly
+                                                            precision={0.5}
                                                             size="small"
                                                             sx={{ mt: 2 }}
                                                         />
