@@ -147,6 +147,7 @@ export default function UserList() {
     const [reload, setReload] = useState(false)
     const [id, setId] = useState();
     const [userStatus, setUserStatus] = useState()
+    const [userRole, setUserRole] = useState()
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(getAllUser({ movePage: page + 1, items: rowsPerPage }))
@@ -175,9 +176,10 @@ export default function UserList() {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-    const handleClickMenu = (event, id, status) => {
+    const handleClickMenu = (event, id, status, role) => {
         setId(id)
         setUserStatus(status)
+        setUserRole(role)
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
@@ -198,31 +200,64 @@ export default function UserList() {
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     await dispatch(changeRole({ id: id, role: role })).then((result) => {
-                        result.payload.message === "Success" ? toast.success('Successfully Update!') : toast.success('co cl')
-                        // console.log(result);
+                        result.payload.message === "Success" ? toast.success('Successfully Update!') : toast.error('co cl')
                         setReload(!reload)
                     }).catch((err) => {
                         console.log(err);
                     });
                 } else {
-                    toast.success('co cl')
+                    toast('Nothing Update!')
                 }
             });
         } else {
-            toast.success('co cl')
+            toast.error('Role cannot change because User is not Active!')
         }
     }
 
     const updateStatus = async () => {
-        await userStatus === 'Active' ? dispatch(banUser({ id: id })).then((result) => {
-            setReload(!reload)
-        }).catch((err) => {
-            console.log(err);
-        }) : dispatch(unbanUser({ id: id })).then((result) => {
-            setReload(!reload)
-        }).catch((err) => {
-            console.log(err);
-        });
+        await userStatus === 'Active' ? (
+            Swal.fire({
+                title: "Do you want to save the changes?",
+                icon: "info",
+                showCancelButton: true,
+                confirmButtonColor: "#285D9A",
+                cancelButtonColor: "#e74a3b",
+                confirmButtonText: "Yes, save it!",
+                background: "white",
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    await dispatch(banUser({ id: id })).then((result) => {
+                        result.payload.message === "Success" ? toast.success('Successfully Active User!') : toast.error(result.payload.message)
+                        setReload(!reload)
+                    }).catch((err) => {
+                        console.log(err);
+                    });
+                } else {
+                    toast('Nothing Update!')
+                }
+            })
+        ) : (
+            Swal.fire({
+                title: "Do you want to save the changes?",
+                icon: "info",
+                showCancelButton: true,
+                confirmButtonColor: "#285D9A",
+                cancelButtonColor: "#e74a3b",
+                confirmButtonText: "Yes, save it!",
+                background: "white",
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    await dispatch(unbanUser({ id: id })).then((result) => {
+                        result.payload.message === "Success" ? toast.success('Successfully DeActive User!') : toast.error(result.payload.message)
+                        setReload(!reload)
+                    }).catch((err) => {
+                        console.log(err);
+                    });
+                } else {
+                    toast('Nothing Update!')
+                }
+            })
+        )
         handleClose()
     }
 
@@ -290,7 +325,7 @@ export default function UserList() {
                                                         aria-expanded={open ? 'true' : undefined}
                                                         variant="contained"
                                                         disableElevation
-                                                        onClick={(event) => handleClickMenu(event, row.userId, row.status)}
+                                                        onClick={(event) => handleClickMenu(event, row.userId, row.status, row.roleName)}
                                                         endIcon={<KeyboardArrowDownIcon />}
                                                     >
                                                         Options
@@ -310,19 +345,25 @@ export default function UserList() {
                                                             }
                                                         }}
                                                     >
-                                                        <MenuItem onClick={() => updateStatus()} disableRipple>
-                                                            <ClearSharpIcon />
-                                                            DeActivate User
-                                                        </MenuItem>
+                                                        {userStatus === "Active"
+                                                            ? (<MenuItem onClick={() => updateStatus()} disableRipple>
+                                                                <ClearSharpIcon />
+                                                                DeActive Account
+                                                            </MenuItem>)
+                                                            : (<MenuItem onClick={() => updateStatus()} disableRipple>
+                                                                <ClearSharpIcon />
+                                                                Active Account
+                                                            </MenuItem>)}
                                                         <Divider sx={{ my: 0.5 }} />
-                                                        <MenuItem onClick={() => updateRole('User')} disableRipple>
-                                                            <EditIcon />
-                                                            Change to User
-                                                        </MenuItem>
-                                                        <MenuItem onClick={() => updateRole('Cooker')} disableRipple>
-                                                            <EditIcon />
-                                                            Change to Cooker
-                                                        </MenuItem>
+                                                        {userRole === "User"
+                                                            ? (<MenuItem onClick={() => updateRole('Cooker')} disableRipple>
+                                                                <EditIcon />
+                                                                Change to Cooker
+                                                            </MenuItem>)
+                                                            : (<MenuItem onClick={() => updateRole('User')} disableRipple>
+                                                                <EditIcon />
+                                                                Change to User
+                                                            </MenuItem>)}
                                                     </StyledMenu>
                                                 </div>
                                             </TableCell>
