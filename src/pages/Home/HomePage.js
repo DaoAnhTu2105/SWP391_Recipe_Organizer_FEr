@@ -27,20 +27,20 @@ const HomePage = () => {
     const bestRecipesAPI = useSelector((state) => state.bestRecipe.bestRecipes)
     const favoriteRecipeAPI = useSelector((state) => state.favoriteRecipe.favoriteRecipe)
     const status = useSelector((state) => state.getAllRecipes.isLoading)
-    const item1 =
-        getAllRecipesAPI?.data &&
-        getAllRecipesAPI?.data[Math.floor(Math.random() * getAllRecipesAPI.data.length)]
+    // const item1 =
+    //     getAllRecipesAPI?.data &&
+    //     getAllRecipesAPI?.data[Math.floor(Math.random() * getAllRecipesAPI.data.length)]
 
-    const item2 =
-        getAllRecipesAPI?.data &&
-        getAllRecipesAPI?.data[Math.floor(Math.random() * getAllRecipesAPI.data.length)]
+    // const item2 =
+    //     getAllRecipesAPI?.data &&
+    //     getAllRecipesAPI?.data[Math.floor(Math.random() * getAllRecipesAPI.data.length)]
 
     useEffect(() => {
         dispatch(fetchDataAsync())
         dispatchBestRecipes(bestRecipes())
         dispatchFavoriteRecipes(favoritesRecipe())
     }, [dispatch, dispatchBestRecipes, dispatchFavoriteRecipes])
-    console.log('favorite recipe API: ', favoriteRecipeAPI)
+
     return (
         <>
             {status === 'loading' ? (
@@ -206,7 +206,7 @@ const HomePage = () => {
                                                     >
                                                         <Rating
                                                             name="read-only"
-                                                            value={bestRecipe.aveVote}
+                                                            value={bestRecipe?.aveVote}
                                                             readOnly
                                                             size="small"
                                                         />
@@ -214,7 +214,7 @@ const HomePage = () => {
                                                         <span
                                                             style={{ color: 'rgba(71,71,71, 0.6)' }}
                                                         >
-                                                            {bestRecipe.totalReview}
+                                                            {bestRecipe?.totalReview} ratings
                                                         </span>
                                                     </Box>
                                                     <CardContent
@@ -228,9 +228,10 @@ const HomePage = () => {
                                                             variant="body3"
                                                             color="text.primary"
                                                         >
-                                                            {bestRecipe.totalFavorite}
+                                                            {bestRecipe?.totalFavorite}
                                                         </Typography>
-                                                        <Button
+                                                        &nbsp; &nbsp;
+                                                        <Typography
                                                             style={{
                                                                 backgroundColor: 'white',
                                                                 height: '20px',
@@ -239,9 +240,8 @@ const HomePage = () => {
                                                                 alignItems: 'center',
                                                                 outline: 'none',
                                                             }}
-                                                            onClick={''}
                                                         >
-                                                            {bestRecipe.isFavorite ? (
+                                                            {bestRecipe?.isFavorite ? (
                                                                 <FavoriteBorderIcon
                                                                     style={{ color: 'orange' }}
                                                                 />
@@ -250,7 +250,7 @@ const HomePage = () => {
                                                                     style={{ color: 'black' }}
                                                                 />
                                                             )}
-                                                        </Button>
+                                                        </Typography>
                                                     </CardContent>
                                                 </Link>
                                             </div>

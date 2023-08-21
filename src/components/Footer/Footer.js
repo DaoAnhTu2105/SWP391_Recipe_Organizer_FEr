@@ -104,7 +104,7 @@ const Footer = () => {
                             <p>Monthly digest of what's new and exciting from us.</p>
                             <div className="d-flex flex-column flex-sm-row w-100 gap-2">
                                 <label for="newsletter1" className="visually-hidden">
-                                    Email address
+                                    Email
                                 </label>
                                 <input
                                     id="newsletter1"

@@ -10,6 +10,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { getStorage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid'
+import { useParams } from 'react-router-dom';
 
 const CustomInput = React.forwardRef(function CustomInput(props, ref) {
     return (
@@ -23,6 +24,59 @@ const CustomInput = React.forwardRef(function CustomInput(props, ref) {
 });
 function UpdateRecipe() {
     //-------------------Get APIs HERE-----------------------------
+    const [updateRecipe, setUpdateRecipe] = useState('')
+    const { id } = useParams()
+
+    const recipeUpdateUrl = `https://recipe-organizer-api.azurewebsites.net/api/Recipes/Get?id=${id}`;
+
+    const getUpdateRecipe = () => {
+        fetch(recipeUpdateUrl)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                setUpdateRecipe(data)
+                setRecipeTitle(data?.data.recipeName)
+                setRecipeDescription(data?.data.description)
+                setDirectionFields(data?.data.directionVMs)
+                setIngredientFields(data?.data.ingredientOfRecipeVMs)
+                setNutritionValues(() => ({
+                    ['fat']: data.data.fat,
+                    ['carbs']: data.data.carbohydrate,
+                    ['protein']: data.data.protein,
+                }));
+                setTotalCalories(data?.data.calories)
+                setTimeValue(() => ({
+                    ['prep']: data.data.prepTime,
+                    ['stand']: data.data.standTime,
+                    ['cook']: data.data.cookTime,
+                }));
+                setTotalTime(data?.data.totalTime)
+                setServingAmount(data?.data.servings)
+            })
+            .catch((error) => console.log(error.message));
+    }
+
+    // const [allCountries, setAllCountries] = useState('')
+    // const allCountriesUrl = `https://recipe-organizer-api.azurewebsites.net/api/Countries/GetCountriesAdd`;
+
+    // const getAllCountries = () => {
+    //     fetch(allCountriesUrl)
+    //         .then((response) => {
+    //             if (!response.ok) {
+    //                 throw new Error(`HTTP Status: ${response.status}`);
+    //             }
+    //             return response.json();
+    //         })
+    //         .then((data) => {
+    //             setAllCountries(data)
+    //         })
+    //         .catch((error) => console.log(error.message));
+    // };
+
 
     const [allIngredients, setAllInredients] = useState('')
     const allIngredientsUrl = `https://recipe-organizer-api.azurewebsites.net/api/Ingredients/GetAll`;
@@ -61,6 +115,7 @@ function UpdateRecipe() {
         getAllCountries();
         getAllMeals();
         getAllIngredients();
+        getUpdateRecipe();
     }, []);
 
 
@@ -86,8 +141,8 @@ function UpdateRecipe() {
     })
     const [photoUrl, setPhotoUrl] = useState('')
 
-    const handleCreateRecipe = async () => {
-
+    const handleUpdateRecipe = async () => {
+        
         if (uploadedFile) {
             const imageRef = ref(storage, `Recipes/${uuidv4()}`);
             uploadBytes(imageRef, uploadedFile).then(() => {
@@ -105,21 +160,24 @@ function UpdateRecipe() {
                         console.log("url img", url)
                         const recipeName = recipeTitle;
                         const description = recipeDescription;
-                        const prepTimeSt = timeValue.prep;
-                        const cookTimeSt = timeValue.cook;
-                        const standTimeSt = timeValue.stand;
+                        const prepTimeSt = timeValue.prep+"";
+                        const cookTimeSt = timeValue.cook+"";
+                        const standTimeSt = timeValue.stand+"";
                         const totalTime = totalTimes;
-                        const servingsSt = servingAmount;
-                        const carbohydrateSt = nutritionValues.carbs;
-                        const proteinSt = nutritionValues.protein;
-                        const fatSt = nutritionValues.fat;
+                        const servingsSt = servingAmount+"";
+                        const carbohydrateSt = nutritionValues.carbs+"";
+                        const proteinSt = nutritionValues.protein+"";
+                        const fatSt = nutritionValues.fat+"";
                         const calories = totalCalories;
                         const photoVMs = {
                             photoName: url
                         }
                         const directionVMs = directionFields
                         const ingredientOfRecipeVMs = ingredientFields
+                        const recipeId = id
+                        console.log("reId",recipeId)
                         const payload = {
+                            recipeId,
                             recipeName,
                             description,
                             prepTimeSt,
@@ -141,9 +199,9 @@ function UpdateRecipe() {
                             const user = JSON.parse(localStorage.getItem('user'))
                             const accessToken = user?.token
                             const response = await fetch(
-                                'https://recipe-organizer-api.azurewebsites.net/api/Recipes/AddRecipe',
+                                `https://recipe-organizer-api.azurewebsites.net/api/Recipes/UpdateRecipe?id=${id}`,
                                 {
-                                    method: 'POST',
+                                    method: 'PUT',
                                     headers: {
                                         'Content-Type': 'application/json',
                                         'Authorization': `Bearer ${accessToken}`
@@ -313,7 +371,33 @@ function UpdateRecipe() {
         const calculatedTime = (prep || 0) * 1 + (stand || 0) * 1 + (cook || 0) * 1;
         setTotalTime(calculatedTime); // Update totalTime based on the new time values
     };
+    //--------------------------Optional--------------------------
+    const [selectedMeal, setSelectedMeal] = useState('');
+    const [selectedCountry, setSelectedCountry] = useState('');
 
+    const [selectedCountryId, setSelectedCountryId] = useState('')
+    const [selectedMealId, setSelectedMealId] = useState('')
+
+    const countryIdLookup = {};
+    const mealIdLookup = {};
+    allCountries?.data?.forEach(country => {
+        countryIdLookup[country.countryName] = country.countryId;
+    });
+    allMeals?.data?.forEach(meal => {
+        mealIdLookup[meal.mealName] = meal.mealId;
+    });
+
+
+    const handleMealChange = (newValue) => {
+        setSelectedMeal(newValue);
+        const selectedId = mealIdLookup[newValue];
+        setSelectedMealId(selectedId)
+    };
+    const handleCountryChange = (newValue) => {
+        setSelectedCountry(newValue);
+        const selectedId = countryIdLookup[newValue];
+        setSelectedCountryId(selectedId)
+    };
 
     return (
         <React.Fragment>
@@ -326,7 +410,7 @@ function UpdateRecipe() {
                 </Box>
 
                 <Container sx={{ bgcolor: '#fff', border: "ridge", maxHeight: "auto", marginBottom: "50px", marginTop: "80px" }} maxWidth="sm" >
-                    <Typography sx={{ paddingLeft: "30px", fontFamily: "Cursive", paddingBottom: "20px" }} variant="h3" component="h2"> Add recipe </Typography>
+                    <Typography sx={{ paddingLeft: "30px", fontFamily: "Cursive", paddingBottom: "20px" }} variant="h3" component="h2"> Update recipe </Typography>
                     <Typography sx={{ fontSize: "15px" }} variant="subtitle1" gutterBottom> Uploading personal recipes is easy! Add yours to your favorites, share with friends, family, or the Allrecipes community.</Typography>
                     <Divider sx={{ width: "70", fontWeight: "bold", marginTop: "20px", marginBottom: "20px" }} />
 
@@ -336,7 +420,7 @@ function UpdateRecipe() {
                             <Box sx={{ paddingRight: "30px" }}>
                                 <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom> Recipe Title </Typography>
                                 <OutlinedInput
-                                    placeholder="Give your recipe a title"
+                                    placeholder={updateRecipe.recipeName}
                                     sx={{ width: "320px" }}
                                     value={recipeTitle}
                                     onChange={handleTitleChange} />
@@ -398,8 +482,8 @@ function UpdateRecipe() {
                                         <Autocomplete
                                             freeSolo
                                             sx={{ width: 500, paddingRight: 2 }}
-                                            options={allIngredients?.data && allIngredients?.data.map((option) => option.ingredientName + '  -  ' + option.measure)}
-                                            value={field.ingredient}
+                                            options={allIngredients?.data?.map((option) => option.ingredientName + '  -  ' + option.measure)}
+                                            value={field.ingredientName}
                                             getOptionLabel={(option) => option}
                                             onChange={(event, newValue) => handleChange(field.id, 'ingredientName', newValue)}
                                             renderInput={(params) => (
@@ -407,7 +491,7 @@ function UpdateRecipe() {
                                                     {...params}
                                                     key={field.id}
                                                     label="Select ingredient"
-                                                    value={field.ingredient}
+                                                    value={field.ingredientName}
                                                     onChange={(e) =>
                                                         handleChange(field.id, 'ingredientName', e.target.value)
                                                     }
@@ -621,7 +705,7 @@ function UpdateRecipe() {
                         <Box sx={{ width: "80", display: "flex" }}>
                             <Box sx={{ paddingRight: "20px" }}>
                                 <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom> Servings </Typography>
-                                <OutlinedInput onChange={handleServingChange} placeholder="1" type='number' inputProps={{ min: 1 }} />
+                                <OutlinedInput onChange={handleServingChange} placeholder="1" value={servingAmount} type='number' inputProps={{ min: 1 }} />
                             </Box>
 
 
@@ -644,10 +728,15 @@ function UpdateRecipe() {
                                     sx={{ width: 180, paddingRight: 2 }}
                                     options={allMeals?.data && allMeals.data.map((option) => option.mealName)}
                                     getOptionLabel={(option) => option}
+                                    value={selectedMeal}
+                                    onChange={(event, newValue) => handleMealChange(newValue)}
                                     renderInput={(params) => (
                                         <TextField
                                             {...params}
-
+                                            value={selectedCountry}
+                                            onChange={(e) =>
+                                                handleMealChange(e.target.value)
+                                            }
                                         />
                                     )} />
                             </Box>
@@ -659,10 +748,15 @@ function UpdateRecipe() {
                                     sx={{ width: 350, paddingRight: 2 }}
                                     options={allCountries?.data && allCountries?.data.map((option) => option.countryName)}
                                     getOptionLabel={(option) => option}
+                                    value={selectedCountry}
+                                    onChange={(event, newValue) => handleCountryChange(newValue)}
                                     renderInput={(params) => (
                                         <TextField
                                             {...params}
-
+                                            value={selectedCountry}
+                                            onChange={(e) =>
+                                                handleCountryChange(e.target.value)
+                                            }
                                         />
                                     )} />
                             </Box>
@@ -678,7 +772,7 @@ function UpdateRecipe() {
 
                     <Box sx={{ alignItems: "center", marginBottom: "50px", paddingLeft: "240px" }}>
                         <Button sx={{ color: "black", fontWeight: "bold", paddingRight: "20px" }}>Cancel</Button>
-                        <Button onClick={handleCreateRecipe} variant="contained" sx={{ backgroundColor: "rgb(243, 156, 18) !important", width: "196" }} disableElevation>
+                        <Button onClick={handleUpdateRecipe} variant="contained" sx={{ backgroundColor: "rgb(243, 156, 18) !important", width: "196" }} disableElevation>
                             Submit Recipe
                         </Button>
                     </Box>

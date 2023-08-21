@@ -126,7 +126,7 @@ EnhancedTableHead.propTypes = {
     rowCount: PropTypes.number.isRequired,
 }
 
-export default function UserList() {
+export default function IngredientList() {
     const [selected, setSelected] = React.useState([])
     const [page, setPage] = React.useState(0)
     const [rowsPerPage, setRowsPerPage] = React.useState(10)
@@ -186,11 +186,10 @@ export default function UserList() {
         setValue({ ...value, ingredientName: "", measure: "" })
     }
 
-    const deleteIngredient = () => {
-        dispatch(removeIngredient({ id: id }))
-        setReload(!reload)
-        handleClose()
-    }
+    const deleteIngredient = async () => {
+        await dispatch(removeIngredient({ id: id })).then(setReload(!reload))
+        handleClose();
+    };
 
     let content
     if (status === 'loading') {

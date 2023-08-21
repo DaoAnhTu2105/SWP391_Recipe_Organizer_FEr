@@ -9,17 +9,17 @@ import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
-import PersonAdd from '@mui/icons-material/PersonAdd'
 import Logout from '@mui/icons-material/Logout'
 import { useNavigate, Link } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
+import Cookies from 'js-cookie'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import { Fragment } from 'react'
 
 const Header = () => {
-    const [cookies, setCookie, removeCookie] = useCookies(['user'])
+    const [cookies, removeCookie] = useCookies(['user'])
     const storedUserData = cookies.user
     const [anchorEl, setAnchorEl] = React.useState(null)
     const navigate = useNavigate()
@@ -32,6 +32,7 @@ const Header = () => {
     }
     const handleLogout = () => {
         removeCookie('user')
+        Cookies.remove('user')
         localStorage.removeItem('user');
         navigate('/')
     }
@@ -59,33 +60,49 @@ const Header = () => {
                                         Home
                                     </Link>
                                 </li>
-                                <li>
-                                    <Link
-                                        to="/plan"
-                                        className="nav-link px-2 link-dark"
-                                        style={{ fontSize: '20px' }}
-                                    >
-                                        Meal Plan
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to="/user-list"
-                                        className="nav-link px-2 link-dark"
-                                        style={{ fontSize: '20px' }}
-                                    >
-                                        User List
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to="/ingredient-list"
-                                        className="nav-link px-2 link-dark"
-                                        style={{ fontSize: '20px' }}
-                                    >
-                                        Ingredients List
-                                    </Link>
-                                </li>
+                                {user?.role === 'Admin' ? (
+                                    <Fragment>
+                                        <li>
+                                            <Link
+                                                to="/user-list"
+                                                className="nav-link px-2 link-dark"
+                                                style={{ fontSize: '20px' }}
+                                            >
+                                                User List
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link
+                                                to="/ingredient-list"
+                                                className="nav-link px-2 link-dark"
+                                                style={{ fontSize: '20px' }}
+                                            >
+                                                Ingredients List
+                                            </Link>
+                                        </li>
+                                    </Fragment>
+                                ) : (
+                                    <Fragment>
+                                        <li>
+                                            <Link
+                                                to="/plan"
+                                                className="nav-link px-2 link-dark"
+                                                style={{ fontSize: '20px' }}
+                                            >
+                                                Meal Plan
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link
+                                                to="/create-recipe"
+                                                className="nav-link px-2 link-dark"
+                                                style={{ fontSize: '20px' }}
+                                            >
+                                                Add recipe
+                                            </Link>
+                                        </li>
+                                    </Fragment>
+                                )}
                                 <li>
                                     {storedUserData ? (
                                         <>
@@ -171,28 +188,7 @@ const Header = () => {
                                                         </Typography>
                                                     </Link>
                                                 </MenuItem>
-                                                {/* <MenuItem onClick={handleClose}>
-                                                            <Avatar /> My account
-                                                        </MenuItem> */}
                                                 <Divider />
-                                                <MenuItem onClick={handleClose}>
-                                                    <Link
-                                                        to={'/create-recipe'}
-                                                        style={{
-                                                            alignContent: 'center',
-                                                            textDecoration: 'none',
-                                                            color: 'inherit',
-                                                            display: 'flex',
-                                                        }}
-                                                    >
-                                                        <ListItemIcon>
-                                                            <AddCircleOutlineIcon fontSize="small" />
-                                                        </ListItemIcon>
-                                                        <Typography variant="h6" fontSize={20}>
-                                                            Add recipe
-                                                        </Typography>
-                                                    </Link>
-                                                </MenuItem>
                                                 <MenuItem onClick={handleClose}>
                                                     <Link
                                                         to="/favorite-recipe"
@@ -227,21 +223,16 @@ const Header = () => {
                                                 </MenuItem>
                                                 <MenuItem onClick={handleLogout}>
                                                     <ListItemIcon>
-                                                        <a
-                                                            style={{ display: 'flex' }}
-                                                            href="#"
+                                                        <Logout fontSize="small" />
+                                                        <Typography
+                                                            variant="h6"
+                                                            sx={{
+                                                                paddingLeft: '10px',
+                                                                fontSize: '20px',
+                                                            }}
                                                         >
-                                                            <Logout fontSize="small" />
-                                                            <Typography
-                                                                variant="h6"
-                                                                sx={{
-                                                                    paddingLeft: '10px',
-                                                                    fontSize: '20px',
-                                                                }}
-                                                            >
-                                                                Logout
-                                                            </Typography>
-                                                        </a>
+                                                            Logout
+                                                        </Typography>
                                                     </ListItemIcon>
                                                 </MenuItem>
                                             </Menu>

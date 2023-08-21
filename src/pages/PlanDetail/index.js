@@ -1,24 +1,275 @@
 import './index.css'
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate, useParams, Link } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import Food from './Food'
-import { getPlanByDate } from '../../redux/apiThunk/planThunk'
+import { getPlanByDate, createPlan } from '../../redux/apiThunk/planThunk'
+import CircularProgress from "@mui/material/CircularProgress";
+import { useState } from 'react'
+import { fetchDataAsync } from '../../redux/apiThunk/getAllRecipesThunk'
+
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+
+const formatDate = (date) => {
+    const [d, m, y] = date.split("-");
+    return m + "/" + d + "/" + y
+}
 
 const PlanDetail = () => {
     const { date } = useParams();
+    const [data, setData] = useState({
+        recipeId: "",
+        dateSt: formatDate(date),
+        mealOfDate: ""
+    })
     const dispatch = useDispatch();
-    const formatDate = (date) => {
-        const [d, m, y] = date.split("-");
+    const [reload, setReload] = useState(false)
+    const getAllRecipesAPI = useSelector((state) => state.getAllRecipes.getAllRecipes)
+    useEffect(() => {
+        dispatch(fetchDataAsync())
+        dispatch(getPlanByDate({ date: formatDate(date) }))
+    }, [dispatch, date, reload]);
+
+    const planDetail = useSelector((state) => state.plan);
+    const dataStatus = useSelector((state) => state.plan.loading)
+
+    const handleReload = () => {
+        setReload(!reload)
+    }
+
+    const handleFormCreate = async (e) => {
+        e.preventDefault()
+        await dispatch(createPlan({ data: data }))
+        setReload(!reload)
+        setShow(false)
+        // console.log(data);
+    }
+    const [show, setShow] = useState(false);
+    const formatData = (date) => {
+        const [y, m, d] = date.split("-");
         return m + "/" + d + "/" + y
     }
-    useEffect(() => {
-        dispatch(getPlanByDate({ date: formatDate(date) }));
-    }, [dispatch, date]);
-    const planDetail = useSelector((state) => state.plan);
-    // console.log(planDetail.detail);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    let content
+    if (dataStatus === 'loading') {
+        content = (
+            <CircularProgress
+                sx={{
+                    marginTop: '10%',
+                    marginLeft: '47%',
+                    marginBottom: '10%'
+                }}
+            />
+        )
+    } else if (dataStatus === 'succeeded' && (planDetail?.detail.data && planDetail?.detail.data?.ingredient.length === 0)) {
+        content = (
+            <div className="container meal-detail">
+                <div className="meal">
+                    {/* <div className="title"> */}
+                    <Typography variant="h5" align="center" color="text.secondary" paragraph>
+                        You have no plan at {date}
+                        <div style={{ marginTop: '10px' }}>
+                            <Button variant="primary" onClick={handleShow}>
+                                Add More Recipe
+                            </Button>
+                            <Modal show={show} onHide={handleClose}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Modal heading</Modal.Title>
+                                </Modal.Header>
+                                <form onSubmit={e => handleFormCreate(e)}>
+                                    <Modal.Body>
+                                        <div class="form-group">
+                                            <label htmFor="recipe">Recipe</label>
+                                            <select id="recipe" class="form-control" onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
+                                                <option>...</option>
+                                                {getAllRecipesAPI?.data?.map((item) => (
+                                                    <option value={item.recipeId}>{item.recipeName}</option>
+                                                ))}
+                                            </select>
+                                            <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label htmFor="meal">Meal of date</label>
+                                            <select id="meal" class="form-control" onChange={(e) => setData({ ...data, mealOfDate: e.target.value })} required>
+                                                <option>...</option>
+                                                <option value="1">BreakFast</option>
+                                                <option value="2">Lunch</option>
+                                                <option value="3">Dinner</option>
+                                            </select>
+                                        </div>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <Button variant="secondary" onClick={handleClose}>
+                                            Close
+                                        </Button>
+                                        <Button variant="primary" type='submid' >
+                                            Save Changes
+                                        </Button>
+                                    </Modal.Footer>
+                                </form>
+                            </Modal>
+                        </div>
+                    </Typography>
+                    {/* </div> */}
+                </div>
+            </div>)
+    } else {
+        content = (<div className="container meal-detail">
+            <div className="meal">
+                <div className="title">
+                    <h4>Meal Planner</h4>
+                    <div>
+                        <Button variant="primary" onClick={handleShow}>
+                            Add More Recipe
+                        </Button>
+                        <Modal show={show} onHide={handleClose}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Modal heading</Modal.Title>
+                            </Modal.Header>
+                            <form onSubmit={e => handleFormCreate(e)}>
+                                <Modal.Body>
+                                    <div class="form-group">
+                                        <label htmFor="recipe">Recipe</label>
+                                        <select id="recipe" class="form-control" onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
+                                            <option>...</option>
+                                            {getAllRecipesAPI?.data?.map((item) => (
+                                                <option value={item.recipeId}>{item.recipeName}</option>
+                                            ))}
+                                        </select>
+                                        <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label htmFor="meal">Meal of date</label>
+                                        <select id="meal" class="form-control" onChange={(e) => setData({ ...data, mealOfDate: e.target.value })} required>
+                                            <option>...</option>
+                                            <option value="1">BreakFast</option>
+                                            <option value="2">Lunch</option>
+                                            <option value="3">Dinner</option>
+                                        </select>
+                                    </div>
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <Button variant="secondary" onClick={handleClose}>
+                                        Close
+                                    </Button>
+                                    <Button variant="primary" type='submid' >
+                                        Save Changes
+                                    </Button>
+                                </Modal.Footer>
+                            </form>
+                        </Modal>
+                        <button className="clear">Clear All</button>
+                    </div>
+                </div>
+                <div className="title">
+                    <h4>Nutrition Facts (per serving)</h4>
+                    <div className="nutrition">
+                        <div className="nutrition-component">
+                            Calories: <b>{planDetail?.detail.data?.calories}g</b>
+                        </div>
+                        <div className="nutrition-component">
+                            Fat: <b>{planDetail?.detail.data?.fat}g</b>
+                        </div>
+                        <div className="nutrition-component">
+                            Carbs: <b>{planDetail?.detail.data?.carbs}g</b>
+                        </div>
+                        <div className="nutrition-component">
+                            Protein: <b>{planDetail?.detail.data?.protein}g</b>
+                        </div>
+                    </div>
+                </div>
+                <div className="title">
+                    <h4>Breakfast</h4>
+                    {planDetail?.detail.data?.food.breakfast?.map((food) => (
+                        <Fragment>
+                            <Food
+                                date={date}
+                                id={food.planDetailId}
+                                foodId={food.recipeId}
+                                name={food.recipeName}
+                                image={food.photos}
+                                time={food.totalTime}
+                                ingredient={food.totalIngredient}
+                                calories={food.calories}
+                                fat={food.fat}
+                                carbohydrate={food.carbohydrate}
+                                protein={food.protein}
+                                handleReload={handleReload}
+                            />
+                            <br></br>
+                        </Fragment>
+                    ))}
+                </div>
+                <div className="title">
+                    <h4>Lunch</h4>
+                    {planDetail?.detail.data?.food.lunch?.map((food) => (
+                        <Fragment>
+                            <Food
+                                date={date}
+                                id={food.planDetailId}
+                                foodId={food.recipeId}
+                                name={food.recipeName}
+                                image={food.photos}
+                                time={food.totalTime}
+                                ingredient={food.totalIngredient}
+                                calories={food.calories}
+                                fat={food.fat}
+                                carbohydrate={food.carbohydrate}
+                                protein={food.protein}
+                                handleReload={handleReload}
+                            />
+                            <br></br>
+                        </Fragment>
+                    ))}
+                </div>
+                <div className="title">
+                    <h4>Dinner</h4>
+                    {planDetail?.detail.data?.food.dinner?.map((food) => (
+                        <Fragment>
+                            <Food
+                                date={date}
+                                id={food.planDetailId}
+                                foodId={food.recipeId}
+                                name={food.recipeName}
+                                image={food.photos}
+                                time={food.totalTime}
+                                ingredient={food.totalIngredient}
+                                calories={food.calories}
+                                fat={food.fat}
+                                carbohydrate={food.carbohydrate}
+                                protein={food.protein}
+                                handleReload={handleReload}
+                            />
+                            <br></br>
+                        </Fragment>
+                    ))}
+                </div>
+            </div>
+            <div className="ingredient">
+                <div className="ingredients">
+                    <h4>Shopping List</h4>
+                    {planDetail?.detail.data?.ingredient?.map((item, index) => (
+                        <div className="custom-control custom-checkbox">
+                            <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id="index"
+                            />
+                            <label className="custom-control-label" htmlFor={index}>
+                                {item?.totalQuantity} {item?.ingredientName}
+                            </label>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>)
+    }
+
     return (
         <Fragment>
             <Container maxWidth="md">
@@ -35,160 +286,7 @@ const PlanDetail = () => {
                     View your meal plan of week
                 </Typography>
             </Container>
-            <div className="container meal-detail">
-                <div className="meal">
-                    <div className="title">
-                        <h4>Meal Planner</h4>
-                        <div>
-                            <button className="add">Add More Recipes</button>
-                            <button className="clear">Clear All</button>
-                        </div>
-                    </div>
-                    <div className="title">
-                        <h4>Nutrition Facts (per serving)</h4>
-                        <div className="nutrition">
-                            <div className="nutrition-component">
-                                Calories: <b>409</b>
-                            </div>
-                            <div className="nutrition-component">
-                                Fat: <b>8g</b>
-                            </div>
-                            <div className="nutrition-component">
-                                Carbs: <b>73g</b>
-                            </div>
-                            <div className="nutrition-component">
-                                Protein: <b>11g</b>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="title">
-                        <h4>Breakfast</h4>
-                        <Food
-                            image="https://www.allrecipes.com/thmb/DZ5WtIe2s6rGk-rIEZDkMA6mGj4=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7568285-perfect-pancakes-KH-4x3-218e2c39174c4a2293fca0ab752b38a8.jpg"
-                            name="Perfect Pancakes"
-                            time="120"
-                            ingredient="10"
-                        />
-                    </div>
-                    <div className="title">
-                        <h4>Lunch</h4>
-                        <Food
-                            image="https://food.fnr.sndimg.com/content/dam/images/food/fullset/2020/07/14/0/FNK_AIR-FRYER-FRIED-OREOS_H-f_s4x3.jpg.rend.hgtvcom.616.493.suffix/1594743965661.jpeg"
-                            name="Deep-Fried Oreos"
-                            time="20"
-                            ingredient="10"
-                        />
-                        <br></br>
-                        <Food
-                            image="https://pinchofyum.com/wp-content/uploads/Sesame-Noodles-with-Chicken-Square.jpg"
-                            name="Sesame Noodles"
-                            time="20"
-                            ingredient="10"
-                        />
-                    </div>
-                    <div className="title">
-                        <h4>Dinner</h4>
-                        <Food
-                            image="https://girlscangrill.com/wp-content/uploads/2022/07/turkey-legs-hero.jpg"
-                            name="Grilled Turkey Legs"
-                            time="20"
-                            ingredient="10"
-                        />
-                    </div>
-                </div>
-                <div className="ingredient">
-                    <div className="ingredients">
-                        <h4>Shopping List</h4>
-                        <div className="custom-control custom-checkbox">
-                            <input
-                                type="checkbox"
-                                className="custom-control-input"
-                                id="customCheck1"
-                            />
-                            <label className="custom-control-label" htmlFor="customCheck1">
-                                4 Tbsp (57 gr) butter
-                            </label>
-                        </div>
-
-                        <div className="custom-control custom-checkbox">
-                            <input
-                                type="checkbox"
-                                className="custom-control-input"
-                                id="customCheck2"
-                            />
-                            <label className="custom-control-label" htmlFor="customCheck2">
-                                2 large eggs
-                            </label>
-                        </div>
-
-                        <div className="custom-control custom-checkbox">
-                            <input
-                                type="checkbox"
-                                className="custom-control-input"
-                                id="customCheck3"
-                            />
-                            <label className="custom-control-label" htmlFor="customCheck3">
-                                2 yogurt containers granulated sugar
-                            </label>
-                        </div>
-
-                        <div className="custom-control custom-checkbox">
-                            <input
-                                type="checkbox"
-                                className="custom-control-input"
-                                id="customCheck4"
-                            />
-                            <label className="custom-control-label" htmlFor="customCheck4">
-                                1 vanilla or plain yogurt, 170g container
-                            </label>
-                        </div>
-
-                        <div className="custom-control custom-checkbox">
-                            <input
-                                type="checkbox"
-                                className="custom-control-input"
-                                id="customCheck5"
-                            />
-                            <label className="custom-control-label" htmlFor="customCheck5">
-                                2 yogurt containers unbleached white flour
-                            </label>
-                        </div>
-
-                        <div className="custom-control custom-checkbox">
-                            <input
-                                type="checkbox"
-                                className="custom-control-input"
-                                id="customCheck6"
-                            />
-                            <label className="custom-control-label" htmlFor="customCheck6">
-                                1.5 yogurt containers milk
-                            </label>
-                        </div>
-
-                        <div className="custom-control custom-checkbox">
-                            <input
-                                type="checkbox"
-                                className="custom-control-input"
-                                id="customCheck7"
-                            />
-                            <label className="custom-control-label" htmlFor="customCheck7">
-                                1/4 tsp cinnamon
-                            </label>
-                        </div>
-
-                        <div className="custom-control custom-checkbox">
-                            <input
-                                type="checkbox"
-                                className="custom-control-input"
-                                id="customCheck8"
-                            />
-                            <label className="custom-control-label" htmlFor="customCheck8">
-                                1 cup fresh blueberries{' '}
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {content}
         </Fragment>
     )
 }

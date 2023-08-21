@@ -114,6 +114,12 @@ export const privateRouters = [
         name: 'my-recipe',
         component: MyRecipe,
         layout: LayoutWithoutFilter,
+    },
+    {
+        path: '/update-recipe/:id',
+        name: 'update-recipe',
+        component: UpdateRecipe,
+        layout: LayoutWithoutFilter,
     }
 ]
 
@@ -134,12 +140,6 @@ export const adminRouters = [
         path: '/ingredient-detail/:id',
         name: 'ingredient-detail',
         component: UpdateIngredient,
-        layout: LayoutWithoutFilter,
-    },
-    {
-        path: '/recipe-update/:id',
-        name: 'update-recipe',
-        component: UpdateRecipe,
         layout: LayoutWithoutFilter,
     }
 ]

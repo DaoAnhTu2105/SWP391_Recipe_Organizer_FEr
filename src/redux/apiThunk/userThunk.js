@@ -19,7 +19,7 @@ export const getAllUser = createAsyncThunk(
 );
 
 export const changeRole = createAsyncThunk(
-    "uesr/fetchUser",
+    "uesr/changeRole",
     async ({ id, role }, thunkAPI) => {
         try {
             const response = await updateRole(id, role);
