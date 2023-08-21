@@ -6,114 +6,114 @@ import Link from '@mui/material/Link'
 const Footer = () => {
     return (
         <div style={{ borderTop: '1px solid #eee', backgroundColor: '#eee' }}>
-            <div class="container">
-                <footer class="py-5 footer-container">
-                    <div class="footer-component">
+            <div className="container">
+                <footer className="py-5 footer-container">
+                    <div className="footer-component">
                         <h5 style={{ color: '#f39c12' }}>Section</h5>
-                        <ul class="nav flex-column">
-                            <li class="nav-item mb-2">
-                                <a href="/#" class="nav-link p-0 text-muted">
+                        <ul className="nav flex-column">
+                            <li className="nav-item mb-2">
+                                <a href="/#" className="nav-link p-0 text-muted">
                                     Home
                                 </a>
                             </li>
-                            <li class="nav-item mb-2">
-                                <a href="/#" class="nav-link p-0 text-muted">
+                            <li className="nav-item mb-2">
+                                <a href="/#" className="nav-link p-0 text-muted">
                                     Features
                                 </a>
                             </li>
-                            <li class="nav-item mb-2">
-                                <a href="/#" class="nav-link p-0 text-muted">
+                            <li className="nav-item mb-2">
+                                <a href="/#" className="nav-link p-0 text-muted">
                                     Pricing
                                 </a>
                             </li>
-                            <li class="nav-item mb-2">
-                                <a href="/#" class="nav-link p-0 text-muted">
+                            <li className="nav-item mb-2">
+                                <a href="/#" className="nav-link p-0 text-muted">
                                     FAQs
                                 </a>
                             </li>
-                            <li class="nav-item mb-2">
-                                <a href="/#" class="nav-link p-0 text-muted">
+                            <li className="nav-item mb-2">
+                                <a href="/#" className="nav-link p-0 text-muted">
                                     About
                                 </a>
                             </li>
                         </ul>
                     </div>
-                    <div class="footer-component">
+                    <div className="footer-component">
                         <h5 style={{ color: '#f39c12' }}>Section</h5>
-                        <ul class="nav flex-column">
-                            <li class="nav-item mb-2">
-                                <a href="/#" class="nav-link p-0 text-muted">
+                        <ul className="nav flex-column">
+                            <li className="nav-item mb-2">
+                                <a href="/#" className="nav-link p-0 text-muted">
                                     Home
                                 </a>
                             </li>
-                            <li class="nav-item mb-2">
-                                <a href="/#" class="nav-link p-0 text-muted">
+                            <li className="nav-item mb-2">
+                                <a href="/#" className="nav-link p-0 text-muted">
                                     Features
                                 </a>
                             </li>
-                            <li class="nav-item mb-2">
-                                <a href="/#" class="nav-link p-0 text-muted">
+                            <li className="nav-item mb-2">
+                                <a href="/#" className="nav-link p-0 text-muted">
                                     Pricing
                                 </a>
                             </li>
-                            <li class="nav-item mb-2">
-                                <a href="/#" class="nav-link p-0 text-muted">
+                            <li className="nav-item mb-2">
+                                <a href="/#" className="nav-link p-0 text-muted">
                                     FAQs
                                 </a>
                             </li>
-                            <li class="nav-item mb-2">
-                                <a href="/#" class="nav-link p-0 text-muted">
+                            <li className="nav-item mb-2">
+                                <a href="/#" className="nav-link p-0 text-muted">
                                     About
                                 </a>
                             </li>
                         </ul>
                     </div>
-                    <div class="footer-component">
+                    <div className="footer-component">
                         <h5 style={{ color: '#f39c12' }}>Section</h5>
-                        <ul class="nav flex-column">
-                            <li class="nav-item mb-2">
-                                <a href="/#" class="nav-link p-0 text-muted">
+                        <ul className="nav flex-column">
+                            <li className="nav-item mb-2">
+                                <a href="/#" className="nav-link p-0 text-muted">
                                     Home
                                 </a>
                             </li>
-                            <li class="nav-item mb-2">
-                                <a href="/#" class="nav-link p-0 text-muted">
+                            <li className="nav-item mb-2">
+                                <a href="/#" className="nav-link p-0 text-muted">
                                     Features
                                 </a>
                             </li>
-                            <li class="nav-item mb-2">
-                                <a href="/#" class="nav-link p-0 text-muted">
+                            <li className="nav-item mb-2">
+                                <a href="/#" className="nav-link p-0 text-muted">
                                     Pricing
                                 </a>
                             </li>
-                            <li class="nav-item mb-2">
-                                <a href="/#" class="nav-link p-0 text-muted">
+                            <li className="nav-item mb-2">
+                                <a href="/#" className="nav-link p-0 text-muted">
                                     FAQs
                                 </a>
                             </li>
-                            <li class="nav-item mb-2">
-                                <a href="/#" class="nav-link p-0 text-muted">
+                            <li className="nav-item mb-2">
+                                <a href="/#" className="nav-link p-0 text-muted">
                                     About
                                 </a>
                             </li>
                         </ul>
                     </div>
-                    <div class="col-md-5 offset-md-1 mb-3">
+                    <div className="col-md-5 offset-md-1 mb-3">
                         <form>
                             <h5 style={{ color: '#f39c12' }}>Subscribe to our newsletter</h5>
                             <p>Monthly digest of what's new and exciting from us.</p>
-                            <div class="d-flex flex-column flex-sm-row w-100 gap-2">
-                                <label htmlFor="newsletter1" class="visually-hidden">
-                                    Email address
+                            <div className="d-flex flex-column flex-sm-row w-100 gap-2">
+                                <label for="newsletter1" className="visually-hidden">
+                                    Email
                                 </label>
                                 <input
                                     id="newsletter1"
                                     type="text"
-                                    class="form-control"
+                                    className="form-control"
                                     placeholder="Email address"
                                 />
                                 <button
-                                    class="btn btn-primary"
+                                    className="btn btn-primary"
                                     type="button"
                                     style={{ backgroundColor: '#f39c12' }}
                                 >
@@ -124,9 +124,9 @@ const Footer = () => {
                     </div>
                 </footer>
             </div>
-            <div class="d-flex flex-column flex-sm-row justify-content-between py-4 border-top container">
+            <div className="d-flex flex-column flex-sm-row justify-content-between py-4 border-top container">
                 <p>© 2022 Company, Inc. All rights reserved.</p>
-                <ul class="list-unstyled d-flex">
+                <ul className="list-unstyled d-flex">
                     <Link to="https://www.facebook.com/" color="inherit">
                         <Facebook />
                     </Link>
