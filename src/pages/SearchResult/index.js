@@ -10,6 +10,11 @@ const SearchResult = () => {
     return (
         <>
             <div className="container">
+                <h2 style={{ fontWeight: 600, color: '#f39c12', textAlign: 'center' }}>
+                    Search Results
+                </h2>
+            </div>
+            <div className="container">
                 {result.length === 0 ? (
                     <div>
                         <h1 style={{ textAlign: 'center' }}>Couldn't find any recipes</h1>
@@ -35,43 +40,60 @@ const SearchResult = () => {
                         </div>
                     </div>
                 ) : (
-                    <div className="row justify-content-center mt-5">
-                        {result &&
-                            Array.isArray(result) &&
-                            result.map((recipe) => (
-                                <div className="col-sm-4 mb-4" key={recipe.recipeId}>
-                                    <Card style={{ width: 345, maxHeight: 470 }}>
-                                        <Link to={`/recipe-detail/${recipe.recipeId}`}>
-                                            <CardMedia
-                                                component="img"
-                                                style={{ width: 350, height: 194 }}
-                                                image={recipe.photoVMs[0].photoName}
-                                                alt="Perfect Pancakes"
-                                            />
-                                            <Rating
-                                                name="read-only"
-                                                value={recipe.aveVote}
-                                                readOnly
-                                                size="small"
-                                                sx={{ mt: 2 }}
-                                            />
-                                            <CardContent>
-                                                <Typography variant="body3" color="text.secondary">
-                                                    {new Date(
-                                                        recipe.updateTime
-                                                    ).toLocaleDateString()}
-                                                </Typography>
-                                                <br></br>
-                                                <br></br>
-                                                <Typography variant="body2" color="text.primary">
-                                                    {recipe.recipeName}
-                                                </Typography>
-                                            </CardContent>
-                                        </Link>
-                                    </Card>
-                                </div>
-                            ))}
-                    </div>
+                    <>
+                        <div
+                            className="container mb-5"
+                            style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(3, 1fr)',
+                                gap: '40px',
+                                paddingTop: 30,
+                            }}
+                        >
+                            {result &&
+                                Array.isArray(result) &&
+                                result.map((recipe) => (
+                                    <div className="grid-item" key={recipe.recipeId}>
+                                        <Card style={{ width: 345, maxHeight: 470 }}>
+                                            <Link to={`/recipe-detail/${recipe.recipeId}`}>
+                                                <CardMedia
+                                                    component="img"
+                                                    style={{ width: 350, height: 194 }}
+                                                    image={recipe.photoVMs[0].photoName}
+                                                    alt="Perfect Pancakes"
+                                                />
+                                                <Rating
+                                                    name="read-only"
+                                                    value={recipe.aveVote}
+                                                    readOnly
+                                                    size="small"
+                                                    precision={0.5}
+                                                    sx={{ mt: 2, marginLeft: 1 }}
+                                                />
+                                                <CardContent>
+                                                    <Typography
+                                                        variant="body3"
+                                                        color="text.secondary"
+                                                    >
+                                                        {new Date(
+                                                            recipe.updateTime
+                                                        ).toLocaleDateString()}
+                                                    </Typography>
+                                                    <br></br>
+                                                    <br></br>
+                                                    <Typography
+                                                        variant="body2"
+                                                        color="text.primary"
+                                                    >
+                                                        {recipe.recipeName}
+                                                    </Typography>
+                                                </CardContent>
+                                            </Link>
+                                        </Card>
+                                    </div>
+                                ))}
+                        </div>
+                    </>
                 )}
             </div>
         </>

@@ -74,6 +74,7 @@ const FavoriteRecipe = () => {
                                                 value={favor.aveVote}
                                                 readOnly
                                                 size="small"
+                                                precision={0.5}
                                                 sx={{ mt: 2 }}
                                             />
                                         </Link>
