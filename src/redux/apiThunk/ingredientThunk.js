@@ -35,7 +35,8 @@ export const addIngredient = createAsyncThunk(
     "ingredient/addIngredient",
     async ({ data }, thunkAPI) => {
         try {
-            const response = await addApi(data);
+            const response = await addApi(data
+                );
             return response;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response.data);

@@ -12,7 +12,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 import Swal from "sweetalert2";
-import { ToastContainer, toast } from "react-toastify";
+import toast, { Toaster } from 'react-hot-toast';
 
 const dayOfWeek = [
     "Monday",
@@ -124,6 +124,7 @@ export default function MealPlan() {
     // console.log(getAllRecipesAPI?.data);
     const handleFormCreate = async (e) => {
         e.preventDefault()
+        setShow(false)
         await Swal.fire({
             title: "Do you want to save the changes?",
             icon: "info",
@@ -132,25 +133,21 @@ export default function MealPlan() {
             cancelButtonColor: "#e74a3b",
             confirmButtonText: "Yes, save it!",
             background: "white",
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                dispatch(createPlan({ data: data }))
-                toast.success("Update Success", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
+                await dispatch(createPlan({ data: data })).then((result) => {
+                    result.payload.message === "Success" ? toast.success('Successfully Update!') : toast.error('co cl')
+                    setReload(!reload)
+                }).catch((err) => {
+                    console.log(err);
                 });
+            } else {
+                toast('Nothing Update!')
             }
         });
         setReload(!reload)
-        setShow(false)
-        // console.log(data);
     }
+
     const [show, setShow] = useState(false);
     const formatData = (date) => {
         const [y, m, d] = date.split("-");
@@ -471,8 +468,11 @@ export default function MealPlan() {
     }
 
     return (
-        <div className="plan-meal">
-            {user?.role ? (contentAuth) : (content)}
-        </div >
+        <Fragment>
+            <Toaster />
+            <div className="plan-meal">
+                {user?.role ? (contentAuth) : (content)}
+            </div >
+        </Fragment>
     )
 }
