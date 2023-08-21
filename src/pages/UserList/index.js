@@ -198,18 +198,18 @@ export default function UserList() {
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     await dispatch(changeRole({ id: id, role: role })).then((result) => {
-                        result.payload.message === "Success" ? toast.success('Successfully Update!') : toast.success('co cl')
+                        result.payload.message === "Success" ? toast.success('Successfully Update!') : toast.error('co cl')
                         // console.log(result);
                         setReload(!reload)
                     }).catch((err) => {
                         console.log(err);
                     });
                 } else {
-                    toast.success('co cl')
+                    toast.error('Nothing Update!')
                 }
             });
         } else {
-            toast.success('co cl')
+            toast.error('Role cannot change because User is not active!')
         }
     }
 
