@@ -9,12 +9,9 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
-import TableSortLabel from '@mui/material/TableSortLabel'
 import Paper from '@mui/material/Paper'
-import { visuallyHidden } from '@mui/utils'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
-import MenuSharpIcon from '@mui/icons-material/MenuSharp';
 import { styled, alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
@@ -22,8 +19,6 @@ import MenuItem from '@mui/material/MenuItem';
 import EditIcon from '@mui/icons-material/Edit';
 import Divider from '@mui/material/Divider';
 import ClearSharpIcon from '@mui/icons-material/ClearSharp';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useSelector, useDispatch } from 'react-redux'
 import {
@@ -34,6 +29,9 @@ import {
 } from '../../redux/apiThunk/userThunk'
 import CircularProgress from "@mui/material/CircularProgress";
 
+import Swal from "sweetalert2";
+// import { ToastContainer, toast } from 'react-toastify';
+import toast, { Toaster } from 'react-hot-toast';
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -186,15 +184,43 @@ export default function UserList() {
         setAnchorEl(null);
     };
 
-    const updateRole = async (role) => {
-        if (userStatus === 'Active') {
-            await dispatch(changeRole({ id: id, role: role }))
-            setReload(!reload)
-        } else {
-            window.alert(`Role cannot change because User is not active. `)
-        }
+    const updateRole = (role) => {
         handleClose()
+        if (userStatus === 'Active') {
+            Swal.fire({
+                title: "Do you want to save the changes?",
+                icon: "info",
+                showCancelButton: true,
+                confirmButtonColor: "#285D9A",
+                cancelButtonColor: "#e74a3b",
+                confirmButtonText: "Yes, save it!",
+                background: "white",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    dispatch(changeRole({ id: id, role: role })).then((result) => {
+                        result.status === 1 ? toast.success('Successfully Update!') : toast.success('co cl')
+                    }).catch((err) => {
+                        console.log(err);
+                    });
+                    setReload(!reload)
+                } else {
+                    toast.success('co cl')
+                }
+            });
+        } else {
+            toast.success("Update Success", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+        }
     }
+
     const updateStatus = async () => {
         await userStatus === 'Active' ? dispatch(banUser({ id: id })).then((result) => {
             setReload(!reload)
@@ -330,6 +356,7 @@ export default function UserList() {
 
     return (
         <Fragment>
+            <Toaster />
             <Container maxWidth="md">
                 <Typography
                     component="h1"

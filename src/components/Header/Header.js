@@ -11,15 +11,11 @@ import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
 import Logout from '@mui/icons-material/Logout'
 import { useNavigate, Link } from 'react-router-dom'
-import { useCookies } from 'react-cookie'
-import Cookies from 'js-cookie'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import { Fragment } from 'react'
 
 const Header = () => {
-    const [cookies, removeCookie] = useCookies(['user'])
-    const storedUserData = cookies.user
     const [anchorEl, setAnchorEl] = React.useState(null)
     const navigate = useNavigate()
     const open = Boolean(anchorEl)
@@ -30,8 +26,6 @@ const Header = () => {
         setAnchorEl(null)
     }
     const handleLogout = () => {
-        removeCookie('user')
-        Cookies.remove('user')
         localStorage.removeItem('user');
         navigate('/')
     }
@@ -103,7 +97,7 @@ const Header = () => {
                                     </Fragment>
                                 )}
                                 <li>
-                                    {storedUserData ? (
+                                    {user ? (
                                         <>
                                             <Box
                                                 sx={{
@@ -125,7 +119,7 @@ const Header = () => {
                                                         aria-expanded={open ? 'true' : undefined}
                                                     >
                                                         <img
-                                                            src={storedUserData.photo}
+                                                            src={user.photo}
                                                             alt="mdo"
                                                             width="32"
                                                             height="32"
