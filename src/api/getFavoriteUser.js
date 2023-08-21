@@ -3,7 +3,6 @@ import api from './api'
 export const userFavorite = async () => {
     try {
         const response = await api.get(`/api/FavoriteRecipes/GetAllFavorite`)
-
         if (response.status === 200) {
             return response.data
         }

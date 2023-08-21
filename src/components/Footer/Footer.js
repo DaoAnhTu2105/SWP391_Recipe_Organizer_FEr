@@ -103,9 +103,6 @@ const Footer = () => {
                             <h5 style={{ color: '#f39c12' }}>Subscribe to our newsletter</h5>
                             <p>Monthly digest of what's new and exciting from us.</p>
                             <div className="d-flex flex-column flex-sm-row w-100 gap-2">
-                                <label for="newsletter1" className="visually-hidden">
-                                    Email
-                                </label>
                                 <input
                                     id="newsletter1"
                                     type="text"
@@ -115,7 +112,7 @@ const Footer = () => {
                                 <button
                                     className="btn btn-primary"
                                     type="button"
-                                    style={{ backgroundColor: '#f39c12' }}
+                                    style={{ backgroundColor: '#f39c12', height: 50, marginTop: 7 }}
                                 >
                                     Subscribe
                                 </button>
