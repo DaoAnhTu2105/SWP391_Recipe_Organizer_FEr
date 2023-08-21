@@ -184,10 +184,10 @@ export default function UserList() {
         setAnchorEl(null);
     };
 
-    const updateRole = (role) => {
+    const updateRole = async (role) => {
         handleClose()
         if (userStatus === 'Active') {
-            Swal.fire({
+            await Swal.fire({
                 title: "Do you want to save the changes?",
                 icon: "info",
                 showCancelButton: true,
@@ -195,14 +195,15 @@ export default function UserList() {
                 cancelButtonColor: "#e74a3b",
                 confirmButtonText: "Yes, save it!",
                 background: "white",
-            }).then((result) => {
+            }).then(async (result) => {
                 if (result.isConfirmed) {
-                    dispatch(changeRole({ id: id, role: role })).then((result) => {
-                        result.status === 1 ? toast.success('Successfully Update!') : toast.success('co cl')
+                    await dispatch(changeRole({ id: id, role: role })).then((result) => {
+                        result.payload.message === "Success" ? toast.success('Successfully Update!') : toast.success('co cl')
+                        // console.log(result);
+                        setReload(!reload)
                     }).catch((err) => {
                         console.log(err);
                     });
-                    setReload(!reload)
                 } else {
                     toast.success('co cl')
                 }
