@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './index.css'
-import { removePlan, updatePlan } from '../../../redux/apiThunk/planThunk'
+import { removePlan, updatePlan, getRecipesPlan } from '../../../redux/apiThunk/planThunk'
 import { useDispatch, useSelector } from 'react-redux'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-// import { useEffect } from 'react'
+import Swal from "sweetalert2";
+import toast from 'react-hot-toast';
 
 const formatDate = (date) => {
     const [d, m, y] = date.split("-");
@@ -22,47 +23,85 @@ const Food = ({ date, id, foodId, name, image, time, ingredient, fat, calories, 
         dateSt: formatDate(date),
         mealOfDate: ""
     })
-    const getAllRecipesAPI = useSelector((state) => state.getAllRecipes.getAllRecipes)
+    // const getAllRecipes = useSelector((state) => state.plan.recipePlan)
+    // console.log(getAllRecipes);
 
-    // useEffect(() => {
-    //     dispatch(getDetail({ id: id }));
-    // }, [show]);
-
-    const deletePlanMeal = async () => {
-        await dispatch(removePlan({ id: id }))
-        handleReload()
+    //show modal update
+    const handleClose = () => setShow(false);
+    const handleShow = () => {
+        // dispatch(getRecipesPlan())
+        setShow(true);
     }
+
+    //update plan meal
     const handleFormUpdate = async (e) => {
         e.preventDefault()
-        await dispatch(updatePlan({ id: id, data: data }))
-        handleReload()
+        await Swal.fire({
+            title: "Do you want to save the changes?",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#285D9A",
+            cancelButtonColor: "#e74a3b",
+            confirmButtonText: "Yes, save it!",
+            background: "white",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await dispatch(updatePlan({ id: id, data: data })).then((result) => {
+                    result.payload.status === 1 ? toast.success('Update Success!') : toast.error('Update Failed!')
+                    handleReload()
+                }).catch((err) => {
+                    console.log(err);
+                });
+            } else {
+            }
+        });
+        handleClose()
         setShow(false)
     }
 
-    // const formatData = (date) => {
-    //     const [y, m, d] = date.split("-");
-    //     return m + "/" + d + "/" + y
-    // }
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    //delete plan meal
+    const deletePlanMeal = async (e) => {
+        e.preventDefault()
+        handleClose()
+        await Swal.fire({
+            title: "Do you want to save the changes?",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#285D9A",
+            cancelButtonColor: "#e74a3b",
+            confirmButtonText: "Yes, save it!",
+            background: "white",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await dispatch(removePlan({ id: id })).then((result) => {
+                    result.payload.status === 1 ? toast.success('Delete Success!') : toast.error('Delete Failed!')
+                    handleReload()
+                }).catch((err) => {
+                    console.log(err);
+                });
+            } else {
+            }
+        });
+    }
 
     return (
         <div className="product">
-            <div>
-                <img src={image} alt={name} width="150" height="150" />
-            </div>
-            <div className="product-detail">
+            <Link to={`/recipe-detail/${foodId}`}>
                 <div>
-                    <Link href={`/recipe-detail/${foodId}`}>
+                    <img src={image} alt={name} width="150" height="150" />
+                </div>
+                <div className="product-detail">
+                    <div>
                         <b>{name}</b>
-                    </Link>
+                    </div>
+                    <div style={{ fontSize: "14px" }}>
+                        Cooking: {time} minutes<br />
+                        Ingredient: {ingredient} Ingredients<br /><br />
+                        Calo: {calories}g
+                    </div>
                 </div>
-                <div style={{ fontSize: "14px" }}>
-                    Cooking: {time} minutes<br />
-                    Ingredient: {ingredient} Ingredients<br /><br />
-                    Calo: {calories}g Fat: {fat}g Carbs: {carbohydrate}g Protein:{protein}g
-                </div>
-            </div>
+            </Link>
+
             <div style={{ alignItems: 'right' }}>
                 <Button variant="primary" onClick={handleShow}>
                     Update
@@ -76,17 +115,17 @@ const Food = ({ date, id, foodId, name, image, time, ingredient, fat, calories, 
                             <div class="form-group">
                                 <label htmFor="recipe">Recipe</label>
                                 <select id="recipe" class="form-control" onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
-                                    <option>...</option>
-                                    {getAllRecipesAPI?.data?.map((item) => (
+                                    <option value="">...</option>
+                                    {/* {getAllRecipes?.data?.map((item) => (
                                         <option value={item.recipeId}>{item.recipeName}</option>
-                                    ))}
+                                    ))} */}
                                 </select>
                                 <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                             </div>
                             <div class="form-group">
                                 <label htmFor="meal">Meal of date</label>
                                 <select id="meal" class="form-control" onChange={(e) => setData({ ...data, mealOfDate: e.target.value })} required>
-                                    <option>...</option>
+                                    <option value="">...</option>
                                     <option value="1">BreakFast</option>
                                     <option value="2">Lunch</option>
                                     <option value="3">Dinner</option>
@@ -103,9 +142,9 @@ const Food = ({ date, id, foodId, name, image, time, ingredient, fat, calories, 
                         </Modal.Footer>
                     </form>
                 </Modal>
-                <button onClick={() => deletePlanMeal()}>delete</button>
+                <button onClick={(e) => deletePlanMeal(e)}>delete</button>
             </div>
-        </div>
+        </div >
     )
 }
 
