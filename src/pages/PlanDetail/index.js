@@ -5,11 +5,9 @@ import { useParams } from 'react-router-dom'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import Food from './Food'
-import { getPlanByDate, createPlan } from '../../redux/apiThunk/planThunk'
+import { getPlanByDate, createPlan, getRecipesPlan } from '../../redux/apiThunk/planThunk'
 import CircularProgress from "@mui/material/CircularProgress";
 import { useState } from 'react'
-import { fetchDataAsync } from '../../redux/apiThunk/getAllRecipesThunk'
-
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Swal from "sweetalert2";
@@ -29,14 +27,13 @@ const PlanDetail = () => {
     })
     const dispatch = useDispatch();
     const [reload, setReload] = useState(false)
-    const getAllRecipes = useSelector((state) => state.getAllRecipes.getAllRecipes)
     useEffect(() => {
-        dispatch(fetchDataAsync())
         dispatch(getPlanByDate({ date: formatDate(date) }))
     }, [dispatch, date, reload]);
 
     const planDetail = useSelector((state) => state.plan);
     const dataStatus = useSelector((state) => state.plan.loading)
+    const getAllRecipes = useSelector((state) => state.plan.recipePlan)
 
     const handleReload = () => {
         setReload(!reload)
@@ -74,12 +71,12 @@ const PlanDetail = () => {
     }
 
     const [show, setShow] = useState(false);
-    // const formatData = (date) => {
-    //     const [y, m, d] = date.split("-");
-    //     return m + "/" + d + "/" + y
-    // }
+
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleShow = () => {
+        dispatch(getRecipesPlan())
+        setShow(true);
+    }
 
     let content
     if (dataStatus === 'loading') {
