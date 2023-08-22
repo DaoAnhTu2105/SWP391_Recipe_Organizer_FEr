@@ -76,7 +76,7 @@ const Food = ({ date, id, foodId, name, image, time, ingredient, fat, calories, 
                             <div class="form-group">
                                 <label htmFor="recipe">Recipe</label>
                                 <select id="recipe" class="form-control" onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
-                                    <option>...</option>
+                                    <option value="">...</option>
                                     {getAllRecipesAPI?.data?.map((item) => (
                                         <option value={item.recipeId}>{item.recipeName}</option>
                                     ))}
@@ -86,7 +86,7 @@ const Food = ({ date, id, foodId, name, image, time, ingredient, fat, calories, 
                             <div class="form-group">
                                 <label htmFor="meal">Meal of date</label>
                                 <select id="meal" class="form-control" onChange={(e) => setData({ ...data, mealOfDate: e.target.value })} required>
-                                    <option>...</option>
+                                    <option value="">...</option>
                                     <option value="1">BreakFast</option>
                                     <option value="2">Lunch</option>
                                     <option value="3">Dinner</option>

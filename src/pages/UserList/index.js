@@ -200,7 +200,7 @@ export default function UserList() {
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     await dispatch(changeRole({ id: id, role: role })).then((result) => {
-                        result.payload.message === "Success" ? toast.success('Successfully Update!') : toast.error('co cl')
+                        result.payload.message === "Success" ? toast.success('Update Success!') : toast.error('Update Fail')
                         setReload(!reload)
                     }).catch((err) => {
                         console.log(err);
@@ -210,7 +210,7 @@ export default function UserList() {
                 }
             });
         } else {
-            toast.error('Role cannot change because User is not Active!')
+            toast.error('User is not Active. \n Role cannot change!')
         }
     }
 
@@ -227,7 +227,7 @@ export default function UserList() {
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     await dispatch(banUser({ id: id })).then((result) => {
-                        result.payload.message === "Success" ? toast.success('Successfully Active User!') : toast.error(result.payload.message)
+                        result.payload.message === "Success" ? toast.success('DeActive User Success!') : toast.error(result.payload.message)
                         setReload(!reload)
                     }).catch((err) => {
                         console.log(err);
@@ -248,7 +248,7 @@ export default function UserList() {
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     await dispatch(unbanUser({ id: id })).then((result) => {
-                        result.payload.message === "Success" ? toast.success('Successfully DeActive User!') : toast.error(result.payload.message)
+                        result.payload.message === "Success" ? toast.success('Active User Success!') : toast.error(result.payload.message)
                         setReload(!reload)
                     }).catch((err) => {
                         console.log(err);
