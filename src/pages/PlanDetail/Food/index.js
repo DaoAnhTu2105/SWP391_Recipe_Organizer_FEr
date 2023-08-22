@@ -86,26 +86,20 @@ const Food = ({ date, id, foodId, name, image, time, ingredient, fat, calories, 
 
     return (
         <div className="product">
-            <Link to={`/recipe-detail/${foodId}`}>
-                <div>
-                    <img src={image} alt={name} width="150" height="150" />
-                </div>
+            <Link className='product-infor' to={`/recipe-detail/${foodId}`}>
+                <img src={image} alt={name} />
                 <div className="product-detail">
-                    <div>
-                        <b>{name}</b>
-                    </div>
-                    <div style={{ fontSize: "14px" }}>
+                    <b>{name}</b>
+                    <div style={{ fontSize: "15px" }}>
                         Cooking: {time} minutes<br />
-                        Ingredient: {ingredient} Ingredients<br /><br />
+                        Ingredient: {ingredient} Ingredients<br />
                         Calo: {calories}g
                     </div>
                 </div>
             </Link>
 
-            <div style={{ alignItems: 'right' }}>
-                <Button variant="primary" onClick={handleShow}>
-                    Update
-                </Button>
+            <div className='product-feature' style={{ alignItems: 'right' }}>
+
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Modal heading</Modal.Title>
@@ -142,7 +136,12 @@ const Food = ({ date, id, foodId, name, image, time, ingredient, fat, calories, 
                         </Modal.Footer>
                     </form>
                 </Modal>
-                <button onClick={(e) => deletePlanMeal(e)}>delete</button>
+                <button onClick={(e) => deletePlanMeal(e)}>
+                    Delete
+                </button>
+                <button onClick={handleShow}>
+                    Update
+                </button>
             </div>
         </div >
     )
