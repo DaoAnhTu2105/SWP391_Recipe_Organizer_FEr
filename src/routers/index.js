@@ -24,6 +24,7 @@ import ViewCooker from '../pages/ViewCooker'
 import PrivateRouters from './PrivateRouters'
 import AdminRouters from './AdminRouters'
 import SearchResult from '../pages/SearchResult'
+import SearchResultFavorite from '../pages/SearchResult/searchFavorite'
 import UpdateRecipe from '../pages/UpdateRecipe'
 import MyRecipe from '../pages/MyRecipe'
 
@@ -56,6 +57,7 @@ export const publicRouters = [
         path: '/favorite-recipe',
         name: 'favorite-recipe',
         component: FavoriteRecipe,
+        layout: LayoutWithoutFilter,
     },
     {
         path: '/register',
@@ -79,6 +81,11 @@ export const publicRouters = [
         path: '/search-results',
         name: 'search-results',
         component: SearchResult,
+    },
+    {
+        path: '/search-favorite-results',
+        name: 'search-favorite-results',
+        component: SearchResultFavorite,
         layout: LayoutWithoutFilter,
     },
 ]
@@ -107,8 +114,7 @@ export const privateRouters = [
         name: 'recipe-cooker',
         component: ViewCooker,
         layout: LayoutWithoutFilter,
-    }
-    ,
+    },
     {
         path: '/my-recipe',
         name: 'my-recipe',
@@ -120,7 +126,7 @@ export const privateRouters = [
         name: 'update-recipe',
         component: UpdateRecipe,
         layout: LayoutWithoutFilter,
-    }
+    },
 ]
 
 export const adminRouters = [
@@ -141,7 +147,7 @@ export const adminRouters = [
         name: 'ingredient-detail',
         component: UpdateIngredient,
         layout: LayoutWithoutFilter,
-    }
+    },
 ]
 
 //Scroll Top when clicked another page
