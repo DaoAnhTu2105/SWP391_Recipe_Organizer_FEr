@@ -22,6 +22,7 @@ import { userFavorites } from '../../redux/apiThunk/getFavoriteUserThunk'
 import { addReview, removeReview } from '../../redux/apiThunk/reviewThunk'
 import DeleteIcon from '@mui/icons-material/Delete'
 import toast, { Toaster } from 'react-hot-toast'
+import { FacebookShareButton } from 'react-share'
 
 const RecipeDetail = () => {
     const { id } = useParams()
@@ -155,28 +156,33 @@ const RecipeDetail = () => {
                                         )}
 
                                     </p>
-                                    <Button
-                                        size="medium"
-                                        style={{
-                                            color: 'white',
-                                            backgroundColor: '#f39c12',
-                                            outline: 'none',
-                                        }}
-                                        onClick={handleSave}
-                                    >
-                                        <FavoriteBorderIcon /> &nbsp; Save
-                                    </Button>
-                                    &nbsp;
-                                    <Button
-                                        size="medium"
-                                        style={{
-                                            color: 'white',
-                                            backgroundColor: '#f39c12',
-                                            outline: 'none',
-                                        }}
-                                    >
-                                        <ShareIcon /> &nbsp; Share
-                                    </Button>
+                                    <FacebookShareButton url={window.location.href}>
+                                        <Button
+                                            size="medium"
+                                            style={{
+                                                color: 'white',
+                                                backgroundColor: '#f39c12',
+                                                outline: 'none',
+                                            }}
+                                            onClick={handleSave}
+                                        >
+                                            <FavoriteBorderIcon /> &nbsp; Save
+                                        </Button>
+                                        &nbsp;
+                                        <Button
+                                            size="medium"
+                                            style={{
+                                                color: 'white',
+                                                backgroundColor: '#f39c12',
+                                                outline: 'none',
+                                            }}
+                                            onClick={() => console.log(window.location.href)}
+                                        >
+
+                                            <ShareIcon /> &nbsp; Share
+
+                                        </Button>
+                                    </FacebookShareButton>
                                     <div className="receipe-headline my-5">
                                         <div className="receipe-duration">
                                             <h6>Prep Time: {recipeDetail?.prepTime} mins</h6>
@@ -508,7 +514,7 @@ const RecipeDetail = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div >
             )}
 
             <Modal
@@ -654,55 +660,57 @@ const RecipeDetail = () => {
                     </Button>
                 </Box>
             </Modal>
-            {recipeDetail?.userReview && (
-                <Modal
-                    open={showDeleteModal}
-                    onClose={() => setShowDeleteModal(false)}
-                    aria-labelledby="login-modal-title"
-                >
-                    <Box
-                        sx={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            width: 400,
-                            bgcolor: 'background.paper',
-                            boxShadow: 24,
-                            p: 4,
-                        }}
+            {
+                recipeDetail?.userReview && (
+                    <Modal
+                        open={showDeleteModal}
+                        onClose={() => setShowDeleteModal(false)}
+                        aria-labelledby="login-modal-title"
                     >
-                        <Typography
-                            id="login-modal-title"
-                            variant="h5"
-                            component="h2"
-                            style={{ color: '#f39c12', fontWeight: 600 }}
+                        <Box
+                            sx={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                width: 400,
+                                bgcolor: 'background.paper',
+                                boxShadow: 24,
+                                p: 4,
+                            }}
                         >
-                            Delete your comment
-                        </Typography>
-                        <Typography sx={{ mt: 2 }}>Do you want to remove your comment?</Typography>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            sx={{ mt: 2 }}
-                            onClick={() => setShowDeleteModal(false)}
-                            style={{ backgroundColor: '#f39c12', outline: 'none' }}
-                        >
-                            Close
-                        </Button>
-                        &nbsp; &nbsp;
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            sx={{ mt: 2 }}
-                            onClick={() => handleConfirmDelete(recipeDetail?.userReview.reviewId)}
-                            style={{ backgroundColor: '#f39c12', outline: 'none' }}
-                        >
-                            Confirm
-                        </Button>
-                    </Box>
-                </Modal>
-            )}
+                            <Typography
+                                id="login-modal-title"
+                                variant="h5"
+                                component="h2"
+                                style={{ color: '#f39c12', fontWeight: 600 }}
+                            >
+                                Delete your comment
+                            </Typography>
+                            <Typography sx={{ mt: 2 }}>Do you want to remove your comment?</Typography>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                sx={{ mt: 2 }}
+                                onClick={() => setShowDeleteModal(false)}
+                                style={{ backgroundColor: '#f39c12', outline: 'none' }}
+                            >
+                                Close
+                            </Button>
+                            &nbsp; &nbsp;
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                sx={{ mt: 2 }}
+                                onClick={() => handleConfirmDelete(recipeDetail?.userReview.reviewId)}
+                                style={{ backgroundColor: '#f39c12', outline: 'none' }}
+                            >
+                                Confirm
+                            </Button>
+                        </Box>
+                    </Modal>
+                )
+            }
         </>
     )
 }
