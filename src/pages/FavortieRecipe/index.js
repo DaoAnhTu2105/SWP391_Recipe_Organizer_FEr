@@ -3,7 +3,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
-import { Rating, CardActions, Button } from '@mui/material'
+import { Rating, CardActions, Button, Box } from '@mui/material'
 import Container from '@mui/material/Container'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
@@ -11,6 +11,7 @@ import { useEffect } from 'react'
 import { userFavor } from '../../redux/apiThunk/getFavoriteUserThunk'
 import { removeFavor } from '../../redux/apiThunk/getFavoriteUserThunk'
 import { useNavigate } from 'react-router-dom'
+import SearchFilter from './SearchFilter'
 
 const FavoriteRecipe = () => {
     const dispatch = useDispatch()
@@ -30,6 +31,8 @@ const FavoriteRecipe = () => {
     return (
         <>
             <Container maxWidth="md">
+                <SearchFilter />
+
                 <Typography
                     component="h1"
                     variant="h2"

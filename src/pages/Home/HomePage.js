@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { fetchDataAsync } from '../../redux/apiThunk/getAllRecipesThunk'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
-import { Button, Box } from '@mui/material'
+import { Box } from '@mui/material'
 import { Autoplay, Pagination, Navigation, Mousewheel } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
@@ -27,13 +27,6 @@ const HomePage = () => {
     const bestRecipesAPI = useSelector((state) => state.bestRecipe.bestRecipes)
     const favoriteRecipeAPI = useSelector((state) => state.favoriteRecipe.favoriteRecipe)
     const status = useSelector((state) => state.getAllRecipes.isLoading)
-    // const item1 =
-    //     getAllRecipesAPI?.data &&
-    //     getAllRecipesAPI?.data[Math.floor(Math.random() * getAllRecipesAPI.data.length)]
-
-    // const item2 =
-    //     getAllRecipesAPI?.data &&
-    //     getAllRecipesAPI?.data[Math.floor(Math.random() * getAllRecipesAPI.data.length)]
 
     useEffect(() => {
         dispatch(fetchDataAsync())
@@ -98,74 +91,6 @@ const HomePage = () => {
                                 ))}
                         </Swiper>
                     </div>
-                    {/* <div className="mt-5">
-                        {item1 && item2 && (
-                            <Box style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                                <Link to={`/recipe-detail/${item1.recipeId}`}>
-                                    <Card
-                                        sx={{
-                                            display: 'flex',
-                                            width: 500,
-                                            borderLeft: '4px solid #f39c12',
-                                            cursor: 'pointer',
-                                        }}
-                                    >
-                                        <Box sx={{ display: 'flex', alignContent: 'center' }}>
-                                            <CardContent>
-                                                <Typography component="div" variant="h5">
-                                                    {item1 && item1.recipeName}
-                                                </Typography>
-                                                <Typography
-                                                    variant="subtitle1"
-                                                    color="text.secondary"
-                                                    component="div"
-                                                >
-                                                    {item1 && item1?.countryVM.countryName}
-                                                </Typography>
-                                            </CardContent>
-                                        </Box>
-                                        <CardMedia
-                                            component="img"
-                                            sx={{ width: 250, height: 200 }}
-                                            image={item1 && item1.photoVMs[0].photoName}
-                                            alt="Live from space album cover"
-                                        />
-                                    </Card>
-                                </Link>
-                                <Link to={`/recipe-detail/${item2.recipeId}`}>
-                                    <Card
-                                        sx={{
-                                            display: 'flex',
-                                            width: 500,
-                                            borderLeft: '4px solid #f39c12',
-                                            cursor: 'pointer',
-                                        }}
-                                    >
-                                        <Box sx={{ display: 'flex', alignContent: 'center' }}>
-                                            <CardContent>
-                                                <Typography component="div" variant="h5">
-                                                    {item2 && item2.recipeName}
-                                                </Typography>
-                                                <Typography
-                                                    variant="subtitle1"
-                                                    color="text.secondary"
-                                                    component="div"
-                                                >
-                                                    {item2 && item2.countryVM.countryName}
-                                                </Typography>
-                                            </CardContent>
-                                        </Box>
-                                        <CardMedia
-                                            component="img"
-                                            sx={{ width: 250, height: 200 }}
-                                            image={item2 && item2.photoVMs[0].photoName}
-                                            alt="Live from space album cover"
-                                        />
-                                    </Card>
-                                </Link>
-                            </Box>
-                        )}
-                    </div> */}
                     <section className="best-receipe-area">
                         <h1 className="title-recipes">Best Recipes</h1>
                         <div
@@ -294,20 +219,23 @@ const HomePage = () => {
                                                         />
                                                         <CardContent>
                                                             <Typography
+                                                                variant="body1"
+                                                                color="text.primary"
+                                                                style={{
+                                                                    fontWeight: 600,
+                                                                    fontSize: 15,
+                                                                }}
+                                                            >
+                                                                {recipe.recipeName}
+                                                            </Typography>
+                                                            <br></br>
+                                                            <Typography
                                                                 variant="body3"
                                                                 color="text.secondary"
                                                             >
                                                                 {new Date(
                                                                     recipe.updateTime
                                                                 ).toLocaleDateString()}
-                                                            </Typography>
-                                                            <br></br>
-                                                            <br></br>
-                                                            <Typography
-                                                                variant="body2"
-                                                                color="text.primary"
-                                                            >
-                                                                {recipe.recipeName}
                                                             </Typography>
                                                         </CardContent>
                                                     </Link>
