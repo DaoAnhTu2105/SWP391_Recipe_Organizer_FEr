@@ -13,6 +13,9 @@ import { fetchDataAsync } from '../../redux/apiThunk/getAllRecipesThunk'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
+import Swal from "sweetalert2";
+import toast, { Toaster } from 'react-hot-toast';
+
 const formatDate = (date) => {
     const [d, m, y] = date.split("-");
     return m + "/" + d + "/" + y
@@ -42,11 +45,35 @@ const PlanDetail = () => {
 
     const handleFormCreate = async (e) => {
         e.preventDefault()
-        await dispatch(createPlan({ data: data }))
-        setReload(!reload)
         setShow(false)
-        // console.log(data);
+        await Swal.fire({
+            title: "Do you want to save the changes?",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#285D9A",
+            cancelButtonColor: "#e74a3b",
+            confirmButtonText: "Yes, save it!",
+            background: "white",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await dispatch(createPlan({ data: data })).then((result) => {
+                    result.payload.message === "Success" ? toast.success('Create Success!') : toast.error('Create Failed!')
+                    setData({
+                        ...data, recipeId: "",
+                        dateSt: formatDate(date),
+                        mealOfDate: ""
+                    })
+                    setReload(!reload)
+                }).catch((err) => {
+                    console.log(err);
+                });
+            } else {
+                toast('Nothing Create!')
+            }
+        });
+        setReload(!reload)
     }
+
     const [show, setShow] = useState(false);
     const formatData = (date) => {
         const [y, m, d] = date.split("-");
@@ -85,18 +112,23 @@ const PlanDetail = () => {
                                     <Modal.Body>
                                         <div class="form-group">
                                             <label htmFor="recipe">Recipe</label>
-                                            <select id="recipe" class="form-control" onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
-                                                <option>...</option>
+                                            <select id="recipe" class="form-control" placeholder='Recipe' onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
+                                                <option value="">...</option>
                                                 {getAllRecipes?.data?.map((item) => (
                                                     <option value={item.recipeId}>{item.recipeName}</option>
                                                 ))}
                                             </select>
                                             <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                                         </div>
+                                        {/* <div class="form-group">
+                                            <label htmFor="date">Date</label>
+                                            <input type="date" class="form-control" id="date" placeholder="Date"
+                                                onChange={(e) => setData({ ...data, dateSt: formatData(e.target.value) })} required />
+                                        </div> */}
                                         <div class="form-group">
                                             <label htmFor="meal">Meal of date</label>
-                                            <select id="meal" class="form-control" onChange={(e) => setData({ ...data, mealOfDate: e.target.value })} required>
-                                                <option>...</option>
+                                            <select id="meal" class="form-control" placeholder='Meal' onChange={(e) => setData({ ...data, mealOfDate: e.target.value })} required>
+                                                <option value="">...</option>
                                                 <option value="1">BreakFast</option>
                                                 <option value="2">Lunch</option>
                                                 <option value="3">Dinner</option>
@@ -115,7 +147,6 @@ const PlanDetail = () => {
                             </Modal>
                         </div>
                     </Typography>
-                    {/* </div> */}
                 </div>
             </div>)
     } else {
@@ -135,18 +166,23 @@ const PlanDetail = () => {
                                 <Modal.Body>
                                     <div class="form-group">
                                         <label htmFor="recipe">Recipe</label>
-                                        <select id="recipe" class="form-control" onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
-                                            <option>...</option>
+                                        <select id="recipe" class="form-control" placeholder='Recipe' onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
+                                            <option value="">...</option>
                                             {getAllRecipes?.data?.map((item) => (
                                                 <option value={item.recipeId}>{item.recipeName}</option>
                                             ))}
                                         </select>
                                         <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                                     </div>
+                                    {/* <div class="form-group">
+                                        <label htmFor="date">Date</label>
+                                        <input type="date" class="form-control" id="date" placeholder="Date"
+                                            onChange={(e) => setData({ ...data, dateSt: formatData(e.target.value) })} required />
+                                    </div> */}
                                     <div class="form-group">
                                         <label htmFor="meal">Meal of date</label>
-                                        <select id="meal" class="form-control" onChange={(e) => setData({ ...data, mealOfDate: e.target.value })} required>
-                                            <option>...</option>
+                                        <select id="meal" class="form-control" placeholder='Meal' onChange={(e) => setData({ ...data, mealOfDate: e.target.value })} required>
+                                            <option value="">...</option>
                                             <option value="1">BreakFast</option>
                                             <option value="2">Lunch</option>
                                             <option value="3">Dinner</option>
@@ -272,6 +308,7 @@ const PlanDetail = () => {
 
     return (
         <Fragment>
+            <Toaster />
             <Container maxWidth="md">
                 <Typography
                     component="h1"

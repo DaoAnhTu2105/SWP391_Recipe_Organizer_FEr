@@ -136,7 +136,7 @@ export default function MealPlan() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 await dispatch(createPlan({ data: data })).then((result) => {
-                    result.payload.message === "Success" ? toast.success('Successfully Update!') : toast.error('co cl')
+                    result.payload.message === "Success" ? toast.success('Create Success!') : toast.error('Create Failed!')
                     setData({
                         ...data, recipeId: "",
                         dateSt: "",
@@ -147,7 +147,7 @@ export default function MealPlan() {
                     console.log(err);
                 });
             } else {
-                toast('Nothing Update!')
+                toast('Nothing Create!')
             }
         });
         setReload(!reload)
@@ -200,8 +200,8 @@ export default function MealPlan() {
                                 <Modal.Body>
                                     <div class="form-group">
                                         <label htmFor="recipe">Recipe</label>
-                                        <select id="recipe" class="form-control" onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
-                                            <option>...</option>
+                                        <select id="recipe" class="form-control" placeholder='Recipe' onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
+                                            <option value="">...</option>
                                             {getAllRecipes?.data?.map((item) => (
                                                 <option value={item.recipeId}>{item.recipeName}</option>
                                             ))}
@@ -215,8 +215,8 @@ export default function MealPlan() {
                                     </div>
                                     <div class="form-group">
                                         <label htmFor="meal">Meal of date</label>
-                                        <select id="meal" class="form-control" onChange={(e) => setData({ ...data, mealOfDate: e.target.value })} required>
-                                            <option>...</option>
+                                        <select id="meal" class="form-control" placeholder='Meal' onChange={(e) => setData({ ...data, mealOfDate: e.target.value })} required>
+                                            <option value="">...</option>
                                             <option value="1">BreakFast</option>
                                             <option value="2">Lunch</option>
                                             <option value="3">Dinner</option>
@@ -333,8 +333,8 @@ export default function MealPlan() {
                                 <Modal.Body>
                                     <div class="form-group">
                                         <label htmFor="recipe">Recipe</label>
-                                        <select id="recipe" class="form-control" onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
-                                            <option>...</option>
+                                        <select id="recipe" class="form-control" placeholder='Recipe' onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
+                                            <option value="">...</option>
                                             {getAllRecipes?.data?.map((item) => (
                                                 <option value={item.recipeId}>{item.recipeName}</option>
                                             ))}
@@ -348,8 +348,8 @@ export default function MealPlan() {
                                     </div>
                                     <div class="form-group">
                                         <label htmFor="meal">Meal of date</label>
-                                        <select id="meal" class="form-control" onChange={(e) => setData({ ...data, mealOfDate: e.target.value })} required>
-                                            <option>...</option>
+                                        <select id="meal" class="form-control" placeholder='Meal' onChange={(e) => setData({ ...data, mealOfDate: e.target.value })} required>
+                                            <option value="">...</option>
                                             <option value="1">BreakFast</option>
                                             <option value="2">Lunch</option>
                                             <option value="3">Dinner</option>
