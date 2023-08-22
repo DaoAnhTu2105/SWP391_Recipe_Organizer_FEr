@@ -113,7 +113,6 @@ export default function MealPlan() {
     }
 
     useEffect(() => {
-
         dispatch(getPlanByWeek({ date: formatDate(getMonday(currentDate)) }))
     }, [dispatch, currentDate, reload])
 
