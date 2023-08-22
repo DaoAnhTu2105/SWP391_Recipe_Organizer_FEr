@@ -100,14 +100,14 @@ const SearchFilter = () => {
                 <div className="container">
                     <FormControl>
                         <FormGroup>
-                            <Grid container spacing={2}>
+                            <Grid container spacing={3}>
                                 {country.data && (
                                     <Grid xs={6}>
                                         <Autocomplete
                                             key="country-autocomplete"
                                             id="country"
                                             size="small"
-                                            sx={{ width: 200 }}
+                                            style={{ width: 200 }}
                                             options={country.data}
                                             autoHighlight
                                             getOptionLabel={(option) => option?.countryName}
@@ -154,7 +154,7 @@ const SearchFilter = () => {
                                     </Grid>
                                 )}
                             </Grid>
-                            <Grid container spacing={0} textAlign={'center'} marginTop={5}>
+                            <Grid container spacing={3} marginTop={5}>
                                 <Grid xs={6}>
                                     <Button
                                         size="large"

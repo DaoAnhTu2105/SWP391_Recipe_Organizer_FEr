@@ -10,7 +10,7 @@ import { Button, Rating, Box, Modal, Typography } from '@mui/material'
 // import { useState } from 'react'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import ShareIcon from '@mui/icons-material/Share'
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
+
 import { useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
@@ -19,19 +19,28 @@ import { fetchRecipeDetail } from '../../redux/apiThunk/getRecipeDetailThunk'
 import CircularProgress from '@mui/material/CircularProgress'
 import { useState } from 'react'
 import { userFavorites } from '../../redux/apiThunk/getFavoriteUserThunk'
+import { addReview, removeReview } from '../../redux/apiThunk/reviewThunk'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 const RecipeDetail = () => {
     const { id } = useParams()
     const dispatch = useDispatch()
     const recipeDetails = useSelector((state) => state.getRecipeDetail.recipeDetail)
-    // const userFavor = useSelector((state) => state.uFavor.uf)
     const status = useSelector((state) => state.getRecipeDetail.isLoading)
     const recipeDetail = recipeDetails.data
     const user = JSON.parse(localStorage.getItem('user'))
     const [showLoginModal, setShowLoginModal] = useState(false)
+    const [postComment, setPostComment] = useState('')
+    const [rate, setRate] = useState(0)
+    const [reload, setReload] = useState(false)
+    const dataComment = {
+        recipeId: id,
+        voteNum: rate,
+        comment: postComment,
+    }
     useEffect(() => {
         dispatch(fetchRecipeDetail(id))
-    }, [dispatch, id])
+    }, [dispatch, id, reload])
     function formatDate(dateString) {
         const date = new Date(dateString)
         const year = date.getFullYear()
@@ -48,6 +57,21 @@ const RecipeDetail = () => {
             setShowLoginModal(true)
         }
     }
+    const handleComment = async (e) => {
+        e.preventDefault()
+        if (user?.role) {
+            await dispatch(addReview({ data: JSON.stringify(dataComment) }))
+            setReload(!reload)
+            setPostComment('')
+            setRate(0)
+        } else {
+            setShowLoginModal(true)
+        }
+    }
+    const handleDelete = async (reId) => {
+        await dispatch(removeReview(reId))
+        setReload(!reload)
+    }
     return (
         <>
             {status === 'loading' ? (
@@ -59,29 +83,24 @@ const RecipeDetail = () => {
                     }}
                 />
             ) : (
-                <div className="container-fluid">
-                    <div>
-                        <div
-                            className="breadcumb-area bg-img bg-overlay mb-5"
-                            style={{ backgroundImage: `url(${imgDetail})` }}
-                        >
-                            <div className="container h-100">
-                                <div className="row h-100 align-items-center">
-                                    <div className="col-12">
-                                        <div className="breadcumb-text text-center">
-                                            <h2>Recipe</h2>
-                                        </div>
+                <div className="ml-5">
+                    <div
+                        className="breadcumb-area bg-img bg-overlay mb-5"
+                        style={{ backgroundImage: `url(${imgDetail})` }}
+                    >
+                        <div className="container h-100">
+                            <div className="row h-100 align-items-center">
+                                <div className="col-12">
+                                    <div className="breadcumb-text text-center">
+                                        <h2>Recipe</h2>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div
-                        className="container-fluid"
-                        style={{ paddingLeft: 200, paddingRight: 150 }}
-                    >
-                        <div className="row d-flex justify-content-between">
+                    <div className="ml-5">
+                        <div className="row">
                             <div className="col-md-8">
                                 <div className="my-5">
                                     <span>{formattedUpdateTime && formattedUpdateTime}</span>
@@ -155,35 +174,21 @@ const RecipeDetail = () => {
                         {recipeDetail?.photoVMs && (
                             <SwiperSlide>
                                 <img
-                                    style={{ width: '1000px', height: '500px' }}
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                     src={photo}
                                     alt={recipeDetail?.recipeName}
                                 />
                             </SwiperSlide>
                         )}
-                        {/* <SwiperSlide>
-                            <img
-                                style={{ width: '1000px', height: '500px' }}
-                                src="https://www.allrecipes.com/thmb/DZ5WtIe2s6rGk-rIEZDkMA6mGj4=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/7568285-perfect-pancakes-KH-4x3-218e2c39174c4a2293fca0ab752b38a8.jpg"
-                                alt=""
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <img
-                                style={{ width: '1000px', height: '500px' }}
-                                src="https://www.kingarthurbaking.com/sites/default/files/styles/featured_image/public/recipe_legacy/48-3-large.jpg?itok=inlusIOg"
-                                alt=""
-                            />
-                        </SwiperSlide> */}
                     </Swiper>
-                    <div className="container w-100">
+                    <div>
                         <div className="row">
                             <div className="col-12 col-lg-12 ml-5 mb-5">
                                 <div className="ingredients">
                                     <h3 style={{ color: '#f39c12' }}>Ingredients</h3>
                                     {recipeDetail?.ingredientOfRecipeVMs &&
                                         recipeDetail?.ingredientOfRecipeVMs.map((ingredient) => (
-                                            <div>
+                                            <div key={ingredient.ingredientId}>
                                                 <span style={{ color: '#f39c12', fontSize: 25 }}>
                                                     -
                                                 </span>
@@ -258,73 +263,223 @@ const RecipeDetail = () => {
                         </div>
                     </div>
 
-                    <div className="container">
+                    <div className="ml-5">
                         <div className="row">
                             <div className="col-md-12">
+                                <div className="col-md-12" style={{ padding: 0 }}>
+                                    <div className="text-left">
+                                        <h3 style={{ color: '#f39c12' }}>Leave a comment</h3>
+                                    </div>
+                                </div>
+                                <div className="col-12" style={{ padding: 0 }}>
+                                    <div className="contact-form-area">
+                                        {recipeDetail?.recipeId && (
+                                            <form onSubmit={handleComment}>
+                                                <div>
+                                                    <Rating
+                                                        name="size-large"
+                                                        defaultValue={rate}
+                                                        size="large"
+                                                        onChange={(e) => setRate(e.target.value)}
+                                                    />
+                                                    <div className="row">
+                                                        <div className="col-12">
+                                                            <textarea
+                                                                className="form-control"
+                                                                cols="10"
+                                                                rows="10"
+                                                                style={{
+                                                                    width: '30%',
+                                                                    height: '100px',
+                                                                }}
+                                                                value={postComment}
+                                                                placeholder="Your Reviews"
+                                                                onChange={(e) =>
+                                                                    setPostComment(e.target.value)
+                                                                }
+                                                            ></textarea>
+                                                        </div>
+                                                        <div className=" mb-5 ml-3">
+                                                            <button
+                                                                className=" delicious-btn"
+                                                                style={{
+                                                                    width: 150,
+                                                                    height: 60,
+                                                                    padding: 0,
+                                                                    borderRadius: '10px',
+                                                                }}
+                                                                type="submit"
+                                                            >
+                                                                Post Comments
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        )}
+                                    </div>
+                                </div>
                                 <div className="text-left">
                                     <h3 style={{ color: '#f39c12' }}>Reviews</h3>
                                 </div>
-
-                                <div className="rating-recipeDetail">
-                                    <div className="contact-form-area">
-                                        <form action="#" method="post" style={{ width: 750 }}>
-                                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                <PersonOutlineIcon size="medium" />
-                                                &nbsp;
-                                                <Rating
-                                                    readOnly
-                                                    name="size-large"
-                                                    defaultValue={5}
-                                                    size="small"
-                                                />
-                                            </Box>
-
-                                            <div className="row">
-                                                <div className="col-12 col-lg-6">
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                        id="name"
-                                                        value="Great Recipe!"
-                                                        placeholder="Name"
+                                {recipeDetail?.userReview && recipeDetail?.userReview.user && (
+                                    <div
+                                        className="rating-recipeDetail mb-3 mt-3"
+                                        key={user.userId}
+                                    >
+                                        <div className="contact-form-area">
+                                            <div style={{ width: 750 }}>
+                                                <Box
+                                                    sx={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                    }}
+                                                >
+                                                    <img
+                                                        src={
+                                                            recipeDetail?.userReview.user.avatarName
+                                                        }
+                                                        alt=""
+                                                        style={{
+                                                            borderRadius: '50%',
+                                                            width: '30px',
+                                                            height: '30px',
+                                                        }}
                                                     />
+                                                    &nbsp; &nbsp;
+                                                    <b>{recipeDetail?.userReview.user.fullName}</b>
+                                                    &nbsp; &nbsp;
+                                                    <button
+                                                        style={{
+                                                            backgroundColor: '#fff',
+                                                            border: 'none',
+                                                            marginTop: 5,
+                                                            outline: 'none',
+                                                            cursor: 'pointer',
+                                                        }}
+                                                        onClick={() =>
+                                                            handleDelete(
+                                                                recipeDetail?.userReview.reviewId
+                                                            )
+                                                        }
+                                                    >
+                                                        <DeleteIcon />
+                                                    </button>
+                                                </Box>
+                                                <Box
+                                                    sx={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        margin: '5px 0',
+                                                    }}
+                                                >
+                                                    <Rating
+                                                        readOnly
+                                                        name="size-large"
+                                                        defaultValue={
+                                                            recipeDetail?.userReview.voteNum
+                                                        }
+                                                        size="small"
+                                                    />
+                                                    &nbsp; &nbsp;
+                                                    <span style={{ color: 'rgba(71,71,71, 0.6)' }}>
+                                                        {new Date(
+                                                            recipeDetail?.userReview.updateTime
+                                                        ).toLocaleDateString()}
+                                                    </span>
+                                                </Box>
+
+                                                <div className="row">
+                                                    <div className="col-12 col-lg-6">
+                                                        <p
+                                                            style={{
+                                                                width: 300,
+                                                                backgroundColor:
+                                                                    'rgba(153,153,153, 0.2)',
+                                                                fontWeight: 700,
+                                                                paddingLeft: 10,
+                                                            }}
+                                                        >
+                                                            {recipeDetail?.userReview.comment}
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </form>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div className="col-md-12">
-                                <div className="text-left">
-                                    <h3 style={{ color: '#f39c12' }}>Leave a comment</h3>
-                                </div>
-                            </div>
-                            <div className="col-12">
-                                <div className="contact-form-area">
-                                    <form action="#" method="post">
-                                        <Rating name="size-large" defaultValue={0} size="large" />
-                                        <div className="row">
-                                            <div className="col-12">
-                                                <textarea
-                                                    name="message"
-                                                    className="form-control"
-                                                    id="message"
-                                                    cols="30"
-                                                    rows="10"
-                                                    placeholder="Your Reviews"
-                                                ></textarea>
-                                            </div>
-                                            <div className="col-md-12 text-center mb-5">
-                                                <button
-                                                    className="btn delicious-btn mt-30"
-                                                    type="submit"
+                                )}
+                                {recipeDetail?.reviewVMs &&
+                                    recipeDetail?.reviewVMs.map((review) => (
+                                        <div
+                                            className="rating-recipeDetail mb-3 mt-3"
+                                            key={review.reviewId}
+                                        >
+                                            <div className="contact-form-area">
+                                                <form
+                                                    action="#"
+                                                    method="post"
+                                                    style={{ width: 750 }}
                                                 >
-                                                    Post Comments
-                                                </button>
+                                                    <Box
+                                                        sx={{
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                        }}
+                                                    >
+                                                        <img
+                                                            src={review?.user.avatarName}
+                                                            alt=""
+                                                            style={{
+                                                                borderRadius: '50%',
+                                                                width: '30px',
+                                                                height: '30px',
+                                                            }}
+                                                        />
+                                                        &nbsp; &nbsp;
+                                                        <b>{review?.user.fullName}</b>
+                                                    </Box>
+                                                    <Box
+                                                        sx={{
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            margin: '5px 0',
+                                                        }}
+                                                    >
+                                                        <Rating
+                                                            readOnly
+                                                            name="size-large"
+                                                            defaultValue={review?.voteNum}
+                                                            size="small"
+                                                        />
+                                                        &nbsp; &nbsp;
+                                                        <span
+                                                            style={{ color: 'rgba(71,71,71, 0.6)' }}
+                                                        >
+                                                            {new Date(
+                                                                review?.updateTime
+                                                            ).toLocaleDateString()}
+                                                        </span>
+                                                    </Box>
+
+                                                    <div className="row">
+                                                        <div className="col-12 col-lg-6">
+                                                            <p
+                                                                style={{
+                                                                    width: 300,
+                                                                    backgroundColor:
+                                                                        'rgba(153,153,153, 0.2)',
+                                                                    fontWeight: 700,
+                                                                    paddingLeft: 10,
+                                                                }}
+                                                            >
+                                                                {review?.comment}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
-                                    </form>
-                                </div>
+                                    ))}
                             </div>
                         </div>
                     </div>

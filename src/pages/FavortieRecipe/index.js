@@ -10,12 +10,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { userFavor } from '../../redux/apiThunk/getFavoriteUserThunk'
 import { removeFavor } from '../../redux/apiThunk/getFavoriteUserThunk'
-import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const FavoriteRecipe = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const getUserFavor = useSelector((state) => state.uFavor.userFavorites)
-    const user = JSON.parse(localStorage.getItem('user'))
+    const userFavorError = useSelector((state) => state.uFavor.isLoading)
+    console.log(userFavorError)
     const favorite = getUserFavor?.data
     const [reload, setReload] = useState(false)
     const handleRemove = async (recipeId) => {
@@ -41,71 +43,67 @@ const FavoriteRecipe = () => {
                     All your favorite content in one place!
                 </Typography>
             </Container>
-            {favorite?.length !== 0 ? (
+            {userFavorError === 'error' ? (
+                navigate('/login')
+            ) : favorite?.length !== 0 ? (
                 <>
                     <div
+                        className="container mb-5"
                         style={{
-                            textAlign: 'center',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            marginTop: 40,
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(3, 1fr)',
+                            gap: '40px',
                         }}
                     >
-                        <div className="container">
-                            <div className="row justify-content-center">
-                                {favorite &&
-                                    Array.isArray(favorite) &&
-                                    favorite.map((favor) => (
-                                        <div className="col-sm-4 mb-4" key={favor.recipeId}>
-                                            <Card style={{ width: 345, maxHeight: 470 }}>
-                                                <Link to={`/recipe-detail/${favor.recipeId}`}>
-                                                    <CardMedia
-                                                        component="img"
-                                                        style={{ width: 350, height: 194 }}
-                                                        image={favor.photoVMs[0].photoName}
-                                                        alt="Perfect Pancakes"
-                                                    />
-                                                    <Rating
-                                                        name="read-only"
-                                                        value={favor.aveVote}
-                                                        readOnly
-                                                        size="small"
-                                                        sx={{ mt: 2 }}
-                                                    />
-                                                </Link>
-                                                <CardContent>
-                                                    <Typography
-                                                        variant="body2"
-                                                        color="text.primary"
-                                                    >
-                                                        {favor.recipeName}
-                                                    </Typography>
-                                                    <br></br>
-                                                    <CardActions
-                                                        sx={{
-                                                            display: 'flex',
-                                                            justifyContent: 'center',
-                                                        }}
-                                                    >
-                                                        <Button
-                                                            size="small"
-                                                            style={{
-                                                                outline: 'none',
-                                                                color: '#f39c12',
-                                                            }}
-                                                            onClick={() =>
-                                                                handleRemove(favor.recipeId)
-                                                            }
-                                                        >
-                                                            Remove
-                                                        </Button>
-                                                    </CardActions>
-                                                </CardContent>
-                                            </Card>
-                                        </div>
-                                    ))}
-                            </div>
-                        </div>
+                        {favorite &&
+                            Array.isArray(favorite) &&
+                            favorite.map((favor) => (
+                                <div className="grid-item" key={favor.recipeId}>
+                                    <Card
+                                        style={{ width: 345, maxHeight: 470, textAlign: 'center' }}
+                                    >
+                                        <Link to={`/recipe-detail/${favor.recipeId}`}>
+                                            <CardMedia
+                                                component="img"
+                                                style={{ width: 350, height: 194 }}
+                                                image={favor.photoVMs[0].photoName}
+                                                alt="Perfect Pancakes"
+                                            />
+                                            <Rating
+                                                name="read-only"
+                                                value={favor.aveVote}
+                                                readOnly
+                                                size="small"
+                                                precision={0.5}
+                                                sx={{ mt: 2 }}
+                                            />
+                                        </Link>
+                                        <CardContent>
+                                            <Typography variant="body2" color="text.primary">
+                                                {favor.recipeName}
+                                            </Typography>
+                                            <br></br>
+                                            <CardActions
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                }}
+                                            >
+                                                <Button
+                                                    size="small"
+                                                    style={{
+                                                        outline: 'none',
+                                                        color: '#f39c12',
+                                                    }}
+                                                    onClick={() => handleRemove(favor.recipeId)}
+                                                >
+                                                    Remove
+                                                </Button>
+                                            </CardActions>
+                                        </CardContent>
+                                    </Card>
+                                </div>
+                            ))}
                     </div>
                 </>
             ) : (
