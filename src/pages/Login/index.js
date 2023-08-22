@@ -41,10 +41,6 @@ const Login = () => {
             // console.log(response)
             if (response.ok) {
                 const responseData = await response.json()
-                // setCookie('user', responseData)
-
-                // const userInfo = { role: responseData.role, token: responseData.token }
-                // document.cookie = `userInfo=${encodeURIComponent(JSON.stringify(userInfo))}`;
                 localStorage.setItem('user', JSON.stringify(responseData))
                 navigate('/')
             } else {

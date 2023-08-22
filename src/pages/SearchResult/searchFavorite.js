@@ -1,24 +1,26 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Card, CardMedia, Rating, CardContent, Typography, Box } from '@mui/material'
+import SearchFilter from '../FavortieRecipe/SearchFavoriteFilter'
 
-const SearchResult = () => {
+const SearchResultFavorite = () => {
     const location = useLocation()
     const searchResult = location.state?.searchResult
     const result = searchResult.data
     return (
         <>
+            <SearchFilter />
             <div className="container">
                 <h2 style={{ fontWeight: 600, color: '#f39c12', textAlign: 'center' }}>
-                    Search Results
+                    Search Favorite Results
                 </h2>
             </div>
             <div className="container">
                 {result.length === 0 ? (
                     <div>
-                        <h1 style={{ textAlign: 'center' }}>Couldn't find any recipes</h1>
+                        <h1 style={{ textAlign: 'center' }}>Couldn't find any favorite recipes</h1>
                         <div style={{ textAlign: 'center' }}>
-                            <Link to="/">
+                            <Link to="/favorite-recipe">
                                 <button
                                     style={{
                                         padding: '10px 50px',
@@ -33,7 +35,7 @@ const SearchResult = () => {
                                         border: 'none',
                                     }}
                                 >
-                                    Back To Home
+                                    Back
                                 </button>
                             </Link>
                         </div>
@@ -102,4 +104,4 @@ const SearchResult = () => {
     )
 }
 
-export default SearchResult
+export default SearchResultFavorite

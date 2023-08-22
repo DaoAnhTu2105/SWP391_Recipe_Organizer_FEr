@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import getAllRecipesReducer from './reducers/getAllDataRecipes'
+import getAllRecipes from './reducers/getAllDataRecipes'
 import planSlice from './reducers/planSlice'
 import userSlice from './reducers/userSlice'
 import getRecipeDetail from './reducers/getRecipeDetail'
@@ -10,7 +10,7 @@ import uFavor from './reducers/getFavoriteUserSlice'
 
 const store = configureStore({
     reducer: {
-        getAllRecipes: getAllRecipesReducer,
+        getAllRecipes: getAllRecipes,
         plan: planSlice,
         user: userSlice,
         getRecipeDetail: getRecipeDetail,

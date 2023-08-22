@@ -15,6 +15,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { Fragment } from 'react'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const Header = () => {
     const [anchorEl, setAnchorEl] = React.useState(null)
@@ -31,17 +32,83 @@ const Header = () => {
         navigate('/')
     }
     const user = JSON.parse(localStorage.getItem('user'))
+    let headerList
+    if (user?.role === 'Admin') {
+        headerList = (
+            <Fragment>
+                <li>
+                    <Link
+                        to="/user-list"
+                        className="nav-link px-2 link-dark"
+                        style={{ fontSize: '20px' }}
+                    >
+                        User List
+                    </Link>
+                </li>
+                <li>
+                    <Link
+                        to="/ingredient-list"
+                        className="nav-link px-2 link-dark"
+                        style={{ fontSize: '20px' }}
+                    >
+                        Ingredients List
+                    </Link>
+                </li>
+            </Fragment>)
+    } else if (user?.role === 'Cooker') {
+        headerList = (<Fragment>
+            <li>
+                <Link
+                    to="/my-recipe"
+                    className="nav-link px-2 link-dark"
+                    style={{ fontSize: '20px' }}
+                >
+                    My Recipes
+                </Link>
+            </li>
+            <li>
+                <Link
+                    to="/create-recipe"
+                    className="nav-link px-2 link-dark"
+                    style={{ fontSize: '20px' }}
+                >
+                    Add recipe
+                </Link>
+            </li>
+        </Fragment>)
+    } else {
+        headerList = (<Fragment>
+            <li>
+                <Link
+                    to="/plan"
+                    className="nav-link px-2 link-dark"
+                    style={{ fontSize: '20px' }}
+                >
+                    Meal Plan
+                </Link>
+            </li>
+            <li>
+                <Link
+                    to="/favorite-recipe"
+                    className="nav-link px-2 link-dark"
+                    style={{ fontSize: '20px' }}
+                >
+                    Favorite Recipe
+                </Link>
+            </li>
+        </Fragment>)
+    }
     return (
         <>
             <div
                 className="w-100"
                 style={{ position: 'fixed', zIndex: 500, backgroundColor: '#fff' }}
             >
-                <div className="container">
+                <div className="">
                     <div className="w-100">
                         <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom align-items-center">
                             <Link className="nav-brand" to="/">
-                                <img src={imgLogo} alt="" style={{ width: 100, height: 50 }} />
+                                <img src={imgLogo} alt="" style={{ width: 100, height: 50, marginLeft: 65 }} />
                             </Link>
 
                             <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ml-2 mr-2">
@@ -54,49 +121,7 @@ const Header = () => {
                                         Home
                                     </Link>
                                 </li>
-                                {user?.role === 'Admin' ? (
-                                    <Fragment>
-                                        <li>
-                                            <Link
-                                                to="/user-list"
-                                                className="nav-link px-2 link-dark"
-                                                style={{ fontSize: '20px' }}
-                                            >
-                                                User List
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link
-                                                to="/ingredient-list"
-                                                className="nav-link px-2 link-dark"
-                                                style={{ fontSize: '20px' }}
-                                            >
-                                                Ingredients List
-                                            </Link>
-                                        </li>
-                                    </Fragment>
-                                ) : (
-                                    <Fragment>
-                                        <li>
-                                            <Link
-                                                to="/plan"
-                                                className="nav-link px-2 link-dark"
-                                                style={{ fontSize: '20px' }}
-                                            >
-                                                Meal Plan
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link
-                                                to="/create-recipe"
-                                                className="nav-link px-2 link-dark"
-                                                style={{ fontSize: '20px' }}
-                                            >
-                                                Add recipe
-                                            </Link>
-                                        </li>
-                                    </Fragment>
-                                )}
+                                {headerList}
                                 <li>
                                     {user ? (
                                         <>
@@ -173,7 +198,10 @@ const Header = () => {
                                             >
                                                 <MenuItem onClick={handleClose}>
                                                     <Link to="/profile" style={{ display: 'flex' }}>
-                                                        <Avatar />
+
+                                                        <ListItemIcon>
+                                                            <AccountCircleIcon fontSize="small" />
+                                                        </ListItemIcon>
                                                         <Typography
                                                             variant="h6"
                                                             sx={{ fontSize: '20px' }}
@@ -183,7 +211,7 @@ const Header = () => {
                                                     </Link>
                                                 </MenuItem>
                                                 <Divider />
-                                                <MenuItem onClick={handleClose}>
+                                                {/* <MenuItem onClick={handleClose}>
                                                     <Link
                                                         to="/favorite-recipe"
                                                         style={{ display: 'flex' }}
@@ -214,7 +242,7 @@ const Header = () => {
                                                             All my recipes
                                                         </Typography>
                                                     </Link>
-                                                </MenuItem>
+                                                </MenuItem> */}
                                                 <MenuItem onClick={handleLogout}>
                                                     <ListItemIcon>
                                                         <Logout fontSize="small" />

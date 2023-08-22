@@ -3,21 +3,33 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
-import { Rating, CardActions, Button } from '@mui/material'
+import { Rating, CardActions, Button, Box, Modal } from '@mui/material'
 import Container from '@mui/material/Container'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { userFavor } from '../../redux/apiThunk/getFavoriteUserThunk'
 import { removeFavor } from '../../redux/apiThunk/getFavoriteUserThunk'
+import SearchFilter from './SearchFavoriteFilter'
+import toast, { Toaster } from 'react-hot-toast'
 
 const FavoriteRecipe = () => {
     const dispatch = useDispatch()
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
+    const [detail, setDetail] = useState('')
     const getUserFavor = useSelector((state) => state.uFavor.userFavorites)
+    const userFavorError = useSelector((state) => state.uFavor.isLoading)
+    console.log(userFavorError)
     const favorite = getUserFavor?.data
     const [reload, setReload] = useState(false)
-    const handleRemove = async (recipeId) => {
-        await dispatch(removeFavor(recipeId))
+    const handleRemove = (id) => {
+        setShowDeleteModal(true)
+        setDetail(id)
+    }
+    const handleConfirmRemove = async () => {
+        await dispatch(removeFavor(detail))
+        toast.success('Remove successful!')
+        setShowDeleteModal(false)
         setReload(!reload)
     }
     useEffect(() => {
@@ -25,7 +37,10 @@ const FavoriteRecipe = () => {
     }, [dispatch, reload])
     return (
         <>
+            <Toaster position="top-center" reverseOrder={false} />
             <Container maxWidth="md">
+                <SearchFilter />
+
                 <Typography
                     component="h1"
                     variant="h2"
@@ -39,71 +54,88 @@ const FavoriteRecipe = () => {
                     All your favorite content in one place!
                 </Typography>
             </Container>
-            {favorite?.length !== 0 ? (
+            {userFavorError === 'error' ? (
+                <Box
+                    sx={{
+                        margin: '20px 0',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        width: '100%',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Typography sx={{ paddingRight: '10px' }}> Please</Typography>
+                    <a
+                        style={{
+                            color: 'rgb(243, 156, 18)',
+                            textDecoration: 'underline',
+                            fontSize: '25px',
+                        }}
+                        href="/login"
+                    >
+                        LOGIN
+                    </a>
+                    <Typography sx={{ paddingLeft: '10px' }}> before using this feature</Typography>
+                </Box>
+            ) : favorite?.length !== 0 ? (
                 <>
                     <div
+                        className="container mb-5"
                         style={{
-                            textAlign: 'center',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            marginTop: 40,
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(3, 1fr)',
+                            gap: '40px',
                         }}
                     >
-                        <div className="container">
-                            <div className="row justify-content-center">
-                                {favorite &&
-                                    Array.isArray(favorite) &&
-                                    favorite.map((favor) => (
-                                        <div className="col-sm-4 mb-4" key={favor.recipeId}>
-                                            <Card style={{ width: 345, maxHeight: 470 }}>
-                                                <Link to={`/recipe-detail/${favor.recipeId}`}>
-                                                    <CardMedia
-                                                        component="img"
-                                                        style={{ width: 350, height: 194 }}
-                                                        image={favor.photoVMs[0].photoName}
-                                                        alt="Perfect Pancakes"
-                                                    />
-                                                    <Rating
-                                                        name="read-only"
-                                                        value={favor.aveVote}
-                                                        readOnly
-                                                        size="small"
-                                                        sx={{ mt: 2 }}
-                                                    />
-                                                </Link>
-                                                <CardContent>
-                                                    <Typography
-                                                        variant="body2"
-                                                        color="text.primary"
-                                                    >
-                                                        {favor.recipeName}
-                                                    </Typography>
-                                                    <br></br>
-                                                    <CardActions
-                                                        sx={{
-                                                            display: 'flex',
-                                                            justifyContent: 'center',
-                                                        }}
-                                                    >
-                                                        <Button
-                                                            size="small"
-                                                            style={{
-                                                                outline: 'none',
-                                                                color: '#f39c12',
-                                                            }}
-                                                            onClick={() =>
-                                                                handleRemove(favor.recipeId)
-                                                            }
-                                                        >
-                                                            Remove
-                                                        </Button>
-                                                    </CardActions>
-                                                </CardContent>
-                                            </Card>
-                                        </div>
-                                    ))}
-                            </div>
-                        </div>
+                        {favorite &&
+                            Array.isArray(favorite) &&
+                            favorite.map((favor) => (
+                                <div className="grid-item" key={favor.recipeId}>
+                                    <Card
+                                        style={{ width: 345, maxHeight: 470, textAlign: 'center' }}
+                                    >
+                                        <Link to={`/recipe-detail/${favor.recipeId}`}>
+                                            <CardMedia
+                                                component="img"
+                                                style={{ width: 350, height: 194 }}
+                                                image={favor.photoVMs[0].photoName}
+                                                alt="Perfect Pancakes"
+                                            />
+                                            <Rating
+                                                name="read-only"
+                                                value={favor.aveVote}
+                                                readOnly
+                                                size="small"
+                                                precision={0.5}
+                                                sx={{ mt: 2 }}
+                                            />
+                                        </Link>
+                                        <CardContent>
+                                            <Typography variant="body2" color="text.primary">
+                                                {favor.recipeName}
+                                            </Typography>
+                                            <br></br>
+                                            <CardActions
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                }}
+                                            >
+                                                <Button
+                                                    size="small"
+                                                    style={{
+                                                        outline: 'none',
+                                                        color: '#f39c12',
+                                                    }}
+                                                    onClick={() => handleRemove(favor.recipeId)}
+                                                >
+                                                    Remove
+                                                </Button>
+                                            </CardActions>
+                                        </CardContent>
+                                    </Card>
+                                </div>
+                            ))}
                     </div>
                 </>
             ) : (
@@ -131,6 +163,55 @@ const FavoriteRecipe = () => {
                     </div>
                 </div>
             )}
+            <Modal
+                open={showDeleteModal}
+                onClose={() => setShowDeleteModal(false)}
+                aria-labelledby="login-modal-title"
+            >
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: 400,
+                        bgcolor: 'background.paper',
+                        boxShadow: 24,
+                        p: 4,
+                    }}
+                >
+                    <Typography
+                        id="login-modal-title"
+                        variant="h5"
+                        component="h2"
+                        style={{ color: '#f39c12', fontWeight: 600 }}
+                    >
+                        Remove favorite
+                    </Typography>
+                    <Typography sx={{ mt: 2 }}>
+                        Do you want to remove this item from the favorites list?
+                    </Typography>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        sx={{ mt: 2 }}
+                        onClick={() => setShowDeleteModal(false)}
+                        style={{ backgroundColor: '#f39c12', outline: 'none' }}
+                    >
+                        Close
+                    </Button>
+                    &nbsp; &nbsp;
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        sx={{ mt: 2 }}
+                        onClick={handleConfirmRemove}
+                        style={{ backgroundColor: '#f39c12', outline: 'none' }}
+                    >
+                        Confirm
+                    </Button>
+                </Box>
+            </Modal>
         </>
     )
 }
