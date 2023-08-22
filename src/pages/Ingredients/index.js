@@ -28,6 +28,8 @@ import {
     removeIngredient
 } from '../../redux/apiThunk/ingredientThunk'
 import CircularProgress from "@mui/material/CircularProgress";
+import Swal from "sweetalert2";
+import toast, { Toaster } from 'react-hot-toast';
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -164,7 +166,10 @@ export default function IngredientList() {
 
     const [show, setShow] = useState(false);
 
-    const handleCloseModal = () => setShow(false);
+    const handleCloseModal = () => {
+        setValue({ ...value, ingredientName: "", measure: "" })
+        setShow(false);
+    }
     const handleShow = () => setShow(true);
 
     const [value, setValue] = useState({
@@ -173,19 +178,54 @@ export default function IngredientList() {
         measure: ""
     });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        dispatch(addIngredient({ data: JSON.stringify(value) })).then((result) => {
-            setReload(!reload)
-        }).catch((err) => {
-            console.log(err);
+        await Swal.fire({
+            title: "Do you want to save the changes?",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#285D9A",
+            cancelButtonColor: "#e74a3b",
+            confirmButtonText: "Yes, save it!",
+            background: "white",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await dispatch(addIngredient({ data: JSON.stringify(value) })).then((result) => {
+                    result.payload.status === 1 ? toast.success('Create Success!') : toast.error('Create Failed!')
+                    setReload(!reload)
+                }).catch((err) => {
+                    console.log(err);
+                });
+            } else {
+                toast('Nothing Create!')
+            }
         });
         setValue({ ...value, ingredientName: "", measure: "" })
         handleCloseModal()
     }
 
     const deleteIngredient = async () => {
-        await dispatch(removeIngredient({ id: id })).then(setReload(!reload))
+        handleClose()
+        await Swal.fire({
+            title: "Do you want to save the changes?",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#285D9A",
+            cancelButtonColor: "#e74a3b",
+            confirmButtonText: "Yes, save it!",
+            background: "white",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await dispatch(removeIngredient({ id: id })).then((result) => {
+                    result.payload.status === 1 ? toast.success('Delete Success!') : toast.error('Delete Failed!')
+                    setReload(!reload)
+                }).catch((err) => {
+                    console.log(err);
+                });
+            } else {
+                toast('Nothing Delete!')
+            }
+        });
         handleClose();
     };
 
@@ -203,121 +243,8 @@ export default function IngredientList() {
     } else if (status === 'fail' || (ingredientList.ingredients.data && ingredientList.ingredients.data.length === 0)) {
         content = <div style={{ paddingLeft: "45%%" }}> No data</div>;
     } else {
-        content = (<div className="container ingredient-list">
-            <Box sx={{ width: '100%' }}>
-                <Paper sx={{ width: '100%', mb: 2 }}>
-                    <TableContainer>
-                        <Table
-                            sx={{ minWidth: 750 }}
-                            aria-labelledby="tableTitle"
-                        >
-                            <EnhancedTableHead
-                                numSelected={selected?.length}
-                                onSelectAllClick={handleSelectAllClick}
-                                rowCount={ingredientList?.ingredients.data?.length}
-                            />
-                            <TableBody>
-                                {ingredientList?.ingredients.data?.map((row, index) => {
-                                    return (
-                                        <TableRow
-                                            hover
-                                            key={row.id}
-                                        >
-                                            <TableCell
-                                                component="th"
-                                                scope="row"
-                                                padding="normal"
-                                            >
-                                                {(index + 1) + ingredientList?.ingredients.itemPerPage * (ingredientList?.ingredients.moveToPage - 1)}
-                                            </TableCell>
-                                            <TableCell
-                                                component="th"
-                                                scope="row"
-                                                padding="normal"
-                                            >
-                                                {row.ingredientId}
-                                            </TableCell>
-                                            <TableCell align="left">{row.ingredientName}</TableCell>
-                                            <TableCell align="left">{row.measure}</TableCell>
-                                            <TableCell align="center">
-                                                <div>
-                                                    <Button
-                                                        id="demo-customized-button"
-                                                        aria-controls={open ? 'demo-customized-menu' : undefined}
-                                                        aria-haspopup="true"
-                                                        aria-expanded={open ? 'true' : undefined}
-                                                        variant="contained"
-                                                        disableElevation
-                                                        onClick={(event) => handleClickMenu(event, row.ingredientId)}
-                                                        endIcon={<KeyboardArrowDownIcon />}
-                                                    >
-                                                        Options
-                                                    </Button>
-                                                    <StyledMenu
-                                                        id="demo-customized-menu"
-                                                        MenuListProps={{
-                                                            'aria-labelledby': 'demo-customized-button',
-                                                        }}
-                                                        anchorEl={anchorEl}
-                                                        open={open}
-                                                        onClose={handleClose}
-                                                        PaperProps={{
-                                                            style: {
-                                                                boxShadow: 'none',
-                                                                border: '1px solid #000'
-                                                            }
-                                                        }}
-                                                    >
-                                                        <Link to={`/ingredient-detail/${id}`}>
-                                                            <MenuItem disableRipple>
-                                                                <EditIcon />
-                                                                Edit
-                                                            </MenuItem>
-                                                        </Link>
-                                                        <MenuItem onClick={() => deleteIngredient()} disableRipple>
-                                                            <DeleteIcon />
-                                                            Delete
-                                                        </MenuItem>
-                                                    </StyledMenu>
-                                                </div>
-                                            </TableCell>
-                                        </TableRow>
-                                    )
-                                })}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <TablePagination
-                        rowsPerPageOptions={[10, 25, 50]}
-                        component="div"
-                        count={ingredientList.ingredients.totalData}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                </Paper>
-            </Box>
-        </div >)
-    }
-
-    return (
-        <Fragment>
-            <Container maxWidth="md">
-                <Typography
-                    component="h1"
-                    variant="h2"
-                    align="center"
-                    style={{ color: '#f39c12', marginTop: 20 }}
-                    gutterBottom
-                >
-                    Ingredient List
-                </Typography>
-                <Typography variant="h5" align="center" color="text.secondary" paragraph>
-                    Manage Ingredient in database
-                </Typography>
-            </Container>
-            <div className='container form-create'>
+        content = (
+            <Fragment>
                 <Button variant="outlined" onClick={handleShow} style={{ margin: '0 15px' }}>
                     Add More Recipe
                 </Button>
@@ -349,6 +276,123 @@ export default function IngredientList() {
                         </Modal.Footer>
                     </form>
                 </Modal>
+                <div className="container ingredient-list">
+                    <Box sx={{ width: '100%' }}>
+                        <Paper sx={{ width: '100%', mb: 2 }}>
+                            <TableContainer>
+                                <Table
+                                    sx={{ minWidth: 750 }}
+                                    aria-labelledby="tableTitle"
+                                >
+                                    <EnhancedTableHead
+                                        numSelected={selected?.length}
+                                        onSelectAllClick={handleSelectAllClick}
+                                        rowCount={ingredientList?.ingredients.data?.length}
+                                    />
+                                    <TableBody>
+                                        {ingredientList?.ingredients.data?.map((row, index) => {
+                                            return (
+                                                <TableRow
+                                                    hover
+                                                    key={row.id}
+                                                >
+                                                    <TableCell
+                                                        component="th"
+                                                        scope="row"
+                                                        padding="normal"
+                                                    >
+                                                        {(index + 1) + ingredientList?.ingredients.itemPerPage * (ingredientList?.ingredients.moveToPage - 1)}
+                                                    </TableCell>
+                                                    <TableCell
+                                                        component="th"
+                                                        scope="row"
+                                                        padding="normal"
+                                                    >
+                                                        {row.ingredientId}
+                                                    </TableCell>
+                                                    <TableCell align="left">{row.ingredientName}</TableCell>
+                                                    <TableCell align="left">{row.measure}</TableCell>
+                                                    <TableCell align="center">
+                                                        <div>
+                                                            <Button
+                                                                id="demo-customized-button"
+                                                                aria-controls={open ? 'demo-customized-menu' : undefined}
+                                                                aria-haspopup="true"
+                                                                aria-expanded={open ? 'true' : undefined}
+                                                                variant="contained"
+                                                                disableElevation
+                                                                onClick={(event) => handleClickMenu(event, row.ingredientId)}
+                                                                endIcon={<KeyboardArrowDownIcon />}
+                                                            >
+                                                                Options
+                                                            </Button>
+                                                            <StyledMenu
+                                                                id="demo-customized-menu"
+                                                                MenuListProps={{
+                                                                    'aria-labelledby': 'demo-customized-button',
+                                                                }}
+                                                                anchorEl={anchorEl}
+                                                                open={open}
+                                                                onClose={handleClose}
+                                                                PaperProps={{
+                                                                    style: {
+                                                                        boxShadow: 'none',
+                                                                        border: '1px solid #000'
+                                                                    }
+                                                                }}
+                                                            >
+                                                                <Link to={`/ingredient-detail/${id}`}>
+                                                                    <MenuItem disableRipple>
+                                                                        <EditIcon />
+                                                                        Edit
+                                                                    </MenuItem>
+                                                                </Link>
+                                                                <MenuItem onClick={() => deleteIngredient()} disableRipple>
+                                                                    <DeleteIcon />
+                                                                    Delete
+                                                                </MenuItem>
+                                                            </StyledMenu>
+                                                        </div>
+                                                    </TableCell>
+                                                </TableRow>
+                                            )
+                                        })}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                            <TablePagination
+                                rowsPerPageOptions={[10, 25, 50]}
+                                component="div"
+                                count={ingredientList.ingredients.totalData}
+                                rowsPerPage={rowsPerPage}
+                                page={page}
+                                onPageChange={handleChangePage}
+                                onRowsPerPageChange={handleChangeRowsPerPage}
+                            />
+                        </Paper>
+                    </Box>
+                </div >
+            </Fragment>)
+    }
+
+    return (
+        <Fragment>
+            <Toaster />
+            <Container maxWidth="md">
+                <Typography
+                    component="h1"
+                    variant="h2"
+                    align="center"
+                    style={{ color: '#f39c12', marginTop: 20 }}
+                    gutterBottom
+                >
+                    Ingredient List
+                </Typography>
+                <Typography variant="h5" align="center" color="text.secondary" paragraph>
+                    Manage Ingredient in database
+                </Typography>
+            </Container>
+            <div className='container form-create'>
                 {content}
             </div>
         </Fragment>

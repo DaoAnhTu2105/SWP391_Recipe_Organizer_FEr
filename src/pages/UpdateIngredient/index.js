@@ -69,13 +69,12 @@ const UpdateIngredient = () => {
                                     value={value.ingredientName} onChange={e => setValue({ ...value, ingredientName: e.target.value })} required />
                             </div>
                             <div>
-                                <label htmlFor="email">Email:</label>
+                                <label htmlFor="email">Measure:</label>
                                 <input type="text" name='email' className='form-control' placeholder='Enter Email'
                                     value={value.measure} onChange={e => setValue({ ...value, measure: e.target.value })} required />
                             </div >
                             <br />
                             <button className='btn btn-info'>Update</button>
-                            {/* <Link to="/ingredient-list"><button className='btn btn-info'>Back to ingredient list</button></Link> */}
                         </form>
                     </div>
                 </div>
