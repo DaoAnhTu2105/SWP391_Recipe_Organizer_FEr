@@ -36,14 +36,16 @@ const SearchFavorite = ({ country, meal, totalTime, serving }) => {
             })
             .then((response) => {
                 setSearchResult(response.data)
-                result('/search-favorite-results', { state: { searchResult: response.data } })
+                result('/search-favorite-results', {
+                    state: { searchResult: response.data, name: searchData.recipeName },
+                })
             })
             .catch((error) => {
                 console.error(error)
             })
     }
     return (
-        <div className="search" style={{ marginTop: 140 }}>
+        <div className="search">
             <div className="row">
                 <div className="col-12">
                     <form className="search-form" onSubmit={handleSearch}>
