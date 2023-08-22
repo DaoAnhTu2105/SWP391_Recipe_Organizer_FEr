@@ -6,7 +6,7 @@ import Grid from '@mui/material/Unstable_Grid2'
 import { Button, Slider, Stack, Typography, Collapse, FormControl, FormGroup } from '@mui/material'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import { useState, useEffect } from 'react'
-import SearchFavorite from './Search/Search'
+import SearchFavorite from './Search/SearchFavorite'
 import axios from 'axios'
 
 const SearchFilterFavorites = () => {
@@ -79,7 +79,7 @@ const SearchFilterFavorites = () => {
                         serving={serving}
                     />
                 </div>
-                <div style={{ marginLeft: 10, marginTop: 130 }}>
+                <div style={{ marginLeft: 10 }}>
                     <Button
                         variant="contained"
                         size="small"
