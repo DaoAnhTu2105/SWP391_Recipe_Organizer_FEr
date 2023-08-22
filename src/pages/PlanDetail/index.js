@@ -1,7 +1,7 @@
 import './index.css'
 import React, { useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useParams, Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import Food from './Food'
@@ -74,10 +74,10 @@ const PlanDetail = () => {
     }
 
     const [show, setShow] = useState(false);
-    const formatData = (date) => {
-        const [y, m, d] = date.split("-");
-        return m + "/" + d + "/" + y
-    }
+    // const formatData = (date) => {
+    //     const [y, m, d] = date.split("-");
+    //     return m + "/" + d + "/" + y
+    // }
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 

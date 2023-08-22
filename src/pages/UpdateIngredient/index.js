@@ -1,10 +1,12 @@
 import React from 'react'
 import { useState, useEffect, Fragment } from 'react'
-import { useNavigate, useParams, Link } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { getIngredientDetail, updateIngredient } from '../../redux/apiThunk/ingredientThunk'
 import { useDispatch, useSelector } from 'react-redux'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
+import Swal from "sweetalert2";
+import toast, { Toaster } from 'react-hot-toast';
 
 const UpdateIngredient = () => {
     const { id } = useParams();
@@ -33,18 +35,41 @@ const UpdateIngredient = () => {
     }, [ingredient, id]);
 
     const navigate = useNavigate();
-    // const changePage = () => {
-    //     navigate("/ingredient-list");
-    // }
 
-    const handleSubmit = async (e) => {
+    const handleSubmitUpdate = async (e) => {
         e.preventDefault();
-        await dispatch(updateIngredient({ id: id, data: JSON.stringify(value) }));
-        navigate('/ingredient-list');
-    };
+        await Swal.fire({
+            title: "Do you want to save the changes?",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#285D9A",
+            cancelButtonColor: "#e74a3b",
+            confirmButtonText: "Yes, save it!",
+            background: "white",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await dispatch(updateIngredient({ id: id, data: JSON.stringify(value) })).then(async (result) => {
+                    if (result.payload.status === 1) {
+                        toast.success('Create Success!')
+                        setTimeout(() => {
+                            navigate('/ingredient-list')
+                        }, 1000);
+                    } else {
+                        toast.error('Create Failed!')
+                    }
+                }).catch((err) => {
+                    console.log(err);
+                })
+            } else {
+                toast('Nothing Create!')
+            }
+        });
+        // setValue({ ...value, ingredientName: "", measure: "" })
+    }
 
     return (
         <Fragment>
+            <Toaster />
             <Container maxWidth="md">
                 <Typography
                     component="h1"
@@ -62,7 +87,7 @@ const UpdateIngredient = () => {
             <div className="container" style={{ marginBottom: '30px' }}>
                 <div className='d-flex w-100 vh-100 justify-content-center align-items-center'>
                     <div className='w-50 border bg-secondary text-white p-5'>
-                        <form onSubmit={e => handleSubmit(e)}>
+                        <form onSubmit={e => handleSubmitUpdate(e)}>
                             <div>
                                 <label htmlFor="name">Name:</label>
                                 <input type="text" name='name' className='form-control' placeholder="Enter Name"
