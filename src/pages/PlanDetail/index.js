@@ -12,7 +12,6 @@ import { fetchDataAsync } from '../../redux/apiThunk/getAllRecipesThunk'
 
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-
 import Swal from "sweetalert2";
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -139,7 +138,7 @@ const PlanDetail = () => {
                                         <Button variant="secondary" onClick={handleClose}>
                                             Close
                                         </Button>
-                                        <Button variant="primary" type='submid' >
+                                        <Button variant="primary" type='submit' >
                                             Save Changes
                                         </Button>
                                     </Modal.Footer>
@@ -155,7 +154,7 @@ const PlanDetail = () => {
                 <div className="title">
                     <h4>Meal Planner</h4>
                     <div>
-                        <Button variant="primary" onClick={handleShow}>
+                        <Button onClick={handleShow}>
                             Add More Recipe
                         </Button>
                         <Modal show={show} onHide={handleClose}>
@@ -193,7 +192,7 @@ const PlanDetail = () => {
                                     <Button variant="secondary" onClick={handleClose}>
                                         Close
                                     </Button>
-                                    <Button variant="primary" type='submid' >
+                                    <Button variant="primary" type='submit' >
                                         Save Changes
                                     </Button>
                                 </Modal.Footer>

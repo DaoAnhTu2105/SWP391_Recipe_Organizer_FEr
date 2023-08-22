@@ -10,23 +10,17 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
-import TableSortLabel from '@mui/material/TableSortLabel'
 import Paper from '@mui/material/Paper'
-import { visuallyHidden } from '@mui/utils'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
-import MenuSharpIcon from '@mui/icons-material/MenuSharp';
 import { styled, alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Divider from '@mui/material/Divider';
-import ClearSharpIcon from '@mui/icons-material/ClearSharp';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import Modal from 'react-bootstrap/Modal';
 import { useSelector, useDispatch } from 'react-redux'
 import {
     getAllIngredient,
@@ -168,6 +162,10 @@ export default function IngredientList() {
         setAnchorEl(null);
     };
 
+    const [show, setShow] = useState(false);
+
+    const handleCloseModal = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const [value, setValue] = useState({
         ingredientId: "",
@@ -179,11 +177,11 @@ export default function IngredientList() {
         e.preventDefault();
         dispatch(addIngredient({ data: JSON.stringify(value) })).then((result) => {
             setReload(!reload)
-
         }).catch((err) => {
             console.log(err);
         });
         setValue({ ...value, ingredientName: "", measure: "" })
+        handleCloseModal()
     }
 
     const deleteIngredient = async () => {
@@ -205,7 +203,7 @@ export default function IngredientList() {
     } else if (status === 'fail' || (ingredientList.ingredients.data && ingredientList.ingredients.data.length === 0)) {
         content = <div style={{ paddingLeft: "45%%" }}> No data</div>;
     } else {
-        content = (<div className="container user-list">
+        content = (<div className="container ingredient-list">
             <Box sx={{ width: '100%' }}>
                 <Paper sx={{ width: '100%', mb: 2 }}>
                     <TableContainer>
@@ -319,21 +317,38 @@ export default function IngredientList() {
                     Manage Ingredient in database
                 </Typography>
             </Container>
-            <div className=''>
-                <form className='container form-create' onSubmit={e => handleSubmit(e)}>
-                    <h3>Create new Ingredient</h3>
-                    <div class="form-group">
-                        <label htmlFor="exampleInputEmail1">Ingredient name</label>
-                        <input type="text" class="form-control" id="formName" placeholder="Enter name"
-                            value={value.ingredientName} onChange={e => setValue({ ...value, ingredientName: e.target.value })} required />
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">measure</label>
-                        <input type="text" class="form-control" id="formMeasure" placeholder="Enter measure"
-                            value={value.measure} onChange={e => setValue({ ...value, measure: e.target.value })} required />
-                    </div>
-                    <button type="submit" class="btn btn-primary">Create</button>
-                </form>
+            <div className='container form-create'>
+                <Button variant="outlined" onClick={handleShow} style={{ margin: '0 15px' }}>
+                    Add More Recipe
+                </Button>
+                <Modal show={show} onHide={handleCloseModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Create new Ingredient</Modal.Title>
+                    </Modal.Header>
+                    <form onSubmit={e => handleSubmit(e)}>
+                        <Modal.Body>
+                            <div class="form-group">
+                                <label htmlFor="exampleInputEmail1">Ingredient name</label>
+                                <input type="text" class="form-control" id="formName" placeholder="Enter name"
+                                    value={value.ingredientName} onChange={e => setValue({ ...value, ingredientName: e.target.value })} required />
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">measure</label>
+                                <input type="text" class="form-control" id="formMeasure" placeholder="Enter measure"
+                                    value={value.measure} onChange={e => setValue({ ...value, measure: e.target.value })} required />
+                            </div>
+                            {/* <button type="submit" class="btn btn-primary">Create</button> */}
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="contained" style={{ backgroundColor: '#6c757d' }} onClick={handleCloseModal}>
+                                Close
+                            </Button>
+                            <Button variant="contained" type='submit' >
+                                Save Changes
+                            </Button>
+                        </Modal.Footer>
+                    </form>
+                </Modal>
                 {content}
             </div>
         </Fragment>
