@@ -11,7 +11,7 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { getStorage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid'
 import { useParams } from 'react-router-dom';
-
+import { toast, ToastContainer } from 'react-toastify';
 const CustomInput = React.forwardRef(function CustomInput(props, ref) {
     return (
         <Input
@@ -26,11 +26,19 @@ function UpdateRecipe() {
     //-------------------Get APIs HERE-----------------------------
     const [updateRecipe, setUpdateRecipe] = useState('')
     const { id } = useParams()
-
-    const recipeUpdateUrl = `https://recipe-organizer-api.azurewebsites.net/api/Recipes/Get?id=${id}`;
+    const user = JSON.parse(localStorage.getItem('user'))
+    const accessToken = user?.token
+    const recipeUpdateUrl = `https://recipe-organizer-api.azurewebsites.net/api/Recipes/GetRecipeUpdate?id=${id}`;
 
     const getUpdateRecipe = () => {
-        fetch(recipeUpdateUrl)
+        fetch(recipeUpdateUrl,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+            })
             .then((response) => {
                 if (!response.ok) {
                     throw new Error(`HTTP Status: ${response.status}`);
@@ -42,7 +50,20 @@ function UpdateRecipe() {
                 setRecipeTitle(data?.data.recipeName)
                 setRecipeDescription(data?.data.description)
                 setDirectionFields(data?.data.directionVMs)
-                setIngredientFields(data?.data.ingredientOfRecipeVMs)
+                setSelectedImage(data?.data.photoVMs[0].photoName)
+
+
+                const ingredientDataFromAPI = data.data.ingredientOfRecipeVMs
+                const newIngredientFields = ingredientDataFromAPI.map((ingredientData) => {
+                    return {
+                        id: Date.now(),
+                        ingredientName: ingredientData.ingredientVM.ingredientName + ' - ' + ingredientData.ingredientVM.measure,
+                        quantity: ingredientData.quantity,
+                    };
+                });
+                console.log("newIng", newIngredientFields)
+                console.log("data", ingredientDataFromAPI)
+                setIngredientFields(newIngredientFields)
                 setNutritionValues(() => ({
                     ['fat']: data.data.fat,
                     ['carbs']: data.data.carbohydrate,
@@ -56,6 +77,8 @@ function UpdateRecipe() {
                 }));
                 setTotalTime(data?.data.totalTime)
                 setServingAmount(data?.data.servings)
+                setSelectedCountry(data?.data.countryVM.countryName)
+                setSelectedMeal(data?.data.mealVMs.mealName)
             })
             .catch((error) => console.log(error.message));
     }
@@ -142,7 +165,7 @@ function UpdateRecipe() {
     const [photoUrl, setPhotoUrl] = useState('')
 
     const handleUpdateRecipe = async () => {
-        
+
         if (uploadedFile) {
             const imageRef = ref(storage, `Recipes/${uuidv4()}`);
             uploadBytes(imageRef, uploadedFile).then(() => {
@@ -160,14 +183,14 @@ function UpdateRecipe() {
                         console.log("url img", url)
                         const recipeName = recipeTitle;
                         const description = recipeDescription;
-                        const prepTimeSt = timeValue.prep+"";
-                        const cookTimeSt = timeValue.cook+"";
-                        const standTimeSt = timeValue.stand+"";
+                        const prepTimeSt = timeValue.prep + "";
+                        const cookTimeSt = timeValue.cook + "";
+                        const standTimeSt = timeValue.stand + "";
                         const totalTime = totalTimes;
-                        const servingsSt = servingAmount+"";
-                        const carbohydrateSt = nutritionValues.carbs+"";
-                        const proteinSt = nutritionValues.protein+"";
-                        const fatSt = nutritionValues.fat+"";
+                        const servingsSt = servingAmount + "";
+                        const carbohydrateSt = nutritionValues.carbs + "";
+                        const proteinSt = nutritionValues.protein + "";
+                        const fatSt = nutritionValues.fat + "";
                         const calories = totalCalories;
                         const photoVMs = {
                             photoName: url
@@ -175,8 +198,12 @@ function UpdateRecipe() {
                         const directionVMs = directionFields
                         const ingredientOfRecipeVMs = ingredientFields
                         const recipeId = id
-                        console.log("reId",recipeId)
+                        const countryId = selectedCountryId
+                        const mealId = selectedMealId
+                        console.log("reId", recipeId)
                         const payload = {
+                            mealId,
+                            countryId,
                             recipeId,
                             recipeName,
                             description,
@@ -211,20 +238,21 @@ function UpdateRecipe() {
                             );
                             if (response.ok) {
                                 try {
-                                    const data = await response.json();
-
-                                    // toast.success('Success Booking!', {
-                                    //   position: "top-right",
-                                    //   autoClose: 5000,
-                                    //   hideProgressBar: false,
-                                    //   closeOnClick: true,
-                                    //   pauseOnHover: true,
-                                    //   draggable: true,
-                                    //   progress: undefined,
-                                    //   theme: "light",
-                                    // });
-
-                                    console.log("data", data);
+                                    const handleSuccess = async () => {
+                                        await toast.success("Update Success", {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: false,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: true,
+                                            progress: undefined,
+                                            theme: "colored",
+                                        }).then(
+                                            console.log("success")
+                                        )
+                                        
+                                    }
                                 } catch (error) {
                                     console.error('Error parsing JSON:', error);
 
@@ -502,6 +530,7 @@ function UpdateRecipe() {
                                             type="number"
                                             variant="outlined"
                                             placeholder="1"
+                                            label="unit(s)"
                                             InputLabelProps={{ shrink: true }}
                                             inputProps={{ min: 0 }}
                                             sx={{ width: 150 }}

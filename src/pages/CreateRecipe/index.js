@@ -89,7 +89,22 @@ function CreateRecipe() {
     photoName: ''
   })
   const [photoUrl, setPhotoUrl] = useState('')
+  const handleAddSuccess = () => {
+    toast.success('Add Success!', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
 
+    setTimeout(() => {
+      navigate('/') // Navigate after 2 seconds
+    }, 2000);
+  }
   const handleCreateRecipe = async () => {
 
     if (uploadedFile) {
@@ -160,20 +175,10 @@ function CreateRecipe() {
                 }
               );
               if (response.ok) {
+                console.log(response)
                 try {
                   const data = await response.json();
-                  toast.success('Add Success!', {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                  })
-                  navigate('/')
-                  console.log("data", data);
+                  handleAddSuccess()
                 } catch (error) {
                   console.error('Error parsing JSON:', error);
 
@@ -450,6 +455,7 @@ function CreateRecipe() {
                     <TextField
                       type="number"
                       variant="outlined"
+                      label="unit(s)"
                       placeholder="1"
                       InputLabelProps={{ shrink: true }}
                       inputProps={{ min: 0 }}

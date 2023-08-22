@@ -50,6 +50,13 @@ export const publicRouters = [
         name: 'create-plan',
         component: CreatePlan,
         layout: LayoutWithoutFilter,
+    }
+    ,
+    {
+        path: '/recipe-cooker/:id',
+        name: 'recipe-cooker',
+        component: ViewCooker,
+        layout: LayoutWithoutFilter,
     },
 
     {
@@ -100,12 +107,6 @@ export const privateRouters = [
         path: '/plan-detail/:date',
         name: 'plan-detail',
         component: PlanDetail,
-        layout: LayoutWithoutFilter,
-    },
-    {
-        path: '/recipe-cooker',
-        name: 'recipe-cooker',
-        component: ViewCooker,
         layout: LayoutWithoutFilter,
     }
     ,

@@ -98,12 +98,15 @@ const RecipeDetail = () => {
                                     </div>
                                     <p>
                                         Recipe by &nbsp;
-                                        <Link
-                                            to="/repice-cooker"
-                                            style={{ textDecoration: 'true', color: '#f39c12' }}
-                                        >
-                                            {recipeDetail && recipeDetail?.userAccountVMs?.fullName}
-                                        </Link>
+                                        {recipeDetail && recipeDetail?.userAccountVMs && (
+                                            <Link
+                                                to={`/recipe-cooker/${recipeDetail?.userAccountVMs.userId}`}
+                                                style={{ textDecoration: 'true', color: '#f39c12' }}
+                                            >
+                                                {recipeDetail && recipeDetail?.userAccountVMs?.fullName}
+                                            </Link>
+                                        )}
+
                                     </p>
                                     <Button
                                         size="medium"
