@@ -23,19 +23,19 @@ const Food = ({ date, id, foodId, name, image, time, ingredient, fat, calories, 
         dateSt: formatDate(date),
         mealOfDate: ""
     })
-    // const getAllRecipes = useSelector((state) => state.plan.recipePlan)
-    // console.log(getAllRecipes);
+    const getAllRecipes = useSelector((state) => state.plan.recipePlan)
 
     //show modal update
     const handleClose = () => setShow(false);
     const handleShow = () => {
-        // dispatch(getRecipesPlan())
+        dispatch(getRecipesPlan())
         setShow(true);
     }
 
     //update plan meal
     const handleFormUpdate = async (e) => {
         e.preventDefault()
+        console.log(e.target[0].value);
         await Swal.fire({
             title: "Do you want to save the changes?",
             icon: "info",
@@ -116,9 +116,9 @@ const Food = ({ date, id, foodId, name, image, time, ingredient, fat, calories, 
                                 <label htmFor="recipe">Recipe</label>
                                 <select id="recipe" class="form-control" onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
                                     <option value="">...</option>
-                                    {/* {getAllRecipes?.data?.map((item) => (
+                                    {getAllRecipes?.data?.map((item) => (
                                         <option value={item.recipeId}>{item.recipeName}</option>
-                                    ))} */}
+                                    ))}
                                 </select>
                                 <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                             </div>
