@@ -23,19 +23,19 @@ const Food = ({ date, id, foodId, name, image, time, ingredient, fat, calories, 
         dateSt: formatDate(date),
         mealOfDate: ""
     })
-    // const getAllRecipes = useSelector((state) => state.plan.recipePlan)
-    // console.log(getAllRecipes);
+    const getAllRecipes = useSelector((state) => state.plan.recipePlan)
 
     //show modal update
     const handleClose = () => setShow(false);
     const handleShow = () => {
-        // dispatch(getRecipesPlan())
+        dispatch(getRecipesPlan())
         setShow(true);
     }
 
     //update plan meal
     const handleFormUpdate = async (e) => {
         e.preventDefault()
+        console.log(e.target[0].value);
         await Swal.fire({
             title: "Do you want to save the changes?",
             icon: "info",
@@ -86,26 +86,20 @@ const Food = ({ date, id, foodId, name, image, time, ingredient, fat, calories, 
 
     return (
         <div className="product">
-            <Link to={`/recipe-detail/${foodId}`}>
-                <div>
-                    <img src={image} alt={name} width="150" height="150" />
-                </div>
+            <Link className='product-infor' to={`/recipe-detail/${foodId}`}>
+                <img src={image} alt={name} />
                 <div className="product-detail">
-                    <div>
-                        <b>{name}</b>
-                    </div>
-                    <div style={{ fontSize: "14px" }}>
+                    <b>{name}</b>
+                    <div style={{ fontSize: "15px" }}>
                         Cooking: {time} minutes<br />
-                        Ingredient: {ingredient} Ingredients<br /><br />
+                        Ingredient: {ingredient} Ingredients<br />
                         Calo: {calories}g
                     </div>
                 </div>
             </Link>
 
-            <div style={{ alignItems: 'right' }}>
-                <Button variant="primary" onClick={handleShow}>
-                    Update
-                </Button>
+            <div className='product-feature' style={{ alignItems: 'right' }}>
+
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Modal heading</Modal.Title>
@@ -116,9 +110,9 @@ const Food = ({ date, id, foodId, name, image, time, ingredient, fat, calories, 
                                 <label htmFor="recipe">Recipe</label>
                                 <select id="recipe" class="form-control" onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
                                     <option value="">...</option>
-                                    {/* {getAllRecipes?.data?.map((item) => (
+                                    {getAllRecipes?.data?.map((item) => (
                                         <option value={item.recipeId}>{item.recipeName}</option>
-                                    ))} */}
+                                    ))}
                                 </select>
                                 <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                             </div>
@@ -142,7 +136,12 @@ const Food = ({ date, id, foodId, name, image, time, ingredient, fat, calories, 
                         </Modal.Footer>
                     </form>
                 </Modal>
-                <button onClick={(e) => deletePlanMeal(e)}>delete</button>
+                <button onClick={(e) => deletePlanMeal(e)}>
+                    Delete
+                </button>
+                <button onClick={handleShow}>
+                    Update
+                </button>
             </div>
         </div >
     )
