@@ -13,6 +13,8 @@ import Modal from 'react-bootstrap/Modal';
 
 import Swal from "sweetalert2";
 import toast, { Toaster } from 'react-hot-toast';
+import Typography from '@mui/material/Typography'
+import { Box } from '@mui/material'
 
 const dayOfWeek = [
     "Monday",
@@ -163,14 +165,28 @@ export default function MealPlan() {
         setShow(true)
     };
     const content = (
-        <div className='container' style={{ margin: '30px 0' }}>
-            You must Login to use this feature
-            <a href="/login">
-                <button>
-                    Login Page
-                </button>
+        <Box
+            sx={{
+                margin: '22px 0',
+                display: 'flex',
+                justifyContent: 'center',
+                width: '100%',
+                alignItems: 'center',
+            }}
+        >
+            <Typography sx={{ paddingRight: '10px' }}> Please</Typography>
+            <a
+                style={{
+                    color: 'rgb(243, 156, 18)',
+                    textDecoration: 'underline',
+                    fontSize: '25px',
+                }}
+                href="/login"
+            >
+                LOGIN
             </a>
-        </div>
+            <Typography sx={{ paddingLeft: '10px' }}> before using this feature</Typography>
+        </Box>
     )
     if (dataStatus === 'loading') {
         contentAuth = (
