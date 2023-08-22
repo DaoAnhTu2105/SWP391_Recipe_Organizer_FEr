@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Card, CardMedia, Rating, CardContent, Typography, Box } from '@mui/material'
-import SearchFilter from '../FavortieRecipe/SearchFilter'
+import SearchFilter from '../FavortieRecipe/SearchFavoriteFilter'
 
 const SearchResultFavorite = () => {
     const location = useLocation()
@@ -20,7 +20,7 @@ const SearchResultFavorite = () => {
                     <div>
                         <h1 style={{ textAlign: 'center' }}>Couldn't find any favorite recipes</h1>
                         <div style={{ textAlign: 'center' }}>
-                            <Link to="/">
+                            <Link to="/favorite-recipe">
                                 <button
                                     style={{
                                         padding: '10px 50px',
@@ -35,7 +35,7 @@ const SearchResultFavorite = () => {
                                         border: 'none',
                                     }}
                                 >
-                                    Back To Home
+                                    Back
                                 </button>
                             </Link>
                         </div>
