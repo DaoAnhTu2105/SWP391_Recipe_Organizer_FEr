@@ -186,13 +186,13 @@ export default function IngredientList() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 await dispatch(addIngredient({ data: JSON.stringify(value) })).then((result) => {
-                    result.payload.status === 1 ? toast.success('Create Success!') : toast.error('Create Failed!')
+                    result.payload.message === 'Add Ingredient Success' ? toast.success('Create Success!') : toast.error('Create Failed!')
                     setReload(!reload)
                 }).catch((err) => {
                     console.log(err);
                 });
             } else {
-                toast('Nothing Create!')
+                // toast('Nothing Create!')
             }
         });
         setValue({ ...value, ingredientName: "", measure: "" })
@@ -219,7 +219,7 @@ export default function IngredientList() {
                     console.log(err);
                 });
             } else {
-                toast('Nothing Delete!')
+                // toast('Nothing Delete!')
             }
         });
         handleClose();

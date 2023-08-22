@@ -49,19 +49,20 @@ const UpdateIngredient = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 await dispatch(updateIngredient({ id: id, data: JSON.stringify(value) })).then(async (result) => {
-                    if (result.payload.status === 1) {
-                        toast.success('Create Success!')
-                        setTimeout(() => {
-                            navigate('/ingredient-list')
-                        }, 1000);
+                    if (result.payload.message === 'Update Ingredient Success') {
+                        toast.success('Update Success!')
+                        // setTimeout(() => {
+                        //     navigate('/ingredient-list')
+                        // }, 500);
+                        navigate('/ingredient-list')
                     } else {
-                        toast.error('Create Failed!')
+                        toast.error('Update Failed!')
                     }
                 }).catch((err) => {
                     console.log(err);
                 })
             } else {
-                toast('Nothing Create!')
+                // toast('Nothing Create!')
             }
         });
         // setValue({ ...value, ingredientName: "", measure: "" })
