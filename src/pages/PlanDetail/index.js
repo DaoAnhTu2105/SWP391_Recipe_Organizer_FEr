@@ -27,7 +27,7 @@ const PlanDetail = () => {
     })
     const dispatch = useDispatch();
     const [reload, setReload] = useState(false)
-    const getAllRecipesAPI = useSelector((state) => state.getAllRecipes.getAllRecipes)
+    const getAllRecipes = useSelector((state) => state.getAllRecipes.getAllRecipes)
     useEffect(() => {
         dispatch(fetchDataAsync())
         dispatch(getPlanByDate({ date: formatDate(date) }))
@@ -87,7 +87,7 @@ const PlanDetail = () => {
                                             <label htmFor="recipe">Recipe</label>
                                             <select id="recipe" class="form-control" onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
                                                 <option>...</option>
-                                                {getAllRecipesAPI?.data?.map((item) => (
+                                                {getAllRecipes?.data?.map((item) => (
                                                     <option value={item.recipeId}>{item.recipeName}</option>
                                                 ))}
                                             </select>
@@ -137,7 +137,7 @@ const PlanDetail = () => {
                                         <label htmFor="recipe">Recipe</label>
                                         <select id="recipe" class="form-control" onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
                                             <option>...</option>
-                                            {getAllRecipesAPI?.data?.map((item) => (
+                                            {getAllRecipes?.data?.map((item) => (
                                                 <option value={item.recipeId}>{item.recipeName}</option>
                                             ))}
                                         </select>

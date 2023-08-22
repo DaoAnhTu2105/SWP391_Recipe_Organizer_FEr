@@ -29,3 +29,8 @@ export const removeApi = async (id) => {
     const response = await api.delete(`/api/Plans/DeletePlanDetail?id=${id}`);
     return response.data;
 };
+
+export const getRecipesPlanApi = async () => {
+    const response = await api.get(`/api/Recipes/GetAll`);
+    return response.data;
+}

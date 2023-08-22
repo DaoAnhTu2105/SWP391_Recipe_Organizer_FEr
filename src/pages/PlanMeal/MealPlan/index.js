@@ -1,12 +1,12 @@
 import './index.css'
 import React, { useState, useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getPlanByWeek, createPlan } from "../../../redux/apiThunk/planThunk";
+import { getPlanByWeek, createPlan, getRecipesPlan } from "../../../redux/apiThunk/planThunk";
 import Food from '../Food'
 import NextIcon from '../../../components/IconComponent/NextIcon'
 import PreviousIcon from '../../../components/IconComponent/PreviousIcon'
 import CircularProgress from "@mui/material/CircularProgress";
-import { fetchDataAsync } from '../../../redux/apiThunk/getAllRecipesThunk'
+// import { fetchDataAsync } from '../../../redux/apiThunk/getAllRecipesThunk'
 
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -113,15 +113,15 @@ export default function MealPlan() {
     }
 
     useEffect(() => {
-        dispatch(fetchDataAsync())
+
         dispatch(getPlanByWeek({ date: formatDate(getMonday(currentDate)) }))
     }, [dispatch, currentDate, reload])
 
     const mealPlan = useSelector((state) => state.plan);
     const dataStatus = useSelector((state) => state.plan.loading);
-    const getAllRecipesAPI = useSelector((state) => state.getAllRecipes.getAllRecipes)
+    const getAllRecipes = useSelector((state) => state.plan.recipePlan)
     const user = JSON.parse(localStorage.getItem("user"));
-    // console.log(getAllRecipesAPI?.data);
+    // console.log(getAllRecipes?.data);
     const handleFormCreate = async (e) => {
         e.preventDefault()
         setShow(false)
@@ -137,6 +137,11 @@ export default function MealPlan() {
             if (result.isConfirmed) {
                 await dispatch(createPlan({ data: data })).then((result) => {
                     result.payload.message === "Success" ? toast.success('Successfully Update!') : toast.error('co cl')
+                    setData({
+                        ...data, recipeId: "",
+                        dateSt: "",
+                        mealOfDate: ""
+                    })
                     setReload(!reload)
                 }).catch((err) => {
                     console.log(err);
@@ -154,7 +159,10 @@ export default function MealPlan() {
         return m + "/" + d + "/" + y
     }
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleShow = () => {
+        dispatch(getRecipesPlan())
+        setShow(true)
+    };
     const content = (
         <div className='container' style={{ margin: '30px 0' }}>
             You must Login to use this feature
@@ -194,7 +202,7 @@ export default function MealPlan() {
                                         <label htmFor="recipe">Recipe</label>
                                         <select id="recipe" class="form-control" onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
                                             <option>...</option>
-                                            {getAllRecipesAPI?.data?.map((item) => (
+                                            {getAllRecipes?.data?.map((item) => (
                                                 <option value={item.recipeId}>{item.recipeName}</option>
                                             ))}
                                         </select>
@@ -327,7 +335,7 @@ export default function MealPlan() {
                                         <label htmFor="recipe">Recipe</label>
                                         <select id="recipe" class="form-control" onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
                                             <option>...</option>
-                                            {getAllRecipesAPI?.data?.map((item) => (
+                                            {getAllRecipes?.data?.map((item) => (
                                                 <option value={item.recipeId}>{item.recipeName}</option>
                                             ))}
                                         </select>

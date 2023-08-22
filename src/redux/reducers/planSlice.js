@@ -1,6 +1,6 @@
 
 import { createSlice } from "@reduxjs/toolkit";
-import { getPlanByDate, getPlanByWeek, getDetail } from "../apiThunk/planThunk";
+import { getPlanByDate, getPlanByWeek, getDetail, getRecipesPlan } from "../apiThunk/planThunk";
 
 const planSlice = createSlice({
     name: "plans",
@@ -8,7 +8,9 @@ const planSlice = createSlice({
         plans: [],
         detail: [],
         food: [],
+        recipePlan: [],
         loading: false,
+        loadingPlan: false,
     },
     extraReducers: {
         [getPlanByWeek.pending]: (state, action) => {
@@ -49,6 +51,19 @@ const planSlice = createSlice({
         [getDetail.rejected]: (state, action) => {
             state.loading = false;
             state.loading = "failed";
+        },
+        [getRecipesPlan.pending]: (state, action) => {
+            state.loadingPlan = true;
+            state.loadingPlan = "loading"
+        },
+        [getRecipesPlan.fulfilled]: (state, action) => {
+            state.loadingPlan = false;
+            state.loadingPlan = "succeeded";
+            state.recipePlan = action.payload;
+        },
+        [getRecipesPlan.rejected]: (state, action) => {
+            state.loadingPlan = false;
+            state.loadingPlan = "failed";
         },
     },
 });
