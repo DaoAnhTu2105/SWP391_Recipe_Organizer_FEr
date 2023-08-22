@@ -51,6 +51,13 @@ export const publicRouters = [
         name: 'create-plan',
         component: CreatePlan,
         layout: LayoutWithoutFilter,
+    }
+    ,
+    {
+        path: '/recipe-cooker/:id',
+        name: 'recipe-cooker',
+        component: ViewCooker,
+        layout: LayoutWithoutFilter,
     },
 
     {
@@ -88,15 +95,22 @@ export const publicRouters = [
         component: SearchResultFavorite,
         layout: LayoutWithoutFilter,
     },
-]
 
-export const privateRouters = [
     {
         path: '/create-recipe',
         name: 'create-recipe',
         component: CreateRecipe,
         layout: LayoutWithoutFilter,
     },
+    {
+        path: '/my-recipe',
+        name: 'my-recipe',
+        component: MyRecipe,
+        layout: LayoutWithoutFilter,
+    },
+]
+
+export const privateRouters = [
     {
         path: '/profile',
         name: 'user-profile',
@@ -107,18 +121,6 @@ export const privateRouters = [
         path: '/plan-detail/:date',
         name: 'plan-detail',
         component: PlanDetail,
-        layout: LayoutWithoutFilter,
-    },
-    {
-        path: '/recipe-cooker',
-        name: 'recipe-cooker',
-        component: ViewCooker,
-        layout: LayoutWithoutFilter,
-    },
-    {
-        path: '/my-recipe',
-        name: 'my-recipe',
-        component: MyRecipe,
         layout: LayoutWithoutFilter,
     },
     {
