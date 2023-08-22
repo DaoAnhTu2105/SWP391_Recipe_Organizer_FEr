@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import './index.css'
-import { Link } from "react-router-dom";
 import PropTypes from 'prop-types'
 import Box from '@mui/material/Box'
 import Table from '@mui/material/Table'
@@ -23,8 +22,10 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Modal from 'react-bootstrap/Modal';
 import { useSelector, useDispatch } from 'react-redux'
 import {
-    getAllIngredient,
     addIngredient,
+    getAllIngredient,
+    getIngredientDetail,
+    updateIngredient,
     removeIngredient
 } from '../../redux/apiThunk/ingredientThunk'
 import CircularProgress from "@mui/material/CircularProgress";
@@ -123,29 +124,53 @@ EnhancedTableHead.propTypes = {
 }
 
 export default function IngredientList() {
-    const [selected, setSelected] = React.useState([])
-    const [page, setPage] = React.useState(0)
-    const [rowsPerPage, setRowsPerPage] = React.useState(10)
-    const [reload, setReload] = useState(false)
-    const [id, setId] = useState();
     const dispatch = useDispatch()
+    const [rowsPerPage, setRowsPerPage] = useState(10)
+    const [page, setPage] = useState(0)
+    const [id, setId] = useState(); //selected ingredient id
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const [showCreate, setShowCreate] = useState(false);
+    const [showUpdate, setShowUpdate] = useState(false);
+    const [value, setValue] = useState({
+        ingredientId: "",
+        ingredientName: "",
+        measure: ""
+    });
+    const [valueUpdate, setValueUpdate] = useState({
+        ingredientId: id,
+        ingredientName: "",
+        measure: ""
+    });
+    const [reload, setReload] = useState(false) //recall api
+
+    //get all ingredient
     useEffect(() => {
         dispatch(getAllIngredient({ movePage: page + 1, items: rowsPerPage }))
     }, [dispatch, reload, rowsPerPage, page])
-    const ingredientList = useSelector((state) => state.ingredient)
+    const ingredientList = useSelector((state) => state.ingredient.ingredients)
     const status = useSelector((state) => state.ingredient.loading)
 
-    const handleSelectAllClick = (event) => {
-        if (event.target.checked) {
-            const newSelected = ingredientList?.ingredients?.data?.map((n) => n.name)
-            setSelected(newSelected)
-            return
-        }
-        setSelected([])
-    }
+    //get ingredient detail
 
+    useEffect(() => {
+        dispatch(getIngredientDetail({ id: id }));
+    }, [dispatch, id]);
+    const ingredient = useSelector((state) => state.ingredient.detail);
+
+    //set ingredient detail
+    useEffect(() => {
+        if (ingredient.data) {
+            setValueUpdate({
+                ingredientId: id,
+                ingredientName: ingredient.data.ingredientName,
+                measure: ingredient.data.measure
+            });
+        }
+    }, [ingredient, id]);
+
+    //change page
     const handleChangePage = (event, newPage) => {
-        console.log(newPage);
         setPage(newPage)
     }
 
@@ -154,31 +179,37 @@ export default function IngredientList() {
         setPage(0)
     }
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
+    //show menu update, delete
     const handleClickMenu = (event, id) => {
+        event.preventDefault()
         setId(id)
+        // 
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
         setAnchorEl(null);
     };
 
-    const [show, setShow] = useState(false);
-
-    const handleCloseModal = () => {
+    //modal create
+    const handleShowCreate = () => setShowCreate(true);
+    const handleCloseModalCreate = () => {
         setValue({ ...value, ingredientName: "", measure: "" })
-        setShow(false);
+        setShowCreate(false);
     }
-    const handleShow = () => setShow(true);
 
-    const [value, setValue] = useState({
-        ingredientId: "",
-        ingredientName: "",
-        measure: ""
-    });
+    //modal update
+    const handleShowUpdate = (e) => {
+        e.preventDefault()
+        handleClose()
+        setShowUpdate(true);
+    }
+    const handleCloseModalUpdate = () => {
+        // setValueUpdate({ ...valueUpdate, ingredientName: "", measure: "" })
+        setShowUpdate(false)
+    }
 
-    const handleSubmit = async (e) => {
+    //add new ingredient
+    const handleSubmitCreate = async (e) => {
         e.preventDefault();
         await Swal.fire({
             title: "Do you want to save the changes?",
@@ -201,9 +232,37 @@ export default function IngredientList() {
             }
         });
         setValue({ ...value, ingredientName: "", measure: "" })
-        handleCloseModal()
+        handleCloseModalCreate()
     }
 
+    //update ingredient
+    const handleSubmitUpdate = async (e) => {
+        e.preventDefault();
+        await Swal.fire({
+            title: "Do you want to save the changes?",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#285D9A",
+            cancelButtonColor: "#e74a3b",
+            confirmButtonText: "Yes, save it!",
+            background: "white",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await dispatch(updateIngredient({ id: id, data: JSON.stringify(valueUpdate) })).then((result) => {
+                    result.payload.status === 1 ? toast.success('Create Success!') : toast.error('Create Failed!')
+                    setReload(!reload)
+                }).catch((err) => {
+                    console.log(err);
+                });
+            } else {
+                toast('Nothing Create!')
+            }
+        });
+        setValue({ ...value, ingredientName: "", measure: "" })
+        handleCloseModalUpdate()
+    }
+
+    //delete ingredient
     const deleteIngredient = async () => {
         handleClose()
         await Swal.fire({
@@ -240,19 +299,19 @@ export default function IngredientList() {
                 }}
             />
         )
-    } else if (status === 'fail' || (ingredientList.ingredients.data && ingredientList.ingredients.data.length === 0)) {
+    } else if (status === 'fail' || (ingredientList.data && ingredientList.data.length === 0)) {
         content = <div style={{ paddingLeft: "45%%" }}> No data</div>;
     } else {
         content = (
             <Fragment>
-                <Button variant="outlined" onClick={handleShow} style={{ margin: '0 15px' }}>
+                <Button variant="outlined" onClick={handleShowCreate} style={{ margin: '0 15px' }}>
                     Add More Recipe
                 </Button>
-                <Modal show={show} onHide={handleCloseModal}>
+                <Modal show={showCreate} onHide={handleCloseModalCreate}>
                     <Modal.Header closeButton>
                         <Modal.Title>Create new Ingredient</Modal.Title>
                     </Modal.Header>
-                    <form onSubmit={e => handleSubmit(e)}>
+                    <form onSubmit={e => handleSubmitCreate(e)}>
                         <Modal.Body>
                             <div class="form-group">
                                 <label htmlFor="exampleInputEmail1">Ingredient name</label>
@@ -264,10 +323,36 @@ export default function IngredientList() {
                                 <input type="text" class="form-control" id="formMeasure" placeholder="Enter measure"
                                     value={value.measure} onChange={e => setValue({ ...value, measure: e.target.value })} required />
                             </div>
-                            {/* <button type="submit" class="btn btn-primary">Create</button> */}
                         </Modal.Body>
                         <Modal.Footer>
-                            <Button variant="contained" style={{ backgroundColor: '#6c757d' }} onClick={handleCloseModal}>
+                            <Button variant="contained" style={{ backgroundColor: '#6c757d' }} onClick={handleCloseModalCreate}>
+                                Close
+                            </Button>
+                            <Button variant="contained" type='submit' >
+                                Save Changes
+                            </Button>
+                        </Modal.Footer>
+                    </form>
+                </Modal>
+                <Modal show={showUpdate} onHide={handleCloseModalUpdate}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Update Ingredient {id}</Modal.Title>
+                    </Modal.Header>
+                    <form onSubmit={e => handleSubmitUpdate(e)}>
+                        <Modal.Body>
+                            <div class="form-group">
+                                <label htmlFor="exampleInputEmail1">Ingredient name</label>
+                                <input type="text" class="form-control" id="formName" placeholder="Enter name"
+                                    value={valueUpdate.ingredientName} onChange={e => setValueUpdate({ ...valueUpdate, ingredientName: e.target.value })} required />
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">measure</label>
+                                <input type="text" class="form-control" id="formMeasure" placeholder="Enter measure"
+                                    value={valueUpdate.measure} onChange={e => setValueUpdate({ ...valueUpdate, measure: e.target.value })} required />
+                            </div>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="contained" style={{ backgroundColor: '#6c757d' }} onClick={handleCloseModalUpdate}>
                                 Close
                             </Button>
                             <Button variant="contained" type='submit' >
@@ -285,12 +370,12 @@ export default function IngredientList() {
                                     aria-labelledby="tableTitle"
                                 >
                                     <EnhancedTableHead
-                                        numSelected={selected?.length}
-                                        onSelectAllClick={handleSelectAllClick}
-                                        rowCount={ingredientList?.ingredients.data?.length}
+                                        // numSelected={selected?.length}
+                                        // onSelectAllClick={handleSelectAllClick}
+                                        rowCount={ingredientList?.data?.length}
                                     />
                                     <TableBody>
-                                        {ingredientList?.ingredients.data?.map((row, index) => {
+                                        {ingredientList.data?.map((row, index) => {
                                             return (
                                                 <TableRow
                                                     hover
@@ -301,7 +386,7 @@ export default function IngredientList() {
                                                         scope="row"
                                                         padding="normal"
                                                     >
-                                                        {(index + 1) + ingredientList?.ingredients.itemPerPage * (ingredientList?.ingredients.moveToPage - 1)}
+                                                        {(index + 1) + ingredientList.itemPerPage * (ingredientList.moveToPage - 1)}
                                                     </TableCell>
                                                     <TableCell
                                                         component="th"
@@ -341,12 +426,12 @@ export default function IngredientList() {
                                                                     }
                                                                 }}
                                                             >
-                                                                <Link to={`/ingredient-detail/${id}`}>
-                                                                    <MenuItem disableRipple>
-                                                                        <EditIcon />
-                                                                        Edit
-                                                                    </MenuItem>
-                                                                </Link>
+                                                                {/* <Link to={`/ingredient-detail/${id}`}> */}
+                                                                <MenuItem onClick={(e) => handleShowUpdate(e)} disableRipple>
+                                                                    <EditIcon />
+                                                                    Edit
+                                                                </MenuItem>
+                                                                {/* </Link> */}
                                                                 <MenuItem onClick={() => deleteIngredient()} disableRipple>
                                                                     <DeleteIcon />
                                                                     Delete
@@ -363,7 +448,7 @@ export default function IngredientList() {
                             <TablePagination
                                 rowsPerPageOptions={[10, 25, 50]}
                                 component="div"
-                                count={ingredientList.ingredients.totalData}
+                                count={ingredientList.totalData}
                                 rowsPerPage={rowsPerPage}
                                 page={page}
                                 onPageChange={handleChangePage}
@@ -378,6 +463,7 @@ export default function IngredientList() {
     return (
         <Fragment>
             <Toaster />
+
             <Container maxWidth="md">
                 <Typography
                     component="h1"
@@ -392,6 +478,7 @@ export default function IngredientList() {
                     Manage Ingredient in database
                 </Typography>
             </Container>
+
             <div className='container form-create'>
                 {content}
             </div>
