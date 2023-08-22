@@ -104,14 +104,14 @@ const MyRecipe = () => {
                                                     <Box>
                                                         <Link to={`/update-recipe/${myRecipe.recipeId}`}>
                                                             <Button>
-                                                                <ModeEditOutlineIcon fontSize='large' sx={{ color: "#2986cc" }}/>
+                                                                <ModeEditOutlineIcon fontSize='large' sx={{ color: "#2986cc" }} />
                                                             </Button>
 
                                                         </Link>
                                                     </Box>
                                                     <Box sx={{ paddingTop: "20px" }}>
                                                         <Button>
-                                                            <DeleteSweepIcon fontSize='large' sx={{color:"#cc0000"}} />
+                                                            <DeleteSweepIcon fontSize='large' sx={{ color: "#cc0000" }} />
                                                         </Button>
 
                                                     </Box>

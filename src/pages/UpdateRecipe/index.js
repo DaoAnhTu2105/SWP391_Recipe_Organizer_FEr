@@ -5,13 +5,15 @@ import { Input } from '@mui/base/Input';
 import { styled } from '@mui/system';
 import { Typography, CssBaseline, Container, Box, OutlinedInput, Divider, Autocomplete, Stack, Button, TextField, InputLabel, Select, FormControl } from '@mui/material';
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
-
+import { useNavigate } from 'react-router-dom';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { getStorage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid'
 import { useParams } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
+import toast, { Toaster } from 'react-hot-toast';
+import Swal from "sweetalert2";
+import imgBanner1 from "./../../assets/pizza.jpg"
 const CustomInput = React.forwardRef(function CustomInput(props, ref) {
     return (
         <Input
@@ -24,6 +26,7 @@ const CustomInput = React.forwardRef(function CustomInput(props, ref) {
 });
 function UpdateRecipe() {
     //-------------------Get APIs HERE-----------------------------
+    const navigate = useNavigate()
     const [updateRecipe, setUpdateRecipe] = useState('')
     const { id } = useParams()
     const user = JSON.parse(localStorage.getItem('user'))
@@ -78,7 +81,9 @@ function UpdateRecipe() {
                 setTotalTime(data?.data.totalTime)
                 setServingAmount(data?.data.servings)
                 setSelectedCountry(data?.data.countryVM.countryName)
+                setSelectedCountryId(data?.data.countryVM.countryId)
                 setSelectedMeal(data?.data.mealVMs.mealName)
+                setSelectedMealId(data?.data.mealVMs.mealId)
             })
             .catch((error) => console.log(error.message));
     }
@@ -200,7 +205,7 @@ function UpdateRecipe() {
                         const recipeId = id
                         const countryId = selectedCountryId
                         const mealId = selectedMealId
-                        console.log("reId", recipeId)
+                        console.log('id', selectedCountryId)
                         const payload = {
                             mealId,
                             countryId,
@@ -238,21 +243,14 @@ function UpdateRecipe() {
                             );
                             if (response.ok) {
                                 try {
-                                    const handleSuccess = async () => {
-                                        await toast.success("Update Success", {
-                                            position: "top-center",
-                                            autoClose: 5000,
-                                            hideProgressBar: false,
-                                            closeOnClick: true,
-                                            pauseOnHover: true,
-                                            draggable: true,
-                                            progress: undefined,
-                                            theme: "colored",
-                                        }).then(
-                                            console.log("success")
-                                        )
-                                        
-                                    }
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: 'Recipe has been saved',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                    navigate('/my-recipe');
                                 } catch (error) {
                                     console.error('Error parsing JSON:', error);
 
@@ -430,14 +428,25 @@ function UpdateRecipe() {
     return (
         <React.Fragment>
 
-
+            <Toaster
+                position="bottom-center"
+                reverseOrder={false}
+            />
             <CssBaseline />
             <Box sx={{ width: "100%", display: "flex" }}>
-                <Box sx={{ backgroundImage: "ur" }}>
+               
 
-                </Box>
-
-                <Container sx={{ bgcolor: '#fff', border: "ridge", maxHeight: "auto", marginBottom: "50px", marginTop: "80px" }} maxWidth="sm" >
+                <Container
+                    sx={{
+                        bgcolor: '#fff',
+                        border: "ridge",
+                        maxHeight: "auto",
+                        marginBottom: "50px",
+                        marginTop: "80px",
+                        flex: 1, 
+                    }}
+                    maxWidth="sm"
+                >
                     <Typography sx={{ paddingLeft: "30px", fontFamily: "Cursive", paddingBottom: "20px" }} variant="h3" component="h2"> Update recipe </Typography>
                     <Typography sx={{ fontSize: "15px" }} variant="subtitle1" gutterBottom> Uploading personal recipes is easy! Add yours to your favorites, share with friends, family, or the Allrecipes community.</Typography>
                     <Divider sx={{ width: "70", fontWeight: "bold", marginTop: "20px", marginBottom: "20px" }} />
@@ -810,6 +819,7 @@ function UpdateRecipe() {
             </Box>
 
         </React.Fragment >
+
     );
 }
 
