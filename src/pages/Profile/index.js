@@ -4,24 +4,116 @@ import Tab from '@mui/material/Tab';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import { Typography, OutlinedInput } from '@mui/material';
-import { useCookies } from 'react-cookie'
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Fab from '@mui/material/Fab';
 import { Input } from '@mui/base/Input';
 import { styled } from '@mui/system';
-
-
+import { useState, useEffect } from 'react'
+import Swal from 'sweetalert2'
 const Profile = () => {
-
-    const storedUserData = JSON.parse(localStorage.getItem('user'))
-    const [value, setValue] = React.useState(0);
+    const user = JSON.parse(localStorage.getItem('user'))
+    const accessToken = user?.token;
+    const [value, setValue] = useState(0);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+    const [userData, setUserData] = useState('')
+    const handleUpdateUserInfo = async () => {
+        const fullName = userName;
+        const phoneNum = userPhone;
+        const userInfo = tagLine;
+        const address = userAddress;
+        const userId = userData?.data.userId
+        const payload = {
+            fullName,
+            phoneNum,
+            userInfo,
+            address,
+            userId,
+        };
+        try {
+            const user = JSON.parse(localStorage.getItem('user'))
+            const accessToken = user?.token
+            const response = await fetch(
+                `https://recipe-organizer-api.azurewebsites.net/api/UserAccounts/UpdateInfo`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`
+                    },
+                    body: JSON.stringify(payload),
+                }
+            );
+            if (response.ok) {
+                try {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'All your infomations have been saved',
+                        showConfirmButton: false,
+                        timer: 2500
+                    })
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
 
+                }
+            } else {
+                throw new Error('Request failed with status: ' + response.status);
 
+            }
+        } catch (error) {
+            // Handle error
+            console.error('Error:', error);
+        }
+    }
+    const userDataAPIURL = `https://recipe-organizer-api.azurewebsites.net/api/UserAccounts/GetUserInfo`
+    const getUserDataAPI = async () => {
+        try {
+            const response = await fetch(userDataAPIURL, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setUserData(data);
+                setUserPhone(data?.data.phoneNum)
+                setTagLine(data?.data.userInfo)
+                setUserName(data?.data.fullName)
+                setUserAddress(data?.data.address)
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+    useEffect(() => {
+        getUserDataAPI();
+    }, []);
+
+    const [userName, setUserName] = useState('')
+    const [tagLine, setTagLine] = useState('')
+    const [userPhone, setUserPhone] = useState('')
+    const [userAddress, setUserAddress] = useState('')
+    // console.log("name:",userName)
+    // console.log("userInfo:",tagLine)
+    // console.log("phoneNum:",userPhone)
+    // console.log("address:",userAddress)
+    const handleAddressChange = (event) => {
+        setUserAddress(event.target.value)
+    }
+    const handleNameChange = (event) => {
+        setUserName(event.target.value)
+    }
+    const handleTaglineChange = (event) => {
+        setTagLine(event.target.value)
+    }
+    const handlePhoneChange = (event) => {
+        setUserPhone(event.target.value)
+    }
     return (
         <>
             <CssBaseline />
@@ -29,7 +121,7 @@ const Profile = () => {
                 <Box sx={{ display: "flex", paddingTop: "20px", paddingLeft: "200px" }}>
 
                     <Typography sx={{ color: "#f5b041" }} variant='h6' gutterBottom>Hi ! </Typography><Typography sx={{ paddingLeft: "5px", fontWeight: "bold" }} variant='h6' gutterBottom>
-                        {storedUserData?.fullname}
+                        {userData?.data?.fullName}
                     </Typography>
 
                 </Box>
@@ -56,48 +148,48 @@ const Profile = () => {
                                     <div style={{ paddingBottom: "20px", borderBottom: "1px solid" }}>
                                         <Typography variant='h5' sx={{ textAlign: "center", fontWeight: "bold", fontFamily: "Bebas Neue" }}>My Basic Info</Typography>
                                     </div>
+                                    <Box sx={{ display: "flex" }}>
+                                        <Box sx={{ paddingTop: "25px" }}>
+                                            <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom> Email Address* </Typography>
+                                            <OutlinedInput placeholder={userData?.data?.email} sx={{ width: "320px" }} readOnly />
+                                        </Box>
+                                        <Box sx={{ paddingLeft: "20px", paddingTop: "25px" }}>
+                                            <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom>Phone </Typography>
+                                            <OutlinedInput onChange={handlePhoneChange} value={userPhone} placeholder={userData?.data?.phoneNum} sx={{ width: "320px" }} />
+                                        </Box>
+                                    </Box>
 
-                                    <Typography sx={{ paddingTop: "45px", lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom> Email Address* </Typography>
-                                    <OutlinedInput placeholder={storedUserData.email} sx={{ width: "320px" }} readOnly />
 
                                     <Box sx={{ display: "flex" }}>
                                         <Box sx={{ paddingTop: "25px" }}>
                                             <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom> Name </Typography>
-                                            <OutlinedInput placeholder={storedUserData.fullname} sx={{ width: "320px" }} />
+                                            <OutlinedInput onChange={handleNameChange} value={userName} sx={{ width: "320px" }} />
+                                        </Box>
+                                        <Box sx={{ paddingLeft: "20px", paddingTop: "25px" }}>
+                                            <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom> Address </Typography>
+                                            <OutlinedInput onChange={handleAddressChange} value={userAddress} sx={{ width: "320px" }} />
                                         </Box>
 
-                                        <Box sx={{ paddingLeft: "20px", paddingTop: "25px" }}>
-                                            <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom>Phone </Typography>
-                                            <OutlinedInput placeholder="123456789" sx={{ width: "320px" }} />
-                                        </Box>
 
                                     </Box>
                                     <Box sx={{ paddingTop: "25px" }}>
-                                        <Box>
-                                            <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom>Tagline</Typography>
-                                            <CustomInput aria-label="Demo input" multiline='true' placeholder="Tell everyone about you or your cooking slogan. " />
-                                        </Box>
+                                        <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom>Tagline</Typography>
+                                        <CustomInput aria-label="Demo input" onChange={handleTaglineChange} value={tagLine} multiline='true' placeholder="Tell everyone about you or your cooking slogan. " />
+
                                     </Box>
-                                    <Box sx={{ paddingTop: "30px", display: "flex", justifyContent: "flex-end" }}>
-                                        <Fab variant="extended">
+                                    <Box sx={{ paddingTop: "30px", display: "flex", justifyContent: "flex-end" }} onClick={handleUpdateUserInfo}>
+                                        <Fab variant="extended" sx={{ color: "rgb(243, 156, 18)" }}>
                                             SAVE CHANGES
                                         </Fab>
                                     </Box>
 
                                 </Box>
                             </Container>
-
                         </TabPanel>
-
-
                     </Box>
                 </Box >
             </Container >
-
-
-
         </>
-
     )
 }
 export default Profile;
@@ -200,7 +292,7 @@ const StyledTextareaElement = styled('textarea', {
         !['ownerState', 'minRows', 'maxRows'].includes(prop.toString()),
 })(
     ({ theme }) => `
-    width: 320px;
+    width: 100%;
     font-family: IBM Plex Sans, sans-serif;
     font-size: 0.875rem;
     font-weight: 400;

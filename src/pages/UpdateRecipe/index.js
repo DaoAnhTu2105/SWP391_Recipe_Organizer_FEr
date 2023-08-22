@@ -248,7 +248,7 @@ function UpdateRecipe() {
                                         icon: 'success',
                                         title: 'Recipe has been saved',
                                         showConfirmButton: false,
-                                        timer: 1500
+                                        timer: 2500
                                     })
                                     navigate('/my-recipe');
                                 } catch (error) {

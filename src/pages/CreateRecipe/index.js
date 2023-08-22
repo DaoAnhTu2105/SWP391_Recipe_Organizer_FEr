@@ -12,6 +12,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } fr
 import { v4 as uuidv4 } from 'uuid'
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
+import Swal from "sweetalert2";
 
 const CustomInput = React.forwardRef(function CustomInput(props, ref) {
   return (
@@ -26,6 +27,11 @@ const CustomInput = React.forwardRef(function CustomInput(props, ref) {
 
 function CreateRecipe() {
   const navigate = useNavigate()
+  //-------------------Authenticate-----------------------------
+
+  const user = JSON.parse(localStorage.getItem('user'))
+  const accessToken = user?.token;
+  const [authenticatedUser, setAuthenticatedUser] = useState(accessToken ? true : false);
   //-------------------Get APIs HERE-----------------------------
 
   const [allIngredients, setAllInredients] = useState('')
@@ -158,8 +164,6 @@ function CreateRecipe() {
               mealId,
               countryId
             };
-            console.log('nutritionValues:', nutritionValues)
-            console.log("payload", JSON.stringify(payload))
             try {
               const user = JSON.parse(localStorage.getItem('user'))
               const accessToken = user?.token
@@ -175,10 +179,17 @@ function CreateRecipe() {
                 }
               );
               if (response.ok) {
+
                 console.log(response)
+                Swal.fire({
+                  position: 'center',
+                  icon: 'success',
+                  title: 'Recipe has been saved',
+                  showConfirmButton: false,
+                  timer: 3500
+                })
                 try {
                   const data = await response.json();
-                  handleAddSuccess()
                 } catch (error) {
                   console.error('Error parsing JSON:', error);
 
@@ -362,377 +373,380 @@ function CreateRecipe() {
         <Box sx={{ backgroundImage: "ur" }}>
 
         </Box>
+        {!authenticatedUser ? (
+          <Box sx={{ paddingTop: "100px", paddingBottom: "200px", display: "flex", justifyContent: "center", width: "100%", alignItems: "center" }}>
+            <Typography sx={{ paddingRight: "10px" }}> Please</Typography>
+            <a style={{ color: "rgb(243, 156, 18)", textDecoration: "underline", fontSize: "25px" }} href="/login">LOGIN</a>
+            <Typography sx={{ paddingLeft: "10px" }}> before using this feature</Typography>
+          </Box>
 
-        <Container sx={{ bgcolor: '#fff', border: "ridge", maxHeight: "auto", marginBottom: "50px", marginTop: "80px" }} maxWidth="sm" >
-          <Typography sx={{ paddingLeft: "30px", fontFamily: "Cursive", paddingBottom: "20px" }} variant="h3" component="h2"> Add recipe </Typography>
-          <Typography sx={{ fontSize: "15px" }} variant="subtitle1" gutterBottom> Uploading personal recipes is easy! Add yours to your favorites, share with friends, family, or the Allrecipes community.</Typography>
-          <Divider sx={{ width: "70", fontWeight: "bold", marginTop: "20px", marginBottom: "20px" }} />
-
-          <Box sx={{ height: 'auto', width: "100" }} component="form" noValidate autoComplete="off">
-            {/*-----------------------------------------  Title ----------------------------------------- */}
-            <Box sx={{ display: "flex" }}>
-              <Box sx={{ paddingRight: "30px" }}>
-                <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom> Recipe Title </Typography>
-                <OutlinedInput
-                  placeholder="Give your recipe a title"
-                  sx={{ width: "320px" }}
-                  value={recipeTitle}
-                  onChange={handleTitleChange} />
-                <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold", paddingTop: "20px" }} variant="h6" gutterBottom> Recipe Description </Typography>
-                <CustomInput
-                  aria-label="Demo input"
-                  multiline='true'
-                  placeholder="Share the story behind your recipe and what makes it special"
-                  value={recipeDescription}
-                  onChange={handleDescriptionChange}
-                />
-              </Box>
-              <Box>
-                <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom> Photo </Typography>
-                <Button
-                  onClick={handleUploadImage}
-                  sx={{
-                    backgroundImage: `url(${selectedImage || 'your-default-image-url.jpg'})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    width: '160px',
-                    height: '160px',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                    border: '2px dashed rgb(243, 156, 18)',
-                  }}
-                >
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    style={{ display: 'none' }}
-                    onChange={handleImageChange}
-
-                  />
-                  <AddPhotoAlternateIcon fontSize='large' sx={{ ...buttonStyle, }} />
-                </Button>
-
-              </Box>
-            </Box>
-
+        ) : (
+          <Container sx={{ bgcolor: '#fff', border: "ridge", maxHeight: "auto", marginBottom: "50px", marginTop: "80px" }} maxWidth="sm" >
+            <Typography sx={{ paddingLeft: "30px", fontFamily: "Cursive", paddingBottom: "20px" }} variant="h3" component="h2"> Add recipe </Typography>
+            <Typography sx={{ fontSize: "15px" }} variant="subtitle1" gutterBottom> Uploading personal recipes is easy! Add yours to your favorites, share with friends, family, or the Allrecipes community.</Typography>
             <Divider sx={{ width: "70", fontWeight: "bold", marginTop: "20px", marginBottom: "20px" }} />
-            {/* ----------------------------------------- Ingredients-----------------------------------------  */}
-            <Box sx={{ width: '80' }}>
-              <Typography
-                sx={{ lineHeight: '0.8', fontSize: '15px', fontWeight: 'bold' }}
-                variant="h6"
-                gutterBottom
-              >
-                Ingredients
-              </Typography>
-              <Typography sx={{ fontSize: "15px" }} variant="subtitle1" gutterBottom> Enter one ingredient per line. Include the quantity (i.e. cups, tablespoons) and any special preparation (i.e. sifted, softened, chopped). Use optional headers to organize the different parts of the recipe (i.e. Cake, Frosting, Dressing).</Typography>
-              {/* ...other code for instructions */}
-              <Stack spacing={2} sx={{ width: 'auto' }}>
-                {ingredientFields.map((field, index) => (
-                  <div style={{ display: 'flex' }} key={index}>
-                    <Autocomplete
-                      freeSolo
-                      sx={{ width: 500, paddingRight: 2 }}
-                      options={allIngredients?.data && allIngredients?.data.map((option) => option.ingredientName + '  -  ' + option.measure)}
-                      value={field.ingredient}
-                      getOptionLabel={(option) => option}
-                      onChange={(event, newValue) => handleChange(field.id, 'ingredientName', newValue)}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          key={field.id}
-                          label="Select ingredient"
-                          value={field.ingredient}
-                          onChange={(e) =>
-                            handleChange(field.id, 'ingredientName', e.target.value)
-                          }
-                        />
-                      )}
-                    />
-                    <TextField
-                      type="number"
-                      variant="outlined"
-                      label="unit(s)"
-                      placeholder="1"
-                      InputLabelProps={{ shrink: true }}
-                      inputProps={{ min: 0 }}
-                      sx={{ width: 150 }}
-                      value={field.quantity}
-                      onChange={(e) =>
-                        handleChange(field.id, 'quantity', e.target.value)
-                      }
-                    />
-                    <Button
-                      variant="text"
-                      className='btn-delete-recipe'
-                      onClick={() => handleDeleteIngredient(field?.id)}
-                    >
-                      <HighlightOffIcon color="warning" />
-                    </Button>
-                  </div>
-                ))}
+
+            <Box sx={{ height: 'auto', width: "100" }} component="form" noValidate autoComplete="off">
+              {/*-----------------------------------------  Title ----------------------------------------- */}
+              <Box sx={{ display: "flex" }}>
+                <Box sx={{ paddingRight: "30px" }}>
+                  <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom> Recipe Title </Typography>
+                  <OutlinedInput
+                    placeholder="Give your recipe a title"
+                    sx={{ width: "320px" }}
+                    value={recipeTitle}
+                    onChange={handleTitleChange} />
+                  <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold", paddingTop: "20px" }} variant="h6" gutterBottom> Recipe Description </Typography>
+                  <CustomInput
+                    aria-label="Demo input"
+                    multiline='true'
+                    placeholder="Share the story behind your recipe and what makes it special"
+                    value={recipeDescription}
+                    onChange={handleDescriptionChange}
+                  />
+                </Box>
                 <Box>
-                  <Button onClick={handleAddIngredient} variant="contained">
-                    Add more ingredients
+                  <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom> Photo </Typography>
+                  <Button
+                    onClick={handleUploadImage}
+                    sx={{
+                      backgroundImage: `url(${selectedImage || 'your-default-image-url.jpg'})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      width: '160px',
+                      height: '160px',
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      border: '2px dashed rgb(243, 156, 18)',
+                    }}
+                  >
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      style={{ display: 'none' }}
+                      onChange={handleImageChange}
+
+                    />
+                    <AddPhotoAlternateIcon fontSize='large' sx={{ ...buttonStyle, }} />
+                  </Button>
+
+                </Box>
+              </Box>
+
+              <Divider sx={{ width: "70", fontWeight: "bold", marginTop: "20px", marginBottom: "20px" }} />
+              {/* ----------------------------------------- Ingredients-----------------------------------------  */}
+              <Box sx={{ width: '80' }}>
+                <Typography
+                  sx={{ lineHeight: '0.8', fontSize: '15px', fontWeight: 'bold' }}
+                  variant="h6"
+                  gutterBottom
+                >
+                  Ingredients
+                </Typography>
+                <Typography sx={{ fontSize: "15px" }} variant="subtitle1" gutterBottom> Enter one ingredient per line. Include the quantity (i.e. cups, tablespoons) and any special preparation (i.e. sifted, softened, chopped). Use optional headers to organize the different parts of the recipe (i.e. Cake, Frosting, Dressing).</Typography>
+                {/* ...other code for instructions */}
+                <Stack spacing={2} sx={{ width: 'auto' }}>
+                  {ingredientFields.map((field, index) => (
+                    <div style={{ display: 'flex' }} key={index}>
+                      <Autocomplete
+                        freeSolo
+                        sx={{ width: 500, paddingRight: 2 }}
+                        options={allIngredients?.data && allIngredients?.data.map((option) => option.ingredientName + '  -  ' + option.measure)}
+                        value={field.ingredient}
+                        getOptionLabel={(option) => option}
+                        onChange={(event, newValue) => handleChange(field.id, 'ingredientName', newValue)}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            key={field.id}
+                            label="Select ingredient"
+                            value={field.ingredient}
+                            onChange={(e) =>
+                              handleChange(field.id, 'ingredientName', e.target.value)
+                            }
+                          />
+                        )}
+                      />
+                      <TextField
+                        type="number"
+                        variant="outlined"
+                        label="unit(s)"
+                        placeholder="1"
+                        InputLabelProps={{ shrink: true }}
+                        inputProps={{ min: 0 }}
+                        sx={{ width: 150 }}
+                        value={field.quantity}
+                        onChange={(e) =>
+                          handleChange(field.id, 'quantity', e.target.value)
+                        }
+                      />
+                      <Button
+                        variant="text"
+                        className='btn-delete-recipe'
+                        onClick={() => handleDeleteIngredient(field?.id)}
+                      >
+                        <HighlightOffIcon color="warning" />
+                      </Button>
+                    </div>
+                  ))}
+                  <Box>
+                    <Button onClick={handleAddIngredient} variant="contained">
+                      Add more ingredients
+                    </Button>
+                  </Box>
+                </Stack>
+              </Box>
+              <Divider sx={{ width: "70", fontWeight: "bold", marginTop: "20px", marginBottom: "20px" }} />
+              {/* ----------------------------------------- Nutritions-----------------------------------------  */}
+              <Box sx={{ width: "80" }}>
+                <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom> Nutritions (Optional) </Typography>
+                <Typography sx={{ fontSize: "15px" }} variant="subtitle1" gutterBottom> Enter 3 main nutrions in your recipe .</Typography>
+
+                <Stack spacing={2} sx={{ width: "auto" }}>
+                  <div style={{ display: "flex" }}>
+                    <Box sx={{ marginRight: "20px" }}>
+                      <Typography className='typo-nutritions' variant="h5" gutterBottom> Fat</Typography>
+                      <TextField
+                        label="gram(s)"
+                        type="number"
+                        variant="outlined"
+                        placeholder='1'
+                        InputLabelProps={{ shrink: true }}
+                        sx={{ width: 150 }}
+                        inputProps={{ min: 0 }}
+                        value={nutritionValues.fat}
+                        onChange={(e) => handleNutritionChange('fat', e.target.value)}
+                      />
+                    </Box>
+                    <Box sx={{ marginRight: "20px" }}>
+                      <Typography className='typo-nutritions' variant="h5" gutterBottom> Carbs</Typography>
+                      <TextField
+                        label="gram(s)"
+                        type="number"
+                        variant="outlined"
+                        placeholder='1'
+                        InputLabelProps={{ shrink: true }}
+                        sx={{ width: 150 }}
+                        inputProps={{ min: 0 }}
+                        value={nutritionValues.carbs}
+                        onChange={(e) => handleNutritionChange('carbs', e.target.value)}
+                      />
+                    </Box>
+                    <Box>
+                      <Typography className='typo-nutritions' variant="h5" gutterBottom> Protein</Typography>
+                      <TextField
+                        label="gram(s)"
+                        type="number"
+                        variant="outlined"
+                        placeholder='1'
+                        InputLabelProps={{ shrink: true }}
+                        sx={{ width: 150 }}
+                        inputProps={{ min: 0 }}
+                        value={nutritionValues.protein}
+                        onChange={(e) => handleNutritionChange('protein', e.target.value)}
+                      />
+                    </Box>
+
+                  </div>
+                  <Box sx={{ width: "80", display: "flex", alignItems: "center", paddingTop: "30px" }}>
+                    <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold", marginRight: "10px" }} variant="h6" gutterBottom> Total Calories (Calo): </Typography>
+
+                    <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold", marginRight: "10px" }} variant="h6" gutterBottom>{totalCalories} </Typography>
+                  </Box>
+                </Stack>
+              </Box>
+              <Divider sx={{ width: "70", fontWeight: "bold", marginTop: "20px", marginBottom: "20px" }} />
+              {/* ----------------------------------------- Directions-----------------------------------------  */}
+              <Box sx={{ width: '80' }}>
+                <Typography
+                  sx={{ lineHeight: '0.8', fontSize: '15px', fontWeight: 'bold' }}
+                  variant="h6"
+                  gutterBottom
+                >
+                  Directions
+                </Typography>
+                <Typography
+                  sx={{ fontSize: '15px' }}
+                  variant="subtitle1"
+                  gutterBottom
+                >
+                  Explain how to make your recipe, including oven temperatures, baking or cooking times, and pan sizes, etc. Use optional headers to organize the different parts of the recipe (i.e. Prep, Bake, Decorate).
+                </Typography>
+
+                {directionFields.map((field) => (
+                  <Box key={field.directionsNum}>
+                    <Typography sx={{ fontSize: '15px' }} variant="subtitle1" gutterBottom>
+                      Step {field.directionsNum}
+                    </Typography>
+                    <Box sx={{ display: 'flex' }}>
+                      <TextareaAutosize
+                        aria-label={`Step ${field.directionsNum}`}
+                        style={{ width: '400px', paddingLeft: "10px" }}
+                        minRows={2}
+                        placeholder={`eg. Preheat oven to 350 degree F`}
+                        value={field.directionsDesc}
+                        onChange={(e) => {
+                          const updatedFields = directionFields.map((dirField) => {
+                            if (dirField.directionsNum === field.directionsNum) {
+                              return { ...dirField, directionsDesc: e.target.value };
+                            }
+                            return dirField;
+                          });
+                          setDirectionFields(updatedFields);
+                        }}
+                      />
+                      <Button
+                        variant="text"
+                        className="btn-delete-recipe"
+                        style={{ outline: 'none', marginLeft: '10px', color: '#fff' }}
+                        onClick={() => handleDeleteStep(field.directionsNum)}
+                      >
+                        <HighlightOffIcon color="warning" />
+                      </Button>
+                    </Box>
+                  </Box>
+                ))}
+                <Box sx={{ marginTop: "10px" }}>
+                  <Button onClick={handleAddStep} variant="contained">
+                    Add more steps
                   </Button>
                 </Box>
-              </Stack>
-            </Box>
-            <Divider sx={{ width: "70", fontWeight: "bold", marginTop: "20px", marginBottom: "20px" }} />
-            {/* ----------------------------------------- Nutritions-----------------------------------------  */}
-            <Box sx={{ width: "80" }}>
-              <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom> Nutritions (Optional) </Typography>
-              <Typography sx={{ fontSize: "15px" }} variant="subtitle1" gutterBottom> Enter 3 main nutrions in your recipe .</Typography>
+              </Box>
+              <Divider sx={{ width: "70", fontWeight: "bold", marginTop: "20px", marginBottom: "20px" }} />
 
-              <Stack spacing={2} sx={{ width: "auto" }}>
-                <div style={{ display: "flex" }}>
-                  <Box sx={{ marginRight: "20px" }}>
-                    <Typography className='typo-nutritions' variant="h5" gutterBottom> Fat</Typography>
-                    <TextField
-                      label="gram(s)"
-                      type="number"
-                      variant="outlined"
-                      placeholder='1'
-                      InputLabelProps={{ shrink: true }}
-                      sx={{ width: 150 }}
-                      inputProps={{ min: 0 }}
-                      value={nutritionValues.fat}
-                      onChange={(e) => handleNutritionChange('fat', e.target.value)}
-                    />
-                  </Box>
-                  <Box sx={{ marginRight: "20px" }}>
-                    <Typography className='typo-nutritions' variant="h5" gutterBottom> Carbs</Typography>
-                    <TextField
-                      label="gram(s)"
-                      type="number"
-                      variant="outlined"
-                      placeholder='1'
-                      InputLabelProps={{ shrink: true }}
-                      sx={{ width: 150 }}
-                      inputProps={{ min: 0 }}
-                      value={nutritionValues.carbs}
-                      onChange={(e) => handleNutritionChange('carbs', e.target.value)}
-                    />
-                  </Box>
-                  <Box>
-                    <Typography className='typo-nutritions' variant="h5" gutterBottom> Protein</Typography>
-                    <TextField
-                      label="gram(s)"
-                      type="number"
-                      variant="outlined"
-                      placeholder='1'
-                      InputLabelProps={{ shrink: true }}
-                      sx={{ width: 150 }}
-                      inputProps={{ min: 0 }}
-                      value={nutritionValues.protein}
-                      onChange={(e) => handleNutritionChange('protein', e.target.value)}
-                    />
-                  </Box>
+              {/* ----------------------------------------- Time-----------------------------------------  */}
+              <Box sx={{ width: "80", display: "flex", alignItems: "center" }}>
+                <Stack spacing={2} sx={{ width: "auto" }}>
+                  <div style={{ display: "flex" }}>
+                    <Box sx={{ marginRight: "20px" }}>
+                      <Typography className='typo-nutritions' variant="h6" gutterBottom> Prep Time</Typography>
+                      <TextField
+                        label="min(s)"
+                        type="number"
+                        variant="outlined"
+                        placeholder='1'
+                        InputLabelProps={{ shrink: true }}
+                        sx={{ width: 150 }}
+                        inputProps={{ min: 0 }}
+                        value={timeValue.prep}
+                        onChange={(e) => handleTimeChange('prep', e.target.value)}
+                      />
+                    </Box>
+                    <Box sx={{ marginRight: "20px" }}>
+                      <Typography className='typo-nutritions' variant="h6" gutterBottom> Stand Time</Typography>
+                      <TextField
+                        label="min(s)"
+                        type="number"
+                        variant="outlined"
+                        placeholder='1'
+                        InputLabelProps={{ shrink: true }}
+                        sx={{ width: 150 }}
+                        inputProps={{ min: 0 }}
+                        value={timeValue.stand}
+                        onChange={(e) => handleTimeChange('stand', e.target.value)}
+                      />
+                    </Box>
+                    <Box>
+                      <Typography className='typo-nutritions' variant="h6" gutterBottom> Cook Time</Typography>
+                      <TextField
+                        label="min(s)"
+                        type="number"
+                        variant="outlined"
+                        placeholder='1'
+                        InputLabelProps={{ shrink: true }}
+                        sx={{ width: 150 }}
+                        inputProps={{ min: 0 }}
+                        value={timeValue.cook}
+                        onChange={(e) => handleTimeChange('cook', e.target.value)}
+                      />
+                    </Box>
 
-                </div>
-                <Box sx={{ width: "80", display: "flex", alignItems: "center", paddingTop: "30px" }}>
-                  <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold", marginRight: "10px" }} variant="h6" gutterBottom> Total Calories (Calo): </Typography>
+                  </div>
+                  <Box sx={{ width: "80", display: "flex", alignItems: "center", paddingTop: "30px" }}>
+                    <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold", marginRight: "10px" }} variant="h6" gutterBottom> Total time (mins): </Typography>
 
-                  <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold", marginRight: "10px" }} variant="h6" gutterBottom>{totalCalories} </Typography>
+                    <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold", marginRight: "10px" }} variant="h6" gutterBottom>{totalTimes} </Typography>
+                  </Box>
+                </Stack>
+              </Box>
+              <Divider sx={{ width: "70", fontWeight: "bold", marginTop: "20px", marginBottom: "20px" }} />
+              {/* ----------------------------------------- Servings-----------------------------------------  */}
+
+              <Box sx={{ width: "80", display: "flex" }}>
+                <Box sx={{ paddingRight: "20px" }}>
+                  <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom> Servings </Typography>
+                  <OutlinedInput onChange={handleServingChange} placeholder="1" type='number' inputProps={{ min: 1 }} />
                 </Box>
-              </Stack>
-            </Box>
-            <Divider sx={{ width: "70", fontWeight: "bold", marginTop: "20px", marginBottom: "20px" }} />
-            {/* ----------------------------------------- Directions-----------------------------------------  */}
-            <Box sx={{ width: '80' }}>
-              <Typography
-                sx={{ lineHeight: '0.8', fontSize: '15px', fontWeight: 'bold' }}
-                variant="h6"
-                gutterBottom
-              >
-                Directions
-              </Typography>
+
+
+              </Box>
+              {/* ----------------------------------------- Filtering Fields-----------------------------------------  */}
+
+              <Divider sx={{ width: "70", fontWeight: "bold", marginTop: "20px", marginBottom: "20px" }} />
               <Typography
                 sx={{ fontSize: '15px' }}
                 variant="subtitle1"
                 gutterBottom
               >
-                Explain how to make your recipe, including oven temperatures, baking or cooking times, and pan sizes, etc. Use optional headers to organize the different parts of the recipe (i.e. Prep, Bake, Decorate).
+                This is optional part! It is very helpful for us to improve the searching engine if you input all this.
               </Typography>
-
-              {directionFields.map((field) => (
-                <Box key={field.directionsNum}>
-                  <Typography sx={{ fontSize: '15px' }} variant="subtitle1" gutterBottom>
-                    Step {field.directionsNum}
-                  </Typography>
-                  <Box sx={{ display: 'flex' }}>
-                    <TextareaAutosize
-                      aria-label={`Step ${field.directionsNum}`}
-                      style={{ width: '400px', paddingLeft: "10px" }}
-                      minRows={2}
-                      placeholder={`eg. Preheat oven to 350 degree F`}
-                      value={field.directionsDesc}
-                      onChange={(e) => {
-                        const updatedFields = directionFields.map((dirField) => {
-                          if (dirField.directionsNum === field.directionsNum) {
-                            return { ...dirField, directionsDesc: e.target.value };
-                          }
-                          return dirField;
-                        });
-                        setDirectionFields(updatedFields);
-                      }}
-                    />
-                    <Button
-                      variant="text"
-                      className="btn-delete-recipe"
-                      style={{ outline: 'none', marginLeft: '10px', color: '#fff' }}
-                      onClick={() => handleDeleteStep(field.directionsNum)}
-                    >
-                      <HighlightOffIcon color="warning" />
-                    </Button>
-                  </Box>
+              <Box sx={{ display: "flex", paddingTop: "10px" }}>
+                <Box>
+                  <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom> Type of meal </Typography>
+                  <Autocomplete
+                    freeSolo
+                    sx={{ width: 180, paddingRight: 2 }}
+                    options={allMeals?.data && allMeals.data.map((option) => option.mealName)}
+                    getOptionLabel={(option) => option}
+                    value={selectedMeal}
+                    onChange={(event, newValue) => handleMealChange(newValue)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        value={selectedCountry}
+                        onChange={(e) =>
+                          handleMealChange(e.target.value)
+                        }
+                      />
+                    )} />
                 </Box>
-              ))}
-              <Box sx={{ marginTop: "10px" }}>
-                <Button onClick={handleAddStep} variant="contained">
-                  Add more steps
-                </Button>
-              </Box>
-            </Box>
-            <Divider sx={{ width: "70", fontWeight: "bold", marginTop: "20px", marginBottom: "20px" }} />
 
-            {/* ----------------------------------------- Time-----------------------------------------  */}
-            <Box sx={{ width: "80", display: "flex", alignItems: "center" }}>
-              <Stack spacing={2} sx={{ width: "auto" }}>
-                <div style={{ display: "flex" }}>
-                  <Box sx={{ marginRight: "20px" }}>
-                    <Typography className='typo-nutritions' variant="h6" gutterBottom> Prep Time</Typography>
-                    <TextField
-                      label="min(s)"
-                      type="number"
-                      variant="outlined"
-                      placeholder='1'
-                      InputLabelProps={{ shrink: true }}
-                      sx={{ width: 150 }}
-                      inputProps={{ min: 0 }}
-                      value={timeValue.prep}
-                      onChange={(e) => handleTimeChange('prep', e.target.value)}
-                    />
-                  </Box>
-                  <Box sx={{ marginRight: "20px" }}>
-                    <Typography className='typo-nutritions' variant="h6" gutterBottom> Stand Time</Typography>
-                    <TextField
-                      label="min(s)"
-                      type="number"
-                      variant="outlined"
-                      placeholder='1'
-                      InputLabelProps={{ shrink: true }}
-                      sx={{ width: 150 }}
-                      inputProps={{ min: 0 }}
-                      value={timeValue.stand}
-                      onChange={(e) => handleTimeChange('stand', e.target.value)}
-                    />
-                  </Box>
-                  <Box>
-                    <Typography className='typo-nutritions' variant="h6" gutterBottom> Cook Time</Typography>
-                    <TextField
-                      label="min(s)"
-                      type="number"
-                      variant="outlined"
-                      placeholder='1'
-                      InputLabelProps={{ shrink: true }}
-                      sx={{ width: 150 }}
-                      inputProps={{ min: 0 }}
-                      value={timeValue.cook}
-                      onChange={(e) => handleTimeChange('cook', e.target.value)}
-                    />
-                  </Box>
-
-                </div>
-                <Box sx={{ width: "80", display: "flex", alignItems: "center", paddingTop: "30px" }}>
-                  <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold", marginRight: "10px" }} variant="h6" gutterBottom> Total time (mins): </Typography>
-
-                  <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold", marginRight: "10px" }} variant="h6" gutterBottom>{totalTimes} </Typography>
+                <Box>
+                  <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom> Select country</Typography>
+                  <Autocomplete
+                    freeSolo
+                    sx={{ width: 350, paddingRight: 2 }}
+                    options={allCountries?.data && allCountries?.data.map((option) => option.countryName)}
+                    getOptionLabel={(option) => option}
+                    value={selectedCountry}
+                    onChange={(event, newValue) => handleCountryChange(newValue)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        value={selectedCountry}
+                        onChange={(e) =>
+                          handleCountryChange(e.target.value)
+                        }
+                      />
+                    )} />
                 </Box>
-              </Stack>
-            </Box>
-            <Divider sx={{ width: "70", fontWeight: "bold", marginTop: "20px", marginBottom: "20px" }} />
-            {/* ----------------------------------------- Servings-----------------------------------------  */}
-
-            <Box sx={{ width: "80", display: "flex" }}>
-              <Box sx={{ paddingRight: "20px" }}>
-                <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom> Servings </Typography>
-                <OutlinedInput onChange={handleServingChange} placeholder="1" type='number' inputProps={{ min: 1 }} />
               </Box>
-
+              <Divider sx={{ width: "70", fontWeight: "bold", marginTop: "20px", marginBottom: "20px" }} />
 
             </Box>
-            {/* ----------------------------------------- Filtering Fields-----------------------------------------  */}
-
-            <Divider sx={{ width: "70", fontWeight: "bold", marginTop: "20px", marginBottom: "20px" }} />
-            <Typography
-              sx={{ fontSize: '15px' }}
-              variant="subtitle1"
-              gutterBottom
-            >
-              This is optional part! It is very helpful for us to improve the searching engine if you input all this.
-            </Typography>
-            <Box sx={{ display: "flex", paddingTop: "10px" }}>
-              <Box>
-                <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom> Type of meal </Typography>
-                <Autocomplete
-                  freeSolo
-                  sx={{ width: 180, paddingRight: 2 }}
-                  options={allMeals?.data && allMeals.data.map((option) => option.mealName)}
-                  getOptionLabel={(option) => option}
-                  value={selectedMeal}
-                  onChange={(event, newValue) => handleMealChange(newValue)}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      value={selectedCountry}
-                      onChange={(e) =>
-                        handleMealChange(e.target.value)
-                      }
-                    />
-                  )} />
-              </Box>
-
-              <Box>
-                <Typography sx={{ lineHeight: '0.8', fontSize: "15px", fontWeight: "bold" }} variant="h6" gutterBottom> Select country</Typography>
-                <Autocomplete
-                  freeSolo
-                  sx={{ width: 350, paddingRight: 2 }}
-                  options={allCountries?.data && allCountries?.data.map((option) => option.countryName)}
-                  getOptionLabel={(option) => option}
-                  value={selectedCountry}
-                  onChange={(event, newValue) => handleCountryChange(newValue)}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      value={selectedCountry}
-                      onChange={(e) =>
-                        handleCountryChange(e.target.value)
-                      }
-                    />
-                  )} />
-              </Box>
+            <Box sx={{ alignItems: "center", marginBottom: "50px", paddingLeft: "240px" }}>
+              <Button sx={{ color: "black", fontWeight: "bold", paddingRight: "20px" }}>Cancel</Button>
+              <Button onClick={handleCreateRecipe} variant="contained" sx={{ backgroundColor: "rgb(243, 156, 18) !important", width: "196" }} disableElevation>
+                Submit Recipe
+              </Button>
             </Box>
-            <Divider sx={{ width: "70", fontWeight: "bold", marginTop: "20px", marginBottom: "20px" }} />
 
+          </Container>
+        )}
 
-          </Box>
-
-
-
-
-
-          <Box sx={{ alignItems: "center", marginBottom: "50px", paddingLeft: "240px" }}>
-            <Button sx={{ color: "black", fontWeight: "bold", paddingRight: "20px" }}>Cancel</Button>
-            <Button onClick={handleCreateRecipe} variant="contained" sx={{ backgroundColor: "rgb(243, 156, 18) !important", width: "196" }} disableElevation>
-              Submit Recipe
-            </Button>
-          </Box>
-
-        </Container>
       </Box>
 
     </React.Fragment >

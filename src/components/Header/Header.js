@@ -15,6 +15,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { Fragment } from 'react'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const Header = () => {
     const [anchorEl, setAnchorEl] = React.useState(null)
@@ -173,7 +174,10 @@ const Header = () => {
                                             >
                                                 <MenuItem onClick={handleClose}>
                                                     <Link to="/profile" style={{ display: 'flex' }}>
-                                                        <Avatar />
+                                                    
+                                                    <ListItemIcon>
+                                                            <AccountCircleIcon fontSize="small" />
+                                                        </ListItemIcon>
                                                         <Typography
                                                             variant="h6"
                                                             sx={{ fontSize: '20px' }}
