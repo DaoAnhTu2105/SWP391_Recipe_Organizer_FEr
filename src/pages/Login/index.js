@@ -12,8 +12,9 @@ import { useEffect } from 'react'
 // import { useState } from 'react'
 import jwt_decode from 'jwt-decode'
 import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
 // import { useCookies } from 'react-cookie'
-
+import Swal from 'sweetalert2'
 const defaultTheme = createTheme()
 
 const Login = () => {
@@ -41,8 +42,20 @@ const Login = () => {
             // console.log(response)
             if (response.ok) {
                 const responseData = await response.json()
-                localStorage.setItem('user', JSON.stringify(responseData))
-                navigate('/')
+                if (responseData.status === 0) {
+                    await Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong! Your account has been suspened',
+                    })
+                    window.location.reload()
+                } else {
+                    localStorage.setItem('user', JSON.stringify(responseData))
+                    navigate('/')
+                }
+                console.log("login data", responseData)
+                console.log("response", response)
+
             } else {
                 console.log('login failed')
             }
@@ -67,7 +80,9 @@ const Login = () => {
     })
 
     return (
+
         <ThemeProvider theme={defaultTheme}>
+
             <Grid container component="main" sx={{ height: '100vh' }}>
                 <CssBaseline />
                 <Grid

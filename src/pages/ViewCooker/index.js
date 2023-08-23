@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react"
 import EmailIcon from '@mui/icons-material/Email';
 import { Typography, Box, Card, CardActions, CardMedia, Rating, CardContent } from "@mui/material";
@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import './cooker.css'
 const ViewCooker = () => {
     const { id } = useParams()
-
+    const navigate = useNavigate()
 
     const [user, setUser] = useState('')
     const userAPIUrl = ` https://recipe-organizer-api.azurewebsites.net/api/Recipes/GetByUser?id=${id}`;
@@ -16,6 +16,9 @@ const ViewCooker = () => {
         fetch(userAPIUrl)
             .then((response) => {
                 if (!response.ok) {
+                    if (response.status === 404) {
+                        navigate('/error')
+                    }
                     throw new Error(`HTTP Status: ${response.status}`);
                 }
                 return response.json();
@@ -28,7 +31,6 @@ const ViewCooker = () => {
     useEffect(() => (
         getUserAPI()
     ), [])
-    console.log(user)
     return (
         <>
             <div className="pt-5 pb-5" >
