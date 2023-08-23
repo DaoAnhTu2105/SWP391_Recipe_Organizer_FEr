@@ -42,6 +42,7 @@ Project use:
 
 ## Deploy project
 
-[Recipe Organizer](https://recipe-organizer-swp391.web.app/)
+[Recipe Organizer - 1](https://recipe-organizer-swp391.web.app/)
+[Recipe Organizer - 2](https://recipe-organizer-swp391.firebaseapp.com/)
 
 [Recipe Organizer - BE](https://recipe-organizer-api.azurewebsites.net/swagger/index.html)
