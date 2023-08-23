@@ -37,7 +37,7 @@ const HomePage = () => {
     }, [dispatch, dispatchBestRecipes, dispatchFavoriteRecipes])
 
     const handleShowLess = () => {
-        setShowMore(getAllRecipesAPI?.data.length + 6 - (showMore - 3))
+        setShowMore(6)
     }
 
     return (
