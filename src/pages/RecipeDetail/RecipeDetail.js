@@ -64,7 +64,7 @@ const RecipeDetail = () => {
     const handleConfirmComment = async (e) => {
         e.preventDefault()
         if ((dataComment.voteNum === 0 && !dataComment.comment) || dataComment.voteNum === 0) {
-            toast.error('You need to field full comment, or rating not 0 star!!!')
+            toast.error('You need to field full, or rating not 0 star!!!')
             setShowCommentModal(false)
         } else if (user?.role) {
             await dispatch(addReview({ data: JSON.stringify(dataComment) }))
@@ -151,12 +151,11 @@ const RecipeDetail = () => {
                                                 to={`/recipe-cooker/${recipeDetail?.userAccountVMs.userId}`}
                                                 style={{ textDecoration: 'true', color: '#f39c12' }}
                                             >
-                                                {recipeDetail && recipeDetail?.userAccountVMs?.fullName}
+                                                {recipeDetail &&
+                                                    recipeDetail?.userAccountVMs?.fullName}
                                             </Link>
                                         )}
-
                                     </p>
-
                                     <Button
                                         size="medium"
                                         style={{
@@ -179,7 +178,6 @@ const RecipeDetail = () => {
                                             }}
                                             onClick={() => console.log(window.location.href)}
                                         >
-
                                             <ShareIcon /> &nbsp; Share
                                         </Button>
                                     </FacebookShareButton>
@@ -514,7 +512,7 @@ const RecipeDetail = () => {
                             </div>
                         </div>
                     </div>
-                </div >
+                </div>
             )}
 
             <Modal
@@ -553,7 +551,7 @@ const RecipeDetail = () => {
                         Close
                     </Button>
                     &nbsp; &nbsp;
-                    <Link to="/login">
+                    <a href="/login">
                         <Button
                             variant="contained"
                             color="primary"
@@ -563,7 +561,7 @@ const RecipeDetail = () => {
                         >
                             Go to login
                         </Button>
-                    </Link>
+                    </a>
                 </Box>
             </Modal>
             <Modal
@@ -596,7 +594,7 @@ const RecipeDetail = () => {
                         variant="contained"
                         color="primary"
                         sx={{ mt: 2 }}
-                        onClick={() => setShowLoginModal(false)}
+                        onClick={() => setShowFavoriteModal(false)}
                         style={{ backgroundColor: '#f39c12', outline: 'none' }}
                     >
                         Close
@@ -660,57 +658,55 @@ const RecipeDetail = () => {
                     </Button>
                 </Box>
             </Modal>
-            {
-                recipeDetail?.userReview && (
-                    <Modal
-                        open={showDeleteModal}
-                        onClose={() => setShowDeleteModal(false)}
-                        aria-labelledby="login-modal-title"
+            {recipeDetail?.userReview && (
+                <Modal
+                    open={showDeleteModal}
+                    onClose={() => setShowDeleteModal(false)}
+                    aria-labelledby="login-modal-title"
+                >
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            width: 400,
+                            bgcolor: 'background.paper',
+                            boxShadow: 24,
+                            p: 4,
+                        }}
                     >
-                        <Box
-                            sx={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                width: 400,
-                                bgcolor: 'background.paper',
-                                boxShadow: 24,
-                                p: 4,
-                            }}
+                        <Typography
+                            id="login-modal-title"
+                            variant="h5"
+                            component="h2"
+                            style={{ color: '#f39c12', fontWeight: 600 }}
                         >
-                            <Typography
-                                id="login-modal-title"
-                                variant="h5"
-                                component="h2"
-                                style={{ color: '#f39c12', fontWeight: 600 }}
-                            >
-                                Delete your comment
-                            </Typography>
-                            <Typography sx={{ mt: 2 }}>Do you want to remove your comment?</Typography>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                sx={{ mt: 2 }}
-                                onClick={() => setShowDeleteModal(false)}
-                                style={{ backgroundColor: '#f39c12', outline: 'none' }}
-                            >
-                                Close
-                            </Button>
-                            &nbsp; &nbsp;
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                sx={{ mt: 2 }}
-                                onClick={() => handleConfirmDelete(recipeDetail?.userReview.reviewId)}
-                                style={{ backgroundColor: '#f39c12', outline: 'none' }}
-                            >
-                                Confirm
-                            </Button>
-                        </Box>
-                    </Modal>
-                )
-            }
+                            Delete your comment
+                        </Typography>
+                        <Typography sx={{ mt: 2 }}>Do you want to remove your comment?</Typography>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            sx={{ mt: 2 }}
+                            onClick={() => setShowDeleteModal(false)}
+                            style={{ backgroundColor: '#f39c12', outline: 'none' }}
+                        >
+                            Close
+                        </Button>
+                        &nbsp; &nbsp;
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            sx={{ mt: 2 }}
+                            onClick={() => handleConfirmDelete(recipeDetail?.userReview.reviewId)}
+                            style={{ backgroundColor: '#f39c12', outline: 'none' }}
+                        >
+                            Confirm
+                        </Button>
+                    </Box>
+                </Modal>
+            )}
         </>
     )
 }
