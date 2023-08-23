@@ -31,7 +31,8 @@ function CreateRecipe() {
 
   const user = JSON.parse(localStorage.getItem('user'))
   const accessToken = user?.token;
-  const [authenticatedUser, setAuthenticatedUser] = useState(accessToken ? true : false);
+  const roleCheck = user?.role === "Cooker"
+  const [authenticatedUser, setAuthenticatedUser] = useState(roleCheck ? true : false);
   //-------------------Get APIs HERE-----------------------------
 
   const [allIngredients, setAllInredients] = useState('')
@@ -127,7 +128,6 @@ function CreateRecipe() {
           },
           async () => {
             const url = await getDownloadURL(uploadTask.snapshot.ref);
-            console.log("url img", url)
             const recipeName = recipeTitle;
             const description = recipeDescription;
             const prepTimeSt = timeValue.prep;
@@ -179,8 +179,6 @@ function CreateRecipe() {
                 }
               );
               if (response.ok) {
-
-                console.log(response)
                 Swal.fire({
                   position: 'center',
                   icon: 'success',
@@ -374,27 +372,10 @@ function CreateRecipe() {
 
         </Box>
         {!authenticatedUser ? (
-          <Box
-            sx={{
-              margin: '123px 0',
-              display: 'flex',
-              justifyContent: 'center',
-              width: '100%',
-              alignItems: 'center',
-            }}
-          >
-            <Typography sx={{ paddingRight: '10px' }}> Please</Typography>
-            <a
-              style={{
-                color: 'rgb(243, 156, 18)',
-                textDecoration: 'underline',
-                fontSize: '25px',
-              }}
-              href="/login"
-            >
-              LOGIN
-            </a>
-            <Typography sx={{ paddingLeft: '10px' }}> before using this feature</Typography>
+          <Box sx={{ paddingTop: "100px", paddingBottom: "200px", display: "flex", justifyContent: "center", width: "100%", alignItems: "center" }}>
+            <Typography sx={{ paddingRight: "10px" }}> You are not allowed. Please</Typography>
+            <a style={{ color: "rgb(243, 156, 18)", textDecoration: "underline", fontSize: "25px" }} href="/login">LOGIN</a>
+            <Typography sx={{ paddingLeft: "10px" }}> as a cooker to use this feature</Typography>
           </Box>
 
         ) : (
