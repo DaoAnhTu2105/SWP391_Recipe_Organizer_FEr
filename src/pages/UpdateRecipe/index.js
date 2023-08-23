@@ -268,6 +268,84 @@ function UpdateRecipe() {
             });
         } else {
 
+            const recipeName = recipeTitle;
+            const description = recipeDescription;
+            const prepTimeSt = timeValue.prep + "";
+            const cookTimeSt = timeValue.cook + "";
+            const standTimeSt = timeValue.stand + "";
+            const totalTime = totalTimes;
+            const servingsSt = servingAmount + "";
+            const carbohydrateSt = nutritionValues.carbs + "";
+            const proteinSt = nutritionValues.protein + "";
+            const fatSt = nutritionValues.fat + "";
+            const calories = totalCalories;
+            const photoVMs = {
+                photoName: selectedImage
+            }
+            const directionVMs = directionFields
+            const ingredientOfRecipeVMs = ingredientFields
+            const recipeId = id
+            const countryId = selectedCountryId
+            const mealId = selectedMealId
+            console.log('id', selectedCountryId)
+            const payload = {
+                mealId,
+                countryId,
+                recipeId,
+                recipeName,
+                description,
+                prepTimeSt,
+                cookTimeSt,
+                standTimeSt,
+                servingsSt,
+                carbohydrateSt,
+                proteinSt,
+                fatSt,
+                calories,
+                totalTime,
+                photoVMs,
+                ingredientOfRecipeVMs,
+                directionVMs
+            };
+            console.log('nutritionValues:', nutritionValues)
+            console.log("payload", JSON.stringify(payload))
+            try {
+                const user = JSON.parse(localStorage.getItem('user'))
+                const accessToken = user?.token
+                const response = await fetch(
+                    `https://recipe-organizer-api.azurewebsites.net/api/Recipes/UpdateRecipe?id=${id}`,
+                    {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${accessToken}`
+                        },
+                        body: JSON.stringify(payload),
+                    }
+                );
+                if (response.ok) {
+                    try {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Recipe has been saved',
+                            showConfirmButton: false,
+                            timer: 2500
+                        })
+                        navigate('/my-recipe');
+                    } catch (error) {
+                        console.error('Error parsing JSON:', error);
+
+                    }
+                } else {
+                    throw new Error('Request failed with status: ' + response.status);
+
+                }
+            } catch (error) {
+                // Handle error
+                console.error('Error:', error);
+            }
+
         }
     }
     //------------------------------Image-------------------------------
@@ -434,7 +512,7 @@ function UpdateRecipe() {
             />
             <CssBaseline />
             <Box sx={{ width: "100%", display: "flex" }}>
-               
+
 
                 <Container
                     sx={{
@@ -443,7 +521,7 @@ function UpdateRecipe() {
                         maxHeight: "auto",
                         marginBottom: "50px",
                         marginTop: "80px",
-                        flex: 1, 
+                        flex: 1,
                     }}
                     maxWidth="sm"
                 >
