@@ -22,12 +22,14 @@ import LayoutWithoutFilter from '../components/LayoutWithoutFilter'
 import Profile from '../pages/Profile'
 import ViewCooker from '../pages/ViewCooker'
 import PrivateRouters from './PrivateRouters'
-import AdminRouters from './AdminRouters'
+// import PrivateAuthRouters fro./AdminRoutersers'
 import SearchResult from '../pages/SearchResult'
 import SearchResultFavorite from '../pages/SearchResult/searchFavorite'
 import UpdateRecipe from '../pages/UpdateRecipe'
 import MyRecipe from '../pages/MyRecipe'
-
+import AdminRouters from './AdminRouters'
+import CookerRouters from './CookerRouters'
+import UserRouters from './UserRouters'
 export const publicRouters = [
     {
         path: '/',
@@ -35,48 +37,9 @@ export const publicRouters = [
         component: Home,
     },
     {
-        path: '/login',
-        name: 'login',
-        component: Login,
-        layout: null,
-    },
-    {
-        path: '/error',
-        name: 'error',
-        component: NotFound,
-        layout: null,
-    },
-    {
-        path: '/create-plan',
-        name: 'create-plan',
-        component: CreatePlan,
-        layout: LayoutWithoutFilter,
-    }
-    ,
-    {
-        path: '/recipe-cooker/:id',
-        name: 'recipe-cooker',
-        component: ViewCooker,
-        layout: LayoutWithoutFilter,
-    },
-
-    {
-        path: '/favorite-recipe',
-        name: 'favorite-recipe',
-        component: FavoriteRecipe,
-        layout: LayoutWithoutFilter,
-    },
-    {
-        path: '/register',
-        name: 'register',
-        component: Register,
-        layout: null,
-    },
-    {
-        path: '/plan',
-        name: 'plan',
-        component: PlanMeal,
-        layout: LayoutWithoutFilter,
+        path: '/search-results',
+        name: 'search-results',
+        component: SearchResult,
     },
     {
         path: '/recipe-detail/:id',
@@ -85,27 +48,39 @@ export const publicRouters = [
         layout: LayoutWithoutFilter,
     },
     {
-        path: '/search-results',
-        name: 'search-results',
-        component: SearchResult,
+        path: '/login',
+        name: 'login',
+        component: Login,
+        layout: null,
     },
     {
-        path: '/search-favorite-results',
-        name: 'search-favorite-results',
-        component: SearchResultFavorite,
+        path: '/register',
+        name: 'register',
+        component: Register,
+        layout: null,
+    },
+    {
+        path: '/error',
+        name: 'error',
+        component: NotFound,
+        layout: null,
+    },
+    // {
+    //     path: '/create-plan',
+    //     name: 'create-plan',
+    //     component: CreatePlan,
+    //     layout: LayoutWithoutFilter,
+    // },
+    {
+        path: '/favorite-recipe',
+        name: 'favorite-recipe',
+        component: FavoriteRecipe,
         layout: LayoutWithoutFilter,
     },
-
     {
-        path: '/create-recipe',
-        name: 'create-recipe',
-        component: CreateRecipe,
-        layout: LayoutWithoutFilter,
-    },
-    {
-        path: '/my-recipe',
-        name: 'my-recipe',
-        component: MyRecipe,
+        path: '/plan',
+        name: 'plan',
+        component: PlanMeal,
         layout: LayoutWithoutFilter,
     },
 ]
@@ -115,18 +90,6 @@ export const privateRouters = [
         path: '/profile',
         name: 'user-profile',
         component: Profile,
-        layout: LayoutWithoutFilter,
-    },
-    {
-        path: '/plan-detail/:date',
-        name: 'plan-detail',
-        component: PlanDetail,
-        layout: LayoutWithoutFilter,
-    },
-    {
-        path: '/update-recipe/:id',
-        name: 'update-recipe',
-        component: UpdateRecipe,
         layout: LayoutWithoutFilter,
     },
 ]
@@ -148,6 +111,48 @@ export const adminRouters = [
         path: '/ingredient-detail/:id',
         name: 'ingredient-detail',
         component: UpdateIngredient,
+        layout: LayoutWithoutFilter,
+    },
+]
+
+export const cookerRouters = [
+    {
+        path: '/recipe-cooker/:id',
+        name: 'recipe-cooker',
+        component: ViewCooker,
+        layout: LayoutWithoutFilter,
+    },
+    {
+        path: '/create-recipe',
+        name: 'create-recipe',
+        component: CreateRecipe,
+        layout: LayoutWithoutFilter,
+    },
+    {
+        path: '/update-recipe/:id',
+        name: 'update-recipe',
+        component: UpdateRecipe,
+        layout: LayoutWithoutFilter,
+    },
+    {
+        path: '/my-recipe',
+        name: 'my-recipe',
+        component: MyRecipe,
+        layout: LayoutWithoutFilter,
+    },
+]
+
+export const userRouters = [
+    {
+        path: '/search-favorite-results',
+        name: 'search-favorite-results',
+        component: SearchResultFavorite,
+        layout: LayoutWithoutFilter,
+    },
+    {
+        path: '/plan-detail/:date',
+        name: 'plan-detail',
+        component: PlanDetail,
         layout: LayoutWithoutFilter,
     },
 ]
@@ -191,7 +196,6 @@ export const RouterComponents = () => {
                     })}
                     <Route exact path="/" element={<PrivateRouters />}>
                         {privateRouters.map((route, index) => {
-                            // const user = JSON.parse(localStorage.getItem('user'))
                             const Page = route.component
                             let Layout = DefaultLayout
                             if (route.layout) {
@@ -214,7 +218,50 @@ export const RouterComponents = () => {
                     </Route>
                     <Route exact path="/" element={<AdminRouters />}>
                         {adminRouters.map((route, index) => {
-                            // const user = JSON.parse(localStorage.getItem('user'))
+                            const Page = route.component
+                            let Layout = DefaultLayout
+                            if (route.layout) {
+                                Layout = route.layout
+                            } else if (route.layout === null) {
+                                Layout = Fragment
+                            }
+                            return (
+                                <Route
+                                    key={index}
+                                    path={route.path}
+                                    element={
+                                        <Layout>
+                                            <Page />
+                                        </Layout>
+                                    }
+                                />
+                            )
+                        })}
+                    </Route>
+                    <Route exact path="/" element={<CookerRouters />}>
+                        {cookerRouters.map((route, index) => {
+                            const Page = route.component
+                            let Layout = DefaultLayout
+                            if (route.layout) {
+                                Layout = route.layout
+                            } else if (route.layout === null) {
+                                Layout = Fragment
+                            }
+                            return (
+                                <Route
+                                    key={index}
+                                    path={route.path}
+                                    element={
+                                        <Layout>
+                                            <Page />
+                                        </Layout>
+                                    }
+                                />
+                            )
+                        })}
+                    </Route>
+                    <Route exact path="/" element={<UserRouters />}>
+                        {userRouters.map((route, index) => {
                             const Page = route.component
                             let Layout = DefaultLayout
                             if (route.layout) {

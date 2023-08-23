@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import EmailIcon from '@mui/icons-material/Email';
 import { Typography, Box, Card, CardActions, CardMedia, Rating, CardContent } from "@mui/material";
 import { Link } from "react-router-dom";
-import "./cooker.css"
+import './cooker.css'
 const ViewCooker = () => {
     const { id } = useParams()
 
@@ -70,7 +70,7 @@ const ViewCooker = () => {
                         </div>
                         <div className="pt-5">
                             <div className="pl-5">
-                                <h2 style={{color:"rgb(243, 156, 18)"}}>RECIPES</h2>
+                                <h2 style={{ color: "rgb(243, 156, 18)" }}>RECIPES</h2>
                             </div>
 
                             <div

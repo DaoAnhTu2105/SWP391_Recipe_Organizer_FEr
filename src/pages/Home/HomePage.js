@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography'
 import Rating from '@mui/material/Rating'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { fetchDataAsync } from '../../redux/apiThunk/getAllRecipesThunk'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import { Box } from '@mui/material'
@@ -27,16 +27,46 @@ const HomePage = () => {
     const bestRecipesAPI = useSelector((state) => state.bestRecipe.bestRecipes)
     const favoriteRecipeAPI = useSelector((state) => state.favoriteRecipe.favoriteRecipe)
     const status = useSelector((state) => state.getAllRecipes.isLoading)
-
+    const [showMore, setShowMore] = useState(6)
+    console.log('show more: ', showMore)
+    console.log('data: ', getAllRecipesAPI?.data)
     useEffect(() => {
         dispatch(fetchDataAsync())
         dispatchBestRecipes(bestRecipes())
         dispatchFavoriteRecipes(favoritesRecipe())
     }, [dispatch, dispatchBestRecipes, dispatchFavoriteRecipes])
 
+    const handleShowLess = () => {
+        setShowMore(6)
+    }
+
     return (
         <>
-            {status === 'loading' ? (
+            {status === 'error' ? (
+                <Box
+                    sx={{
+                        paddingTop: '100px',
+                        paddingBottom: '200px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        width: '100%',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Typography sx={{ paddingRight: '10px' }}> Please</Typography>
+                    <a
+                        style={{
+                            color: 'rgb(243, 156, 18)',
+                            textDecoration: 'underline',
+                            fontSize: '25px',
+                        }}
+                        href="/login"
+                    >
+                        LOGIN
+                    </a>
+                    <Typography sx={{ paddingLeft: '10px' }}> before using this feature</Typography>
+                </Box>
+            ) : status === 'loading' ? (
                 <CircularProgress
                     sx={{
                         marginTop: '10%',
@@ -112,7 +142,7 @@ const HomePage = () => {
                                             >
                                                 <Link to={`/recipe-detail/${bestRecipe.recipeId}`}>
                                                     <img
-                                                        style={{ maxWidth: 350, height: 250 }}
+                                                        style={{ width: 350, height: 250 }}
                                                         src={bestRecipe.photoVMs[0].photoName}
                                                         alt={bestRecipe.recipeName}
                                                     />
@@ -196,54 +226,125 @@ const HomePage = () => {
                             }}
                         >
                             <div className="container">
-                                <div className="row justify-content-center">
+                                <div className="row">
                                     {getAllRecipesAPI.data &&
-                                        Array.isArray(getAllRecipesAPI.data) &&
-                                        getAllRecipesAPI.data.map((recipe) => (
-                                            <div className="col-sm-4 mb-4" key={recipe.recipeId}>
-                                                <Card style={{ width: 345, maxHeight: 470 }}>
-                                                    <Link to={`/recipe-detail/${recipe.recipeId}`}>
-                                                        <CardMedia
-                                                            component="img"
-                                                            style={{ width: 350, height: 194 }}
-                                                            image={recipe.photoVMs[0].photoName}
-                                                            alt="Perfect Pancakes"
-                                                        />
-                                                        <Rating
-                                                            name="read-only"
-                                                            value={recipe.aveVote}
-                                                            readOnly
-                                                            precision={0.5}
-                                                            size="small"
-                                                            sx={{ mt: 2 }}
-                                                        />
-                                                        <CardContent>
-                                                            <Typography
-                                                                variant="body1"
-                                                                color="text.primary"
+                                        Array.isArray(getAllRecipesAPI.data) && (
+                                            <div
+                                                className="grid-container"
+                                                style={{
+                                                    display: 'grid',
+                                                    gridTemplateColumns: 'repeat(3, 1fr)',
+                                                    gap: '30px',
+                                                }}
+                                            >
+                                                {getAllRecipesAPI?.data
+                                                    .slice(0, showMore)
+                                                    .map((recipe) => (
+                                                        <div
+                                                            className="grid-item"
+                                                            key={recipe.recipeId}
+                                                        >
+                                                            <Card
                                                                 style={{
-                                                                    fontWeight: 600,
-                                                                    fontSize: 15,
+                                                                    width: 345,
+                                                                    maxHeight: 470,
                                                                 }}
                                                             >
-                                                                {recipe.recipeName}
-                                                            </Typography>
-                                                            <br></br>
-                                                            <Typography
-                                                                variant="body3"
-                                                                color="text.secondary"
-                                                            >
-                                                                {new Date(
-                                                                    recipe.updateTime
-                                                                ).toLocaleDateString()}
-                                                            </Typography>
-                                                        </CardContent>
-                                                    </Link>
-                                                </Card>
+                                                                <Link
+                                                                    to={`/recipe-detail/${recipe.recipeId}`}
+                                                                >
+                                                                    <CardMedia
+                                                                        component="img"
+                                                                        style={{
+                                                                            width: 350,
+                                                                            height: 194,
+                                                                        }}
+                                                                        image={
+                                                                            recipe.photoVMs[0]
+                                                                                .photoName
+                                                                        }
+                                                                        alt="Perfect Pancakes"
+                                                                    />
+                                                                    <Rating
+                                                                        name="read-only"
+                                                                        value={recipe.aveVote}
+                                                                        readOnly
+                                                                        precision={0.5}
+                                                                        size="small"
+                                                                        sx={{ mt: 2 }}
+                                                                    />
+                                                                    <CardContent>
+                                                                        <Typography
+                                                                            variant="body1"
+                                                                            color="text.primary"
+                                                                            style={{
+                                                                                fontWeight: 600,
+                                                                                fontSize: 15,
+                                                                            }}
+                                                                        >
+                                                                            {recipe.recipeName}
+                                                                        </Typography>
+                                                                        <br></br>
+                                                                        <Typography
+                                                                            variant="body3"
+                                                                            color="text.secondary"
+                                                                        >
+                                                                            {new Date(
+                                                                                recipe.updateTime
+                                                                            ).toLocaleDateString()}
+                                                                        </Typography>
+                                                                    </CardContent>
+                                                                </Link>
+                                                            </Card>
+                                                        </div>
+                                                    ))}
                                             </div>
-                                        ))}
+                                        )}
                                 </div>
                             </div>
+                        </div>
+                        <div style={{ textAlign: 'center', marginTop: 20 }}>
+                            {getAllRecipesAPI?.data?.length > showMore ? (
+                                <button
+                                    onClick={() => {
+                                        setShowMore((more) => more + 6)
+                                    }}
+                                    style={{
+                                        padding: '15px 90px',
+                                        border: 'none',
+                                        borderRadius: '10px',
+                                        color: 'white',
+                                        backgroundColor: '#f39c12',
+                                        fontSize: '20px',
+                                        outline: 'none',
+                                        fontWeight: 600,
+                                        cursor: 'pointer',
+                                        marginBottom: 20,
+                                    }}
+                                >
+                                    Show more recipes
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={() => {
+                                        handleShowLess()
+                                    }}
+                                    style={{
+                                        padding: '15px 90px',
+                                        border: 'none',
+                                        borderRadius: '10px',
+                                        color: 'white',
+                                        backgroundColor: '#f39c12',
+                                        fontSize: '20px',
+                                        outline: 'none',
+                                        fontWeight: 600,
+                                        cursor: 'pointer',
+                                        marginBottom: 20,
+                                    }}
+                                >
+                                    Show less
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>
