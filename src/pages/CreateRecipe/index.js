@@ -374,10 +374,27 @@ function CreateRecipe() {
 
         </Box>
         {!authenticatedUser ? (
-          <Box sx={{ paddingTop: "100px", paddingBottom: "200px", display: "flex", justifyContent: "center", width: "100%", alignItems: "center" }}>
-            <Typography sx={{ paddingRight: "10px" }}> Please</Typography>
-            <a style={{ color: "rgb(243, 156, 18)", textDecoration: "underline", fontSize: "25px" }} href="/login">LOGIN</a>
-            <Typography sx={{ paddingLeft: "10px" }}> before using this feature</Typography>
+          <Box
+            sx={{
+              margin: '123px 0',
+              display: 'flex',
+              justifyContent: 'center',
+              width: '100%',
+              alignItems: 'center',
+            }}
+          >
+            <Typography sx={{ paddingRight: '10px' }}> Please</Typography>
+            <a
+              style={{
+                color: 'rgb(243, 156, 18)',
+                textDecoration: 'underline',
+                fontSize: '25px',
+              }}
+              href="/login"
+            >
+              LOGIN
+            </a>
+            <Typography sx={{ paddingLeft: '10px' }}> before using this feature</Typography>
           </Box>
 
         ) : (
