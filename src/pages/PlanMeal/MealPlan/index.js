@@ -1,18 +1,20 @@
 import './index.css'
 import React, { useState, useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getPlanByWeek, createPlan } from "../../../redux/apiThunk/planThunk";
+import { getPlanByWeek, createPlan, getRecipesPlan } from "../../../redux/apiThunk/planThunk";
 import Food from '../Food'
 import NextIcon from '../../../components/IconComponent/NextIcon'
 import PreviousIcon from '../../../components/IconComponent/PreviousIcon'
 import CircularProgress from "@mui/material/CircularProgress";
-import { fetchDataAsync } from '../../../redux/apiThunk/getAllRecipesThunk'
+// import { fetchDataAsync } from '../../../redux/apiThunk/getAllRecipesThunk'
 
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 import Swal from "sweetalert2";
 import toast, { Toaster } from 'react-hot-toast';
+import Typography from '@mui/material/Typography'
+import { Box } from '@mui/material'
 
 const dayOfWeek = [
     "Monday",
@@ -113,15 +115,14 @@ export default function MealPlan() {
     }
 
     useEffect(() => {
-        dispatch(fetchDataAsync())
         dispatch(getPlanByWeek({ date: formatDate(getMonday(currentDate)) }))
     }, [dispatch, currentDate, reload])
 
     const mealPlan = useSelector((state) => state.plan);
     const dataStatus = useSelector((state) => state.plan.loading);
-    const getAllRecipesAPI = useSelector((state) => state.getAllRecipes.getAllRecipes)
+    const getAllRecipes = useSelector((state) => state.plan.recipePlan)
     const user = JSON.parse(localStorage.getItem("user"));
-    // console.log(getAllRecipesAPI?.data);
+    // console.log(getAllRecipes?.data);
     const handleFormCreate = async (e) => {
         e.preventDefault()
         setShow(false)
@@ -136,13 +137,18 @@ export default function MealPlan() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 await dispatch(createPlan({ data: data })).then((result) => {
-                    result.payload.message === "Success" ? toast.success('Successfully Update!') : toast.error('co cl')
+                    result.payload.message === "Success" ? toast.success('Create Success!') : toast.error('Create Failed!')
+                    setData({
+                        ...data, recipeId: "",
+                        dateSt: "",
+                        mealOfDate: ""
+                    })
                     setReload(!reload)
                 }).catch((err) => {
                     console.log(err);
                 });
             } else {
-                toast('Nothing Update!')
+                toast('Nothing Create!')
             }
         });
         setReload(!reload)
@@ -154,16 +160,33 @@ export default function MealPlan() {
         return m + "/" + d + "/" + y
     }
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleShow = () => {
+        dispatch(getRecipesPlan())
+        setShow(true)
+    };
     const content = (
-        <div className='container' style={{ margin: '30px 0' }}>
-            You must Login to use this feature
-            <a href="/login">
-                <button>
-                    Login Page
-                </button>
+        <Box
+            sx={{
+                margin: '22px 0',
+                display: 'flex',
+                justifyContent: 'center',
+                width: '100%',
+                alignItems: 'center',
+            }}
+        >
+            <Typography sx={{ paddingRight: '10px' }}> Please</Typography>
+            <a
+                style={{
+                    color: 'rgb(243, 156, 18)',
+                    textDecoration: 'underline',
+                    fontSize: '25px',
+                }}
+                href="/login"
+            >
+                LOGIN
             </a>
-        </div>
+            <Typography sx={{ paddingLeft: '10px' }}> before using this feature</Typography>
+        </Box>
     )
     if (dataStatus === 'loading') {
         contentAuth = (
@@ -192,9 +215,9 @@ export default function MealPlan() {
                                 <Modal.Body>
                                     <div class="form-group">
                                         <label htmFor="recipe">Recipe</label>
-                                        <select id="recipe" class="form-control" onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
-                                            <option>...</option>
-                                            {getAllRecipesAPI?.data?.map((item) => (
+                                        <select id="recipe" class="form-control" placeholder='Recipe' onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
+                                            <option value="">...</option>
+                                            {getAllRecipes?.data?.map((item) => (
                                                 <option value={item.recipeId}>{item.recipeName}</option>
                                             ))}
                                         </select>
@@ -207,8 +230,8 @@ export default function MealPlan() {
                                     </div>
                                     <div class="form-group">
                                         <label htmFor="meal">Meal of date</label>
-                                        <select id="meal" class="form-control" onChange={(e) => setData({ ...data, mealOfDate: e.target.value })} required>
-                                            <option>...</option>
+                                        <select id="meal" class="form-control" placeholder='Meal' onChange={(e) => setData({ ...data, mealOfDate: e.target.value })} required>
+                                            <option value="">...</option>
                                             <option value="1">BreakFast</option>
                                             <option value="2">Lunch</option>
                                             <option value="3">Dinner</option>
@@ -325,9 +348,9 @@ export default function MealPlan() {
                                 <Modal.Body>
                                     <div class="form-group">
                                         <label htmFor="recipe">Recipe</label>
-                                        <select id="recipe" class="form-control" onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
-                                            <option>...</option>
-                                            {getAllRecipesAPI?.data?.map((item) => (
+                                        <select id="recipe" class="form-control" placeholder='Recipe' onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
+                                            <option value="">...</option>
+                                            {getAllRecipes?.data?.map((item) => (
                                                 <option value={item.recipeId}>{item.recipeName}</option>
                                             ))}
                                         </select>
@@ -340,8 +363,8 @@ export default function MealPlan() {
                                     </div>
                                     <div class="form-group">
                                         <label htmFor="meal">Meal of date</label>
-                                        <select id="meal" class="form-control" onChange={(e) => setData({ ...data, mealOfDate: e.target.value })} required>
-                                            <option>...</option>
+                                        <select id="meal" class="form-control" placeholder='Meal' onChange={(e) => setData({ ...data, mealOfDate: e.target.value })} required>
+                                            <option value="">...</option>
                                             <option value="1">BreakFast</option>
                                             <option value="2">Lunch</option>
                                             <option value="3">Dinner</option>

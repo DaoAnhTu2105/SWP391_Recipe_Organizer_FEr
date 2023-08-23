@@ -27,16 +27,16 @@ const ingredientSlice = createSlice({
         },
         [getIngredientDetail.pending]: (state, action) => {
             state.loading = true;
-            state.loading = "loading"
+            // state.loading = "loading"
         },
         [getIngredientDetail.fulfilled]: (state, action) => {
             state.loading = false;
-            state.loading = "succeeded";
+            // state.loading = "succeeded";
             state.detail = action.payload;
         },
         [getIngredientDetail.rejected]: (state, action) => {
             state.loading = false;
-            state.loading = "failed";
+            // state.loading = "failed";
         },
     },
 });
