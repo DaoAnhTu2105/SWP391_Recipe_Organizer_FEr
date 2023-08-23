@@ -6,7 +6,7 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules'
 import { Link } from 'react-router-dom'
-import { Button, Rating, Box, Modal, Typography } from '@mui/material'
+import { Button, Rating, Box } from '@mui/material'
 // import { useState } from 'react'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import ShareIcon from '@mui/icons-material/Share'
@@ -23,6 +23,7 @@ import { addReview, removeReview } from '../../redux/apiThunk/reviewThunk'
 import DeleteIcon from '@mui/icons-material/Delete'
 import toast, { Toaster } from 'react-hot-toast'
 import { FacebookShareButton } from 'react-share'
+import Swal from 'sweetalert2'
 
 const RecipeDetail = () => {
     const { id } = useParams()
@@ -31,13 +32,11 @@ const RecipeDetail = () => {
     const status = useSelector((state) => state.getRecipeDetail.isLoading)
     const recipeDetail = recipeDetails.data
     const user = JSON.parse(localStorage.getItem('user'))
-    const [showLoginModal, setShowLoginModal] = useState(false)
-    const [showFavoriteModal, setShowFavoriteModal] = useState(false)
-    const [showCommentModal, setShowCommentModal] = useState(false)
-    const [showDeleteModal, setShowDeleteModal] = useState(false)
+    // const [showLoginModal, setShowLoginModal] = useState(false)
     const [postComment, setPostComment] = useState('')
     const [rate, setRate] = useState(0)
     const [reload, setReload] = useState(false)
+    console.log('rate: ', rate)
     const dataComment = {
         recipeId: id,
         voteNum: rate,
@@ -55,54 +54,88 @@ const RecipeDetail = () => {
     }
     const formattedUpdateTime = recipeDetail ? formatDate(recipeDetail.updateTime) : ''
     const photo = recipeDetail?.photoVMs && recipeDetail?.photoVMs[0]?.photoName
-    const handleSave = () => {
-        setShowFavoriteModal(true)
-    }
-    const handleComment = () => {
-        setShowCommentModal(true)
-    }
+
     const handleConfirmComment = async (e) => {
         e.preventDefault()
-        if ((dataComment.voteNum === 0 && !dataComment.comment) || dataComment.voteNum === 0) {
-            toast.error('You need to field full, or rating not 0 star!!!')
-            setShowCommentModal(false)
-        } else if (user?.role) {
-            await dispatch(addReview({ data: JSON.stringify(dataComment) }))
-            toast.success('Comment successfully!')
-            await setShowCommentModal(false)
-            setReload(!reload)
-            setPostComment('')
-            setRate(0)
-        } else {
-            setShowCommentModal(false)
-            setShowLoginModal(true)
-        }
+        // if ((dataComment.voteNum === 0 && !dataComment.comment) || dataComment.voteNum === 0) {
+        //     toast.error('You need to field full, or rating not 0 star!!!')
+        // } else if (user?.role === 'User') {
+        //     toast.success('Comment successfully!')
+        //     setReload(!reload)
+        //     setPostComment('')
+        //     setRate(0)
+        // } else {
+        //     toast.error('You need to Login to do this feature!!!')
+        // }
+        await dispatch(addReview({ data: JSON.stringify(dataComment) }))
+            .then((result) => {
+                if (result.payload && result.payload.message === 'Success') {
+                    toast.success('Comment successful!!!')
+                    setPostComment('')
+                    setRate(0)
+                    setReload(!reload)
+                } else {
+                    toast.error('Comment failed! You must Login or Rating comment!')
+                    setPostComment('')
+                    setReload(!reload)
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }
-    const handleDelete = () => {
-        setShowDeleteModal(true)
-    }
+
     const handleConfirmDelete = async (reId) => {
-        await dispatch(removeReview(reId))
-        toast.success('Remove successful!!!')
-        setShowDeleteModal(false)
-        setReload(!reload)
+        Swal.fire({
+            title: 'Remove your comment',
+            text: 'Do you want to remove your comment?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await dispatch(removeReview(reId))
+                    .then((result) => {
+                        if (result.payload && result.payload.message === 'Success') {
+                            toast.success('Remove successful!!!')
+                            setReload(!reload)
+                        } else {
+                            toast.error('Remove failed!')
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            }
+        })
     }
     const handleConfirmSave = async (newValue) => {
-        if (recipeDetail?.isFavorite) {
-            toast.error('This recipe has been added to favorite!!!')
-            setShowFavoriteModal(false)
-        } else if (user?.role !== 'User') {
-            toast.error('Cooker can not do this!')
-            setShowFavoriteModal(false)
-        } else if (user?.role === 'User') {
-            await dispatch(userFavorites(newValue))
-            toast.success('Add favorite recipe successful!')
-            setReload(!reload)
-            setShowFavoriteModal(false)
-        } else {
-            setShowFavoriteModal(false)
-            setShowLoginModal(true)
-        }
+        Swal.fire({
+            title: 'Add favorite recipe',
+            text: 'Do you want to add this recipe?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, add favorite',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await dispatch(userFavorites(newValue))
+                    .then((result) => {
+                        if (result.payload && result.payload.message === 'Success') {
+                            toast.success('Add favorite success!')
+                            setReload(!reload)
+                        } else {
+                            toast.error('Add favorite failed! You need to login!')
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            }
+        })
     }
     return (
         <>
@@ -168,7 +201,9 @@ const RecipeDetail = () => {
                                                 backgroundColor: '#f39c12',
                                                 outline: 'none',
                                             }}
-                                            onClick={handleSave}
+                                            onClick={() =>
+                                                handleConfirmSave(recipeDetail?.recipeId)
+                                            }
                                         >
                                             <FavoriteBorderIcon /> &nbsp; Save
                                         </Button>
@@ -180,7 +215,6 @@ const RecipeDetail = () => {
                                                 backgroundColor: 'white',
                                                 outline: 'none',
                                             }}
-                                            onClick={handleSave}
                                         >
                                             <FavoriteBorderIcon /> &nbsp; Saved
                                         </Button>
@@ -328,9 +362,11 @@ const RecipeDetail = () => {
                                                 <div>
                                                     <Rating
                                                         name="size-large"
-                                                        defaultValue={rate}
+                                                        value={rate}
                                                         size="large"
-                                                        onChange={(e) => setRate(e.target.value)}
+                                                        onChange={async (event, newValue) =>
+                                                            await setRate(newValue)
+                                                        }
                                                     />
                                                     <div className="row">
                                                         <div className="col-12">
@@ -359,7 +395,7 @@ const RecipeDetail = () => {
                                                                     borderRadius: '10px',
                                                                 }}
                                                                 type="submit"
-                                                                onClick={handleComment}
+                                                                onClick={handleConfirmComment}
                                                             >
                                                                 Post Comments
                                                             </button>
@@ -408,7 +444,11 @@ const RecipeDetail = () => {
                                                             outline: 'none',
                                                             cursor: 'pointer',
                                                         }}
-                                                        onClick={handleDelete}
+                                                        onClick={() =>
+                                                            handleConfirmDelete(
+                                                                recipeDetail?.userReview.reviewId
+                                                            )
+                                                        }
                                                     >
                                                         <DeleteIcon />
                                                     </button>
@@ -533,7 +573,7 @@ const RecipeDetail = () => {
                 </div>
             )}
 
-            <Modal
+            {/* <Modal
                 open={showLoginModal}
                 onClose={() => setShowLoginModal(false)}
                 aria-labelledby="login-modal-title"
@@ -581,150 +621,7 @@ const RecipeDetail = () => {
                         </Button>
                     </a>
                 </Box>
-            </Modal>
-            <Modal
-                open={showFavoriteModal}
-                onClose={() => setShowFavoriteModal(false)}
-                aria-labelledby="login-modal-title"
-            >
-                <Box
-                    sx={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        width: 400,
-                        bgcolor: 'background.paper',
-                        boxShadow: 24,
-                        p: 4,
-                    }}
-                >
-                    <Typography
-                        id="login-modal-title"
-                        variant="h5"
-                        component="h2"
-                        style={{ color: '#f39c12', fontWeight: 600 }}
-                    >
-                        Add Favorite Recipe
-                    </Typography>
-                    <Typography sx={{ mt: 2 }}>Do you want to add this recipe?</Typography>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        sx={{ mt: 2 }}
-                        onClick={() => setShowFavoriteModal(false)}
-                        style={{ backgroundColor: '#f39c12', outline: 'none' }}
-                    >
-                        Close
-                    </Button>
-                    &nbsp; &nbsp;
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        sx={{ mt: 2 }}
-                        onClick={() => handleConfirmSave(recipeDetail?.recipeId)}
-                        style={{ backgroundColor: '#f39c12', outline: 'none' }}
-                    >
-                        Confirm
-                    </Button>
-                </Box>
-            </Modal>
-            <Modal
-                open={showCommentModal}
-                onClose={() => setShowCommentModal(false)}
-                aria-labelledby="login-modal-title"
-            >
-                <Box
-                    sx={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        width: 400,
-                        bgcolor: 'background.paper',
-                        boxShadow: 24,
-                        p: 4,
-                    }}
-                >
-                    <Typography
-                        id="login-modal-title"
-                        variant="h5"
-                        component="h2"
-                        style={{ color: '#f39c12', fontWeight: 600 }}
-                    >
-                        Comment
-                    </Typography>
-                    <Typography sx={{ mt: 2 }}>Are you sure to add your comment?</Typography>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        sx={{ mt: 2 }}
-                        onClick={() => setShowCommentModal(false)}
-                        style={{ backgroundColor: '#f39c12', outline: 'none' }}
-                    >
-                        Close
-                    </Button>
-                    &nbsp; &nbsp;
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        sx={{ mt: 2 }}
-                        onClick={handleConfirmComment}
-                        style={{ backgroundColor: '#f39c12', outline: 'none' }}
-                    >
-                        Confirm
-                    </Button>
-                </Box>
-            </Modal>
-            {recipeDetail?.userReview && (
-                <Modal
-                    open={showDeleteModal}
-                    onClose={() => setShowDeleteModal(false)}
-                    aria-labelledby="login-modal-title"
-                >
-                    <Box
-                        sx={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            width: 400,
-                            bgcolor: 'background.paper',
-                            boxShadow: 24,
-                            p: 4,
-                        }}
-                    >
-                        <Typography
-                            id="login-modal-title"
-                            variant="h5"
-                            component="h2"
-                            style={{ color: '#f39c12', fontWeight: 600 }}
-                        >
-                            Delete your comment
-                        </Typography>
-                        <Typography sx={{ mt: 2 }}>Do you want to remove your comment?</Typography>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            sx={{ mt: 2 }}
-                            onClick={() => setShowDeleteModal(false)}
-                            style={{ backgroundColor: '#f39c12', outline: 'none' }}
-                        >
-                            Close
-                        </Button>
-                        &nbsp; &nbsp;
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            sx={{ mt: 2 }}
-                            onClick={() => handleConfirmDelete(recipeDetail?.userReview.reviewId)}
-                            style={{ backgroundColor: '#f39c12', outline: 'none' }}
-                        >
-                            Confirm
-                        </Button>
-                    </Box>
-                </Modal>
-            )}
+            </Modal> */}
         </>
     )
 }

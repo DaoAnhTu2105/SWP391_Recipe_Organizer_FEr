@@ -37,7 +37,7 @@ const SearchFavorite = ({ country, meal, totalTime, serving }) => {
             .then((response) => {
                 setSearchResult(response.data)
                 result('/search-favorite-results', {
-                    state: { searchResult: response.data, name: searchData.recipeName },
+                    state: { searchResult: response.data },
                 })
             })
             .catch((error) => {
