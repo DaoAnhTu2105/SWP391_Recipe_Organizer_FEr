@@ -57,7 +57,7 @@ const FavoriteRecipe = () => {
             {userFavorError === 'error' ? (
                 <Box
                     sx={{
-                        margin: '20px 0',
+                        margin: '35px 0',
                         display: 'flex',
                         justifyContent: 'center',
                         width: '100%',
