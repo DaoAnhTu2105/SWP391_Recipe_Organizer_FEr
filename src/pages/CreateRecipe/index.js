@@ -31,7 +31,9 @@ function CreateRecipe() {
 
   const user = JSON.parse(localStorage.getItem('user'))
   const accessToken = user?.token;
-  const [authenticatedUser, setAuthenticatedUser] = useState(accessToken ? true : false);
+  const roleCheck = user?.role === "Cooker"
+  console.log(roleCheck)
+  const [authenticatedUser, setAuthenticatedUser] = useState(roleCheck ? true : false);
   //-------------------Get APIs HERE-----------------------------
 
   const [allIngredients, setAllInredients] = useState('')
@@ -375,9 +377,9 @@ function CreateRecipe() {
         </Box>
         {!authenticatedUser ? (
           <Box sx={{ paddingTop: "100px", paddingBottom: "200px", display: "flex", justifyContent: "center", width: "100%", alignItems: "center" }}>
-            <Typography sx={{ paddingRight: "10px" }}> Please</Typography>
+            <Typography sx={{ paddingRight: "10px" }}> You are not allowed. Please</Typography>
             <a style={{ color: "rgb(243, 156, 18)", textDecoration: "underline", fontSize: "25px" }} href="/login">LOGIN</a>
-            <Typography sx={{ paddingLeft: "10px" }}> before using this feature</Typography>
+            <Typography sx={{ paddingLeft: "10px" }}> as a cooker to use this feature</Typography>
           </Box>
 
         ) : (
