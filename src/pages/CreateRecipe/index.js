@@ -32,7 +32,6 @@ function CreateRecipe() {
   const user = JSON.parse(localStorage.getItem('user'))
   const accessToken = user?.token;
   const roleCheck = user?.role === "Cooker"
-  console.log(roleCheck)
   const [authenticatedUser, setAuthenticatedUser] = useState(roleCheck ? true : false);
   //-------------------Get APIs HERE-----------------------------
 
@@ -129,7 +128,6 @@ function CreateRecipe() {
           },
           async () => {
             const url = await getDownloadURL(uploadTask.snapshot.ref);
-            console.log("url img", url)
             const recipeName = recipeTitle;
             const description = recipeDescription;
             const prepTimeSt = timeValue.prep;
@@ -181,8 +179,6 @@ function CreateRecipe() {
                 }
               );
               if (response.ok) {
-
-                console.log(response)
                 Swal.fire({
                   position: 'center',
                   icon: 'success',
