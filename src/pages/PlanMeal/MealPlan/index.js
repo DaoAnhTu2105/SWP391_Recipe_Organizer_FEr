@@ -15,6 +15,17 @@ import Swal from "sweetalert2";
 import toast, { Toaster } from 'react-hot-toast';
 import Typography from '@mui/material/Typography'
 import { Box } from '@mui/material'
+import { useLocation } from 'react-router-dom'
+
+function ScrollToTop() {
+    const location = useLocation()
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [location])
+
+    return null
+}
 
 const dayOfWeek = [
     "Monday",
@@ -123,6 +134,17 @@ export default function MealPlan() {
     const getAllRecipes = useSelector((state) => state.plan.recipePlan)
     const user = JSON.parse(localStorage.getItem("user"));
     // console.log(getAllRecipes?.data);
+    const changePage = (e, value) => {
+        e.preventDefault()
+        ScrollToTop()
+        if (value === -1) {
+            setCurrentDate(subDays(getMonday(currentDate), 7))
+        } else if (value === 0) {
+            setCurrentDate(new Date())
+        } else {
+            setCurrentDate(addDays(getMonday(currentDate), 7))
+        }
+    }
     const handleFormCreate = async (e) => {
         e.preventDefault()
         setShow(false)
@@ -330,7 +352,7 @@ export default function MealPlan() {
                         <div className='item'></div>
                     </div>
                 </div>
-            </Fragment>);
+            </Fragment >);
     } else {
         contentAuth = (
             <Fragment>
