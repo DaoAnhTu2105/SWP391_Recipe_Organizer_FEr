@@ -397,6 +397,7 @@ function CreateRecipe() {
             <Typography sx={{ paddingLeft: '10px' }}> before using this feature</Typography>
           </Box>
 
+
         ) : (
           <Container sx={{ bgcolor: '#fff', border: "ridge", maxHeight: "auto", marginBottom: "50px", marginTop: "80px" }} maxWidth="sm" >
             <Typography sx={{ paddingLeft: "30px", fontFamily: "Cursive", paddingBottom: "20px" }} variant="h3" component="h2"> Add recipe </Typography>
