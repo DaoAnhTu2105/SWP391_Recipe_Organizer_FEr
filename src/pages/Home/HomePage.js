@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { fetchDataAsync } from '../../redux/apiThunk/getAllRecipesThunk'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
-import { Box } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import { Autoplay, Pagination, Navigation, Mousewheel } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
@@ -18,6 +18,8 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import CircularProgress from '@mui/material/CircularProgress'
 import { bestRecipes } from '../../redux/apiThunk/getBestRecipeThunk'
 import { favoritesRecipe } from '../../redux/apiThunk/getFavoritesRecipeThunk'
+import { userFavorites } from '../../redux/apiThunk/getFavoriteUserThunk'
+import toast, { Toaster } from 'react-hot-toast'
 
 const HomePage = () => {
     const dispatch = useDispatch()
@@ -28,19 +30,32 @@ const HomePage = () => {
     const favoriteRecipeAPI = useSelector((state) => state.favoriteRecipe.favoriteRecipe)
     const status = useSelector((state) => state.getAllRecipes.isLoading)
     const [showMore, setShowMore] = useState(6)
+    const [reload, setReload] = useState(false)
 
     useEffect(() => {
         dispatch(fetchDataAsync())
         dispatchBestRecipes(bestRecipes())
         dispatchFavoriteRecipes(favoritesRecipe())
-    }, [dispatch, dispatchBestRecipes, dispatchFavoriteRecipes])
+    }, [dispatch, dispatchBestRecipes, dispatchFavoriteRecipes, reload])
 
     const handleShowLess = () => {
         setShowMore(6)
     }
+    const handleAddFavorite = async (id) => {
+        await dispatch(userFavorites(id)).then((result) => {
+            if (result.payload && result.payload.message === 'Success') {
+                toast.success('Add favorite success')
+                setReload(!reload)
+            } else if (result.payload && result.payload.message === 'Role Denied') {
+                toast.error('Cooker can not do this')
+                setReload(!reload)
+            }
+        })
+    }
 
     return (
         <>
+            <Toaster position="top-center" reverseOrder={false} />
             {status === 'error' ? (
                 <Box
                     sx={{
@@ -169,45 +184,61 @@ const HomePage = () => {
                                                         <span
                                                             style={{ color: 'rgba(71,71,71, 0.6)' }}
                                                         >
-                                                            {bestRecipe?.totalReview} ratings
+                                                            {bestRecipe?.aveVote} ratings
                                                         </span>
                                                     </Box>
-                                                    <CardContent
+                                                </Link>
+                                                <CardContent
+                                                    style={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                    }}
+                                                >
+                                                    <Typography
+                                                        variant="body3"
+                                                        color="text.primary"
+                                                    >
+                                                        {bestRecipe?.totalFavorite}
+                                                    </Typography>
+                                                    <Typography
                                                         style={{
+                                                            backgroundColor: 'white',
+                                                            height: '20px',
                                                             display: 'flex',
-                                                            alignItems: 'center',
                                                             justifyContent: 'center',
+                                                            alignItems: 'center',
+                                                            outline: 'none',
                                                         }}
                                                     >
-                                                        <Typography
-                                                            variant="body3"
-                                                            color="text.primary"
-                                                        >
-                                                            {bestRecipe?.totalFavorite}
-                                                        </Typography>
-                                                        &nbsp; &nbsp;
-                                                        <Typography
-                                                            style={{
-                                                                backgroundColor: 'white',
-                                                                height: '20px',
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                alignItems: 'center',
-                                                                outline: 'none',
-                                                            }}
-                                                        >
-                                                            {bestRecipe?.isFavorite ? (
+                                                        {bestRecipe?.isFavorite ? (
+                                                            <Button
+                                                                style={{
+                                                                    outline: 'none',
+                                                                }}
+                                                            >
                                                                 <FavoriteBorderIcon
                                                                     style={{ color: 'orange' }}
                                                                 />
-                                                            ) : (
+                                                            </Button>
+                                                        ) : (
+                                                            <Button
+                                                                onClick={() =>
+                                                                    handleAddFavorite(
+                                                                        bestRecipe?.recipeId
+                                                                    )
+                                                                }
+                                                                style={{
+                                                                    outline: 'none',
+                                                                }}
+                                                            >
                                                                 <FavoriteBorderIcon
                                                                     style={{ color: 'black' }}
                                                                 />
-                                                            )}
-                                                        </Typography>
-                                                    </CardContent>
-                                                </Link>
+                                                            </Button>
+                                                        )}
+                                                    </Typography>
+                                                </CardContent>
                                             </div>
                                         ))}
                                 </div>
