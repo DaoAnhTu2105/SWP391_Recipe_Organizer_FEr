@@ -10,7 +10,6 @@ import { Button, Rating, Box } from '@mui/material'
 // import { useState } from 'react'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import ShareIcon from '@mui/icons-material/Share'
-
 import { useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
@@ -74,9 +73,13 @@ const RecipeDetail = () => {
                     setPostComment('')
                     setRate(0)
                     setReload(!reload)
+                } else if (result.payload && result.payload.message === 'Role Denied') {
+                    toast.error('Cooker can not do this')
+                    setReload(!reload)
                 } else {
-                    toast.error('Comment failed! You must Login or Rating comment!')
+                    toast.error('Comment failed!')
                     setPostComment('')
+                    setRate(0)
                     setReload(!reload)
                 }
             })
@@ -127,8 +130,11 @@ const RecipeDetail = () => {
                         if (result.payload && result.payload.message === 'Success') {
                             toast.success('Add favorite success!')
                             setReload(!reload)
+                        } else if (result.payload && result.payload.message === 'Role Denied') {
+                            toast.error('Cooker can not do this')
+                            setReload(!reload)
                         } else {
-                            toast.error('Add favorite failed! You need to login!')
+                            toast.error('Add favorite failed!!!')
                         }
                     })
                     .catch((err) => {
