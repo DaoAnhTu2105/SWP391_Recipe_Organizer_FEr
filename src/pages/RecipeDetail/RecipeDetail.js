@@ -91,10 +91,10 @@ const RecipeDetail = () => {
         if (recipeDetail?.isFavorite) {
             toast.error('This recipe has been added to favorite!!!')
             setShowFavoriteModal(false)
-        } else if (user?.role !== 'user') {
+        } else if (user?.role !== 'User') {
             toast.error('Cooker can not do this!')
             setShowFavoriteModal(false)
-        } else if (user?.role === 'user') {
+        } else if (user?.role === 'User') {
             await dispatch(userFavorites(newValue))
             toast.success('Add favorite recipe successful!')
             setReload(!reload)
