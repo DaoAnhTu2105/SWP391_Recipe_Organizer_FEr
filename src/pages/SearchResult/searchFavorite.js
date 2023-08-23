@@ -6,7 +6,8 @@ import SearchFilter from '../FavortieRecipe/SearchFavoriteFilter'
 const SearchResultFavorite = () => {
     const location = useLocation()
     const searchResult = location.state?.searchResult
-    const result = searchResult.data
+    const result = searchResult?.data
+    console.log(result)
     return (
         <>
             <SearchFilter />
@@ -16,7 +17,7 @@ const SearchResultFavorite = () => {
                 </h2>
             </div>
             <div className="container">
-                {result.length === 0 ? (
+                {result?.length === 0 ? (
                     <div>
                         <h1 style={{ textAlign: 'center' }}>Couldn't find any favorite recipes</h1>
                         <div style={{ textAlign: 'center' }}>

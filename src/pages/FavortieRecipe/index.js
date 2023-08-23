@@ -12,25 +12,41 @@ import { userFavor } from '../../redux/apiThunk/getFavoriteUserThunk'
 import { removeFavor } from '../../redux/apiThunk/getFavoriteUserThunk'
 import SearchFilter from './SearchFavoriteFilter'
 import toast, { Toaster } from 'react-hot-toast'
+import Swal from 'sweetalert2'
+import CircularProgress from '@mui/material/CircularProgress'
 
 const FavoriteRecipe = () => {
     const dispatch = useDispatch()
-    const [showDeleteModal, setShowDeleteModal] = useState(false)
-    const [detail, setDetail] = useState('')
     const getUserFavor = useSelector((state) => state.uFavor.userFavorites)
-    const userFavorError = useSelector((state) => state.uFavor.isLoading)
-    console.log(userFavorError)
+    const status = useSelector((state) => state.uFavor.isLoading)
     const favorite = getUserFavor?.data
     const [reload, setReload] = useState(false)
-    const handleRemove = (id) => {
-        setShowDeleteModal(true)
-        setDetail(id)
-    }
-    const handleConfirmRemove = async () => {
-        await dispatch(removeFavor(detail))
-        toast.success('Remove successful!')
-        setShowDeleteModal(false)
-        setReload(!reload)
+
+    const handleConfirmRemove = async (id) => {
+        Swal.fire({
+            title: 'Remove your favorite!',
+            text: 'Do you want to remove your favorite?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await dispatch(removeFavor(id))
+                    .then((result) => {
+                        if (result.payload && result.payload.message === 'Success') {
+                            toast.success('Remove successful!!!')
+                            setReload(!reload)
+                        } else {
+                            toast.error('Remove failed!')
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            }
+        })
     }
     useEffect(() => {
         dispatch(userFavor())
@@ -54,7 +70,15 @@ const FavoriteRecipe = () => {
                     All your favorite content in one place!
                 </Typography>
             </Container>
-            {userFavorError === 'error' ? (
+            {status === 'loading' ? (
+                <CircularProgress
+                    sx={{
+                        marginTop: '10%',
+                        marginLeft: '47%',
+                        marginBottom: '10%',
+                    }}
+                />
+            ) : status === 'error' ? (
                 <Box
                     sx={{
                         margin: '35px 0',
@@ -127,7 +151,9 @@ const FavoriteRecipe = () => {
                                                         outline: 'none',
                                                         color: '#f39c12',
                                                     }}
-                                                    onClick={() => handleRemove(favor.recipeId)}
+                                                    onClick={() =>
+                                                        handleConfirmRemove(favor.recipeId)
+                                                    }
                                                 >
                                                     Remove
                                                 </Button>
@@ -163,55 +189,6 @@ const FavoriteRecipe = () => {
                     </div>
                 </div>
             )}
-            <Modal
-                open={showDeleteModal}
-                onClose={() => setShowDeleteModal(false)}
-                aria-labelledby="login-modal-title"
-            >
-                <Box
-                    sx={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        width: 400,
-                        bgcolor: 'background.paper',
-                        boxShadow: 24,
-                        p: 4,
-                    }}
-                >
-                    <Typography
-                        id="login-modal-title"
-                        variant="h5"
-                        component="h2"
-                        style={{ color: '#f39c12', fontWeight: 600 }}
-                    >
-                        Remove favorite
-                    </Typography>
-                    <Typography sx={{ mt: 2 }}>
-                        Do you want to remove this item from the favorites list?
-                    </Typography>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        sx={{ mt: 2 }}
-                        onClick={() => setShowDeleteModal(false)}
-                        style={{ backgroundColor: '#f39c12', outline: 'none' }}
-                    >
-                        Close
-                    </Button>
-                    &nbsp; &nbsp;
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        sx={{ mt: 2 }}
-                        onClick={handleConfirmRemove}
-                        style={{ backgroundColor: '#f39c12', outline: 'none' }}
-                    >
-                        Confirm
-                    </Button>
-                </Box>
-            </Modal>
         </>
     )
 }
