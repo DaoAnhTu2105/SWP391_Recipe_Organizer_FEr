@@ -156,19 +156,20 @@ const RecipeDetail = () => {
                                         )}
 
                                     </p>
+
+                                    <Button
+                                        size="medium"
+                                        style={{
+                                            color: 'white',
+                                            backgroundColor: '#f39c12',
+                                            outline: 'none',
+                                        }}
+                                        onClick={handleSave}
+                                    >
+                                        <FavoriteBorderIcon /> &nbsp; Save
+                                    </Button>
+                                    &nbsp;
                                     <FacebookShareButton url={window.location.href}>
-                                        <Button
-                                            size="medium"
-                                            style={{
-                                                color: 'white',
-                                                backgroundColor: '#f39c12',
-                                                outline: 'none',
-                                            }}
-                                            onClick={handleSave}
-                                        >
-                                            <FavoriteBorderIcon /> &nbsp; Save
-                                        </Button>
-                                        &nbsp;
                                         <Button
                                             size="medium"
                                             style={{
@@ -180,7 +181,6 @@ const RecipeDetail = () => {
                                         >
 
                                             <ShareIcon /> &nbsp; Share
-
                                         </Button>
                                     </FacebookShareButton>
                                     <div className="receipe-headline my-5">
