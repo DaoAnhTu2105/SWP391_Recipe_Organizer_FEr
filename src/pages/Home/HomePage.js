@@ -28,8 +28,7 @@ const HomePage = () => {
     const favoriteRecipeAPI = useSelector((state) => state.favoriteRecipe.favoriteRecipe)
     const status = useSelector((state) => state.getAllRecipes.isLoading)
     const [showMore, setShowMore] = useState(6)
-    console.log('show more: ', showMore)
-    console.log('data: ', getAllRecipesAPI?.data)
+
     useEffect(() => {
         dispatch(fetchDataAsync())
         dispatchBestRecipes(bestRecipes())
