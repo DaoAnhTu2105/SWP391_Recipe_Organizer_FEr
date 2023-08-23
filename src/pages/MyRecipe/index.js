@@ -8,7 +8,8 @@ import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import CircularProgress from '@mui/material/CircularProgress';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-
+import Swal from 'sweetalert2';
+import toast from 'react-hot-toast';
 const MyRecipe = () => {
     const user = JSON.parse(localStorage.getItem('user'))
     const accessToken = user?.token;
@@ -30,7 +31,7 @@ const MyRecipe = () => {
             if (response.ok) {
                 const data = await response.json();
 
-                setAllMyRecipes(data.data);
+                setAllMyRecipes(data);
 
                 setIsLoading(false);
             }
@@ -42,8 +43,45 @@ const MyRecipe = () => {
     useEffect(() => {
         getAllMyRecipes();
     }, []);
-    console.log("isload", isLoading)
-    console.log("recipes", allMyRecipes)
+
+    const handleDeleteRecipe = async (id) => {
+        const deleteRecipeURL = `https://recipe-organizer-api.azurewebsites.net/api/Recipes/DeleteRecipe?id=${id}`
+        try {
+            await Swal.fire({
+                title: "Do you want to delete this recipe?",
+                icon: "info",
+                showDenyButton: true,
+                showCancelButton: true,
+                denyButtonText: "Yes, delete it!",
+                background: "white",
+                showConfirmButton: false,
+            }).then(async (result) => {
+                if (result.isDenied) {
+                    const response = await fetch(deleteRecipeURL, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': `Bearer ${accessToken}`,
+                        },
+                    });
+                    if (response.ok) {
+                        console.log("response", response.json())
+                        Swal.fire('Deleted!', '', 'success')
+                        setAllMyRecipes(prevState => ({
+                            ...prevState,
+                            data: prevState.data.filter(recipe => recipe.recipeId !== id)
+                        }));
+                    }
+                } else {
+                    toast('Nothing Update!')
+                }
+            });
+
+        } catch (error) {
+            console.log(error.message);
+
+        }
+
+    }
     return (
         <React.Fragment>
             <CssBaseline />
@@ -77,10 +115,10 @@ const MyRecipe = () => {
                                 }} />
                             ) : (
                                 <div>
-                                    {allMyRecipes ?
+                                    {allMyRecipes?.data ?
 
                                         (
-                                            allMyRecipes.map((myRecipe) => (
+                                            allMyRecipes?.data.map((myRecipe) => (
                                                 <div
                                                     className=" mb-4"
                                                     key={myRecipe.recipeId}
@@ -118,10 +156,9 @@ const MyRecipe = () => {
                                                             </Link>
                                                         </Box>
                                                         <Box sx={{ paddingTop: "20px" }}>
-                                                            <Button>
+                                                            <Button onClick={() => handleDeleteRecipe(myRecipe.recipeId)}>
                                                                 <DeleteSweepIcon fontSize='large' sx={{ color: "#cc0000" }} />
                                                             </Button>
-
                                                         </Box>
                                                     </Box>
                                                 </div>
@@ -132,7 +169,6 @@ const MyRecipe = () => {
                                                     You haven't create any recipe yet
                                                 </Typography>
                                             </Box>
-
                                         )
                                     }
                                 </div>
