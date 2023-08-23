@@ -22,12 +22,14 @@ import LayoutWithoutFilter from '../components/LayoutWithoutFilter'
 import Profile from '../pages/Profile'
 import ViewCooker from '../pages/ViewCooker'
 import PrivateRouters from './PrivateRouters'
-import PrivateAuthRouters from './PrivateAuthRouters'
+// import PrivateAuthRouters fro./AdminRoutersers'
 import SearchResult from '../pages/SearchResult'
 import SearchResultFavorite from '../pages/SearchResult/searchFavorite'
 import UpdateRecipe from '../pages/UpdateRecipe'
 import MyRecipe from '../pages/MyRecipe'
-
+import AdminRouters from './AdminRouters'
+import CookerRouters from './CookerRouters'
+import UserRouters from './UserRouters'
 export const publicRouters = [
     {
         path: '/',
@@ -214,7 +216,7 @@ export const RouterComponents = () => {
                             )
                         })}
                     </Route>
-                    <Route exact path="/" element={<PrivateAuthRouters role='Admin' />}>
+                    <Route exact path="/" element={<AdminRouters />}>
                         {adminRouters.map((route, index) => {
                             const Page = route.component
                             let Layout = DefaultLayout
@@ -236,7 +238,7 @@ export const RouterComponents = () => {
                             )
                         })}
                     </Route>
-                    <Route exact path="/" element={<PrivateAuthRouters role='Cooker' />}>
+                    <Route exact path="/" element={<CookerRouters />}>
                         {cookerRouters.map((route, index) => {
                             const Page = route.component
                             let Layout = DefaultLayout
@@ -258,7 +260,7 @@ export const RouterComponents = () => {
                             )
                         })}
                     </Route>
-                    <Route exact path="/" element={<PrivateAuthRouters role='User' />}>
+                    <Route exact path="/" element={<UserRouters />}>
                         {userRouters.map((route, index) => {
                             const Page = route.component
                             let Layout = DefaultLayout
