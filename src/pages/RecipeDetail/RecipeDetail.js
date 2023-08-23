@@ -91,9 +91,13 @@ const RecipeDetail = () => {
         if (recipeDetail?.isFavorite) {
             toast.error('This recipe has been added to favorite!!!')
             setShowFavoriteModal(false)
-        } else if (user?.role) {
+        } else if (user?.role !== 'user') {
+            toast.error('Cooker can not do this!')
+            setShowFavoriteModal(false)
+        } else if (user?.role === 'user') {
             await dispatch(userFavorites(newValue))
             toast.success('Add favorite recipe successful!')
+            setReload(!reload)
             setShowFavoriteModal(false)
         } else {
             setShowFavoriteModal(false)
@@ -156,17 +160,31 @@ const RecipeDetail = () => {
                                             </Link>
                                         )}
                                     </p>
-                                    <Button
-                                        size="medium"
-                                        style={{
-                                            color: 'white',
-                                            backgroundColor: '#f39c12',
-                                            outline: 'none',
-                                        }}
-                                        onClick={handleSave}
-                                    >
-                                        <FavoriteBorderIcon /> &nbsp; Save
-                                    </Button>
+                                    {!recipeDetail?.isFavorite ? (
+                                        <Button
+                                            size="medium"
+                                            style={{
+                                                color: 'white',
+                                                backgroundColor: '#f39c12',
+                                                outline: 'none',
+                                            }}
+                                            onClick={handleSave}
+                                        >
+                                            <FavoriteBorderIcon /> &nbsp; Save
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            size="medium"
+                                            style={{
+                                                color: '#f39c12',
+                                                backgroundColor: 'white',
+                                                outline: 'none',
+                                            }}
+                                            onClick={handleSave}
+                                        >
+                                            <FavoriteBorderIcon /> &nbsp; Saved
+                                        </Button>
+                                    )}
                                     &nbsp;
                                     <FacebookShareButton url={window.location.href}>
                                         <Button
