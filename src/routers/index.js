@@ -83,6 +83,18 @@ export const publicRouters = [
         component: PlanMeal,
         layout: LayoutWithoutFilter,
     },
+    {
+        path: '/create-recipe',
+        name: 'create-recipe',
+        component: CreateRecipe,
+        layout: LayoutWithoutFilter,
+    },
+    {
+        path: '/recipe-cooker/:id',
+        name: 'recipe-cooker',
+        component: ViewCooker,
+        layout: LayoutWithoutFilter,
+    },
 ]
 
 export const privateRouters = [
@@ -116,18 +128,6 @@ export const adminRouters = [
 ]
 
 export const cookerRouters = [
-    {
-        path: '/recipe-cooker/:id',
-        name: 'recipe-cooker',
-        component: ViewCooker,
-        layout: LayoutWithoutFilter,
-    },
-    {
-        path: '/create-recipe',
-        name: 'create-recipe',
-        component: CreateRecipe,
-        layout: LayoutWithoutFilter,
-    },
     {
         path: '/update-recipe/:id',
         name: 'update-recipe',
