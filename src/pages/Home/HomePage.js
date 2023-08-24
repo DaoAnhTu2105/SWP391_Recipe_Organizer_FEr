@@ -20,6 +20,7 @@ import { bestRecipes } from '../../redux/apiThunk/getBestRecipeThunk'
 import { favoritesRecipe } from '../../redux/apiThunk/getFavoritesRecipeThunk'
 import { userFavorites } from '../../redux/apiThunk/getFavoriteUserThunk'
 import toast, { Toaster } from 'react-hot-toast'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 
 const HomePage = () => {
     const dispatch = useDispatch()
@@ -43,12 +44,17 @@ const HomePage = () => {
     }
     const handleAddFavorite = async (id) => {
         await dispatch(userFavorites(id)).then((result) => {
+            console.log('result', result)
             if (result.payload && result.payload.message === 'Success') {
                 toast.success('Add favorite success')
                 setReload(!reload)
             } else if (result.payload && result.payload.message === 'Role Denied') {
                 toast.error('Cooker can not do this')
                 setReload(!reload)
+            } else if (
+                result.error.message === 'Error fetching data: Request failed with status code 401'
+            ) {
+                toast.error('You are not login. Please login')
             }
         })
     }
@@ -217,7 +223,7 @@ const HomePage = () => {
                                                                     outline: 'none',
                                                                 }}
                                                             >
-                                                                <FavoriteBorderIcon
+                                                                <FavoriteIcon
                                                                     style={{ color: 'orange' }}
                                                                 />
                                                             </Button>

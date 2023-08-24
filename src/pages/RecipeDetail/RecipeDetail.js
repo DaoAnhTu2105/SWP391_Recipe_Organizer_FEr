@@ -23,6 +23,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import toast, { Toaster } from 'react-hot-toast'
 import { FacebookShareButton } from 'react-share'
 import Swal from 'sweetalert2'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 
 const RecipeDetail = () => {
     const { id } = useParams()
@@ -68,6 +69,7 @@ const RecipeDetail = () => {
         // }
         await dispatch(addReview({ data: JSON.stringify(dataComment) }))
             .then((result) => {
+                console.log(result)
                 if (result.payload && result.payload.message === 'Success') {
                     toast.success('Comment successful!!!')
                     setPostComment('')
@@ -76,6 +78,11 @@ const RecipeDetail = () => {
                 } else if (result.payload && result.payload.message === 'Role Denied') {
                     toast.error('Role Denied')
                     setReload(!reload)
+                } else if (
+                    result.error.message ===
+                    'Error fetching data: Request failed with status code 400'
+                ) {
+                    toast.error('You are not login. Please login')
                 } else {
                     toast.error('Comment failed!')
                     setPostComment('')
@@ -133,6 +140,11 @@ const RecipeDetail = () => {
                         } else if (result.payload && result.payload.message === 'Role Denied') {
                             toast.error('Role Denied')
                             setReload(!reload)
+                        } else if (
+                            result.error.message ===
+                            'Error fetching data: Request failed with status code 401'
+                        ) {
+                            toast.error('You are not login. Please login')
                         } else {
                             toast.error('Add favorite failed!!!')
                         }
@@ -222,7 +234,7 @@ const RecipeDetail = () => {
                                                 outline: 'none',
                                             }}
                                         >
-                                            <FavoriteBorderIcon /> &nbsp; Saved
+                                            <FavoriteIcon /> &nbsp; Saved
                                         </Button>
                                     )}
                                     &nbsp;
