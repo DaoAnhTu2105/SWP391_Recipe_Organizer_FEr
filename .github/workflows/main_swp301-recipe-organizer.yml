@@ -24,7 +24,8 @@ jobs:
       - name: npm install, build, and test
         run: |
           npm i -f
-          npm start
+          npm run build
+          npm test
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
