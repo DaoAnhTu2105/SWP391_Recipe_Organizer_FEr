@@ -78,11 +78,6 @@ const RecipeDetail = () => {
                 } else if (result.payload && result.payload.message === 'Role Denied') {
                     toast.error('Role Denied')
                     setReload(!reload)
-                } else if (
-                    result.error.message ===
-                    'Error fetching data: Request failed with status code 400'
-                ) {
-                    toast.error('You are not login. Please login')
                 } else {
                     toast.error('Comment failed!')
                     setPostComment('')
@@ -140,11 +135,6 @@ const RecipeDetail = () => {
                         } else if (result.payload && result.payload.message === 'Role Denied') {
                             toast.error('Role Denied')
                             setReload(!reload)
-                        } else if (
-                            result.error.message ===
-                            'Error fetching data: Request failed with status code 401'
-                        ) {
-                            toast.error('You are not login. Please login')
                         } else {
                             toast.error('Add favorite failed!!!')
                         }
@@ -348,7 +338,7 @@ const RecipeDetail = () => {
                                 <h3 style={{ color: '#f39c12', marginBottom: 30 }}>
                                     Nutrition Facts (per serving)
                                 </h3>
-                                <div className=" ">
+                                <div className="row w-100">
                                     <div className="col-sm">
                                         <h4>{recipeDetail?.calories}</h4>
                                         <span> Calories</span>

@@ -44,17 +44,14 @@ const HomePage = () => {
     }
     const handleAddFavorite = async (id) => {
         await dispatch(userFavorites(id)).then((result) => {
-            console.log('result', result)
             if (result.payload && result.payload.message === 'Success') {
                 toast.success('Add favorite success')
                 setReload(!reload)
             } else if (result.payload && result.payload.message === 'Role Denied') {
                 toast.error('Cooker can not do this')
                 setReload(!reload)
-            } else if (
-                result.error.message === 'Error fetching data: Request failed with status code 401'
-            ) {
-                toast.error('You are not login. Please login')
+            } else {
+                toast.error('Add favorite failed')
             }
         })
     }
