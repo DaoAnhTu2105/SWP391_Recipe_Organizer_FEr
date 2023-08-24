@@ -61,22 +61,7 @@ const Footer = () => {
                     <div className="col-md-5 offset-md-1 mb-3">
                         <form>
                             <h5 style={{ color: '#f39c12' }}>SWP391_3W Mentor Lại Đức Hùng</h5>
-                            <p>Monthly digest of what's new and exciting from us.</p>
-                            <div className="d-flex flex-column flex-sm-row w-100 gap-2">
-                                <input
-                                    id="newsletter1"
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Email address"
-                                />
-                                <button
-                                    className="btn btn-primary"
-                                    type="button"
-                                    style={{ backgroundColor: '#f39c12', height: 50, marginTop: 7 }}
-                                >
-                                    Subscribe
-                                </button>
-                            </div>
+                            <p>Thanks for your listening!</p>
                         </form>
                     </div>
                 </footer>
