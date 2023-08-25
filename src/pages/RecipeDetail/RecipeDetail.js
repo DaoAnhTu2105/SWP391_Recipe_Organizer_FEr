@@ -58,9 +58,13 @@ const RecipeDetail = () => {
     const handleConfirmComment = async (e) => {
         e.preventDefault()
         if (!user) {
-            toast.error('Login to post comment!')
+            toast.error('Login to post comment!', {
+                duration: 2000,
+            })
         } else if (user.role !== 'User') {
-            toast.error('Role Denied')
+            toast.error('Role Denied', {
+                duration: 2000,
+            })
         } else {
             await dispatch(addReview({ data: JSON.stringify(dataComment) }))
                 .then((result) => {
@@ -129,9 +133,13 @@ const RecipeDetail = () => {
     }
     const handleConfirmSave = async (newValue) => {
         if (!user) {
-            toast.error('You must login to add favorite!!!')
+            toast.error('You must login to add favorite!!!', {
+                duration: 2000,
+            })
         } else if (user.role !== 'User') {
-            toast.error('Role Denied')
+            toast.error('Role Denied', {
+                duration: 2000,
+            })
         } else {
             Swal.fire({
                 title: 'Add favorite recipe',
