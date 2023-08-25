@@ -57,6 +57,42 @@ const RecipeDetail = () => {
 
     const handleConfirmComment = async (e) => {
         e.preventDefault()
+        if (!user) {
+            toast.error('Login to post comment!', {
+                duration: 2000,
+            })
+        } else if (user.role !== 'User') {
+            toast.error('Role Denied', {
+                duration: 2000,
+            })
+        } else {
+            await dispatch(addReview({ data: JSON.stringify(dataComment) }))
+                .then((result) => {
+                    console.log(result)
+                    if (result.payload && result.payload.message === 'Success') {
+                        toast.success('Comment successful!!!')
+                        setPostComment('')
+                        setRate(0)
+                        setReload(!reload)
+                    } else if (
+                        result.error.message ===
+                        'Error fetching data: Request failed with status code 400'
+                    ) {
+                        toast.error('You must rating!', {
+                            duration: 2000,
+                        })
+                        setReload(!reload)
+                    } else {
+                        toast.error('Comment failed!')
+                        setPostComment('')
+                        setRate(0)
+                        setReload(!reload)
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
         // if ((dataComment.voteNum === 0 && !dataComment.comment) || dataComment.voteNum === 0) {
         //     toast.error('You need to field full, or rating not 0 star!!!')
         // } else if (user?.role === 'User') {
@@ -67,27 +103,6 @@ const RecipeDetail = () => {
         // } else {
         //     toast.error('You need to Login to do this feature!!!')
         // }
-        await dispatch(addReview({ data: JSON.stringify(dataComment) }))
-            .then((result) => {
-                console.log(result)
-                if (result.payload && result.payload.message === 'Success') {
-                    toast.success('Comment successful!!!')
-                    setPostComment('')
-                    setRate(0)
-                    setReload(!reload)
-                } else if (result.payload && result.payload.message === 'Role Denied') {
-                    toast.error('Role Denied')
-                    setReload(!reload)
-                } else {
-                    toast.error('Comment failed!')
-                    setPostComment('')
-                    setRate(0)
-                    setReload(!reload)
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-            })
     }
 
     const handleConfirmDelete = async (reId) => {
@@ -117,33 +132,40 @@ const RecipeDetail = () => {
         })
     }
     const handleConfirmSave = async (newValue) => {
-        Swal.fire({
-            title: 'Add favorite recipe',
-            text: 'Do you want to add this recipe?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, add favorite',
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                await dispatch(userFavorites(newValue))
-                    .then((result) => {
-                        if (result.payload && result.payload.message === 'Success') {
-                            toast.success('Add favorite success!')
-                            setReload(!reload)
-                        } else if (result.payload && result.payload.message === 'Role Denied') {
-                            toast.error('Role Denied')
-                            setReload(!reload)
-                        } else {
-                            toast.error('Add favorite failed!!!')
-                        }
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
-            }
-        })
+        if (!user) {
+            toast.error('You must login to add favorite!!!', {
+                duration: 2000,
+            })
+        } else if (user.role !== 'User') {
+            toast.error('Role Denied', {
+                duration: 2000,
+            })
+        } else {
+            Swal.fire({
+                title: 'Add favorite recipe',
+                text: 'Do you want to add this recipe?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, add favorite',
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    await dispatch(userFavorites(newValue))
+                        .then((result) => {
+                            if (result.payload && result.payload.message === 'Success') {
+                                toast.success('Add favorite success!')
+                                setReload(!reload)
+                            } else {
+                                toast.error('Add favorite failed!!!')
+                            }
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
+                }
+            })
+        }
     }
     return (
         <>

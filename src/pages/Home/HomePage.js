@@ -32,6 +32,7 @@ const HomePage = () => {
     const status = useSelector((state) => state.getAllRecipes.isLoading)
     const [showMore, setShowMore] = useState(6)
     const [reload, setReload] = useState(false)
+    const user = JSON.parse(localStorage.getItem('user'))
 
     useEffect(() => {
         dispatch(fetchDataAsync())
@@ -43,17 +44,24 @@ const HomePage = () => {
         setShowMore(6)
     }
     const handleAddFavorite = async (id) => {
-        await dispatch(userFavorites(id)).then((result) => {
-            if (result.payload && result.payload.message === 'Success') {
-                toast.success('Add favorite success')
-                setReload(!reload)
-            } else if (result.payload && result.payload.message === 'Role Denied') {
-                toast.error('Cooker can not do this')
-                setReload(!reload)
-            } else {
-                toast.error('Add favorite failed')
-            }
-        })
+        if (!user) {
+            toast.error('You must login to add favorite', {
+                duration: 2000,
+            })
+        } else if (user.role !== 'User') {
+            toast.error('Cooker can not do this', {
+                duration: 2000,
+            })
+        } else {
+            await dispatch(userFavorites(id)).then((result) => {
+                if (result.payload && result.payload.message === 'Success') {
+                    toast.success('Add favorite success')
+                    setReload(!reload)
+                } else {
+                    toast.error('Add favorite failed')
+                }
+            })
+        }
     }
 
     return (
@@ -187,7 +195,7 @@ const HomePage = () => {
                                                         <span
                                                             style={{ color: 'rgba(71,71,71, 0.6)' }}
                                                         >
-                                                            {bestRecipe?.aveVote} ratings
+                                                            {bestRecipe?.aveVote}/5
                                                         </span>
                                                     </Box>
                                                 </Link>
