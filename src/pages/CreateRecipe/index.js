@@ -300,11 +300,11 @@ function CreateRecipe() {
     }
 
     const handleDeleteStep = (id) => {
-        const updatedFields = directionFields?.filter((field) => field.id !== id)
+        const updatedFields = directionFields?.filter((field) => field.directionsNum !== id)
 
         const renumberedFields = updatedFields.map((field, index) => ({
             ...field,
-            id: index + 1,
+            directionsNum: index + 1,
         }))
 
         setDirectionFields(renumberedFields)

@@ -52,9 +52,15 @@ function UpdateRecipe() {
                 setUpdateRecipe(data)
                 setRecipeTitle(data?.data.recipeName)
                 setRecipeDescription(data?.data.description)
-                setDirectionFields(data?.data.directionVMs)
                 setSelectedImage(data?.data.photoVMs[0].photoName)
-
+                const directionDataFromAPI = data.data.directionVMs
+                console.log("directionDataFromAPI",directionDataFromAPI)
+                const newdirectionFields = directionDataFromAPI.map((directionsData) => {
+                    return {
+                        directionsNum: directionsData.directionsNum,
+                        directionsDesc: directionsData.directionsDesc,
+                    };
+                });
 
                 const ingredientDataFromAPI = data.data.ingredientOfRecipeVMs
                 const newIngredientFields = ingredientDataFromAPI.map((ingredientData) => {
@@ -64,8 +70,8 @@ function UpdateRecipe() {
                         quantity: ingredientData.quantity,
                     };
                 });
-                console.log("newIng", newIngredientFields)
-                console.log("data", ingredientDataFromAPI)
+                console.log("newdirectionFields",newdirectionFields)
+                setDirectionFields(newdirectionFields)
                 setIngredientFields(newIngredientFields)
                 setNutritionValues(() => ({
                     ['fat']: data.data.fat,
@@ -419,6 +425,7 @@ function UpdateRecipe() {
     const [directionFields, setDirectionFields] = useState([
         { directionsNum: 1, directionsDesc: '' },
     ]);
+    console.log("directionFields",directionFields)
     const nextId = directionFields.length + 1;
 
     const handleAddStep = () => {
@@ -429,11 +436,12 @@ function UpdateRecipe() {
     };
 
     const handleDeleteStep = (id) => {
-        const updatedFields = directionFields?.filter((field) => field.id !== id);
-
+        const updatedFields = directionFields?.filter((field) => field.directionsNum !== id);
+        console.log("updatedFields",updatedFields)
+        console.log("delte id:",id)
         const renumberedFields = updatedFields.map((field, index) => ({
             ...field,
-            id: index + 1,
+            directionsNum: index + 1,
         }));
 
         setDirectionFields(renumberedFields);
@@ -502,7 +510,7 @@ function UpdateRecipe() {
         const selectedId = countryIdLookup[newValue];
         setSelectedCountryId(selectedId)
     };
-
+    
     return (
         <React.Fragment>
 
