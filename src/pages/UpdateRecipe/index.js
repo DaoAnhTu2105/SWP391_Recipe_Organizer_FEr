@@ -70,8 +70,15 @@ function UpdateRecipe() {
                 setUpdateRecipe(data)
                 setRecipeTitle(data?.data.recipeName)
                 setRecipeDescription(data?.data.description)
-                setDirectionFields(data?.data.directionVMs)
                 setSelectedImage(data?.data.photoVMs[0].photoName)
+                const directionDataFromAPI = data.data.directionVMs
+                console.log("directionDataFromAPI",directionDataFromAPI)
+                const newdirectionFields = directionDataFromAPI.map((directionsData) => {
+                    return {
+                        directionsNum: directionsData.directionsNum,
+                        directionsDesc: directionsData.directionsDesc,
+                    };
+                });
 
                 const ingredientDataFromAPI = data.data.ingredientOfRecipeVMs
                 const newIngredientFields = ingredientDataFromAPI.map((ingredientData) => {
@@ -82,10 +89,10 @@ function UpdateRecipe() {
                             ' - ' +
                             ingredientData.ingredientVM.measure,
                         quantity: ingredientData.quantity,
-                    }
-                })
-                console.log('newIng', newIngredientFields)
-                console.log('data', ingredientDataFromAPI)
+                    };
+                });
+                console.log("newdirectionFields",newdirectionFields)
+                setDirectionFields(newdirectionFields)
                 setIngredientFields(newIngredientFields)
                 setNutritionValues(() => ({
                     ['fat']: data.data.fat,
@@ -380,7 +387,7 @@ function UpdateRecipe() {
     }
     //--------------------------Ingredient--------------------------
     const [ingredientFields, setIngredientFields] = useState([
-        { id: Date.now(), ingredientName: '', quantity: '' },
+        { id: Date.now(), ingredientName: '', quantity: 1 },
     ])
 
     const handleChange = (id, fieldName, value) => {
@@ -395,7 +402,7 @@ function UpdateRecipe() {
     const handleAddIngredient = () => {
         setIngredientFields([
             ...ingredientFields,
-            { id: Date.now(), ingredientName: '', quantity: '' },
+            { id: Date.now(), ingredientName: '', quantity: 1 },
         ])
     }
 
@@ -429,20 +436,22 @@ function UpdateRecipe() {
     //--------------------------Directions--------------------------
     const [directionFields, setDirectionFields] = useState([
         { directionsNum: 1, directionsDesc: '' },
-    ])
-    const nextId = directionFields.length + 1
-    console.log('direction id : ', nextId)
+    ]);
+    console.log("directionFields",directionFields)
+    const nextId = directionFields.length + 1;
+
     const handleAddStep = () => {
         setDirectionFields([...directionFields, { directionsNum: nextId, directionsDesc: '' }])
     }
 
     const handleDeleteStep = (id) => {
-        const updatedFields = directionFields?.filter((field) => field.id !== id)
-
+        const updatedFields = directionFields?.filter((field) => field.directionsNum !== id);
+        console.log("updatedFields",updatedFields)
+        console.log("delte id:",id)
         const renumberedFields = updatedFields.map((field, index) => ({
             ...field,
-            id: index + 1,
-        }))
+            directionsNum: index + 1,
+        }));
 
         setDirectionFields(renumberedFields)
     }
@@ -508,8 +517,8 @@ function UpdateRecipe() {
         setSelectedCountry(newValue)
         const selectedId = countryIdLookup[newValue]
         setSelectedCountryId(selectedId)
-    }
-
+    };
+    
     return (
         <React.Fragment>
             <Toaster position="bottom-center" reverseOrder={false} />
