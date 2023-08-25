@@ -45,9 +45,13 @@ const HomePage = () => {
     }
     const handleAddFavorite = async (id) => {
         if (!user) {
-            toast.error('You must login to add favorite')
+            toast.error('You must login to add favorite', {
+                duration: 2000,
+            })
         } else if (user.role !== 'User') {
-            toast.error('Cooker can not do this')
+            toast.error('Cooker can not do this', {
+                duration: 2000,
+            })
         } else {
             await dispatch(userFavorites(id)).then((result) => {
                 if (result.payload && result.payload.message === 'Success') {
@@ -191,7 +195,7 @@ const HomePage = () => {
                                                         <span
                                                             style={{ color: 'rgba(71,71,71, 0.6)' }}
                                                         >
-                                                            {bestRecipe?.aveVote} ratings
+                                                            {bestRecipe?.aveVote}/5
                                                         </span>
                                                     </Box>
                                                 </Link>
