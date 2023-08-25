@@ -15,8 +15,10 @@ Recipe organizer is a web app to store recipe of user. User can read recipe and 
 
 -   Login by Google.
 -   Show all recipes.
+-   Search, filter recipes.
 -   Show detail of recipe.
 -   Share recipe.
+-   Rate, CRD comment to recipe as USER
 -   CRD favorite recipes as USER.
 -   CRUD plan meal as USER.
 -   CRUD recipes as COOKER.
