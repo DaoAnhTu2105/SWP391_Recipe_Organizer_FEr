@@ -139,7 +139,7 @@ function CreateRecipe() {
 
                 uploadTask.on(
                     'state_changed',
-                    (snapshot) => {},
+                    (snapshot) => { },
                     (error) => {
                         console.error(error)
                     },
@@ -210,6 +210,12 @@ function CreateRecipe() {
                                     console.error('Error parsing JSON:', error)
                                 }
                             } else {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'error',
+                                    title: 'Add failed',
+                                    timer: 2500,
+                                })
                                 throw new Error('Request failed with status: ' + response.status)
                             }
                         } catch (error) {
@@ -220,6 +226,12 @@ function CreateRecipe() {
                 )
             })
         } else {
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: 'Please select an image',
+                timer: 2500,
+            })
         }
     }
     //------------------------------Image-------------------------------
@@ -510,9 +522,8 @@ function CreateRecipe() {
                                     <Button
                                         onClick={handleUploadImage}
                                         sx={{
-                                            backgroundImage: `url(${
-                                                selectedImage || 'your-default-image-url.jpg'
-                                            })`,
+                                            backgroundImage: `url(${selectedImage || 'your-default-image-url.jpg'
+                                                })`,
                                             backgroundSize: 'cover',
                                             backgroundPosition: 'center',
                                             width: '160px',
