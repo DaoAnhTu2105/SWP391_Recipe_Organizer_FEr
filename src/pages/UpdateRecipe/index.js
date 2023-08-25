@@ -387,7 +387,7 @@ function UpdateRecipe() {
     }
     //--------------------------Ingredient--------------------------
     const [ingredientFields, setIngredientFields] = useState([
-        { id: Date.now(), ingredientName: '', quantity: '' },
+        { id: Date.now(), ingredientName: '', quantity: 1 },
     ])
 
     const handleChange = (id, fieldName, value) => {
@@ -402,7 +402,7 @@ function UpdateRecipe() {
     const handleAddIngredient = () => {
         setIngredientFields([
             ...ingredientFields,
-            { id: Date.now(), ingredientName: '', quantity: '' },
+            { id: Date.now(), ingredientName: '', quantity: 1 },
         ])
     }
 
