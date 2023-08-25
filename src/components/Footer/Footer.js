@@ -21,7 +21,7 @@ const Footer = () => {
                         </ul>
                     </div>
                     <div className="footer-component pl-4 ml-5">
-                        <h5 style={{ color: '#f39c12' }}>Section</h5>
+                        <h5 style={{ color: '#f39c12' }}>Pages</h5>
                         <ul className="nav flex-column">
                             <li className="nav-item mb-2">
                                 <a href="/" className="nav-link p-0 text-muted">
@@ -36,6 +36,11 @@ const Footer = () => {
                             <li className="nav-item mb-2">
                                 <a href="/plan" className="nav-link p-0 text-muted">
                                     Plan Meal
+                                </a>
+                            </li>
+                            <li className="nav-item mb-2">
+                                <a href="/create-recipe" className="nav-link p-0 text-muted">
+                                    Create Recipe
                                 </a>
                             </li>
                         </ul>
