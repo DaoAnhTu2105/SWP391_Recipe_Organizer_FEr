@@ -59,11 +59,11 @@ const RecipeDetail = () => {
         e.preventDefault()
         if (!user) {
             toast.error('Login to post comment!', {
-                duration: 2000,
+                duration: 1000,
             })
         } else if (user.role !== 'User') {
             toast.error('Role Denied', {
-                duration: 2000,
+                duration: 1000,
             })
         } else {
             await dispatch(addReview({ data: JSON.stringify(dataComment) }))
@@ -133,12 +133,12 @@ const RecipeDetail = () => {
     }
     const handleConfirmSave = async (newValue) => {
         if (!user) {
-            toast.error('You must login to add favorite!!!', {
-                duration: 2000,
+            toast.error('You must login to add favorite', {
+                duration: 1000,
             })
         } else if (user.role !== 'User') {
             toast.error('Role Denied', {
-                duration: 2000,
+                duration: 1000,
             })
         } else {
             Swal.fire({
