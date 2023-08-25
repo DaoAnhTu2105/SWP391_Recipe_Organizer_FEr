@@ -43,6 +43,12 @@ Project use:
 
 [Architecture Diagram](https://lucid.app/lucidchart/cd93628b-c88f-4706-803f-1902b70fe34b/edit?viewport_loc=-1720%2C-313%2C3816%2C1836%2C0_0&invitationId=inv_a2c48ddb-b355-4dfc-a54d-14800e149a7a)
 
+## Source Control
+
+[FrontEnd](https://github.com/DaoAnhTu2105/SWP391_Recipe_Organizer_FEr)
+
+[BackEnd](https://github.com/TungNT140601/SWP391_Recipe_Organizer_BE)
+
 ## Deploy project
 
 [Recipe Organizer](https://recipe-organizer-swp391.web.app/)
