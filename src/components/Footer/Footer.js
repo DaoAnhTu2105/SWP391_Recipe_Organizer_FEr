@@ -8,60 +8,57 @@ const Footer = () => {
         <div style={{ borderTop: '1px solid #eee', backgroundColor: '#eee' }}>
             <div className="container">
                 <footer className="py-5 footer-container">
-                    <div className="footer-component">
+                    <div className="footer-component pl-4">
                         <h5 style={{ color: '#f39c12' }}>Recipe Organizer</h5>
                         <ul className="nav flex-column">
+                            <li className="nav-item mb-2" style={{ color: "#6c757d", fontSize: "14px" }}>
+                                <b>
+                                    Recipe organizer is a web app to store recipe of user.
+                                    User can read recipe and save it.
+                                    Beside that, user can create their own plan meal.
+                                </b>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className="footer-component pl-4 ml-5">
+                        <h5 style={{ color: '#f39c12' }}>Section</h5>
+                        <ul className="nav flex-column">
                             <li className="nav-item mb-2">
-                                <a href="/#" className="nav-link p-0 text-muted">
-                                    Many families struggle to locate culinary recipes that are
-                                    appropriate for their hobbies or eating habits.
+                                <a href="/" className="nav-link p-0 text-muted">
+                                    Home
+                                </a>
+                            </li>
+                            <li className="nav-item mb-2">
+                                <a href="/favorite-recipe" className="nav-link p-0 text-muted">
+                                    Favorite Recipe
+                                </a>
+                            </li>
+                            <li className="nav-item mb-2">
+                                <a href="/plan" className="nav-link p-0 text-muted">
+                                    Plan Meal
                                 </a>
                             </li>
                         </ul>
                     </div>
                     <div className="footer-component pl-4">
-                        <h5 style={{ color: '#f39c12' }}>Context</h5>
-                        <ul className="nav flex-column">
-                            <li className="nav-item mb-2">
-                                <a href="/#" className="nav-link p-0 text-muted">
-                                    A recipe organizer streamlines meal planning by centralizing
-                                    recipe storage. It saves time, reduces stress, and promotes
-                                    healthy eating through features like search, meal planning,
-                                    filtering, and nutritional info. Its goal is to simplify meal
-                                    preparation and enhance the overall dining experience.
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className="footer-component pl-4">
-                        <h5 style={{ color: '#f39c12' }}>Team Members</h5>
-                        <ul className="nav flex-column">
-                            <li className="nav-item mb-2">
-                                <a href="/#" className="nav-link p-0 text-muted">
-                                    Nguyễn Hữu Vinh
-                                </a>
-                            </li>
-                            <li className="nav-item mb-2">
-                                <a href="/#" className="nav-link p-0 text-muted">
-                                    Nguyễn Công Vũ
-                                </a>
-                            </li>
-                            <li className="nav-item mb-2">
-                                <a href="/#" className="nav-link p-0 text-muted">
-                                    Đào Anh Tú
-                                </a>
-                            </li>
-                            <li className="nav-item mb-2">
-                                <a href="/#" className="nav-link p-0 text-muted">
-                                    Nguyễn Thanh Tùng
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className="col-md-5 offset-md-1 mb-3">
                         <form>
-                            <h5 style={{ color: '#f39c12' }}>SWP391_3W Mentor Lại Đức Hùng</h5>
-                            <p>Thanks for your listening!</p>
+                            <h5 style={{ color: '#f39c12' }}>Subscribe to our newsletter</h5>
+                            <p>Monthly digest of what's new and exciting from us.</p>
+                            <div className="d-flex flex-column flex-sm-row w-100 gap-2">
+                                <input
+                                    id="newsletter1"
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Email address"
+                                />
+                                <button
+                                    className="btn btn-primary"
+                                    type="button"
+                                    style={{ backgroundColor: '#f39c12', height: 50 }}
+                                >
+                                    Subscribe
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </footer>

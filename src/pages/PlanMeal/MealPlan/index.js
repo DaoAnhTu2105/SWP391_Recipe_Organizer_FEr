@@ -197,16 +197,16 @@ export default function MealPlan() {
             }}
         >
             <Typography sx={{ paddingRight: '10px' }}> Please</Typography>
-            <a
-                style={{
-                    color: 'rgb(243, 156, 18)',
-                    textDecoration: 'underline',
-                    fontSize: '25px',
-                }}
-                href="/login"
-            >
-                LOGIN
-            </a>
+                <a
+                    style={{
+                        color: 'rgb(243, 156, 18)',
+                        textDecoration: 'underline',
+                        fontSize: '25px',
+                    }}
+                    href="/login"
+                >
+                    LOGIN
+                </a>
             <Typography sx={{ paddingLeft: '10px' }}> before using this feature</Typography>
         </Box>
     )
