@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import Food from './Food'
-import { getPlanByDate, createPlan, getRecipesPlan } from '../../redux/apiThunk/planThunk'
+import { getPlanByDate, createPlan, getRecipesPlan, removeDate } from '../../redux/apiThunk/planThunk'
 import CircularProgress from "@mui/material/CircularProgress";
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button';
@@ -65,6 +65,32 @@ const PlanDetail = () => {
                 });
             } else {
                 toast('Nothing Create!')
+            }
+        });
+        setReload(!reload)
+    }
+
+    const handleDeleteDate = async (e) => {
+        e.preventDefault()
+        setShow(false)
+        await Swal.fire({
+            title: "Do you want to save the changes?",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#285D9A",
+            cancelButtonColor: "#e74a3b",
+            confirmButtonText: "Yes, save it!",
+            background: "white",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await dispatch(removeDate({ date: formatDate(date) })).then((result) => {
+                    result.payload.message === "Success" ? toast.success('Delete Success!') : toast.error('Delete Failed!')
+                    setReload(!reload)
+                }).catch((err) => {
+                    console.log(err);
+                });
+            } else {
+                // toast('Nothing Create!')
             }
         });
         setReload(!reload)
@@ -195,7 +221,7 @@ const PlanDetail = () => {
                                 </Modal.Footer>
                             </form>
                         </Modal>
-                        <button className="clear">Clear All</button>
+                        <button className="clear" onClick={(e) => handleDeleteDate(e)}>Clear All</button>
                     </div>
                 </div>
                 <div className="title">
@@ -283,21 +309,12 @@ const PlanDetail = () => {
                 </div>
             </div>
             <div className="ingredient">
-                <div className="ingredients">
-                    <h4>Shopping List</h4>
-                    {planDetail?.detail.data?.ingredient?.map((item, index) => (
-                        <div className="custom-control custom-checkbox">
-                            <input
-                                type="checkbox"
-                                className="custom-control-input"
-                                id="index"
-                            />
-                            <label className="custom-control-label" htmlFor={index}>
-                                {item?.totalQuantity} {item?.ingredientName}
-                            </label>
-                        </div>
-                    ))}
-                </div>
+                <h4>Shopping List</h4>
+                {planDetail?.detail.data?.ingredient?.map((item, index) => (
+                    <div className='ingredients'>
+                        <b>{index + 1}.  </b> {item?.totalQuantity} {item?.measure} of {item?.ingredientName}
+                    </div>
+                ))}
             </div>
         </div>)
     }

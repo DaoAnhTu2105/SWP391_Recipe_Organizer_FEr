@@ -6,6 +6,7 @@ import {
     createApi,
     updateApi,
     removeApi,
+    removeDateApi,
     getRecipesPlanApi
 } from "../../api/plan";
 
@@ -74,6 +75,18 @@ export const removePlan = createAsyncThunk(
     async ({ id }, thunkAPI) => {
         try {
             const response = await removeApi(id);
+            return response;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    }
+);
+
+export const removeDate = createAsyncThunk(
+    "plan/deletePlan",
+    async ({ date }, thunkAPI) => {
+        try {
+            const response = await removeDateApi(date);
             return response;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response.data);

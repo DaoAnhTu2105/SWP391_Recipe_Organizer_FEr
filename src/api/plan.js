@@ -30,6 +30,11 @@ export const removeApi = async (id) => {
     return response.data;
 };
 
+export const removeDateApi = async (date) => {
+    const response = await api.delete(`/api/Plans/DeletePlanOfDate?date=${date}`);
+    return response.data;
+};
+
 export const getRecipesPlanApi = async () => {
     const response = await api.get(`/api/Recipes/GetAll`);
     return response.data;
