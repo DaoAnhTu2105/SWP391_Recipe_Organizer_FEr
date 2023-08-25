@@ -46,11 +46,11 @@ const HomePage = () => {
     const handleAddFavorite = async (id) => {
         if (!user) {
             toast.error('You must login to add favorite', {
-                duration: 2000,
+                duration: 1000,
             })
         } else if (user.role !== 'User') {
             toast.error('Cooker can not do this', {
-                duration: 2000,
+                duration: 1000,
             })
         } else {
             await dispatch(userFavorites(id)).then((result) => {
