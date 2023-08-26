@@ -72,7 +72,7 @@ function UpdateRecipe() {
                 setRecipeDescription(data?.data.description)
                 setSelectedImage(data?.data.photoVMs[0].photoName)
                 const directionDataFromAPI = data.data.directionVMs
-                console.log("directionDataFromAPI",directionDataFromAPI)
+
                 const newdirectionFields = directionDataFromAPI.map((directionsData) => {
                     return {
                         directionsNum: directionsData.directionsNum,
@@ -83,7 +83,7 @@ function UpdateRecipe() {
                 const ingredientDataFromAPI = data.data.ingredientOfRecipeVMs
                 const newIngredientFields = ingredientDataFromAPI.map((ingredientData) => {
                     return {
-                        id: Date.now(),
+                        id: ingredientData.ingredientVM.ingredientId,
                         ingredientName:
                             ingredientData.ingredientVM.ingredientName +
                             ' - ' +
@@ -91,7 +91,7 @@ function UpdateRecipe() {
                         quantity: ingredientData.quantity,
                     };
                 });
-                console.log("newdirectionFields",newdirectionFields)
+                console.log("newdirectionFields", newdirectionFields)
                 setDirectionFields(newdirectionFields)
                 setIngredientFields(newIngredientFields)
                 setNutritionValues(() => ({
@@ -203,7 +203,7 @@ function UpdateRecipe() {
 
                 uploadTask.on(
                     'state_changed',
-                    (snapshot) => {},
+                    (snapshot) => { },
                     (error) => {
                         console.error(error)
                     },
@@ -225,7 +225,12 @@ function UpdateRecipe() {
                             photoName: url,
                         }
                         const directionVMs = directionFields
-                        const ingredientOfRecipeVMs = ingredientFields
+                        const parsedIngredientFields = ingredientFields.map((field) => ({
+                            ...field,
+                            quantity: Number(field.quantity),
+                        }));
+
+                        const ingredientOfRecipeVMs = parsedIngredientFields
                         const recipeId = id
                         const countryId = selectedCountryId
                         const mealId = selectedMealId
@@ -304,7 +309,11 @@ function UpdateRecipe() {
                 photoName: selectedImage,
             }
             const directionVMs = directionFields
-            const ingredientOfRecipeVMs = ingredientFields
+            const parsedIngredientFields = ingredientFields.map((field) => ({
+                ...field,
+                quantity: Number(field.quantity),
+            }));
+            const ingredientOfRecipeVMs = parsedIngredientFields
             const recipeId = id
             const countryId = selectedCountryId
             const mealId = selectedMealId
@@ -381,7 +390,7 @@ function UpdateRecipe() {
         fileInputRef.current.click()
     }
 
-    const [servingAmount, setServingAmount] = useState('')
+    const [servingAmount, setServingAmount] = useState('1')
     const handleServingChange = (event) => {
         setServingAmount(event.target.value)
     }
@@ -389,13 +398,18 @@ function UpdateRecipe() {
     const [ingredientFields, setIngredientFields] = useState([
         { id: Date.now(), ingredientName: '', quantity: 1 },
     ])
+    console.log("ingredientFields:", ingredientFields);
 
     const handleChange = (id, fieldName, value) => {
+
         const updatedFields = ingredientFields.map((field) => {
             if (field.id === id) {
+                const fieldValue = fieldName === 'quantity' ? Number(value) : value;
                 return { ...field, [fieldName]: value }
             }
+            console.log("quantity field", field)
             return field
+
         })
         setIngredientFields(updatedFields)
     }
@@ -437,7 +451,6 @@ function UpdateRecipe() {
     const [directionFields, setDirectionFields] = useState([
         { directionsNum: 1, directionsDesc: '' },
     ]);
-    console.log("directionFields",directionFields)
     const nextId = directionFields.length + 1;
 
     const handleAddStep = () => {
@@ -446,8 +459,8 @@ function UpdateRecipe() {
 
     const handleDeleteStep = (id) => {
         const updatedFields = directionFields?.filter((field) => field.directionsNum !== id);
-        console.log("updatedFields",updatedFields)
-        console.log("delte id:",id)
+        console.log("updatedFields", updatedFields)
+        console.log("delte id:", id)
         const renumberedFields = updatedFields.map((field, index) => ({
             ...field,
             directionsNum: index + 1,
@@ -518,7 +531,7 @@ function UpdateRecipe() {
         const selectedId = countryIdLookup[newValue]
         setSelectedCountryId(selectedId)
     };
-    
+
     return (
         <React.Fragment>
             <Toaster position="bottom-center" reverseOrder={false} />
@@ -613,9 +626,8 @@ function UpdateRecipe() {
                                 <Button
                                     onClick={handleUploadImage}
                                     sx={{
-                                        backgroundImage: `url(${
-                                            selectedImage || 'your-default-image-url.jpg'
-                                        })`,
+                                        backgroundImage: `url(${selectedImage || 'your-default-image-url.jpg'
+                                            })`,
                                         backgroundSize: 'cover',
                                         backgroundPosition: 'center',
                                         width: '160px',
