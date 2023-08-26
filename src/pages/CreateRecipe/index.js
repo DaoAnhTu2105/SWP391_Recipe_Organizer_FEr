@@ -49,8 +49,6 @@ function CreateRecipe() {
     //-------------------Error-----------------------------
     const [titleError, setTitleError] = useState('')
 
-
-
     //-------------------Authenticate-----------------------------
 
     const user = JSON.parse(localStorage.getItem('user'))
@@ -144,7 +142,7 @@ function CreateRecipe() {
 
                 uploadTask.on(
                     'state_changed',
-                    (snapshot) => { },
+                    (snapshot) => {},
                     (error) => {
                         console.error(error)
                     },
@@ -152,20 +150,24 @@ function CreateRecipe() {
                         const url = await getDownloadURL(uploadTask.snapshot.ref)
                         const recipeName = recipeTitle
                         const description = recipeDescription
-                        const prepTimeSt = timeValue.prep + ""
-                        const cookTimeSt = timeValue.cook + ""
-                        const standTimeSt = timeValue.stand + ""
+                        const prepTimeSt = timeValue.prep + ''
+                        const cookTimeSt = timeValue.cook + ''
+                        const standTimeSt = timeValue.stand + ''
                         const totalTime = totalTimes
-                        const servingsSt = servingAmount + ""
-                        const carbohydrateSt = nutritionValues.carbs + ""
-                        const proteinSt = nutritionValues.protein + ""
-                        const fatSt = nutritionValues.fat + ""
+                        const servingsSt = servingAmount + ''
+                        const carbohydrateSt = nutritionValues.carbs + ''
+                        const proteinSt = nutritionValues.protein + ''
+                        const fatSt = nutritionValues.fat + ''
                         const calories = totalCalories
                         const photoVMs = {
                             photoName: url,
                         }
                         const directionVMs = directionFields
-                        const ingredientOfRecipeVMs = ingredientFields
+                        const parsedIngredientFields = ingredientFields.map((field) => ({
+                            ...field,
+                            quantity: Number(field.quantity),
+                        }))
+                        const ingredientOfRecipeVMs = parsedIngredientFields
                         const countryId = selectedCountryId
                         const mealId = selectedMealId
                         const payload = {
@@ -200,7 +202,6 @@ function CreateRecipe() {
                                     body: JSON.stringify(payload),
                                 }
                             )
-
                             console.log(response)
                             if (response.ok) {
                                 await Swal.fire({
@@ -211,12 +212,11 @@ function CreateRecipe() {
                                     timer: 3500,
                                 })
                                 navigate('/my-recipe')
-
                             } else {
                                 if (response.status === 400) {
                                     const data = await response.json()
                                     const msg = data.message
-                                    console.log("message", data)
+                                    console.log('message', data)
                                     setTitleError(msg)
                                     Swal.fire({
                                         position: 'center',
@@ -258,7 +258,7 @@ function CreateRecipe() {
         fileInputRef.current.click()
     }
 
-    const [servingAmount, setServingAmount] = useState('')
+    const [servingAmount, setServingAmount] = useState(1)
     const handleServingChange = (event) => {
         setServingAmount(event.target.value)
     }
@@ -467,8 +467,6 @@ function CreateRecipe() {
                             }}
                         />
                         <form>
-
-
                             <Box
                                 sx={{ height: 'auto', width: '100' }}
                                 component="form"
@@ -496,13 +494,16 @@ function CreateRecipe() {
                                             value={recipeTitle}
                                             onChange={handleTitleChange}
                                         />
-                                        {
-                                            !recipeTitle && (
-                                                <Typography variant="caption" sx={{ color: "red" }} display="block" gutterBottom>
-                                                    {titleError}
-                                                </Typography>
-                                                )
-                                        }
+                                        {!recipeTitle && (
+                                            <Typography
+                                                variant="caption"
+                                                sx={{ color: 'red' }}
+                                                display="block"
+                                                gutterBottom
+                                            >
+                                                {titleError}
+                                            </Typography>
+                                        )}
                                         <Typography
                                             sx={{
                                                 lineHeight: '0.8',
@@ -540,8 +541,9 @@ function CreateRecipe() {
                                         <Button
                                             onClick={handleUploadImage}
                                             sx={{
-                                                backgroundImage: `url(${selectedImage || 'your-default-image-url.jpg'
-                                                    })`,
+                                                backgroundImage: `url(${
+                                                    selectedImage || 'your-default-image-url.jpg'
+                                                })`,
                                                 backgroundSize: 'cover',
                                                 backgroundPosition: 'center',
                                                 width: '160px',
@@ -567,7 +569,6 @@ function CreateRecipe() {
                                         </Button>
                                     </Box>
                                 </Box>
-
                                 <Divider
                                     sx={{
                                         width: '70',
@@ -579,7 +580,11 @@ function CreateRecipe() {
                                 {/* ----------------------------------------- Ingredients-----------------------------------------  */}
                                 <Box sx={{ width: '80' }}>
                                     <Typography
-                                        sx={{ lineHeight: '0.8', fontSize: '15px', fontWeight: 'bold' }}
+                                        sx={{
+                                            lineHeight: '0.8',
+                                            fontSize: '15px',
+                                            fontWeight: 'bold',
+                                        }}
                                         variant="h6"
                                         gutterBottom
                                     >
@@ -591,10 +596,11 @@ function CreateRecipe() {
                                         gutterBottom
                                     >
                                         {' '}
-                                        Enter one ingredient per line. Include the quantity (i.e. cups,
-                                        tablespoons) and any special preparation (i.e. sifted, softened,
-                                        chopped). Use optional headers to organize the different parts
-                                        of the recipe (i.e. Cake, Frosting, Dressing).
+                                        Enter one ingredient per line. Include the quantity (i.e.
+                                        cups, tablespoons) and any special preparation (i.e. sifted,
+                                        softened, chopped). Use optional headers to organize the
+                                        different parts of the recipe (i.e. Cake, Frosting,
+                                        Dressing).
                                     </Typography>
                                     {/* ...other code for instructions */}
                                     <Stack spacing={2} sx={{ width: 'auto' }}>
@@ -657,14 +663,19 @@ function CreateRecipe() {
                                                 <Button
                                                     variant="text"
                                                     className="btn-delete-recipe"
-                                                    onClick={() => handleDeleteIngredient(field?.id)}
+                                                    onClick={() =>
+                                                        handleDeleteIngredient(field?.id)
+                                                    }
                                                 >
                                                     <HighlightOffIcon color="warning" />
                                                 </Button>
                                             </div>
                                         ))}
                                         <Box>
-                                            <Button onClick={handleAddIngredient} variant="contained">
+                                            <Button
+                                                onClick={handleAddIngredient}
+                                                variant="contained"
+                                            >
                                                 Add more ingredients
                                             </Button>
                                         </Box>
@@ -681,7 +692,11 @@ function CreateRecipe() {
                                 {/* ----------------------------------------- Nutritions-----------------------------------------  */}
                                 <Box sx={{ width: '80' }}>
                                     <Typography
-                                        sx={{ lineHeight: '0.8', fontSize: '15px', fontWeight: 'bold' }}
+                                        sx={{
+                                            lineHeight: '0.8',
+                                            fontSize: '15px',
+                                            fontWeight: 'bold',
+                                        }}
                                         variant="h6"
                                         gutterBottom
                                     >
@@ -696,7 +711,6 @@ function CreateRecipe() {
                                         {' '}
                                         Enter 3 main nutrions in your recipe .
                                     </Typography>
-
                                     <Stack spacing={2} sx={{ width: 'auto' }}>
                                         <div style={{ display: 'flex' }}>
                                             <Box sx={{ marginRight: '20px' }}>
@@ -741,7 +755,10 @@ function CreateRecipe() {
                                                     inputProps={{ min: 0 }}
                                                     value={nutritionValues.carbs}
                                                     onChange={(e) =>
-                                                        handleNutritionChange('carbs', e.target.value)
+                                                        handleNutritionChange(
+                                                            'carbs',
+                                                            e.target.value
+                                                        )
                                                     }
                                                 />
                                             </Box>
@@ -764,7 +781,10 @@ function CreateRecipe() {
                                                     inputProps={{ min: 0 }}
                                                     value={nutritionValues.protein}
                                                     onChange={(e) =>
-                                                        handleNutritionChange('protein', e.target.value)
+                                                        handleNutritionChange(
+                                                            'protein',
+                                                            e.target.value
+                                                        )
                                                     }
                                                 />
                                             </Box>
@@ -790,7 +810,6 @@ function CreateRecipe() {
                                                 {' '}
                                                 Total Calories (Calo):{' '}
                                             </Typography>
-
                                             <Typography
                                                 sx={{
                                                     lineHeight: '0.8',
@@ -817,7 +836,11 @@ function CreateRecipe() {
                                 {/* ----------------------------------------- Directions-----------------------------------------  */}
                                 <Box sx={{ width: '80' }}>
                                     <Typography
-                                        sx={{ lineHeight: '0.8', fontSize: '15px', fontWeight: 'bold' }}
+                                        sx={{
+                                            lineHeight: '0.8',
+                                            fontSize: '15px',
+                                            fontWeight: 'bold',
+                                        }}
                                         variant="h6"
                                         gutterBottom
                                     >
@@ -828,10 +851,10 @@ function CreateRecipe() {
                                         variant="subtitle1"
                                         gutterBottom
                                     >
-                                        Explain how to make your recipe, including oven temperatures,
-                                        baking or cooking times, and pan sizes, etc. Use optional
-                                        headers to organize the different parts of the recipe (i.e.
-                                        Prep, Bake, Decorate).
+                                        Explain how to make your recipe, including oven
+                                        temperatures, baking or cooking times, and pan sizes, etc.
+                                        Use optional headers to organize the different parts of the
+                                        recipe (i.e. Prep, Bake, Decorate).
                                     </Typography>
 
                                     {directionFields.map((field) => (
@@ -859,7 +882,8 @@ function CreateRecipe() {
                                                                 ) {
                                                                     return {
                                                                         ...dirField,
-                                                                        directionsDesc: e.target.value,
+                                                                        directionsDesc:
+                                                                            e.target.value,
                                                                     }
                                                                 }
                                                                 return dirField
@@ -899,7 +923,6 @@ function CreateRecipe() {
                                         marginBottom: '20px',
                                     }}
                                 />
-
                                 {/* ----------------------------------------- Time-----------------------------------------  */}
                                 <Box sx={{ width: '80', display: 'flex', alignItems: 'center' }}>
                                     <Stack spacing={2} sx={{ width: 'auto' }}>
@@ -995,7 +1018,6 @@ function CreateRecipe() {
                                                 {' '}
                                                 Total time (mins):{' '}
                                             </Typography>
-
                                             <Typography
                                                 sx={{
                                                     lineHeight: '0.8',
@@ -1020,7 +1042,6 @@ function CreateRecipe() {
                                     }}
                                 />
                                 {/* ----------------------------------------- Servings-----------------------------------------  */}
-
                                 <Box sx={{ width: '80', display: 'flex' }}>
                                     <Box sx={{ paddingRight: '20px' }}>
                                         <Typography
@@ -1044,7 +1065,6 @@ function CreateRecipe() {
                                     </Box>
                                 </Box>
                                 {/* ----------------------------------------- Filtering Fields-----------------------------------------  */}
-
                                 <Divider
                                     sx={{
                                         width: '70',
@@ -1053,7 +1073,11 @@ function CreateRecipe() {
                                         marginBottom: '20px',
                                     }}
                                 />
-                                <Typography sx={{ fontSize: '15px' }} variant="subtitle1" gutterBottom>
+                                <Typography
+                                    sx={{ fontSize: '15px' }}
+                                    variant="subtitle1"
+                                    gutterBottom
+                                >
                                     This is optional part! It is very helpful for us to improve the
                                     searching engine if you input all this.
                                 </Typography>
@@ -1080,12 +1104,16 @@ function CreateRecipe() {
                                             }
                                             getOptionLabel={(option) => option}
                                             value={selectedMeal}
-                                            onChange={(event, newValue) => handleMealChange(newValue)}
+                                            onChange={(event, newValue) =>
+                                                handleMealChange(newValue)
+                                            }
                                             renderInput={(params) => (
                                                 <TextField
                                                     {...params}
                                                     value={selectedCountry}
-                                                    onChange={(e) => handleMealChange(e.target.value)}
+                                                    onChange={(e) =>
+                                                        handleMealChange(e.target.value)
+                                                    }
                                                 />
                                             )}
                                         />
@@ -1109,7 +1137,9 @@ function CreateRecipe() {
                                             sx={{ width: 350, paddingRight: 2 }}
                                             options={
                                                 allCountries?.data &&
-                                                allCountries?.data.map((option) => option.countryName)
+                                                allCountries?.data.map(
+                                                    (option) => option.countryName
+                                                )
                                             }
                                             getOptionLabel={(option) => option}
                                             value={selectedCountry}
@@ -1145,7 +1175,11 @@ function CreateRecipe() {
                                 }}
                             >
                                 <Button
-                                    sx={{ color: 'black', fontWeight: 'bold', paddingRight: '20px' }}
+                                    sx={{
+                                        color: 'black',
+                                        fontWeight: 'bold',
+                                        paddingRight: '20px',
+                                    }}
                                 >
                                     Cancel
                                 </Button>
