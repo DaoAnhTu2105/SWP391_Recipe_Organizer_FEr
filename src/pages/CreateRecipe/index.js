@@ -486,7 +486,7 @@ function CreateRecipe() {
                                             gutterBottom
                                         >
                                             {' '}
-                                            Recipe Title{' '}
+                                            Recipe Title <span style={{ color: 'red' }}>*</span>
                                         </Typography>
                                         <OutlinedInput
                                             placeholder="Give your recipe a title"
