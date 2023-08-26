@@ -50,3 +50,7 @@
     height: fit-content;
     border: 1px solid #e6e6e6;
 }
+
+.meal-detail .ingredient .ingredients {
+    margin-bottom: 10px;
+}

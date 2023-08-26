@@ -46,6 +46,9 @@ const CustomInput = React.forwardRef(function CustomInput(props, ref) {
 
 function CreateRecipe() {
     const navigate = useNavigate()
+    //-------------------Error-----------------------------
+    const [titleError, setTitleError] = useState('')
+
     //-------------------Authenticate-----------------------------
 
     const user = JSON.parse(localStorage.getItem('user'))
@@ -209,28 +212,19 @@ function CreateRecipe() {
                                     timer: 3500,
                                 })
                                 navigate('/my-recipe')
-                                try {
-                                    const data = await response.json()
-                                } catch (error) {
-                                    console.error('Error parsing JSON:', error)
-                                }
-                            } else if (response.status === 400) {
-                                const data = await response.json()
-                                console.log(data)
-                                Swal.fire({
-                                    position: 'center',
-                                    icon: 'error',
-                                    title: data.message,
-                                    timer: 2500,
-                                })
                             } else {
-                                console.log('data response: ', response.data)
-                                Swal.fire({
-                                    position: 'center',
-                                    icon: 'error',
-                                    title: 'Add failed',
-                                    timer: 2500,
-                                })
+                                if (response.status === 400) {
+                                    const data = await response.json()
+                                    const msg = data.message
+                                    console.log('message', data)
+                                    setTitleError(msg)
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'error',
+                                        title: msg,
+                                        timer: 2500,
+                                    })
+                                }
                                 throw new Error('Request failed with status: ' + response.status)
                             }
                         } catch (error) {
@@ -472,7 +466,6 @@ function CreateRecipe() {
                                 marginBottom: '20px',
                             }}
                         />
-
                         <form>
                             <Box
                                 sx={{ height: 'auto', width: '100' }}
@@ -501,6 +494,16 @@ function CreateRecipe() {
                                             value={recipeTitle}
                                             onChange={handleTitleChange}
                                         />
+                                        {!recipeTitle && (
+                                            <Typography
+                                                variant="caption"
+                                                sx={{ color: 'red' }}
+                                                display="block"
+                                                gutterBottom
+                                            >
+                                                {titleError}
+                                            </Typography>
+                                        )}
                                         <Typography
                                             sx={{
                                                 lineHeight: '0.8',
@@ -853,6 +856,7 @@ function CreateRecipe() {
                                         Use optional headers to organize the different parts of the
                                         recipe (i.e. Prep, Bake, Decorate).
                                     </Typography>
+
                                     {directionFields.map((field) => (
                                         <Box key={field.directionsNum}>
                                             <Typography
@@ -1114,6 +1118,7 @@ function CreateRecipe() {
                                             )}
                                         />
                                     </Box>
+
                                     <Box>
                                         <Typography
                                             sx={{

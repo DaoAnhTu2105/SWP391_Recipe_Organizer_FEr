@@ -189,7 +189,7 @@ export default function MealPlan() {
     const content = (
         <Box
             sx={{
-                margin: '22px 0',
+                margin: '47px 0',
                 display: 'flex',
                 justifyContent: 'center',
                 width: '100%',
@@ -225,7 +225,6 @@ export default function MealPlan() {
             <Fragment>
                 <div className='date-info'>
                     <div className='date'>
-                        {/* <a href="/create-plan"><button>Create Meal Plan</button></a> */}
                         <Button variant="primary" onClick={handleShow}>
                             Create Meal Plan
                         </Button>
@@ -287,15 +286,13 @@ export default function MealPlan() {
                     <div></div>
                     {dayOfWeek.map((day, index) => (
                         <div className="table-header-component" >
-                            {/* <a href='*' onClick={(e) => e.preventDefault()}> */}
-                            <div style={{ color: changeColor(formatDate(addDays(getMonday(currentDate), index))) }}>
-                                <b>
+                            <a href={`/plan-detail/${formatDateRouter(addDays(getMonday(currentDate), index))}`}>
+                                <div style={{ color: changeColor(formatDate(addDays(getMonday(currentDate), index))) }}>
                                     {day}
                                     <br></br>
                                     {formatDate(addDays(getMonday(currentDate), index))}
-                                </b>
-                            </div>
-                            {/* </a> */}
+                                </div>
+                            </a>
                         </div>
                     ))}
                 </div>

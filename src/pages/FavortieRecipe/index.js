@@ -81,7 +81,7 @@ const FavoriteRecipe = () => {
             ) : status === 'error' ? (
                 <Box
                     sx={{
-                        margin: '35px 0',
+                        margin: '42px 0',
                         display: 'flex',
                         justifyContent: 'center',
                         width: '100%',
