@@ -134,7 +134,9 @@ const Header = () => {
                                         </Typography>
 
                                         <Typography sx={{
+                                            fontSize: "25px",
                                             display: "inline",
+                                            fontStyle: "italic",
                                             paddingLeft: '5px',
                                             color: 'black',
                                             fontWeight: '600',
@@ -158,7 +160,11 @@ const Header = () => {
                                                 &nbsp; &nbsp;
 
 
-                                                <Typography variant='h5' sx={{ fontSize: "20px", display: "inline" }}>
+                                                <Typography variant='h5' sx={{
+                                                    fontSize: "25px",
+                                                    display: "inline",
+                                                    fontStyle: "italic",
+                                                }}>
                                                     {user?.fullname}
                                                 </Typography>
                                             </>
@@ -169,7 +175,9 @@ const Header = () => {
                                                 </Typography>
 
                                                 <Typography sx={{
+                                                    fontSize: "25px",
                                                     display: "inline",
+                                                    fontStyle: "italic",
                                                     paddingLeft: '5px',
                                                     color: 'black',
                                                     fontWeight: '600',

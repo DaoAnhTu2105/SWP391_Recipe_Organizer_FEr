@@ -217,10 +217,10 @@ function UpdateRecipe() {
                         const standTimeSt = timeValue.stand + ''
                         const totalTime = totalTimes
                         const servingsSt = servingAmount + ''
-                        const carbohydrateSt = nutritionValues.carbs + ''
-                        const proteinSt = nutritionValues.protein + ''
-                        const fatSt = nutritionValues.fat + ''
-                        const calories = totalCalories
+                        // const carbohydrateSt = nutritionValues.carbs + ''
+                        // const proteinSt = nutritionValues.protein + ''
+                        // const fatSt = nutritionValues.fat + ''
+                        // const calories = totalCalories
                         const photoVMs = {
                             photoName: url,
                         }
@@ -228,6 +228,7 @@ function UpdateRecipe() {
                         const parsedIngredientFields = ingredientFields.map((field) => ({
                             ...field,
                             quantity: Number(field.quantity),
+                            id: field.id + '',
                         }));
 
                         const ingredientOfRecipeVMs = parsedIngredientFields
@@ -245,10 +246,10 @@ function UpdateRecipe() {
                             cookTimeSt,
                             standTimeSt,
                             servingsSt,
-                            carbohydrateSt,
-                            proteinSt,
-                            fatSt,
-                            calories,
+                            // carbohydrateSt,
+                            // proteinSt,
+                            // fatSt,
+                            // calories,
                             totalTime,
                             photoVMs,
                             ingredientOfRecipeVMs,
@@ -301,10 +302,10 @@ function UpdateRecipe() {
             const standTimeSt = timeValue.stand + ''
             const totalTime = totalTimes
             const servingsSt = servingAmount + ''
-            const carbohydrateSt = nutritionValues.carbs + ''
-            const proteinSt = nutritionValues.protein + ''
-            const fatSt = nutritionValues.fat + ''
-            const calories = totalCalories
+            // const carbohydrateSt = nutritionValues.carbs + ''
+            // const proteinSt = nutritionValues.protein + ''
+            // const fatSt = nutritionValues.fat + ''
+            // const calories = totalCalories
             const photoVMs = {
                 photoName: selectedImage,
             }
@@ -312,6 +313,7 @@ function UpdateRecipe() {
             const parsedIngredientFields = ingredientFields.map((field) => ({
                 ...field,
                 quantity: Number(field.quantity),
+                 id: field.id + '',
             }));
             const ingredientOfRecipeVMs = parsedIngredientFields
             const recipeId = id
@@ -328,10 +330,10 @@ function UpdateRecipe() {
                 cookTimeSt,
                 standTimeSt,
                 servingsSt,
-                carbohydrateSt,
-                proteinSt,
-                fatSt,
-                calories,
+                // carbohydrateSt,
+                // proteinSt,
+                // fatSt,
+                // calories,
                 totalTime,
                 photoVMs,
                 ingredientOfRecipeVMs,
@@ -748,7 +750,7 @@ function UpdateRecipe() {
                             }}
                         />
                         {/* ----------------------------------------- Nutritions-----------------------------------------  */}
-                        <Box sx={{ width: '80' }}>
+                        {/* <Box sx={{ width: '80' }}>
                             <Typography
                                 sx={{ lineHeight: '0.8', fontSize: '15px', fontWeight: 'bold' }}
                                 variant="h6"
@@ -878,7 +880,7 @@ function UpdateRecipe() {
                                 marginTop: '20px',
                                 marginBottom: '20px',
                             }}
-                        />
+                        /> */}
                         {/* ----------------------------------------- Directions-----------------------------------------  */}
                         <Box sx={{ width: '80' }}>
                             <Typography
