@@ -725,6 +725,7 @@ function CreateRecipe() {
                                                 onChange={(e) =>
                                                     handleNutritionChange('carbs', e.target.value)
                                                 }
+                                                required
                                             />
                                         </Box>
                                         <Box>

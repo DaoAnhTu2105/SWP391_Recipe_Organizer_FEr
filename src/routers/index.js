@@ -5,7 +5,6 @@ import { useLocation } from 'react-router-dom'
 import DefaultLayout from '../components/DefaultLayout'
 
 import PlanMeal from '../pages/PlanMeal'
-import CreatePlan from '../pages/CreatePlan'
 import CreateRecipe from '../pages/CreateRecipe'
 import FavoriteRecipe from '../pages/FavortieRecipe'
 import Register from '../pages/Register'

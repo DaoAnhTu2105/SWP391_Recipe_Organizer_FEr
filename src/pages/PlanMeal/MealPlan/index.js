@@ -6,26 +6,13 @@ import Food from '../Food'
 import NextIcon from '../../../components/IconComponent/NextIcon'
 import PreviousIcon from '../../../components/IconComponent/PreviousIcon'
 import CircularProgress from "@mui/material/CircularProgress";
-// import { fetchDataAsync } from '../../../redux/apiThunk/getAllRecipesThunk'
-
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-
 import Swal from "sweetalert2";
 import toast, { Toaster } from 'react-hot-toast';
 import Typography from '@mui/material/Typography'
 import { Box } from '@mui/material'
-import { useLocation } from 'react-router-dom'
-
-function ScrollToTop() {
-    const location = useLocation()
-
-    useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [location])
-
-    return null
-}
+import Select from 'react-select'
 
 const dayOfWeek = [
     "Monday",
@@ -78,14 +65,21 @@ const changeColor = (date) => {
 
 export default function MealPlan() {
     let month, contentAuth;
+    const [show, setShow] = useState(false);
     const [currentDate, setCurrentDate] = useState(new Date());
     const [reload, setReload] = useState(false)
     const dispatch = useDispatch();
     const [data, setData] = useState({
         recipeId: "",
         dateSt: "",
-        mealOfDate: 1
+        breakfast: [],
+        lunch: [],
+        dinner: []
     })
+    const [breakfast, setBreakfast] = useState([])
+    const [lunch, setLunch] = useState([])
+    const [dinner, setDinner] = useState([])
+    const [list, setList] = useState([])
     switch (getMonday(currentDate).getMonth() + 1) {
         case 1:
             month = ("January")
@@ -125,29 +119,57 @@ export default function MealPlan() {
             break;
     }
 
+    //fetch api
     useEffect(() => {
         dispatch(getPlanByWeek({ date: formatDate(getMonday(currentDate)) }))
+        dispatch(getRecipesPlan())
     }, [dispatch, currentDate, reload])
 
     const mealPlan = useSelector((state) => state.plan);
     const dataStatus = useSelector((state) => state.plan.loading);
     const getAllRecipes = useSelector((state) => state.plan.recipePlan)
     const user = JSON.parse(localStorage.getItem("user"));
-    // console.log(getAllRecipes?.data);
-    const changePage = (e, value) => {
-        e.preventDefault()
-        ScrollToTop()
-        if (value === -1) {
-            setCurrentDate(subDays(getMonday(currentDate), 7))
-        } else if (value === 0) {
-            setCurrentDate(new Date())
-        } else {
-            setCurrentDate(addDays(getMonday(currentDate), 7))
-        }
+
+    const formatData = (date) => {
+        const [y, m, d] = date.split("-")
+        return m + "/" + d + "/" + y
     }
+
+    //show, close modal
+    const handleClose = () => {
+        setShow(false)
+        setList([])
+    }
+    const handleShow = () => {
+        getAllRecipes?.data?.map((item) => {
+            list.push({ value: item.recipeId, label: item.recipeName })
+            return 0
+        })
+        setShow(true)
+    };
+
+    //get value for each meal
+    const handleBreakfastChange = (selected) => {
+        setBreakfast(selected);
+    };
+    const handleLunchChange = (selected) => {
+        setLunch(selected);
+    };
+    const handleDinnerChange = (selected) => {
+        setDinner(selected);
+    };
+
+    //create plan meal
     const handleFormCreate = async (e) => {
         e.preventDefault()
         setShow(false)
+        setData({
+            ...data,
+            breakfast: breakfast.map(item => item.value),
+            lunch: lunch.map(item => item.value),
+            dinner: dinner.map(item => item.value)
+        });
+        console.log(data);
         await Swal.fire({
             title: "Do you want to save the changes?",
             icon: "info",
@@ -160,32 +182,23 @@ export default function MealPlan() {
             if (result.isConfirmed) {
                 await dispatch(createPlan({ data: data })).then((result) => {
                     result.payload.message === "Success" ? toast.success('Create Success!') : toast.error('Create Failed!')
-                    setData({
-                        ...data, recipeId: "",
-                        dateSt: "",
-                        mealOfDate: ""
-                    })
+                    // setData({
+                    //     ...data, recipeId: "",
+                    //     dateSt: "",
+                    //     mealOfDate: ""
+                    // })
                     setReload(!reload)
                 }).catch((err) => {
-                    console.log(err);
+                    // console.log(err);
                 });
             } else {
                 toast('Nothing Create!')
             }
         });
+        setList([])
         setReload(!reload)
     }
 
-    const [show, setShow] = useState(false);
-    const formatData = (date) => {
-        const [y, m, d] = date.split("-");
-        return m + "/" + d + "/" + y
-    }
-    const handleClose = () => setShow(false);
-    const handleShow = () => {
-        dispatch(getRecipesPlan())
-        setShow(true)
-    };
     const content = (
         <Box
             sx={{
@@ -221,173 +234,189 @@ export default function MealPlan() {
             />
         )
     } else if (dataStatus === 'succeeded' && (mealPlan.plans.data && mealPlan.plans.status !== 1)) {
-        contentAuth = (
-            <Fragment>
-                <div className='date-info'>
-                    <div className='date'>
-                        <Button variant="primary" onClick={handleShow}>
-                            Create Meal Plan
-                        </Button>
-                        <Modal show={show} onHide={handleClose}>
-                            <Modal.Header closeButton>
-                                <Modal.Title>Modal heading</Modal.Title>
-                            </Modal.Header>
-                            <form onSubmit={e => handleFormCreate(e)}>
-                                <Modal.Body>
-                                    <div class="form-group">
-                                        <label htmFor="recipe">Recipe</label>
-                                        <select id="recipe" class="form-control" placeholder='Recipe' onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
-                                            <option value="">...</option>
-                                            {getAllRecipes?.data?.map((item) => (
-                                                <option value={item.recipeId}>{item.recipeName}</option>
-                                            ))}
-                                        </select>
-                                        <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
-                                    </div>
-                                    <div class="form-group">
-                                        <label htmFor="date">Date</label>
-                                        <input type="date" class="form-control" id="date" placeholder="Date"
-                                            onChange={(e) => setData({ ...data, dateSt: formatData(e.target.value) })} required />
-                                    </div>
-                                    <div class="form-group">
-                                        <label htmFor="meal">Meal of date</label>
-                                        <select id="meal" class="form-control" placeholder='Meal' onChange={(e) => setData({ ...data, mealOfDate: e.target.value })} required>
-                                            <option value="">...</option>
-                                            <option value="1">BreakFast</option>
-                                            <option value="2">Lunch</option>
-                                            <option value="3">Dinner</option>
-                                        </select>
-                                    </div>
-                                </Modal.Body>
-                                <Modal.Footer>
-                                    <Button variant="secondary" onClick={handleClose}>
-                                        Close
-                                    </Button>
-                                    <Button variant="primary" type='submid' >
-                                        Save Changes
-                                    </Button>
-                                </Modal.Footer>
-                            </form>
-                        </Modal>
-                    </div>
-                    <div className='button'>
-                        <button onClick={() => setCurrentDate(subDays(getMonday(currentDate), 7))}>
-                            <PreviousIcon />
-                        </button>
-                        <button onClick={() => setCurrentDate(new Date())}>
-                            Today
-                        </button>
-                        <button onClick={() => setCurrentDate(addDays(getMonday(currentDate), 7))}>
-                            <NextIcon />
-                        </button>
-                    </div>
-                </div>
-                <div className='table-header'>
-                    <div></div>
-                    {dayOfWeek.map((day, index) => (
-                        <div className="table-header-component" >
-                            <a href={`/plan-detail/${formatDateRouter(addDays(getMonday(currentDate), index))}`}>
-                                <div style={{ color: changeColor(formatDate(addDays(getMonday(currentDate), index))) }}>
-                                    {day}
-                                    <br></br>
-                                    {formatDate(addDays(getMonday(currentDate), index))}
-                                </div>
-                            </a>
-                        </div>
-                    ))}
-                </div>
-                <div className='table-body'>
-                    <div className='table-body-content'>
-                        <div className="meal" style={{ color: '#32a6de' }}>
-                            <div>
-                                <b>BreakFast</b>
-                            </div>
-                            <div>
-                                <b>6AM - 8AM</b>
-                            </div>
-                        </div>
-                        <div className='item'></div>
-                        <div className='item'></div>
-                        <div className='item'></div>
-                        <div className='item'></div>
-                        <div className='item'></div>
-                        <div className='item'></div>
-                        <div className='item'></div>
-                    </div>
-                    <div className='table-body-content'>
-                        <div style={{ color: '#e29d1d' }}>
-                            <div>
-                                <b>Lunch</b>
-                            </div>
-                            <div>
-                                <b>12:30AM - 2PM</b>
-                            </div>
-                        </div>
-                        <div className='item'></div>
-                        <div className='item'></div>
-                        <div className='item'></div>
-                        <div className='item'></div>
-                        <div className='item'></div>
-                        <div className='item'></div>
-                        <div className='item'></div>
-                    </div>
-                    <div className='table-body-content'>
-                        <div style={{ color: '#68169c' }}>
-                            <div>
-                                <b>Dinner</b>
-                            </div>
-                            <div>
-                                <b>6PM - 9PM</b>
-                            </div>
-                        </div>
-                        <div className='item'></div>
-                        <div className='item'></div>
-                        <div className='item'></div>
-                        <div className='item'></div>
-                        <div className='item'></div>
-                        <div className='item'></div>
-                        <div className='item'></div>
-                    </div>
-                </div>
-            </Fragment >);
+        // contentAuth = (
+        //     <Fragment>
+        //         <div className='date-info'>
+        //             <div className='date'>
+        //                 <Button variant="primary" onClick={handleShow}>
+        //                     Create Meal Plan
+        //                 </Button>
+        //                 <Modal show={show} onHide={handleClose}>
+        //                     <Modal.Header closeButton>
+        //                         <Modal.Title>Modal heading</Modal.Title>
+        //                     </Modal.Header>
+        //                     <form onSubmit={e => handleFormCreate(e)}>
+        //                         <Modal.Body>
+        //                             <div class="form-group">
+        //                                 <label htmFor="recipe">Recipe</label>
+        //                                 {/* <select id="recipe" class="form-control" placeholder='Recipe' onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
+        //                                     <option value="">...</option>
+        //                                     {getAllRecipes?.data?.map((item) => (
+        //                                         <option value={item.recipeId}>{item.recipeName}</option>
+        //                                     ))}
+        //                                 </select> */}
+        //                                 <Select options={getAllRecipes?.data} />
+        //                                 <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
+        //                             </div>
+        //                             <div class="form-group">
+        //                                 <label htmFor="date">Date</label>
+        //                                 <input type="date" class="form-control" id="date" placeholder="Date"
+        //                                     onChange={(e) => setData({ ...data, dateSt: formatData(e.target.value) })} required />
+        //                             </div>
+        //                             <div class="form-group">
+        //                                 <label htmFor="meal">Meal of date</label>
+        //                                 <select id="meal" class="form-control" placeholder='Meal' onChange={(e) => setData({ ...data, mealOfDate: e.target.value })} required>
+        //                                     <option value="">...</option>
+        //                                     <option value="1">BreakFast</option>
+        //                                     <option value="2">Lunch</option>
+        //                                     <option value="3">Dinner</option>
+        //                                 </select>
+        //                             </div>
+        //                         </Modal.Body>
+        //                         <Modal.Footer>
+        //                             <Button variant="secondary" onClick={handleClose}>
+        //                                 Close
+        //                             </Button>
+        //                             <Button variant="primary" type='submid' >
+        //                                 Save Changes
+        //                             </Button>
+        //                         </Modal.Footer>
+        //                     </form>
+        //                 </Modal>
+        //             </div>
+        //             <div className='button'>
+        //                 <button onClick={() => setCurrentDate(subDays(getMonday(currentDate), 7))}>
+        //                     <PreviousIcon />
+        //                 </button>
+        //                 <button onClick={() => setCurrentDate(new Date())}>
+        //                     Today
+        //                 </button>
+        //                 <button onClick={() => setCurrentDate(addDays(getMonday(currentDate), 7))}>
+        //                     <NextIcon />
+        //                 </button>
+        //             </div>
+        //         </div>
+        //         <div className='table-header'>
+        //             <div></div>
+        //             {dayOfWeek.map((day, index) => (
+        //                 <div className="table-header-component" >
+        //                     <a href={`/plan-detail/${formatDateRouter(addDays(getMonday(currentDate), index))}`}>
+        //                         <div style={{ color: changeColor(formatDate(addDays(getMonday(currentDate), index))) }}>
+        //                             {day}
+        //                             <br></br>
+        //                             {formatDate(addDays(getMonday(currentDate), index))}
+        //                         </div>
+        //                     </a>
+        //                 </div>
+        //             ))}
+        //         </div>
+        //         <div className='table-body'>
+        //             <div className='table-body-content'>
+        //                 <div className="meal" style={{ color: '#32a6de' }}>
+        //                     <div>
+        //                         <b>BreakFast</b>
+        //                     </div>
+        //                     <div>
+        //                         <b>6AM - 8AM</b>
+        //                     </div>
+        //                 </div>
+        //                 <div className='item'></div>
+        //                 <div className='item'></div>
+        //                 <div className='item'></div>
+        //                 <div className='item'></div>
+        //                 <div className='item'></div>
+        //                 <div className='item'></div>
+        //                 <div className='item'></div>
+        //             </div>
+        //             <div className='table-body-content'>
+        //                 <div style={{ color: '#e29d1d' }}>
+        //                     <div>
+        //                         <b>Lunch</b>
+        //                     </div>
+        //                     <div>
+        //                         <b>12:30AM - 2PM</b>
+        //                     </div>
+        //                 </div>
+        //                 <div className='item'></div>
+        //                 <div className='item'></div>
+        //                 <div className='item'></div>
+        //                 <div className='item'></div>
+        //                 <div className='item'></div>
+        //                 <div className='item'></div>
+        //                 <div className='item'></div>
+        //             </div>
+        //             <div className='table-body-content'>
+        //                 <div style={{ color: '#68169c' }}>
+        //                     <div>
+        //                         <b>Dinner</b>
+        //                     </div>
+        //                     <div>
+        //                         <b>6PM - 9PM</b>
+        //                     </div>
+        //                 </div>
+        //                 <div className='item'></div>
+        //                 <div className='item'></div>
+        //                 <div className='item'></div>
+        //                 <div className='item'></div>
+        //                 <div className='item'></div>
+        //                 <div className='item'></div>
+        //                 <div className='item'></div>
+        //             </div>
+        //         </div>
+        //     </Fragment >);
     } else {
         contentAuth = (
             <Fragment>
                 <div className='date-info'>
                     <div className='date'>
-                        {/* <a href="/create-plan"><button>Create Meal Plan</button></a> */}
                         <Button variant="primary" onClick={handleShow}>
                             Create Meal Plan
                         </Button>
                         <Modal show={show} onHide={handleClose}>
                             <Modal.Header closeButton>
-                                <Modal.Title>Modal heading</Modal.Title>
+                                <Modal.Title>Create Meal Plan</Modal.Title>
                             </Modal.Header>
                             <form onSubmit={e => handleFormCreate(e)}>
                                 <Modal.Body>
                                     <div class="form-group">
-                                        <label htmFor="recipe">Recipe</label>
-                                        <select id="recipe" class="form-control" placeholder='Recipe' onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
-                                            <option value="">...</option>
-                                            {getAllRecipes?.data?.map((item) => (
-                                                <option value={item.recipeId}>{item.recipeName}</option>
-                                            ))}
-                                        </select>
-                                        <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
-                                    </div>
-                                    <div class="form-group">
-                                        <label htmFor="date">Date</label>
-                                        <input type="date" class="form-control" id="date" placeholder="Date"
-                                            onChange={(e) => setData({ ...data, dateSt: formatData(e.target.value) })} required />
-                                    </div>
-                                    <div class="form-group">
-                                        <label htmFor="meal">Meal of date</label>
-                                        <select id="meal" class="form-control" placeholder='Meal' onChange={(e) => setData({ ...data, mealOfDate: e.target.value })} required>
-                                            <option value="">...</option>
-                                            <option value="1">BreakFast</option>
-                                            <option value="2">Lunch</option>
-                                            <option value="3">Dinner</option>
-                                        </select>
+                                        <div class="form-group">
+                                            <label htmFor="date">Date</label>
+                                            <input type="date" class="form-control" id="date" placeholder="Date"
+                                                onChange={(e) => setData({ ...data, dateSt: formatData(e.target.value) })} required />
+                                        </div>
+                                        <div class="form-group">
+                                            <label htmFor="recipe">Recipe for BreakFast</label>
+                                            <Select
+                                                isMulti
+                                                name="colors"
+                                                options={list}
+                                                onChange={handleBreakfastChange}
+                                                required
+                                            />
+                                            <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label htmFor="recipe">Recipe for Lunch</label>
+                                            <Select
+                                                isMulti
+                                                name="colors"
+                                                options={list}
+                                                onChange={handleLunchChange}
+                                                required
+                                            />
+                                            <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label htmFor="recipe">Recipe for Dinner</label>
+                                            <Select
+                                                isMulti
+                                                name="colors"
+                                                options={list}
+                                                onChange={handleDinnerChange}
+                                                required
+                                            />
+                                            <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
+                                        </div>
                                     </div>
                                 </Modal.Body>
                                 <Modal.Footer>

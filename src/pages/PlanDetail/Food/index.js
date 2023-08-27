@@ -86,7 +86,7 @@ const Food = ({ date, id, foodId, name, image, time, ingredient, fat, calories, 
 
     return (
         <div className="product">
-            <Link className='product-infor' to={`/recipe-detail/${foodId}`}>
+            <Link className='product-infor' to={`/recipe-detail/${foodId}`} style={{ pointerEvents: "none" }}>
                 <img src={image} alt={name} />
                 <div className="product-detail">
                     <b>{name}</b>
@@ -139,7 +139,7 @@ const Food = ({ date, id, foodId, name, image, time, ingredient, fat, calories, 
                 <button onClick={(e) => deletePlanMeal(e)}>
                     Delete
                 </button>
-                <button onClick={handleShow}>
+                <button onClick={handleShow} disabled>
                     Update
                 </button>
             </div>
