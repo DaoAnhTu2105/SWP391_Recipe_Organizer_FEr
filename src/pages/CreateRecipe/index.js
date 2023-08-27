@@ -155,10 +155,10 @@ function CreateRecipe() {
                         const standTimeSt = timeValue.stand + ''
                         const totalTime = totalTimes
                         const servingsSt = servingAmount + ''
-                        const carbohydrateSt = nutritionValues.carbs + ''
-                        const proteinSt = nutritionValues.protein + ''
-                        const fatSt = nutritionValues.fat + ''
-                        const calories = totalCalories
+                        // const carbohydrateSt = nutritionValues.carbs + ''
+                        // const proteinSt = nutritionValues.protein + ''
+                        // const fatSt = nutritionValues.fat + ''
+                        // const calories = totalCalories
                         const photoVMs = {
                             photoName: url,
                         }
@@ -166,6 +166,7 @@ function CreateRecipe() {
                         const parsedIngredientFields = ingredientFields.map((field) => ({
                             ...field,
                             quantity: Number(field.quantity),
+                            id: field.id + '',
                         }))
                         const ingredientOfRecipeVMs = parsedIngredientFields
                         const countryId = selectedCountryId
@@ -177,10 +178,10 @@ function CreateRecipe() {
                             cookTimeSt,
                             standTimeSt,
                             servingsSt,
-                            carbohydrateSt,
-                            proteinSt,
-                            fatSt,
-                            calories,
+                            // carbohydrateSt,
+                            // proteinSt,
+                            // fatSt,
+                            // calories,
                             totalTime,
                             photoVMs,
                             ingredientOfRecipeVMs,
@@ -189,8 +190,6 @@ function CreateRecipe() {
                             countryId,
                         }
                         try {
-                            const user = JSON.parse(localStorage.getItem('user'))
-                            const accessToken = user?.token
                             const response = await fetch(
                                 'https://recipe-organizer-api.azurewebsites.net/api/Recipes/AddRecipe',
                                 {
@@ -202,7 +201,17 @@ function CreateRecipe() {
                                     body: JSON.stringify(payload),
                                 }
                             )
+
                             console.log(response)
+                            if (response.status === 401) {
+                                await Swal.fire({
+                                    position: 'center',
+                                    icon: 'info',
+                                    title: 'Login expired!',
+                                    showConfirmButton: false,
+                                    footer: '<a href="/login" style="font-size: 20px; color: red">LOGIN AGAIN</a>',
+                                })
+                            }
                             if (response.ok) {
                                 await Swal.fire({
                                     position: 'center',
@@ -214,16 +223,63 @@ function CreateRecipe() {
                                 navigate('/my-recipe')
                             } else {
                                 if (response.status === 400) {
+                                    setIngredientNameError('')
+                                    setIngredientDup('')
+                                    setDirectionError('')
                                     const data = await response.json()
                                     const msg = data.message
-                                    console.log('message', data)
-                                    setTitleError(msg)
-                                    Swal.fire({
-                                        position: 'center',
-                                        icon: 'error',
-                                        title: msg,
-                                        timer: 2500,
-                                    })
+                                    console.log('message', msg)
+                                    if (msg.includes(',')) {
+                                        const messError = msg.split(',')
+
+                                        console.log(messError)
+                                        messError.map((error) => {
+                                            if (error === 'Prep Time must be greater than 0!!!') {
+                                                setPreError(error)
+                                            } else if (error === 'Recipe Name cannot be empty!!!') {
+                                                setTitleError(error)
+                                            } else if (
+                                                error === 'Cook Time must be greater than 0!!!'
+                                            ) {
+                                                setCookError(error)
+                                            } else if (
+                                                error === 'Stand Time must be greater than 0!!!'
+                                            ) {
+                                                setStandError(error)
+                                            } else if (error === 'Please choose Country!!!') {
+                                                setCountryError(error)
+                                            } else if (
+                                                error === 'Servings must be greater than 0!!!'
+                                            ) {
+                                                setServingError(error)
+                                            } else if (error === 'Please choose Meal Type!!!') {
+                                                setMealError(error)
+                                            } else if (error === 'Please select ingredient') {
+                                                setIngredientNameError(error)
+                                            } else if (
+                                                error === 'Cannot add duplicate ingredient'
+                                            ) {
+                                                setIngredientDup(error)
+                                            } else if (
+                                                error ===
+                                                'Quantity of ingredients cannot be a negative number'
+                                            ) {
+                                                setQuantityError(error)
+                                                console.log(
+                                                    'aaaaaaaaaaaaaaaaaaaaaaa',
+                                                    quantityError
+                                                )
+                                            } else if (error.includes(`Please input for step`)) {
+                                                setDirectionError(error)
+                                            }
+                                        })
+                                        Swal.fire({
+                                            position: 'center',
+                                            icon: 'error',
+                                            title: messError[1],
+                                            timer: 2500,
+                                        })
+                                    }
                                 }
                                 throw new Error('Request failed with status: ' + response.status)
                             }
@@ -259,6 +315,7 @@ function CreateRecipe() {
     }
 
     const [servingAmount, setServingAmount] = useState(1)
+    const [servingError, setServingError] = useState('')
     const handleServingChange = (event) => {
         setServingAmount(event.target.value)
     }
@@ -266,7 +323,9 @@ function CreateRecipe() {
     const [ingredientFields, setIngredientFields] = useState([
         { id: Date.now(), ingredientName: '', quantity: 1 },
     ])
-
+    const [ingredientNameError, setIngredientNameError] = useState('')
+    const [ingredientDup, setIngredientDup] = useState('')
+    const [quantityError, setQuantityError] = useState('')
     const handleChange = (id, fieldName, value) => {
         const updatedFields = ingredientFields.map((field) => {
             if (field.id === id) {
@@ -314,6 +373,7 @@ function CreateRecipe() {
     const [directionFields, setDirectionFields] = useState([
         { directionsNum: 1, directionsDesc: '' },
     ])
+    const [directionError, setDirectionError] = useState('')
     const nextId = directionFields.length + 1
 
     const handleAddStep = () => {
@@ -331,29 +391,32 @@ function CreateRecipe() {
         setDirectionFields(renumberedFields)
     }
     //--------------------------Nutritions--------------------------
-    const [nutritionValues, setNutritionValues] = useState({
-        fat: 0,
-        carbs: 0,
-        protein: 0,
-    })
+    // const [nutritionValues, setNutritionValues] = useState({
+    //     fat: 0,
+    //     carbs: 0,
+    //     protein: 0,
+    // })
 
-    const [totalCalories, setTotalCalories] = useState(0)
-    const handleNutritionChange = (field, value) => {
-        setNutritionValues((prevValues) => ({
-            ...prevValues,
-            [field]: value,
-        }))
+    // const [totalCalories, setTotalCalories] = useState(0)
+    // const handleNutritionChange = (field, value) => {
+    //     setNutritionValues((prevValues) => ({
+    //         ...prevValues,
+    //         [field]: value,
+    //     }))
 
-        const { fat, carbs, protein } = { ...nutritionValues, [field]: value }
-        const calculatedCalories = fat * 9 + protein * 4 + carbs * 4
-        setTotalCalories(calculatedCalories)
-    }
+    //     const { fat, carbs, protein } = { ...nutritionValues, [field]: value }
+    //     const calculatedCalories = fat * 9 + protein * 4 + carbs * 4
+    //     setTotalCalories(calculatedCalories)
+    // }
     //--------------------------Time--------------------------
     const [timeValue, setTimeValue] = useState({
         prep: 0,
         stand: 0,
         cook: 0,
     })
+    const [preError, setPreError] = useState('')
+    const [standError, setStandError] = useState('')
+    const [cookError, setCookError] = useState('')
 
     const [totalTimes, setTotalTime] = useState(0) // Initialize totalTime
 
@@ -370,6 +433,8 @@ function CreateRecipe() {
     //--------------------------Optional--------------------------
     const [selectedMeal, setSelectedMeal] = useState('')
     const [selectedCountry, setSelectedCountry] = useState('')
+    const [mealError, setMealError] = useState('')
+    const [countryError, setCountryError] = useState('')
 
     const [selectedCountryId, setSelectedCountryId] = useState('')
     const [selectedMealId, setSelectedMealId] = useState('')
@@ -486,7 +551,7 @@ function CreateRecipe() {
                                             gutterBottom
                                         >
                                             {' '}
-                                            Recipe Title{' '}
+                                            Recipe Title <span style={{ color: 'red' }}>*</span>
                                         </Typography>
                                         <OutlinedInput
                                             placeholder="Give your recipe a title"
@@ -605,10 +670,13 @@ function CreateRecipe() {
                                     {/* ...other code for instructions */}
                                     <Stack spacing={2} sx={{ width: 'auto' }}>
                                         {ingredientFields.map((field, index) => (
-                                            <div style={{ display: 'flex' }} key={index}>
+                                            <div
+                                                style={{ display: 'flex', alignItems: 'top' }}
+                                                key={index}
+                                            >
                                                 <Autocomplete
                                                     freeSolo
-                                                    sx={{ width: 500, paddingRight: 2 }}
+                                                    sx={{ width: 350, paddingRight: 2 }}
                                                     options={
                                                         allIngredients?.data &&
                                                         allIngredients?.data.map(
@@ -643,6 +711,7 @@ function CreateRecipe() {
                                                         />
                                                     )}
                                                 />
+
                                                 <TextField
                                                     type="number"
                                                     variant="outlined"
@@ -671,6 +740,42 @@ function CreateRecipe() {
                                                 </Button>
                                             </div>
                                         ))}
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                            }}
+                                        >
+                                            <Box>
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{ color: 'red' }}
+                                                    display="block"
+                                                    gutterBottom
+                                                >
+                                                    {ingredientNameError}
+                                                </Typography>
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{ color: 'red' }}
+                                                    display="block"
+                                                    gutterBottom
+                                                >
+                                                    {ingredientDup}
+                                                </Typography>
+                                            </Box>
+                                            <Box sx={{ maxWidth: 200 }}>
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{ color: 'red' }}
+                                                    display="block"
+                                                    gutterBottom
+                                                >
+                                                    {quantityError}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+
                                         <Box>
                                             <Button
                                                 onClick={handleAddIngredient}
@@ -690,7 +795,7 @@ function CreateRecipe() {
                                     }}
                                 />
                                 {/* ----------------------------------------- Nutritions-----------------------------------------  */}
-                                <Box sx={{ width: '80' }}>
+                                {/* <Box sx={{ width: '80' }}>
                                     <Typography
                                         sx={{
                                             lineHeight: '0.8',
@@ -824,15 +929,7 @@ function CreateRecipe() {
                                             </Typography>
                                         </Box>
                                     </Stack>
-                                </Box>
-                                <Divider
-                                    sx={{
-                                        width: '70',
-                                        fontWeight: 'bold',
-                                        marginTop: '20px',
-                                        marginBottom: '20px',
-                                    }}
-                                />
+                                </Box> */}
                                 {/* ----------------------------------------- Directions-----------------------------------------  */}
                                 <Box sx={{ width: '80' }}>
                                     <Typography
@@ -892,6 +989,7 @@ function CreateRecipe() {
                                                         setDirectionFields(updatedFields)
                                                     }}
                                                 />
+
                                                 <Button
                                                     variant="text"
                                                     className="btn-delete-recipe"
@@ -909,6 +1007,16 @@ function CreateRecipe() {
                                             </Box>
                                         </Box>
                                     ))}
+                                    <Box>
+                                        <Typography
+                                            variant="caption"
+                                            sx={{ color: 'red' }}
+                                            display="block"
+                                            gutterBottom
+                                        >
+                                            {directionError}
+                                        </Typography>
+                                    </Box>
                                     <Box sx={{ marginTop: '10px' }}>
                                         <Button onClick={handleAddStep} variant="contained">
                                             Add more steps
@@ -936,6 +1044,7 @@ function CreateRecipe() {
                                                     {' '}
                                                     Prep Time
                                                 </Typography>
+
                                                 <TextField
                                                     label="min(s)"
                                                     type="number"
@@ -949,6 +1058,16 @@ function CreateRecipe() {
                                                         handleTimeChange('prep', e.target.value)
                                                     }
                                                 />
+                                                {(!timeValue.prep || timeValue.prep < 1) && (
+                                                    <Typography
+                                                        variant="caption"
+                                                        sx={{ color: 'red', fontSize: 10 }}
+                                                        display="block"
+                                                        gutterBottom
+                                                    >
+                                                        {preError}
+                                                    </Typography>
+                                                )}
                                             </Box>
                                             <Box sx={{ marginRight: '20px' }}>
                                                 <Typography
@@ -972,6 +1091,16 @@ function CreateRecipe() {
                                                         handleTimeChange('stand', e.target.value)
                                                     }
                                                 />
+                                                {(!timeValue.stand || timeValue.stand < 0) && (
+                                                    <Typography
+                                                        variant="caption"
+                                                        sx={{ color: 'red', fontSize: 10 }}
+                                                        display="block"
+                                                        gutterBottom
+                                                    >
+                                                        {standError}
+                                                    </Typography>
+                                                )}
                                             </Box>
                                             <Box>
                                                 <Typography
@@ -995,6 +1124,16 @@ function CreateRecipe() {
                                                         handleTimeChange('cook', e.target.value)
                                                     }
                                                 />
+                                                {(!timeValue.cook || timeValue.cook < 1) && (
+                                                    <Typography
+                                                        variant="caption"
+                                                        sx={{ color: 'red', fontSize: 10 }}
+                                                        display="block"
+                                                        gutterBottom
+                                                    >
+                                                        {cookError}
+                                                    </Typography>
+                                                )}
                                             </Box>
                                         </div>
                                         <Box
@@ -1060,8 +1199,19 @@ function CreateRecipe() {
                                             onChange={handleServingChange}
                                             placeholder="1"
                                             type="number"
+                                            value={servingAmount}
                                             inputProps={{ min: 1 }}
                                         />
+                                        {(!servingAmount || servingAmount < 1) && (
+                                            <Typography
+                                                variant="caption"
+                                                sx={{ color: 'red', fontSize: 10 }}
+                                                display="block"
+                                                gutterBottom
+                                            >
+                                                {servingError}
+                                            </Typography>
+                                        )}
                                     </Box>
                                 </Box>
                                 {/* ----------------------------------------- Filtering Fields-----------------------------------------  */}
@@ -1117,6 +1267,16 @@ function CreateRecipe() {
                                                 />
                                             )}
                                         />
+                                        {!selectedMeal && (
+                                            <Typography
+                                                variant="caption"
+                                                sx={{ color: 'red', fontSize: 10 }}
+                                                display="block"
+                                                gutterBottom
+                                            >
+                                                {mealError}
+                                            </Typography>
+                                        )}
                                     </Box>
 
                                     <Box>
@@ -1156,6 +1316,16 @@ function CreateRecipe() {
                                                 />
                                             )}
                                         />
+                                        {!selectedCountry && (
+                                            <Typography
+                                                variant="caption"
+                                                sx={{ color: 'red', fontSize: 10 }}
+                                                display="block"
+                                                gutterBottom
+                                            >
+                                                {countryError}
+                                            </Typography>
+                                        )}
                                     </Box>
                                 </Box>
                                 <Divider
