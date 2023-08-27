@@ -13,7 +13,11 @@ const UpdateIngredient = () => {
     const [value, setValue] = useState({
         ingredientId: id,
         ingredientName: "",
-        measure: ""
+        measure: "",
+        carbohydrate: "",
+        protein: "",
+        fat: "",
+        calories: ""
     });
     const dispatch = useDispatch();
 
@@ -22,14 +26,18 @@ const UpdateIngredient = () => {
     }, [dispatch, id]);
 
     const ingredient = useSelector((state) => state.ingredient);
-    console.log(ingredient);
+    // console.log(ingredient);
 
     useEffect(() => {
         if (ingredient.detail.data) {
             setValue({
                 ingredientId: id,
                 ingredientName: ingredient.detail.data.ingredientName,
-                measure: ingredient.detail.data.measure
+                measure: ingredient.detail.data.measure,
+                carbohydrate: ingredient.detail.data.carbohydrate,
+                protein: ingredient.detail.data.protein,
+                fat: ingredient.detail.data.fat,
+                calories: ingredient.detail.data.calories
             });
         }
     }, [ingredient, id]);
@@ -51,9 +59,6 @@ const UpdateIngredient = () => {
                 await dispatch(updateIngredient({ id: id, data: JSON.stringify(value) })).then(async (result) => {
                     if (result.payload.message === 'Update Ingredient Success') {
                         toast.success('Update Success!')
-                        // setTimeout(() => {
-                        //     navigate('/ingredient-list')
-                        // }, 500);
                         navigate('/ingredient-list')
                     } else {
                         toast.error('Update Failed!')
@@ -99,6 +104,27 @@ const UpdateIngredient = () => {
                                 <input type="text" name='email' className='form-control' placeholder='Enter Email'
                                     value={value.measure} onChange={e => setValue({ ...value, measure: e.target.value })} required />
                             </div >
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">carbohydrate</label>
+                                <input type="number" class="form-control" id="formCarb" placeholder="Enter carbohydrate"
+                                    value={value.carbohydrate} onChange={e => setValue({ ...value, carbohydrate: parseInt(e.target.value, 10) })} min={1} required />
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">protein</label>
+                                <input type="number" class="form-control" id="formProtein" placeholder="Enter protein"
+                                    value={value.protein} onChange={e => setValue({ ...value, protein: e.target.value })} min={1} required />
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">fat</label>
+                                <input type="number" class="form-control" id="formFat" placeholder="Enter fat"
+                                    value={value.fat} onChange={e => setValue({ ...value, fat: e.target.value })} min={1} required />
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">calories</label>
+                                <input type="number" class="form-control" id="formCalo" placeholder="Enter calories"
+                                    value={value.calories} onChange={e => setValue({ ...value, calories: e.target.value })} min={1} required />
+                            </div>
+
                             <br />
                             <button className='btn btn-info'>Update</button>
                         </form>

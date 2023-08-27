@@ -70,15 +70,14 @@ export default function MealPlan() {
     const [reload, setReload] = useState(false)
     const dispatch = useDispatch();
     const [data, setData] = useState({
-        recipeId: "",
         dateSt: "",
         breakfast: [],
         lunch: [],
         dinner: []
     })
-    const [breakfast, setBreakfast] = useState([])
-    const [lunch, setLunch] = useState([])
-    const [dinner, setDinner] = useState([])
+    // const [breakfast, setBreakfast] = useState([])
+    // const [lunch, setLunch] = useState([])
+    // const [dinner, setDinner] = useState([])
     const [list, setList] = useState([])
     switch (getMonday(currentDate).getMonth() + 1) {
         case 1:
@@ -150,26 +149,29 @@ export default function MealPlan() {
 
     //get value for each meal
     const handleBreakfastChange = (selected) => {
-        setBreakfast(selected);
+        setData({
+            ...data,
+            breakfast: selected.map(item => item.value)
+        });
     };
     const handleLunchChange = (selected) => {
-        setLunch(selected);
+        setData({
+            ...data,
+            lunch: selected.map(item => item.value)
+        });
     };
     const handleDinnerChange = (selected) => {
-        setDinner(selected);
+        setData({
+            ...data,
+            dinner: selected.map(item => item.value)
+        });
     };
 
     //create plan meal
     const handleFormCreate = async (e) => {
         e.preventDefault()
         setShow(false)
-        setData({
-            ...data,
-            breakfast: breakfast.map(item => item.value),
-            lunch: lunch.map(item => item.value),
-            dinner: dinner.map(item => item.value)
-        });
-        console.log(data);
+        // console.log(data);
         await Swal.fire({
             title: "Do you want to save the changes?",
             icon: "info",

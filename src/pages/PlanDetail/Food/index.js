@@ -139,9 +139,9 @@ const Food = ({ date, id, foodId, name, image, time, ingredient, fat, calories, 
                 <button onClick={(e) => deletePlanMeal(e)}>
                     Delete
                 </button>
-                <button onClick={handleShow} disabled>
+                {/* <button onClick={handleShow} disabled>
                     Update
-                </button>
+                </button> */}
             </div>
         </div >
     )

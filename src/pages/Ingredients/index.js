@@ -90,6 +90,22 @@ const headCells = [
         label: 'Measure',
     },
     {
+        id: 'carb',
+        label: 'Carbohydrate',
+    },
+    {
+        id: 'fat',
+        label: 'Fat',
+    },
+    {
+        id: 'protein',
+        label: 'Protein',
+    },
+    {
+        id: 'calories',
+        label: 'Calories',
+    },
+    {
         id: '',
         label: '',
     },
@@ -133,7 +149,11 @@ export default function IngredientList() {
     const [value, setValue] = useState({
         ingredientId: "",
         ingredientName: "",
-        measure: ""
+        measure: "",
+        carbohydrate: "",
+        protein: "",
+        fat: "",
+        calories: ""
     });
     const [reload, setReload] = useState(false) //recall api
 
@@ -168,7 +188,15 @@ export default function IngredientList() {
     //modal create
     const handleShowCreate = () => setShowCreate(true);
     const handleCloseModalCreate = () => {
-        setValue({ ...value, ingredientName: "", measure: "" })
+        setValue({
+            ...value,
+            ingredientName: "",
+            measure: "",
+            carbohydrate: "",
+            protein: "",
+            fat: "",
+            calories: ""
+        })
         setShowCreate(false);
     }
 
@@ -186,7 +214,7 @@ export default function IngredientList() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 await dispatch(addIngredient({ data: JSON.stringify(value) })).then((result) => {
-                    result.payload.message === 'Add Ingredient Success' ? toast.success('Create Success!') : toast.error('Create Failed!')
+                    result.payload.status === 1 ? toast.success(result.payload.message) : toast.error(result.payload.message)
                     setReload(!reload)
                 }).catch((err) => {
                     console.log(err);
@@ -213,7 +241,7 @@ export default function IngredientList() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 await dispatch(removeIngredient({ id: id })).then((result) => {
-                    result.payload.status === 1 ? toast.success('Delete Success!') : toast.error('Delete Failed!')
+                    result.payload.status === 1 ? toast.success(result.payload.message) : toast.error(result.payload.message)
                     setReload(!reload)
                 }).catch((err) => {
                     console.log(err);
@@ -260,6 +288,26 @@ export default function IngredientList() {
                                 <input type="text" class="form-control" id="formMeasure" placeholder="Enter measure"
                                     value={value.measure} onChange={e => setValue({ ...value, measure: e.target.value })} required />
                             </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">carbohydrate</label>
+                                <input type="number" class="form-control" id="formCarb" placeholder="Enter carbohydrate"
+                                    value={value.carbohydrate} onChange={e => setValue({ ...value, carbohydrate: e.target.value })} min={1} required />
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">protein</label>
+                                <input type="number" class="form-control" id="formProtein" placeholder="Enter protein"
+                                    value={value.protein} onChange={e => setValue({ ...value, protein: e.target.value })} min={1} required />
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">fat</label>
+                                <input type="number" class="form-control" id="formFat" placeholder="Enter fat"
+                                    value={value.fat} onChange={e => setValue({ ...value, fat: e.target.value })} min={1} required />
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">calories</label>
+                                <input type="number" class="form-control" id="formCalo" placeholder="Enter calories"
+                                    value={value.calories} onChange={e => setValue({ ...value, calories: e.target.value })} min={1} required />
+                            </div>
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="contained" style={{ backgroundColor: '#6c757d' }} onClick={handleCloseModalCreate}>
@@ -303,6 +351,10 @@ export default function IngredientList() {
                                                     </TableCell>
                                                     <TableCell align="left">{row.ingredientName}</TableCell>
                                                     <TableCell align="left">{row.measure}</TableCell>
+                                                    <TableCell align="left">{row.carbohydrate}</TableCell>
+                                                    <TableCell align="left">{row.fat}</TableCell>
+                                                    <TableCell align="left">{row.protein}</TableCell>
+                                                    <TableCell align="left">{row.calories}</TableCell>
                                                     <TableCell align="center">
                                                         <div>
                                                             <Button
