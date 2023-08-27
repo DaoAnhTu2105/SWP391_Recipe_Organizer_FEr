@@ -201,15 +201,28 @@ const RecipeDetail = () => {
                                 <div className="my-5">
                                     <span>{formattedUpdateTime && formattedUpdateTime}</span>
                                     <h2>{recipeDetail?.recipeName}</h2>
-                                    <div className="ratings">
+                                    <h5 style={{ fontWeight: 200, color: 'rgba(0, 0, 0, 0.5)' }}>
+                                        {recipeDetail?.description}
+                                    </h5>
+                                    <div
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            marginTop: 20,
+                                            marginBottom: 20,
+                                        }}
+                                    >
                                         <Rating
                                             name="read-only"
                                             value={recipeDetail?.aveVote}
                                             readOnly
                                             precision={0.5}
                                             size="large"
-                                            sx={{ mt: 2 }}
                                         />
+                                        &nbsp; &nbsp;
+                                        <span style={{ fontSize: 20, color: 'rgba(0, 0, 0, 0.5)' }}>
+                                            {recipeDetail?.aveVote}/5 ratings
+                                        </span>
                                     </div>
                                     <p>
                                         Recipe by &nbsp;
