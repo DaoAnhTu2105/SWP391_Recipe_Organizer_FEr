@@ -56,54 +56,72 @@ const SearchResult = () => {
                                 >
                                     {result &&
                                         Array.isArray(result) &&
-                                        result.map((recipe) => (
-                                            <div className="grid-item" key={recipe.recipeId}>
-                                                <Card style={{ width: 345, maxHeight: 470 }}>
-                                                    <Link to={`/recipe-detail/${recipe.recipeId}`}>
-                                                        <Box style={{ textAlign: 'center' }}>
-                                                            <CardMedia
-                                                                component="img"
-                                                                style={{ width: 350, height: 194 }}
-                                                                image={recipe.photoVMs[0].photoName}
-                                                                alt="Perfect Pancakes"
-                                                            />
-                                                            <Rating
-                                                                name="read-only"
-                                                                value={recipe.aveVote}
-                                                                readOnly
-                                                                size="small"
-                                                                precision={0.5}
-                                                                sx={{ mt: 2 }}
-                                                            />
-                                                        </Box>
-
-                                                        <CardContent
-                                                            style={{ textAlign: 'center' }}
+                                        result.map(
+                                            (recipe) =>
+                                                !recipe.isDelete && (
+                                                    <div
+                                                        className="grid-item"
+                                                        key={recipe.recipeId}
+                                                    >
+                                                        <Card
+                                                            style={{ width: 345, maxHeight: 470 }}
                                                         >
-                                                            <Typography
-                                                                variant="body1"
-                                                                color="text.primary"
-                                                                style={{
-                                                                    fontWeight: 600,
-                                                                    fontSize: 15,
-                                                                }}
+                                                            <Link
+                                                                to={`/recipe-detail/${recipe.recipeId}`}
                                                             >
-                                                                {recipe.recipeName}
-                                                            </Typography>
-                                                            <br></br>
-                                                            <Typography
-                                                                variant="body3"
-                                                                color="text.secondary"
-                                                            >
-                                                                {new Date(
-                                                                    recipe.updateTime
-                                                                ).toLocaleDateString()}
-                                                            </Typography>
-                                                        </CardContent>
-                                                    </Link>
-                                                </Card>
-                                            </div>
-                                        ))}
+                                                                <Box
+                                                                    style={{ textAlign: 'center' }}
+                                                                >
+                                                                    <CardMedia
+                                                                        component="img"
+                                                                        style={{
+                                                                            width: 350,
+                                                                            height: 194,
+                                                                        }}
+                                                                        image={
+                                                                            recipe.photoVMs[0]
+                                                                                .photoName
+                                                                        }
+                                                                        alt="Perfect Pancakes"
+                                                                    />
+                                                                    <Rating
+                                                                        name="read-only"
+                                                                        value={recipe.aveVote}
+                                                                        readOnly
+                                                                        size="small"
+                                                                        precision={0.5}
+                                                                        sx={{ mt: 2 }}
+                                                                    />
+                                                                </Box>
+
+                                                                <CardContent
+                                                                    style={{ textAlign: 'center' }}
+                                                                >
+                                                                    <Typography
+                                                                        variant="body1"
+                                                                        color="text.primary"
+                                                                        style={{
+                                                                            fontWeight: 600,
+                                                                            fontSize: 15,
+                                                                        }}
+                                                                    >
+                                                                        {recipe.recipeName}
+                                                                    </Typography>
+                                                                    <br></br>
+                                                                    <Typography
+                                                                        variant="body3"
+                                                                        color="text.secondary"
+                                                                    >
+                                                                        {new Date(
+                                                                            recipe.updateTime
+                                                                        ).toLocaleDateString()}
+                                                                    </Typography>
+                                                                </CardContent>
+                                                            </Link>
+                                                        </Card>
+                                                    </div>
+                                                )
+                                        )}
                                 </div>
                             </>
                         )}
