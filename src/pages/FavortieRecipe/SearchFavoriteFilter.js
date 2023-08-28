@@ -192,10 +192,10 @@ const SearchFilterFavorites = () => {
                                                 sx={{ width: '90px' }}
                                                 value={timeValue[0]}
                                                 onChange={(e) => {
-                                                    setTimeValue([
-                                                        Number(e.target.value),
-                                                        timeValue[1],
-                                                    ])
+                                                    const newValue = Number(e.target.value)
+                                                    if (newValue >= minmin && newValue <= maxmax) {
+                                                        setTimeValue([newValue, timeValue[1]])
+                                                    }
                                                 }}
                                             />
                                             <Typography> - </Typography>
@@ -207,10 +207,10 @@ const SearchFilterFavorites = () => {
                                                 sx={{ width: '90px' }}
                                                 value={timeValue[1]}
                                                 onChange={(e) => {
-                                                    setTimeValue([
-                                                        timeValue[0],
-                                                        Number(e.target.value),
-                                                    ])
+                                                    const newValue = Number(e.target.value)
+                                                    if (newValue >= minmin && newValue <= maxmax) {
+                                                        setTimeValue([timeValue[0], newValue])
+                                                    }
                                                 }}
                                             />
                                         </Stack>
@@ -253,7 +253,13 @@ const SearchFilterFavorites = () => {
                                                 sx={{ width: '90px' }}
                                                 value={serving[0]}
                                                 onChange={(e) => {
-                                                    setServing([Number(e.target.value), serving[1]])
+                                                    const newValue = Number(e.target.value)
+                                                    if (
+                                                        newValue >= minServing &&
+                                                        newValue <= maxServing
+                                                    ) {
+                                                        setServing([newValue, serving[1]])
+                                                    }
                                                 }}
                                             />
                                             <Typography> - </Typography>
@@ -265,7 +271,13 @@ const SearchFilterFavorites = () => {
                                                 sx={{ width: '90px' }}
                                                 value={serving[1]}
                                                 onChange={(e) => {
-                                                    setServing([serving[0], Number(e.target.value)])
+                                                    const newValue = Number(e.target.value)
+                                                    if (
+                                                        newValue >= minServing &&
+                                                        newValue <= maxServing
+                                                    ) {
+                                                        setServing([serving[0], newValue])
+                                                    }
                                                 }}
                                             />
                                         </Stack>
