@@ -40,10 +40,14 @@ const SearchResultFavorite = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 await dispatch(removeFavor(id))
-                    .then(async (result) => {
+                    .then((result) => {
                         if (result.payload && result.payload.message === 'Success') {
-                            await toast.success('Remove successful!!!')
-                            navigate('/favorite-recipe')
+                            toast.success('Remove successful!!!', {
+                                duration: 1500,
+                            })
+                            setTimeout(() => {
+                                navigate('/favorite-recipe')
+                            }, 3000)
                         } else {
                             toast.error('Remove failed!')
                         }
