@@ -28,6 +28,15 @@ const MyRecipe = () => {
                     'Authorization': `Bearer ${accessToken}`,
                 },
             });
+            if (response.status === 401) {
+                await Swal.fire({
+                    position: 'center',
+                    icon: 'info',
+                    title: 'Login expired!',
+                    showConfirmButton: false,
+                    footer: '<a href="/login" style="font-size: 20px; color: red">LOGIN AGAIN</a>',
+                })
+            }
             if (response.ok) {
                 const data = await response.json();
 
