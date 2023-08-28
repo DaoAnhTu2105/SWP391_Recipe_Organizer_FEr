@@ -1,7 +1,7 @@
 import './index.css'
 import React, { useState, useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getPlanByWeek, createPlan, getRecipesPlan } from "../../../redux/apiThunk/planThunk";
+import { getPlanByWeek, createPlan, getRecipesPlan, getPlanByDate } from "../../../redux/apiThunk/planThunk";
 import Food from '../Food'
 import NextIcon from '../../../components/IconComponent/NextIcon'
 import PreviousIcon from '../../../components/IconComponent/PreviousIcon'
@@ -44,9 +44,9 @@ const formatDate = (date) => {
     return mm + "/" + dd + "/" + yyyy;
 };
 const formatDateRouter = (date) => {
-    const yyyy = date.getFullYear();
-    let mm = date.getMonth() + 1; // Months start at 0!
-    let dd = date.getDate();
+    const yyyy = date?.getFullYear();
+    let mm = date?.getMonth() + 1; // Months start at 0!
+    let dd = date?.getDate();
     if (dd < 10) dd = "0" + dd;
     if (mm < 10) mm = "0" + mm;
     return dd + "-" + mm + "-" + yyyy;
@@ -68,16 +68,14 @@ export default function MealPlan() {
     const [show, setShow] = useState(false);
     const [currentDate, setCurrentDate] = useState(new Date());
     const [reload, setReload] = useState(false)
+    const [isDisabled, setIsDisabled] = useState(true);
     const dispatch = useDispatch();
     const [data, setData] = useState({
-        dateSt: "",
+        dateSt: new Date(),
         breakfast: [],
         lunch: [],
         dinner: []
     })
-    // const [breakfast, setBreakfast] = useState([])
-    // const [lunch, setLunch] = useState([])
-    // const [dinner, setDinner] = useState([])
     const [list, setList] = useState([])
     switch (getMonday(currentDate).getMonth() + 1) {
         case 1:
@@ -123,11 +121,16 @@ export default function MealPlan() {
         dispatch(getPlanByWeek({ date: formatDate(getMonday(currentDate)) }))
         dispatch(getRecipesPlan())
     }, [dispatch, currentDate, reload])
+    // useEffect(() => {
+    //     dispatch(getPlanByDate({ date: data.dateSt }))
+    // }, [dispatch, data.dateSt])
 
-    const mealPlan = useSelector((state) => state.plan);
-    const dataStatus = useSelector((state) => state.plan.loading);
+    const mealPlan = useSelector((state) => state.plan)
+    const dataStatus = useSelector((state) => state.plan.loading)
     const getAllRecipes = useSelector((state) => state.plan.recipePlan)
-    const user = JSON.parse(localStorage.getItem("user"));
+    // const planOfDate = useSelector((state) => state.plan.detail)
+    const user = JSON.parse(localStorage.getItem("user"))
+    // console.log(planOfDate);
 
     const formatData = (date) => {
         const [y, m, d] = date.split("-")
@@ -140,12 +143,19 @@ export default function MealPlan() {
         setList([])
     }
     const handleShow = () => {
-        getAllRecipes?.data?.map((item) => {
+        getAllRecipes?.data?.map((item) => (
             list.push({ value: item.recipeId, label: item.recipeName })
-            return 0
-        })
+        ))
         setShow(true)
     };
+
+    //set default value
+
+
+    //filter array
+    // let breakfastRecipe = getAllRecipes?.data.filter(item => (
+    //     item.
+    // ))
 
     //get value for each meal
     const handleBreakfastChange = (selected) => {
@@ -183,7 +193,7 @@ export default function MealPlan() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 await dispatch(createPlan({ data: data })).then((result) => {
-                    result.payload.message === "Success" ? toast.success('Create Success!') : toast.error('Create Failed!')
+                    result.payload.status === 1 ? toast.success(result.payload.message) : toast.error(result.payload.message)
                     // setData({
                     //     ...data, recipeId: "",
                     //     dateSt: "",
@@ -389,11 +399,15 @@ export default function MealPlan() {
                                         <div class="form-group">
                                             <label htmFor="recipe">Recipe for BreakFast</label>
                                             <Select
+                                                // defaultValue={breakfast}
                                                 isMulti
                                                 name="colors"
                                                 options={list}
+                                                className="basic-multi-select"
+                                                classNamePrefix="select"
                                                 onChange={handleBreakfastChange}
                                                 required
+                                                isDisabled={isDisabled}
                                             />
                                             <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                                         </div>
@@ -405,6 +419,7 @@ export default function MealPlan() {
                                                 options={list}
                                                 onChange={handleLunchChange}
                                                 required
+                                                isDisabled={isDisabled}
                                             />
                                             <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                                         </div>
@@ -416,6 +431,7 @@ export default function MealPlan() {
                                                 options={list}
                                                 onChange={handleDinnerChange}
                                                 required
+                                                isDisabled={isDisabled}
                                             />
                                             <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                                         </div>
@@ -477,6 +493,7 @@ export default function MealPlan() {
                                                 id={food.recipeId}
                                                 foodName={food.recipeName}
                                                 calo={food.recipeCalo}
+                                                isDelete={food.isDelete}
                                                 meal='breakfast'
                                             />
                                         )
@@ -503,6 +520,7 @@ export default function MealPlan() {
                                                 id={food.recipeId}
                                                 foodName={food.recipeName}
                                                 calo={food.recipeCalo}
+                                                isDelete={food.isDelete}
                                                 meal='lunch'
                                             />
                                         )
@@ -529,6 +547,7 @@ export default function MealPlan() {
                                                 id={food.recipeId}
                                                 foodName={food.recipeName}
                                                 calo={food.recipeCalo}
+                                                isDelete={food.isDelete}
                                             />
                                         )
                                     })

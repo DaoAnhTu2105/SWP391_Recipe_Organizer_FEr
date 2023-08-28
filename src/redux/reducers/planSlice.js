@@ -13,7 +13,7 @@ const planSlice = createSlice({
         loadingPlan: false,
     },
     extraReducers: {
-        [getPlanByWeek.pending]: (state, action) => {
+        [getPlanByWeek.pending]: (state, action) => {           //get all week
             state.loading = true;
             state.loading = "loading"
         },
@@ -26,7 +26,7 @@ const planSlice = createSlice({
             state.loading = false;
             state.loading = "failed";
         },
-        [getPlanByDate.pending]: (state, action) => {
+        [getPlanByDate.pending]: (state, action) => {           //get by date
             state.loading = true;
             state.loading = "loading"
         },
@@ -39,7 +39,7 @@ const planSlice = createSlice({
             state.loading = false;
             state.loading = "failed";
         },
-        [getDetail.pending]: (state, action) => {
+        [getDetail.pending]: (state, action) => {               //get detail of recipe
             state.loading = true;
             state.loading = "loading"
         },
@@ -52,7 +52,7 @@ const planSlice = createSlice({
             state.loading = false;
             state.loading = "failed";
         },
-        [getRecipesPlan.pending]: (state, action) => {
+        [getRecipesPlan.pending]: (state, action) => {          //get all recipe
             state.loadingPlan = true;
             state.loadingPlan = "loading"
         },
