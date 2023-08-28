@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from 'react'
 import { storage } from '../../App'
 import { Input } from '@mui/base/Input'
 import { styled } from '@mui/system'
+import CircularProgress from '@mui/material/CircularProgress';
 import {
     Typography,
     CssBaseline,
@@ -44,6 +45,20 @@ const CustomInput = React.forwardRef(function CustomInput(props, ref) {
     )
 })
 function UpdateRecipe() {
+    const [isLoading, setIsLoading] = useState(false);
+    console.log("isLoading", isLoading)
+    //-------------------ERROR-----------------------------
+    const [ingredientNameError, setIngredientNameError] = useState('')
+    const [ingredientDup, setIngredientDup] = useState('')
+    const [directionError, setDirectionError] = useState('')
+    const [preError, setPreError] = useState('')
+    const [standError, setStandError] = useState('')
+    const [cookError, setCookError] = useState('')
+    const [titleError, setTitleError] = useState('')
+    const [countryError, setCountryError] = useState('')
+    const [servingError, setServingError] = useState('')
+    const [mealError, setMealError] = useState('')
+    const [quantityError, setQuantityError] = useState('')
     //-------------------Get APIs HERE-----------------------------
     const navigate = useNavigate()
     const [updateRecipe, setUpdateRecipe] = useState('')
@@ -52,7 +67,7 @@ function UpdateRecipe() {
     const accessToken = user?.token
     const recipeUpdateUrl = `https://recipe-organizer-api.azurewebsites.net/api/Recipes/GetRecipeUpdate?id=${id}`
 
-    const getUpdateRecipe = () => {
+    const getUpdateRecipe = async () => {
         fetch(recipeUpdateUrl, {
             method: 'GET',
             headers: {
@@ -60,13 +75,23 @@ function UpdateRecipe() {
                 Authorization: `Bearer ${accessToken}`,
             },
         })
-            .then((response) => {
+            .then(async (response) => {
+                if (response.status === 401) {
+                    await Swal.fire({
+                        position: 'center',
+                        icon: 'info',
+                        title: 'Login expired!',
+                        showConfirmButton: false,
+                        footer: '<a href="/login" style="font-size: 20px; color: red">LOGIN AGAIN</a>',
+                    })
+                }
                 if (!response.ok) {
                     throw new Error(`HTTP Status: ${response.status}`)
                 }
                 return response.json()
             })
             .then((data) => {
+                console.log()
                 setUpdateRecipe(data)
                 setRecipeTitle(data?.data.recipeName)
                 setRecipeDescription(data?.data.description)
@@ -91,7 +116,6 @@ function UpdateRecipe() {
                         quantity: ingredientData.quantity,
                     };
                 });
-                console.log("newdirectionFields", newdirectionFields)
                 setDirectionFields(newdirectionFields)
                 setIngredientFields(newIngredientFields)
                 setNutritionValues(() => ({
@@ -195,6 +219,7 @@ function UpdateRecipe() {
     const [photoUrl, setPhotoUrl] = useState('')
 
     const handleUpdateRecipe = async () => {
+        setIsLoading(true)
         if (uploadedFile) {
             const imageRef = ref(storage, `Recipes/${uuidv4()}`)
             uploadBytes(imageRef, uploadedFile).then(() => {
@@ -209,7 +234,6 @@ function UpdateRecipe() {
                     },
                     async () => {
                         const url = await getDownloadURL(uploadTask.snapshot.ref)
-                        console.log('url img', url)
                         const recipeName = recipeTitle
                         const description = recipeDescription
                         const prepTimeSt = timeValue.prep + ''
@@ -217,10 +241,10 @@ function UpdateRecipe() {
                         const standTimeSt = timeValue.stand + ''
                         const totalTime = totalTimes
                         const servingsSt = servingAmount + ''
-                        const carbohydrateSt = nutritionValues.carbs + ''
-                        const proteinSt = nutritionValues.protein + ''
-                        const fatSt = nutritionValues.fat + ''
-                        const calories = totalCalories
+                        // const carbohydrateSt = nutritionValues.carbs + ''
+                        // const proteinSt = nutritionValues.protein + ''
+                        // const fatSt = nutritionValues.fat + ''
+                        // const calories = totalCalories
                         const photoVMs = {
                             photoName: url,
                         }
@@ -228,13 +252,13 @@ function UpdateRecipe() {
                         const parsedIngredientFields = ingredientFields.map((field) => ({
                             ...field,
                             quantity: Number(field.quantity),
+                            id: field.id + '',
                         }));
 
                         const ingredientOfRecipeVMs = parsedIngredientFields
                         const recipeId = id
                         const countryId = selectedCountryId
                         const mealId = selectedMealId
-                        console.log('id', selectedCountryId)
                         const payload = {
                             mealId,
                             countryId,
@@ -245,17 +269,16 @@ function UpdateRecipe() {
                             cookTimeSt,
                             standTimeSt,
                             servingsSt,
-                            carbohydrateSt,
-                            proteinSt,
-                            fatSt,
-                            calories,
+                            // carbohydrateSt,
+                            // proteinSt,
+                            // fatSt,
+                            // calories,
                             totalTime,
                             photoVMs,
                             ingredientOfRecipeVMs,
                             directionVMs,
                         }
-                        console.log('nutritionValues:', nutritionValues)
-                        console.log('payload', JSON.stringify(payload))
+
                         try {
                             const user = JSON.parse(localStorage.getItem('user'))
                             const accessToken = user?.token
@@ -270,6 +293,17 @@ function UpdateRecipe() {
                                     body: JSON.stringify(payload),
                                 }
                             )
+                            console.log(response)
+
+                            if (response.status === 401) {
+                                await Swal.fire({
+                                    position: 'center',
+                                    icon: 'info',
+                                    title: 'Login expired!',
+                                    showConfirmButton: false,
+                                    footer: '<a href="/login" style="font-size: 20px; color: red">LOGIN AGAIN</a>',
+                                })
+                            }
                             if (response.ok) {
                                 try {
                                     Swal.fire({
@@ -279,12 +313,61 @@ function UpdateRecipe() {
                                         showConfirmButton: false,
                                         timer: 2500,
                                     })
+                                    setIsLoading(false);
                                     navigate('/my-recipe')
                                 } catch (error) {
                                     console.error('Error parsing JSON:', error)
                                 }
                             } else {
-                                throw new Error('Request failed with status: ' + response.status)
+                                if (response.status === 400) {
+                                    setIsLoading(false)
+                                    setIngredientNameError('')
+                                    setIngredientDup('')
+                                    setDirectionError('')
+                                    const data = await response.json()
+                                    const msg = data.message
+                                    if (msg.includes(',')) {
+                                        const messError = msg.split(',')
+                                        console.log(messError)
+                                        messError.map((error) => {
+                                            if (error === 'Prep Time must be greater than 0!!!') {
+                                                setPreError(error)
+                                            } else if (error === 'Recipe Name cannot be empty!!!') {
+                                                setTitleError(error)
+                                            } else if (error === 'Cook Time must be greater than 0!!!') {
+                                                setCookError(error)
+                                            } else if (error === 'Stand Time must be greater than 0!!!') {
+                                                setStandError(error)
+                                            } else if (error === 'Please choose Country!!!') {
+                                                setCountryError(error)
+                                            } else if (error === 'Servings must be greater than 0!!!') {
+                                                setServingError(error)
+                                            } else if (error === 'Please choose Meal Type!!!') {
+                                                setMealError(error)
+                                            } else if (error === 'Please select ingredient') {
+                                                setIngredientNameError(error)
+                                            } else if (error === 'Cannot add duplicate ingredient') {
+                                                setIngredientDup(error)
+                                            } else if (error === 'Quantity of ingredients cannot be a negative number') {
+                                                setQuantityError(error)
+                                            } else if (error.includes(`Please input for step`)) {
+                                                setDirectionError(error)
+                                            } else if (error === 'Prep Time not correct format!!!') {
+                                                setPreError(error)
+                                                console.log("prepErr", preError)
+                                            } else if (error === 'Cook Time not correct format!!!') {
+                                                setCookError(error)
+                                            }
+                                        })
+                                        Swal.fire({
+                                            position: 'center',
+                                            icon: 'error',
+                                            title: "UPDATE FAILED ",
+                                            text: "Some error occured, check input again! ",
+                                            timer: 2500,
+                                        })
+                                    }
+                                }
                             }
                         } catch (error) {
                             // Handle error
@@ -301,10 +384,10 @@ function UpdateRecipe() {
             const standTimeSt = timeValue.stand + ''
             const totalTime = totalTimes
             const servingsSt = servingAmount + ''
-            const carbohydrateSt = nutritionValues.carbs + ''
-            const proteinSt = nutritionValues.protein + ''
-            const fatSt = nutritionValues.fat + ''
-            const calories = totalCalories
+            // const carbohydrateSt = nutritionValues.carbs + ''
+            // const proteinSt = nutritionValues.protein + ''
+            // const fatSt = nutritionValues.fat + ''
+            // const calories = totalCalories
             const photoVMs = {
                 photoName: selectedImage,
             }
@@ -312,12 +395,12 @@ function UpdateRecipe() {
             const parsedIngredientFields = ingredientFields.map((field) => ({
                 ...field,
                 quantity: Number(field.quantity),
+                id: field.id + '',
             }));
             const ingredientOfRecipeVMs = parsedIngredientFields
             const recipeId = id
             const countryId = selectedCountryId
             const mealId = selectedMealId
-            console.log('id', selectedCountryId)
             const payload = {
                 mealId,
                 countryId,
@@ -328,17 +411,15 @@ function UpdateRecipe() {
                 cookTimeSt,
                 standTimeSt,
                 servingsSt,
-                carbohydrateSt,
-                proteinSt,
-                fatSt,
-                calories,
+                // carbohydrateSt,
+                // proteinSt,
+                // fatSt,
+                // calories,
                 totalTime,
                 photoVMs,
                 ingredientOfRecipeVMs,
                 directionVMs,
             }
-            console.log('nutritionValues:', nutritionValues)
-            console.log('payload', JSON.stringify(payload))
             try {
                 const user = JSON.parse(localStorage.getItem('user'))
                 const accessToken = user?.token
@@ -353,6 +434,16 @@ function UpdateRecipe() {
                         body: JSON.stringify(payload),
                     }
                 )
+                console.log('response', response)
+                if (response.status === 401) {
+                    await Swal.fire({
+                        position: 'center',
+                        icon: 'info',
+                        title: 'Login expired!',
+                        showConfirmButton: false,
+                        footer: '<a href="/login" style="font-size: 20px; color: red">LOGIN AGAIN</a>',
+                    })
+                }
                 if (response.ok) {
                     try {
                         Swal.fire({
@@ -362,11 +453,78 @@ function UpdateRecipe() {
                             showConfirmButton: false,
                             timer: 2500,
                         })
+                        setIsLoading(false)
                         navigate('/my-recipe')
                     } catch (error) {
                         console.error('Error parsing JSON:', error)
                     }
                 } else {
+                    if (response.status === 400) {
+                        setIsLoading(false)
+                        setIngredientNameError('')
+                        setIngredientDup('')
+                        setDirectionError('')
+                        const data = await response.json()
+                        const msg = data.message
+                        console.log('message', msg)
+                        if (msg.includes(',')) {
+                            const messError = msg.split(',')
+
+                            console.log(messError)
+                            messError.map((error) => {
+                                if (error === 'Prep Time must be greater than 0!!!') {
+                                    setPreError(error)
+                                } else if (error === 'Recipe Name cannot be empty!!!') {
+                                    setTitleError(error)
+                                } else if (
+                                    error === 'Cook Time must be greater than 0!!!'
+                                ) {
+                                    setCookError(error)
+                                } else if (
+                                    error === 'Stand Time must be greater than 0!!!'
+                                ) {
+                                    setStandError(error)
+                                } else if (error === 'Please choose Country!!!') {
+                                    setCountryError(error)
+                                } else if (
+                                    error === 'Servings must be greater than 0!!!'
+                                ) {
+                                    setServingError(error)
+                                } else if (error === 'Please choose Meal Type!!!') {
+                                    setMealError(error)
+                                } else if (error === 'Please select ingredient') {
+                                    setIngredientNameError(error)
+                                } else if (
+                                    error === 'Cannot add duplicate ingredient'
+                                ) {
+                                    setIngredientDup(error)
+                                } else if (
+                                    error ===
+                                    'Quantity of ingredients cannot be a negative number'
+                                ) {
+                                    setQuantityError(error)
+                                    console.log(
+                                        'aaaaaaaaaaaaaaaaaaaaaaa',
+                                        quantityError
+                                    )
+                                } else if (error.includes(`Please input for step`)) {
+                                    setDirectionError(error)
+                                } else if (error === 'Prep Time not correct format!!!') {
+                                    setPreError(error)
+                                    console.log("prepErr", preError)
+                                } else if (error === 'Cook Time not correct format!!!') {
+                                    setCookError(error)
+                                }
+                            })
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: "UPDATE FAILED ",
+                                text: "Some error occured, check input again! ",
+                                timer: 2500,
+                            })
+                        }
+                    }
                     throw new Error('Request failed with status: ' + response.status)
                 }
             } catch (error) {
@@ -398,7 +556,6 @@ function UpdateRecipe() {
     const [ingredientFields, setIngredientFields] = useState([
         { id: Date.now(), ingredientName: '', quantity: 1 },
     ])
-    console.log("ingredientFields:", ingredientFields);
 
     const handleChange = (id, fieldName, value) => {
 
@@ -492,7 +649,7 @@ function UpdateRecipe() {
         stand: 0,
         cook: 0,
     })
-
+    console.log("time:", timeValue)
     const [totalTimes, setTotalTime] = useState(0) // Initialize totalTime
 
     const handleTimeChange = (field, value) => {
@@ -593,6 +750,16 @@ function UpdateRecipe() {
                                     value={recipeTitle}
                                     onChange={handleTitleChange}
                                 />
+                                {!recipeTitle && (
+                                    <Typography
+                                        variant="caption"
+                                        sx={{ color: 'red' }}
+                                        display="block"
+                                        gutterBottom
+                                    >
+                                        {titleError}
+                                    </Typography>
+                                )}
                                 <Typography
                                     sx={{
                                         lineHeight: '0.8',
@@ -732,6 +899,41 @@ function UpdateRecipe() {
                                         </Button>
                                     </div>
                                 ))}
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                    }}
+                                >
+                                    <Box>
+                                        <Typography
+                                            variant="caption"
+                                            sx={{ color: 'red' }}
+                                            display="block"
+                                            gutterBottom
+                                        >
+                                            {ingredientNameError}
+                                        </Typography>
+                                        <Typography
+                                            variant="caption"
+                                            sx={{ color: 'red' }}
+                                            display="block"
+                                            gutterBottom
+                                        >
+                                            {ingredientDup}
+                                        </Typography>
+                                    </Box>
+                                    <Box sx={{ maxWidth: 200 }}>
+                                        <Typography
+                                            variant="caption"
+                                            sx={{ color: 'red' }}
+                                            display="block"
+                                            gutterBottom
+                                        >
+                                            {quantityError}
+                                        </Typography>
+                                    </Box>
+                                </Box>
                                 <Box>
                                     <Button onClick={handleAddIngredient} variant="contained">
                                         Add more ingredients
@@ -748,7 +950,7 @@ function UpdateRecipe() {
                             }}
                         />
                         {/* ----------------------------------------- Nutritions-----------------------------------------  */}
-                        <Box sx={{ width: '80' }}>
+                        {/* <Box sx={{ width: '80' }}>
                             <Typography
                                 sx={{ lineHeight: '0.8', fontSize: '15px', fontWeight: 'bold' }}
                                 variant="h6"
@@ -878,7 +1080,7 @@ function UpdateRecipe() {
                                 marginTop: '20px',
                                 marginBottom: '20px',
                             }}
-                        />
+                        /> */}
                         {/* ----------------------------------------- Directions-----------------------------------------  */}
                         <Box sx={{ width: '80' }}>
                             <Typography
@@ -944,6 +1146,16 @@ function UpdateRecipe() {
                                     </Box>
                                 </Box>
                             ))}
+                            <Box>
+                                <Typography
+                                    variant="caption"
+                                    sx={{ color: 'red' }}
+                                    display="block"
+                                    gutterBottom
+                                >
+                                    {directionError}
+                                </Typography>
+                            </Box>
                             <Box sx={{ marginTop: '10px' }}>
                                 <Button onClick={handleAddStep} variant="contained">
                                     Add more steps
@@ -959,7 +1171,7 @@ function UpdateRecipe() {
                             }}
                         />
 
-                        {/* ----------------------------------------- Time-----------------------------------------  */}
+                        {/* -----------------------------------------Time-----------------------------------------  */}
                         <Box sx={{ width: '80', display: 'flex', alignItems: 'center' }}>
                             <Stack spacing={2} sx={{ width: 'auto' }}>
                                 <div style={{ display: 'flex' }}>
@@ -976,7 +1188,6 @@ function UpdateRecipe() {
                                             label="min(s)"
                                             type="number"
                                             variant="outlined"
-                                            placeholder="1"
                                             InputLabelProps={{ shrink: true }}
                                             sx={{ width: 150 }}
                                             inputProps={{ min: 0 }}
@@ -985,6 +1196,16 @@ function UpdateRecipe() {
                                                 handleTimeChange('prep', e.target.value)
                                             }
                                         />
+                                        {(!timeValue.prep || timeValue.prep < 1) && (
+                                            <Typography
+                                                variant="caption"
+                                                sx={{ color: 'red', fontSize: 10 }}
+                                                display="block"
+                                                gutterBottom
+                                            >
+                                                {preError}
+                                            </Typography>
+                                        )}
                                     </Box>
                                     <Box sx={{ marginRight: '20px' }}>
                                         <Typography
@@ -999,7 +1220,6 @@ function UpdateRecipe() {
                                             label="min(s)"
                                             type="number"
                                             variant="outlined"
-                                            placeholder="1"
                                             InputLabelProps={{ shrink: true }}
                                             sx={{ width: 150 }}
                                             inputProps={{ min: 0 }}
@@ -1008,6 +1228,16 @@ function UpdateRecipe() {
                                                 handleTimeChange('stand', e.target.value)
                                             }
                                         />
+                                        {(!timeValue.stand || timeValue.stand < 0) && (
+                                            <Typography
+                                                variant="caption"
+                                                sx={{ color: 'red', fontSize: 10 }}
+                                                display="block"
+                                                gutterBottom
+                                            >
+                                                {standError}
+                                            </Typography>
+                                        )}
                                     </Box>
                                     <Box>
                                         <Typography
@@ -1022,7 +1252,6 @@ function UpdateRecipe() {
                                             label="min(s)"
                                             type="number"
                                             variant="outlined"
-                                            placeholder="1"
                                             InputLabelProps={{ shrink: true }}
                                             sx={{ width: 150 }}
                                             inputProps={{ min: 0 }}
@@ -1031,6 +1260,16 @@ function UpdateRecipe() {
                                                 handleTimeChange('cook', e.target.value)
                                             }
                                         />
+                                        {(!timeValue.cook || timeValue.cook < 1) && (
+                                            <Typography
+                                                variant="caption"
+                                                sx={{ color: 'red', fontSize: 10 }}
+                                                display="block"
+                                                gutterBottom
+                                            >
+                                                {cookError}
+                                            </Typography>
+                                        )}
                                     </Box>
                                 </div>
                                 <Box
@@ -1097,6 +1336,16 @@ function UpdateRecipe() {
                                     type="number"
                                     inputProps={{ min: 1 }}
                                 />
+                                {(!servingAmount || servingAmount < 1) && (
+                                    <Typography
+                                        variant="caption"
+                                        sx={{ color: 'red', fontSize: 10 }}
+                                        display="block"
+                                        gutterBottom
+                                    >
+                                        {servingError}
+                                    </Typography>
+                                )}
                             </Box>
                         </Box>
                         {/* ----------------------------------------- Filtering Fields-----------------------------------------  */}
@@ -1141,6 +1390,16 @@ function UpdateRecipe() {
                                         />
                                     )}
                                 />
+                                {!selectedMeal && (
+                                    <Typography
+                                        variant="caption"
+                                        sx={{ color: 'red', fontSize: 10 }}
+                                        display="block"
+                                        gutterBottom
+                                    >
+                                        {mealError}
+                                    </Typography>
+                                )}
                             </Box>
 
                             <Box>
@@ -1170,6 +1429,16 @@ function UpdateRecipe() {
                                         />
                                     )}
                                 />
+                                {!selectedCountry && (
+                                    <Typography
+                                        variant="caption"
+                                        sx={{ color: 'red', fontSize: 10 }}
+                                        display="block"
+                                        gutterBottom
+                                    >
+                                        {countryError}
+                                    </Typography>
+                                )}
                             </Box>
                         </Box>
                         <Divider
@@ -1183,21 +1452,39 @@ function UpdateRecipe() {
                     </Box>
 
                     <Box sx={{ alignItems: 'center', marginBottom: '50px', paddingLeft: '240px' }}>
-                        <Button sx={{ color: 'black', fontWeight: 'bold', paddingRight: '20px' }}>
-                            Cancel
-                        </Button>
-                        <Button
-                            onClick={handleUpdateRecipe}
-                            variant="contained"
-                            sx={{ backgroundColor: 'rgb(243, 156, 18) !important', width: '196' }}
-                            disableElevation
-                        >
-                            Submit Recipe
-                        </Button>
+                        {isLoading ? (
+                            <Button
+                                onClick={handleUpdateRecipe}
+                                variant="contained"
+                                sx={{ backgroundColor: 'rgb(243, 156, 18) !important', width: '250px' }}
+                                disableElevation
+                            >
+                                Submit Recipe
+                                <CircularProgress size={24}
+                                    sx={{
+                                        position: 'absolute',
+                                        top: '50%',
+                                        left: '90%',
+                                        marginTop: '-12px',
+                                        marginLeft: '-12px',
+                                    }} />
+                            </Button>
+
+                        ) : (
+                            < Button
+                                onClick={handleUpdateRecipe}
+                                variant="contained"
+                                sx={{ backgroundColor: 'rgb(243, 156, 18) !important', width: '250px' }}
+                                disableElevation
+                            >
+                                Submit Recipe
+                            </Button>
+                        )}
                     </Box>
+
                 </Container>
-            </Box>
-        </React.Fragment>
+            </Box >
+        </React.Fragment >
     )
 }
 

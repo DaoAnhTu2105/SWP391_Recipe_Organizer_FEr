@@ -142,7 +142,7 @@ function CreateRecipe() {
 
                 uploadTask.on(
                     'state_changed',
-                    (snapshot) => {},
+                    (snapshot) => { },
                     (error) => {
                         console.error(error)
                     },
@@ -276,8 +276,9 @@ function CreateRecipe() {
                                         Swal.fire({
                                             position: 'center',
                                             icon: 'error',
-                                            title: messError[1],
-                                            timer: 2500,
+                                            title: "Add FAILED ",
+                                            text: "Some error occured, check all input fields again! ",
+                                            timer: 3500,
                                         })
                                     }
                                 }
@@ -606,9 +607,8 @@ function CreateRecipe() {
                                         <Button
                                             onClick={handleUploadImage}
                                             sx={{
-                                                backgroundImage: `url(${
-                                                    selectedImage || 'your-default-image-url.jpg'
-                                                })`,
+                                                backgroundImage: `url(${selectedImage || 'your-default-image-url.jpg'
+                                                    })`,
                                                 backgroundSize: 'cover',
                                                 backgroundPosition: 'center',
                                                 width: '160px',
