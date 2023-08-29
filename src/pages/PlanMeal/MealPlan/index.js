@@ -292,7 +292,8 @@ export default function MealPlan() {
     } else {
         contentForm = (<Fragment>
             <div class="form-group">
-                <label htmFor="recipe">Recipe for BreakFast</label>
+                <label htmFor="recipe">Recipe for BreakFast<span style={{ color: 'red' }}>*</span>
+                </label>
                 <Select
                     defaultValue={getCreate?.data?.breakfast}
                     isMulti
@@ -305,7 +306,8 @@ export default function MealPlan() {
                 <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
             </div>
             <div class="form-group">
-                <label htmFor="recipe">Recipe for Lunch</label>
+                <label htmFor="recipe">Recipe for Lunch<span style={{ color: 'red' }}>*</span>
+                </label>
                 <Select
                     defaultValue={getCreate?.data?.lunch}
                     isMulti
@@ -316,7 +318,8 @@ export default function MealPlan() {
                 <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
             </div>
             <div class="form-group">
-                <label htmFor="recipe">Recipe for Dinner</label>
+                <label htmFor="recipe">Recipe for Dinner<span style={{ color: 'red' }}>*</span>
+                </label>
                 <Select
                     defaultValue={getCreate?.data?.dinner}
                     isMulti
@@ -379,12 +382,14 @@ export default function MealPlan() {
                                 <Modal.Body>
                                     <div class="form-group">
                                         <div class="form-group">
-                                            <label htmFor="date">Date</label>
+                                            <label htmFor="date">Date<span style={{ color: 'red' }}>*</span>
+                                            </label>
                                             <input type="date" class="form-control" id="date" placeholder="Date"
                                                 onChange={(e) => handleDateChange(e)} required />
                                         </div>
                                         <div class="form-group">
-                                            <label htmFor="recipe">Recipe for BreakFast</label>
+                                            <label htmFor="recipe">Recipe for BreakFast<span style={{ color: 'red' }}>*</span>
+                                            </label>
                                             <Select
                                                 isMulti
                                                 name="colors"
@@ -397,7 +402,8 @@ export default function MealPlan() {
                                             <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                                         </div>
                                         <div class="form-group">
-                                            <label htmFor="recipe">Recipe for Lunch</label>
+                                            <label htmFor="recipe">Recipe for Lunch<span style={{ color: 'red' }}>*</span>
+                                            </label>
                                             <Select
                                                 isMulti
                                                 name="colors"
@@ -408,7 +414,8 @@ export default function MealPlan() {
                                             <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                                         </div>
                                         <div class="form-group">
-                                            <label htmFor="recipe">Recipe for Dinner</label>
+                                            <label htmFor="recipe">Recipe for Dinner<span style={{ color: 'red' }}>*</span>
+                                            </label>
                                             <Select
                                                 isMulti
                                                 name="colors"
@@ -527,7 +534,8 @@ export default function MealPlan() {
                                 <Modal.Body>
                                     <div class="form-group">
                                         <div class="form-group">
-                                            <label htmFor="date">Date</label>
+                                            <label htmFor="date">Date<span style={{ color: 'red' }}>*</span>
+                                            </label>
                                             <input type="date" class="form-control" id="date" placeholder="Date"
                                                 onChange={(e) => setData({ ...data, dateSt: formatData(e.target.value) })} required />
                                         </div>

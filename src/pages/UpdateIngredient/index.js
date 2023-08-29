@@ -94,27 +94,32 @@ const UpdateIngredient = () => {
                     <div className='w-50 border bg-secondary text-white p-5'>
                         <form onSubmit={e => handleSubmitUpdate(e)}>
                             <div>
-                                <label htmlFor="name">Name:</label>
+                                <label htmlFor="name">Name<span style={{ color: 'red' }}>*</span>
+                                </label>
                                 <input type="text" name='name' className='form-control' placeholder="Enter Name"
                                     value={value.ingredientName} onChange={e => setValue({ ...value, ingredientName: e.target.value })} required />
                             </div>
                             <div>
-                                <label htmlFor="email">Measure:</label>
+                                <label htmlFor="email">Measure<span style={{ color: 'red' }}>*</span>
+                                </label>
                                 <input type="text" name='email' className='form-control' placeholder='Enter Email'
                                     value={value.measure} onChange={e => setValue({ ...value, measure: e.target.value })} required />
                             </div >
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Carbohydrate:</label>
+                                <label for="exampleInputPassword1">Carbohydrate<span style={{ color: 'red' }}>*</span>
+                                </label>
                                 <input type="number" class="form-control" id="formCarb" placeholder="Enter carbohydrate"
                                     value={value.carbohydrate} onChange={e => setValue({ ...value, carbohydrate: e.target.value })} min={0} step={0.1} required />
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Protein:</label>
+                                <label for="exampleInputPassword1">Protein<span style={{ color: 'red' }}>*</span>
+                                </label>
                                 <input type="number" class="form-control" id="formProtein" placeholder="Enter protein"
                                     value={value.protein} onChange={e => setValue({ ...value, protein: e.target.value })} min={0} step={0.1} required />
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Fat:</label>
+                                <label for="exampleInputPassword1">Fat<span style={{ color: 'red' }}>*</span>
+                                </label>
                                 <input type="number" class="form-control" id="formFat" placeholder="Enter fat"
                                     value={value.fat} onChange={e => setValue({ ...value, fat: e.target.value })} min={0} step={0.1} required />
                             </div>

@@ -181,7 +181,8 @@ const PlanDetail = () => {
                                 <form onSubmit={e => handleFormCreate(e)}>
                                     <Modal.Body>
                                         <div class="form-group">
-                                            <label htmFor="recipe">Recipe for BreakFast</label>
+                                            <label htmFor="recipe">Recipe for BreakFast<span style={{ color: 'red' }}>*</span>
+                                            </label>
                                             <Select
                                                 defaultValue={getCreate?.data?.breakfast}
                                                 isMulti
@@ -194,7 +195,8 @@ const PlanDetail = () => {
                                             <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                                         </div>
                                         <div class="form-group">
-                                            <label htmFor="recipe">Recipe for Lunch</label>
+                                            <label htmFor="recipe">Recipe for Lunch<span style={{ color: 'red' }}>*</span>
+                                            </label>
                                             <Select
                                                 defaultValue={getCreate?.data?.lunch}
                                                 isMulti
@@ -205,7 +207,8 @@ const PlanDetail = () => {
                                             <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                                         </div>
                                         <div class="form-group">
-                                            <label htmFor="recipe">Recipe for Dinner</label>
+                                            <label htmFor="recipe">Recipe for Dinner<span style={{ color: 'red' }}>*</span>
+                                            </label>
                                             <Select
                                                 defaultValue={getCreate?.data?.dinner}
                                                 isMulti
@@ -246,7 +249,8 @@ const PlanDetail = () => {
                             <form onSubmit={e => handleFormCreate(e)}>
                                 <Modal.Body>
                                     <div class="form-group">
-                                        <label htmFor="recipe">Recipe for BreakFast</label>
+                                        <label htmFor="recipe">Recipe for BreakFast<span style={{ color: 'red' }}>*</span>
+                                        </label>
                                         <Select
                                             defaultValue={getCreate?.data?.breakfast}
                                             isMulti
@@ -259,7 +263,8 @@ const PlanDetail = () => {
                                         <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                                     </div>
                                     <div class="form-group">
-                                        <label htmFor="recipe">Recipe for Lunch</label>
+                                        <label htmFor="recipe">Recipe for Lunch<span style={{ color: 'red' }}>*</span>
+                                        </label>
                                         <Select
                                             defaultValue={getCreate?.data?.lunch}
                                             isMulti
@@ -270,7 +275,8 @@ const PlanDetail = () => {
                                         <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                                     </div>
                                     <div class="form-group">
-                                        <label htmFor="recipe">Recipe for Dinner</label>
+                                        <label htmFor="recipe">Recipe for Dinner<span style={{ color: 'red' }}>*</span>
+                                        </label>
                                         <Select
                                             defaultValue={getCreate?.data?.dinner}
                                             isMulti
