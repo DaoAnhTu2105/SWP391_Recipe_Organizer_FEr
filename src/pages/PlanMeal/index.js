@@ -3,12 +3,8 @@ import React, { Fragment } from 'react'
 import MealPlan from './MealPlan'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
-import Cookies from 'js-cookie';
 
 const ViewPlan = () => {
-    
-    const userRole = Cookies.get('userInfor');
-    console.log(userRole);
     return (
         <Fragment>
             <Container maxWidth="md">

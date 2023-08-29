@@ -10,6 +10,11 @@ export const getPlanDate = async (date) => {
     return response.data;
 };
 
+export const getPlanForCreateApi = async (date) => {
+    const response = await api.get(`/api/Plans/GetRecipeOfPlanDate?date=${date}`);
+    return response.data;
+};
+
 export const getDetailApi = async (id) => {
     const response = await api.get(`/api/Plans/GetPlainDetail?planDetailId=${id}`);
     return response.data;

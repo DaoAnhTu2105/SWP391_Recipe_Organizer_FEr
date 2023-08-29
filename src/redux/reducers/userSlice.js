@@ -1,6 +1,6 @@
 
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllUser, banUser, unbanUser } from "../apiThunk/userThunk";
+import { getAllUser } from "../apiThunk/userThunk";
 
 const userSlice = createSlice({
     name: "users",

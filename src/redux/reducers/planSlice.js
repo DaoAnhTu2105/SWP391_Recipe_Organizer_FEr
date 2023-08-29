@@ -1,6 +1,6 @@
 
 import { createSlice } from "@reduxjs/toolkit";
-import { getPlanByDate, getPlanByWeek, getDetail, getRecipesPlan } from "../apiThunk/planThunk";
+import { getPlanByDate, getPlanByWeek, getDetail, getRecipesPlan, getPlanForCreate } from "../apiThunk/planThunk";
 
 const planSlice = createSlice({
     name: "plans",
@@ -13,7 +13,7 @@ const planSlice = createSlice({
         loadingPlan: false,
     },
     extraReducers: {
-        [getPlanByWeek.pending]: (state, action) => {
+        [getPlanByWeek.pending]: (state, action) => {           //get all week
             state.loading = true;
             state.loading = "loading"
         },
@@ -26,7 +26,7 @@ const planSlice = createSlice({
             state.loading = false;
             state.loading = "failed";
         },
-        [getPlanByDate.pending]: (state, action) => {
+        [getPlanByDate.pending]: (state, action) => {           //get by date
             state.loading = true;
             state.loading = "loading"
         },
@@ -35,11 +35,21 @@ const planSlice = createSlice({
             state.loading = "succeeded";
             state.detail = action.payload;
         },
-        [getPlanByDate.rejected]: (state, action) => {
-            state.loading = false;
-            state.loading = "failed";
+        [getPlanForCreate.pending]: (state, action) => {           //get by date for create
+            state.loadingPlan = true;
+            state.loadingPlan = "loading"
         },
-        [getDetail.pending]: (state, action) => {
+        [getPlanForCreate.fulfilled]: (state, action) => {
+            state.loadingPlan = false;
+            state.loading = "succeeded";
+            state.detail = action.payload;
+        },
+        [getPlanForCreate.rejected]: (state, action) => {
+            state.loadingPlan = false;
+            state.loading = "failed";
+
+        },
+        [getDetail.pending]: (state, action) => {               //get detail of recipe
             state.loading = true;
             state.loading = "loading"
         },
@@ -52,7 +62,7 @@ const planSlice = createSlice({
             state.loading = false;
             state.loading = "failed";
         },
-        [getRecipesPlan.pending]: (state, action) => {
+        [getRecipesPlan.pending]: (state, action) => {          //get all recipe
             state.loadingPlan = true;
             state.loadingPlan = "loading"
         },

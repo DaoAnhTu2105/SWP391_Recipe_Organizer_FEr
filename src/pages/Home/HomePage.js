@@ -120,30 +120,33 @@ const HomePage = () => {
                         >
                             {favoriteRecipeAPI.data &&
                                 Array.isArray(favoriteRecipeAPI.data) &&
-                                favoriteRecipeAPI.data.map((favorite) => (
-                                    <SwiperSlide key={favorite.photoVMs[0].photoId}>
-                                        <Link to={`/recipe-detail/${favorite.recipeId}`}>
-                                            <div className="slide-container">
-                                                <img
-                                                    className="slide-image"
-                                                    src={favorite.photoVMs[0].photoName}
-                                                    alt={favorite.recipeName}
-                                                />
-                                                <div className="slide-overlay slide-delay">
-                                                    <h2
-                                                        className="slide-title"
-                                                        style={{ color: '#f39c12' }}
-                                                    >
-                                                        {favorite.recipeName}
-                                                    </h2>
-                                                    <p className="slide-description">
-                                                        {favorite.description}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </Link>
-                                    </SwiperSlide>
-                                ))}
+                                favoriteRecipeAPI.data.map(
+                                    (favorite) =>
+                                        !favorite?.isDelete && (
+                                            <SwiperSlide key={favorite.photoVMs[0].photoId}>
+                                                <Link to={`/recipe-detail/${favorite.recipeId}`}>
+                                                    <div className="slide-container">
+                                                        <img
+                                                            className="slide-image"
+                                                            src={favorite.photoVMs[0].photoName}
+                                                            alt={favorite.recipeName}
+                                                        />
+                                                        <div className="slide-overlay slide-delay">
+                                                            <h2
+                                                                className="slide-title"
+                                                                style={{ color: '#f39c12' }}
+                                                            >
+                                                                {favorite.recipeName}
+                                                            </h2>
+                                                            <p className="slide-description">
+                                                                {favorite.description}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                            </SwiperSlide>
+                                        )
+                                )}
                         </Swiper>
                     </div>
                     <section className="best-receipe-area">
@@ -160,98 +163,111 @@ const HomePage = () => {
                                 <div className="row justify-content-center">
                                     {bestRecipesAPI.data &&
                                         Array.isArray(bestRecipesAPI.data) &&
-                                        bestRecipesAPI.data.map((bestRecipe) => (
-                                            <div
-                                                className="col-sm-4 mb-4"
-                                                key={bestRecipe.recipeId}
-                                            >
-                                                <Link to={`/recipe-detail/${bestRecipe.recipeId}`}>
-                                                    <img
-                                                        style={{ width: 350, height: 250 }}
-                                                        src={bestRecipe.photoVMs[0].photoName}
-                                                        alt={bestRecipe.recipeName}
-                                                    />
-                                                    <h5
-                                                        className="mt-3"
-                                                        style={{ fontWeight: '600' }}
+                                        bestRecipesAPI.data.map(
+                                            (bestRecipe) =>
+                                                !bestRecipe.isDelete && (
+                                                    <div
+                                                        className="col-sm-4 mb-4"
+                                                        key={bestRecipe.recipeId}
                                                     >
-                                                        {bestRecipe.recipeName}
-                                                    </h5>
-                                                    <Box
-                                                        style={{
-                                                            display: 'flex',
-                                                            alignItems: 'center',
-                                                            justifyContent: 'center',
-                                                        }}
-                                                    >
-                                                        <Rating
-                                                            name="read-only"
-                                                            value={bestRecipe?.aveVote}
-                                                            readOnly
-                                                            precision={0.5}
-                                                            size="small"
-                                                        />
-                                                        &nbsp; &nbsp;
-                                                        <span
-                                                            style={{ color: 'rgba(71,71,71, 0.6)' }}
+                                                        <Link
+                                                            to={`/recipe-detail/${bestRecipe.recipeId}`}
                                                         >
-                                                            {bestRecipe?.aveVote}/5
-                                                        </span>
-                                                    </Box>
-                                                </Link>
-                                                <CardContent
-                                                    style={{
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        justifyContent: 'center',
-                                                    }}
-                                                >
-                                                    <Typography
-                                                        variant="body3"
-                                                        color="text.primary"
-                                                    >
-                                                        {bestRecipe?.totalFavorite}
-                                                    </Typography>
-                                                    <Typography
-                                                        style={{
-                                                            backgroundColor: 'white',
-                                                            height: '20px',
-                                                            display: 'flex',
-                                                            justifyContent: 'center',
-                                                            alignItems: 'center',
-                                                            outline: 'none',
-                                                        }}
-                                                    >
-                                                        {bestRecipe?.isFavorite ? (
-                                                            <Button
-                                                                style={{
-                                                                    outline: 'none',
-                                                                }}
-                                                            >
-                                                                <FavoriteIcon
-                                                                    style={{ color: 'orange' }}
-                                                                />
-                                                            </Button>
-                                                        ) : (
-                                                            <Button
-                                                                onClick={() =>
-                                                                    handleAddFavorite(
-                                                                        bestRecipe?.recipeId
-                                                                    )
+                                                            <img
+                                                                style={{ width: 350, height: 250 }}
+                                                                src={
+                                                                    bestRecipe.photoVMs[0].photoName
                                                                 }
+                                                                alt={bestRecipe.recipeName}
+                                                            />
+                                                            <h5
+                                                                className="mt-3"
+                                                                style={{ fontWeight: '600' }}
+                                                            >
+                                                                {bestRecipe.recipeName}
+                                                            </h5>
+                                                            <Box
                                                                 style={{
+                                                                    display: 'flex',
+                                                                    alignItems: 'center',
+                                                                    justifyContent: 'center',
+                                                                }}
+                                                            >
+                                                                <Rating
+                                                                    name="read-only"
+                                                                    value={bestRecipe?.aveVote}
+                                                                    readOnly
+                                                                    precision={0.5}
+                                                                    size="small"
+                                                                />
+                                                                &nbsp; &nbsp;
+                                                                <span
+                                                                    style={{
+                                                                        color: 'rgba(71,71,71, 0.6)',
+                                                                    }}
+                                                                >
+                                                                    {bestRecipe?.aveVote}/5
+                                                                </span>
+                                                            </Box>
+                                                        </Link>
+                                                        <CardContent
+                                                            style={{
+                                                                display: 'flex',
+                                                                alignItems: 'center',
+                                                                justifyContent: 'center',
+                                                            }}
+                                                        >
+                                                            <Typography
+                                                                variant="body3"
+                                                                color="text.primary"
+                                                            >
+                                                                {bestRecipe?.totalFavorite}
+                                                            </Typography>
+                                                            <Typography
+                                                                style={{
+                                                                    backgroundColor: 'white',
+                                                                    height: '20px',
+                                                                    display: 'flex',
+                                                                    justifyContent: 'center',
+                                                                    alignItems: 'center',
                                                                     outline: 'none',
                                                                 }}
                                                             >
-                                                                <FavoriteBorderIcon
-                                                                    style={{ color: 'black' }}
-                                                                />
-                                                            </Button>
-                                                        )}
-                                                    </Typography>
-                                                </CardContent>
-                                            </div>
-                                        ))}
+                                                                {bestRecipe?.isFavorite ? (
+                                                                    <Button
+                                                                        style={{
+                                                                            outline: 'none',
+                                                                        }}
+                                                                    >
+                                                                        <FavoriteIcon
+                                                                            style={{
+                                                                                color: 'orange',
+                                                                            }}
+                                                                        />
+                                                                    </Button>
+                                                                ) : (
+                                                                    <Button
+                                                                        onClick={() =>
+                                                                            handleAddFavorite(
+                                                                                bestRecipe?.recipeId
+                                                                            )
+                                                                        }
+                                                                        style={{
+                                                                            outline: 'none',
+                                                                        }}
+                                                                    >
+                                                                        <FavoriteBorderIcon
+                                                                            style={{
+                                                                                color: 'black',
+                                                                            }}
+                                                                        />
+                                                                    </Button>
+                                                                )}
+                                                            </Typography>
+                                                        </CardContent>
+                                                    </div>
+                                                )
+                                        )}
                                 </div>
                             </div>
                         </div>
@@ -278,67 +294,68 @@ const HomePage = () => {
                                                     gap: '30px',
                                                 }}
                                             >
-                                                {getAllRecipesAPI?.data
-                                                    .slice(0, showMore)
-                                                    .map((recipe) => (
-                                                        <div
-                                                            className="grid-item"
-                                                            key={recipe.recipeId}
-                                                        >
-                                                            <Card
-                                                                style={{
-                                                                    width: 345,
-                                                                    maxHeight: 470,
-                                                                }}
+                                                {getAllRecipesAPI?.data.slice(0, showMore).map(
+                                                    (recipe) =>
+                                                        !recipe.isDelete && (
+                                                            <div
+                                                                className="grid-item"
+                                                                key={recipe.recipeId}
                                                             >
-                                                                <Link
-                                                                    to={`/recipe-detail/${recipe.recipeId}`}
+                                                                <Card
+                                                                    style={{
+                                                                        width: 345,
+                                                                        maxHeight: 470,
+                                                                    }}
                                                                 >
-                                                                    <CardMedia
-                                                                        component="img"
-                                                                        style={{
-                                                                            width: 350,
-                                                                            height: 194,
-                                                                        }}
-                                                                        image={
-                                                                            recipe.photoVMs[0]
-                                                                                .photoName
-                                                                        }
-                                                                        alt="Perfect Pancakes"
-                                                                    />
-                                                                    <Rating
-                                                                        name="read-only"
-                                                                        value={recipe.aveVote}
-                                                                        readOnly
-                                                                        precision={0.5}
-                                                                        size="small"
-                                                                        sx={{ mt: 2 }}
-                                                                    />
-                                                                    <CardContent>
-                                                                        <Typography
-                                                                            variant="body1"
-                                                                            color="text.primary"
+                                                                    <Link
+                                                                        to={`/recipe-detail/${recipe.recipeId}`}
+                                                                    >
+                                                                        <CardMedia
+                                                                            component="img"
                                                                             style={{
-                                                                                fontWeight: 600,
-                                                                                fontSize: 15,
+                                                                                width: 350,
+                                                                                height: 194,
                                                                             }}
-                                                                        >
-                                                                            {recipe.recipeName}
-                                                                        </Typography>
-                                                                        <br></br>
-                                                                        <Typography
-                                                                            variant="body3"
-                                                                            color="text.secondary"
-                                                                        >
-                                                                            {new Date(
-                                                                                recipe.updateTime
-                                                                            ).toLocaleDateString()}
-                                                                        </Typography>
-                                                                    </CardContent>
-                                                                </Link>
-                                                            </Card>
-                                                        </div>
-                                                    ))}
+                                                                            image={
+                                                                                recipe.photoVMs[0]
+                                                                                    .photoName
+                                                                            }
+                                                                            alt="Perfect Pancakes"
+                                                                        />
+                                                                        <Rating
+                                                                            name="read-only"
+                                                                            value={recipe.aveVote}
+                                                                            readOnly
+                                                                            precision={0.5}
+                                                                            size="small"
+                                                                            sx={{ mt: 2 }}
+                                                                        />
+                                                                        <CardContent>
+                                                                            <Typography
+                                                                                variant="body1"
+                                                                                color="text.primary"
+                                                                                style={{
+                                                                                    fontWeight: 600,
+                                                                                    fontSize: 15,
+                                                                                }}
+                                                                            >
+                                                                                {recipe.recipeName}
+                                                                            </Typography>
+                                                                            <br></br>
+                                                                            <Typography
+                                                                                variant="body3"
+                                                                                color="text.secondary"
+                                                                            >
+                                                                                {new Date(
+                                                                                    recipe.updateTime
+                                                                                ).toLocaleDateString()}
+                                                                            </Typography>
+                                                                        </CardContent>
+                                                                    </Link>
+                                                                </Card>
+                                                            </div>
+                                                        )
+                                                )}
                                             </div>
                                         )}
                                 </div>

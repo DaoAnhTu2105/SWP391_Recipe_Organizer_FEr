@@ -27,7 +27,7 @@
 
 .product .product-feature {
     flex: 1;
-    display: flex;
+    display: flex-end;
     margin: 0;
-    align-items: end;
+    /* align-items: end; */
 }
