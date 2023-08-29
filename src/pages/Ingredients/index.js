@@ -212,19 +212,16 @@ export default function IngredientList() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 await dispatch(addIngredient({ data: JSON.stringify(value) })).then((result) => {
-                    result.payload.status === 1
-                        ? (
-                            toast.success(result.payload).then(setValue({
-                                ...value,
-                                ingredientName: "",
-                                measure: "",
-                                carbohydrate: "",
-                                protein: "",
-                                fat: ""
-                            }))
-                        )
-                        : toast.error(result.payload)
+                    result.payload.status === 1 ? toast.success(result.payload.message) : toast.error(result.payload)
                     setReload(!reload)
+                    setValue({
+                        ...value,
+                        ingredientName: "",
+                        measure: "",
+                        carbohydrate: "",
+                        protein: "",
+                        fat: ""
+                    })
                 }).catch((err) => {
                     console.log(err);
                 });
@@ -277,7 +274,7 @@ export default function IngredientList() {
         content = (
             <Fragment>
                 <Button variant="outlined" onClick={handleShowCreate} style={{ margin: '0 15px' }}>
-                    Add More Recipe
+                    Add More Ingredient
                 </Button>
                 <Modal show={showCreate} onHide={handleCloseModalCreate}>
                     <Modal.Header closeButton>
@@ -291,24 +288,24 @@ export default function IngredientList() {
                                     value={value.ingredientName} onChange={e => setValue({ ...value, ingredientName: e.target.value })} required />
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">measure</label>
+                                <label for="exampleInputPassword1">Measure</label>
                                 <input type="text" class="form-control" id="formMeasure" placeholder="Enter measure"
                                     value={value.measure} onChange={e => setValue({ ...value, measure: e.target.value })} required />
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">carbohydrate</label>
+                                <label for="exampleInputPassword1">Carbohydrate</label>
                                 <input type="number" class="form-control" id="formCarb" placeholder="Enter carbohydrate"
-                                    value={value.carbohydrate} onChange={e => setValue({ ...value, carbohydrate: e.target.value })} min={0.1} step={0.1} required />
+                                    value={value.carbohydrate} onChange={e => setValue({ ...value, carbohydrate: e.target.value })} min={0} step={0.1} required />
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">protein</label>
+                                <label for="exampleInputPassword1">Protein</label>
                                 <input type="number" class="form-control" id="formProtein" placeholder="Enter protein"
-                                    value={value.protein} onChange={e => setValue({ ...value, protein: e.target.value })} min={0.1} step={0.1} required />
+                                    value={value.protein} onChange={e => setValue({ ...value, protein: e.target.value })} min={0} step={0.1} required />
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">fat</label>
+                                <label for="exampleInputPassword1">Fat</label>
                                 <input type="number" class="form-control" id="formFat" placeholder="Enter fat"
-                                    value={value.fat} onChange={e => setValue({ ...value, fat: e.target.value })} min={0.1} step={0.1} required />
+                                    value={value.fat} onChange={e => setValue({ ...value, fat: e.target.value })} min={0} step={0.1} required />
                             </div>
                         </Modal.Body>
                         <Modal.Footer>
