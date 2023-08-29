@@ -11,11 +11,11 @@ import axios from 'axios'
 
 const SearchFilter = () => {
     const minmin = 0
-    const maxmax = 200
+    const maxmax = 1000
     const minServing = 1
     const maxServing = 20
     const [serving, setServing] = useState([1, 20])
-    const [timeValue, setTimeValue] = useState([0, 200])
+    const [timeValue, setTimeValue] = useState([0, 1000])
     const [isCollapsed, setIsCollapsed] = useState(true)
     const [isCollapsedServing, setIsCollapsedServing] = useState(true)
     const [openFilter, setOpenFilter] = useState(false)
@@ -192,10 +192,10 @@ const SearchFilter = () => {
                                                 sx={{ width: '90px' }}
                                                 value={timeValue[0]}
                                                 onChange={(e) => {
-                                                    setTimeValue([
-                                                        Number(e.target.value),
-                                                        timeValue[1],
-                                                    ])
+                                                    const newValue = Number(e.target.value)
+                                                    if (newValue >= minmin && newValue <= maxmax) {
+                                                        setTimeValue([newValue, timeValue[1]])
+                                                    }
                                                 }}
                                             />
                                             <Typography> - </Typography>
@@ -207,10 +207,10 @@ const SearchFilter = () => {
                                                 sx={{ width: '90px' }}
                                                 value={timeValue[1]}
                                                 onChange={(e) => {
-                                                    setTimeValue([
-                                                        timeValue[0],
-                                                        Number(e.target.value),
-                                                    ])
+                                                    const newValue = Number(e.target.value)
+                                                    if (newValue >= minmin && newValue <= maxmax) {
+                                                        setTimeValue([timeValue[0], newValue])
+                                                    }
                                                 }}
                                             />
                                         </Stack>
@@ -253,7 +253,13 @@ const SearchFilter = () => {
                                                 sx={{ width: '90px' }}
                                                 value={serving[0]}
                                                 onChange={(e) => {
-                                                    setServing([Number(e.target.value), serving[1]])
+                                                    const newValue = Number(e.target.value)
+                                                    if (
+                                                        newValue >= minServing &&
+                                                        newValue <= maxServing
+                                                    ) {
+                                                        setServing([newValue, serving[1]])
+                                                    }
                                                 }}
                                             />
                                             <Typography> - </Typography>
@@ -265,7 +271,13 @@ const SearchFilter = () => {
                                                 sx={{ width: '90px' }}
                                                 value={serving[1]}
                                                 onChange={(e) => {
-                                                    setServing([serving[0], Number(e.target.value)])
+                                                    const newValue = Number(e.target.value)
+                                                    if (
+                                                        newValue >= minServing &&
+                                                        newValue <= maxServing
+                                                    ) {
+                                                        setServing([serving[0], newValue])
+                                                    }
                                                 }}
                                             />
                                         </Stack>

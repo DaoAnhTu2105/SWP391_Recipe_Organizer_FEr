@@ -16,6 +16,9 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { Fragment } from 'react'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useRef, useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
 
 const Header = () => {
     const [anchorEl, setAnchorEl] = React.useState(null)
@@ -110,6 +113,84 @@ const Header = () => {
                             <Link className="nav-brand" to="/">
                                 <img src={imgLogo} alt="" style={{ width: 100, height: 50, marginLeft: 65 }} />
                             </Link>
+                            <Box sx={{ width: "500px" }}>
+                                <Swiper
+                                    spaceBetween={20}
+                                    centeredSlides={true}
+                                    autoplay={{
+                                        delay: 3000,
+                                        disableOnInteraction: false,
+                                    }}
+                                    modules={[Autoplay]}
+                                    sx={{
+                                        zIndex: -1,
+                                        color: "white"
+                                    }}
+                                >
+
+                                    <SwiperSlide sx={{ paddingLeft: "20px", height: "20px" }}>
+                                        <Typography variant='h5' sx={{ fontSize: "25px", fontStyle: "italic", display: "inline" }}>
+                                            Welcome to
+                                        </Typography>
+
+                                        <Typography sx={{
+                                            fontSize: "25px",
+                                            display: "inline",
+                                            fontStyle: "italic",
+                                            paddingLeft: '5px',
+                                            color: 'black',
+                                            fontWeight: '600',
+                                            fontFamily: 'Lucida Handwriting',
+                                        }}>
+                                            Delicious
+                                        </Typography>
+                                    </SwiperSlide>
+                                    <SwiperSlide sx={{ paddingLeft: "20px", height: "20px" }}>
+
+                                        {user ? (
+                                            <>
+                                                <Typography variant='h5' sx={{ fontSize: "25px", fontStyle: "italic", display: "inline" }}>
+                                                    Hello
+                                                </Typography> &nbsp;
+                                                <Typography variant='h5' sx={{ fontSize: "25px", fontStyle: "italic", display: "inline" }}>
+                                                    {user?.role == "Cooker" ? "cooker" : ""}
+                                                    {user?.role == "User" ? "user" : ""}
+                                                    {user?.role == "Admin" ? "admin" : ""}
+                                                </Typography>
+                                                &nbsp; &nbsp;
+
+
+                                                <Typography variant='h5' sx={{
+                                                    fontSize: "25px",
+                                                    display: "inline",
+                                                    fontStyle: "italic",
+                                                }}>
+                                                    {user?.fullname}
+                                                </Typography>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Typography variant='h5' sx={{ fontSize: "25px", fontStyle: "italic", display: "inline" }}>
+                                                    Welcome to
+                                                </Typography>
+
+                                                <Typography sx={{
+                                                    fontSize: "25px",
+                                                    display: "inline",
+                                                    fontStyle: "italic",
+                                                    paddingLeft: '5px',
+                                                    color: 'black',
+                                                    fontWeight: '600',
+                                                    fontFamily: 'Lucida Handwriting',
+                                                }}>
+                                                    Delicious
+                                                </Typography>
+                                            </>
+                                        )}
+
+                                    </SwiperSlide>
+                                </Swiper>
+                            </Box>
 
                             <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ml-2 mr-2">
                                 <li>

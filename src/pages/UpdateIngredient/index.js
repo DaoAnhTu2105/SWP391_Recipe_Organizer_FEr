@@ -107,17 +107,17 @@ const UpdateIngredient = () => {
                             <div class="form-group">
                                 <label for="exampleInputPassword1">carbohydrate</label>
                                 <input type="number" class="form-control" id="formCarb" placeholder="Enter carbohydrate"
-                                    value={value.carbohydrate} onChange={e => setValue({ ...value, carbohydrate: parseInt(e.target.value, 10) })} min={1} required />
+                                    value={value.carbohydrate} onChange={e => setValue({ ...value, carbohydrate: parseInt(e.target.value, 10) })} min={0.1} step={0.1} required />
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">protein</label>
                                 <input type="number" class="form-control" id="formProtein" placeholder="Enter protein"
-                                    value={value.protein} onChange={e => setValue({ ...value, protein: e.target.value })} min={1} required />
+                                    value={value.protein} onChange={e => setValue({ ...value, protein: e.target.value })} min={0.1} step={0.1} required />
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">fat</label>
                                 <input type="number" class="form-control" id="formFat" placeholder="Enter fat"
-                                    value={value.fat} onChange={e => setValue({ ...value, fat: e.target.value })} min={1} required />
+                                    value={value.fat} onChange={e => setValue({ ...value, fat: e.target.value })} min={0.1} step={0.1} required />
                             </div>
                             {/* <div class="form-group">
                                 <label for="exampleInputPassword1">calories</label>

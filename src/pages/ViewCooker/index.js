@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react"
-import EmailIcon from '@mui/icons-material/Email';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import { Typography, Box, Card, CardActions, CardMedia, Rating, CardContent } from "@mui/material";
 import { Link } from "react-router-dom";
 import './cooker.css'
@@ -39,15 +39,15 @@ const ViewCooker = () => {
                         <div className="row align-items-center flex-row-reverse">
                             <div className="col-lg-8">
                                 <div className="about-text go-to">
-                                    <p style={{ fontStyle: "italic", fontSize: "40px", fontWeight: 300 }}>Hi,I am </p>
+                                    <p style={{ fontStyle: "italic", fontSize: "40px", fontWeight: 300 }}>Hi, I am  chef</p>
                                     <h5 className="dark-color">{user?.user && user?.user.fullName}</h5>
                                     <div className="row about-list">
                                         <div className="col-md-12">
                                             <Box sx={{ display: "flex", alignContent: "center" }}>
-                                                <Box> <EmailIcon /> &nbsp;</Box>
+                                                <Box> <MailOutlineIcon   /> &nbsp;</Box>
                                                 <Box >
-                                                    <Typography sx={{ paddingTop: "5px", fontSize: "20px" }}>
-                                                        {user?.user && user?.user.email}
+                                                    <Typography variant="h6" gutterBottom  sx={{ fontSize: "20px" }}>
+                                                    {user?.user && user?.user.email}
                                                     </Typography>
                                                 </Box>
 

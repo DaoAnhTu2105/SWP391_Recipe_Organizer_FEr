@@ -3,7 +3,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
-import { Rating, CardActions, Button, Box, Modal } from '@mui/material'
+import { Rating, CardActions, Button, Box } from '@mui/material'
 import Container from '@mui/material/Container'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
@@ -14,6 +14,7 @@ import SearchFilter from './SearchFavoriteFilter'
 import toast, { Toaster } from 'react-hot-toast'
 import Swal from 'sweetalert2'
 import CircularProgress from '@mui/material/CircularProgress'
+import ErrorIcon from '@mui/icons-material/Error'
 
 const FavoriteRecipe = () => {
     const dispatch = useDispatch()
@@ -103,66 +104,148 @@ const FavoriteRecipe = () => {
                 </Box>
             ) : favorite?.length !== 0 ? (
                 <>
-                    <div
-                        className="container mb-5"
-                        style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(3, 1fr)',
-                            gap: '40px',
-                        }}
-                    >
-                        {favorite &&
-                            Array.isArray(favorite) &&
-                            favorite.map((favor) => (
-                                <div className="grid-item" key={favor.recipeId}>
-                                    <Card
-                                        style={{ width: 345, maxHeight: 470, textAlign: 'center' }}
-                                    >
-                                        <Link to={`/recipe-detail/${favor.recipeId}`}>
-                                            <CardMedia
-                                                component="img"
-                                                style={{ width: 350, height: 194 }}
-                                                image={favor.photoVMs[0].photoName}
-                                                alt="Perfect Pancakes"
-                                            />
-                                            <Rating
-                                                name="read-only"
-                                                value={favor.aveVote}
-                                                readOnly
-                                                size="small"
-                                                precision={0.5}
-                                                sx={{ mt: 2 }}
-                                            />
-                                        </Link>
-                                        <CardContent>
-                                            <Typography variant="body2" color="text.primary">
-                                                {favor.recipeName}
-                                            </Typography>
-                                            <br></br>
-                                            <CardActions
-                                                sx={{
-                                                    display: 'flex',
-                                                    justifyContent: 'center',
+                    {status === 'loading' ? (
+                        <CircularProgress
+                            sx={{
+                                marginTop: '10%',
+                                marginLeft: '47%',
+                                marginBottom: '10%',
+                            }}
+                        />
+                    ) : (
+                        <div
+                            className="container mb-5"
+                            style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(3, 1fr)',
+                                gap: '40px',
+                            }}
+                        >
+                            {favorite &&
+                                Array.isArray(favorite) &&
+                                favorite.map((favor) =>
+                                    !favor.isDelete ? (
+                                        <div className="grid-item" key={favor.recipeId}>
+                                            <Card
+                                                style={{
+                                                    width: 345,
+                                                    maxHeight: 470,
+                                                    textAlign: 'center',
                                                 }}
                                             >
-                                                <Button
-                                                    size="small"
-                                                    style={{
-                                                        outline: 'none',
-                                                        color: '#f39c12',
-                                                    }}
-                                                    onClick={() =>
-                                                        handleConfirmRemove(favor.recipeId)
-                                                    }
-                                                >
-                                                    Remove
-                                                </Button>
-                                            </CardActions>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-                            ))}
-                    </div>
+                                                <Link to={`/recipe-detail/${favor.recipeId}`}>
+                                                    <CardMedia
+                                                        component="img"
+                                                        style={{ width: 350, height: 194 }}
+                                                        image={favor.photoVMs[0].photoName}
+                                                        alt="Perfect Pancakes"
+                                                    />
+                                                    <Rating
+                                                        name="read-only"
+                                                        value={favor.aveVote}
+                                                        readOnly
+                                                        size="small"
+                                                        precision={0.5}
+                                                        sx={{ mt: 2 }}
+                                                    />
+                                                </Link>
+                                                <CardContent>
+                                                    <Typography
+                                                        variant="body2"
+                                                        color="text.primary"
+                                                    >
+                                                        {favor.recipeName}
+                                                    </Typography>
+                                                    <CardActions
+                                                        sx={{
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                        }}
+                                                    >
+                                                        <Button
+                                                            size="small"
+                                                            style={{
+                                                                outline: 'none',
+                                                                color: '#f39c12',
+                                                            }}
+                                                            onClick={() =>
+                                                                handleConfirmRemove(favor.recipeId)
+                                                            }
+                                                        >
+                                                            Remove
+                                                        </Button>
+                                                    </CardActions>
+                                                </CardContent>
+                                            </Card>
+                                        </div>
+                                    ) : (
+                                        <div className="grid-item" key={favor.recipeId}>
+                                            <Card
+                                                style={{
+                                                    width: 345,
+                                                    maxHeight: 470,
+                                                    textAlign: 'center',
+                                                }}
+                                            >
+                                                <Link to={`/recipe-detail/${favor.recipeId}`}>
+                                                    <CardMedia
+                                                        component="img"
+                                                        style={{ width: 350, height: 194 }}
+                                                        image={favor.photoVMs[0].photoName}
+                                                        alt="Perfect Pancakes"
+                                                    />
+                                                    <Rating
+                                                        name="read-only"
+                                                        value={favor.aveVote}
+                                                        readOnly
+                                                        size="small"
+                                                        precision={0.5}
+                                                        sx={{ mt: 2 }}
+                                                    />
+                                                </Link>
+                                                <CardContent>
+                                                    <Box
+                                                        sx={{
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            justifyContent: 'center',
+                                                        }}
+                                                    >
+                                                        <Typography
+                                                            variant="body2"
+                                                            color="text.primary"
+                                                        >
+                                                            {favor.recipeName}
+                                                        </Typography>
+                                                        &nbsp; &nbsp;
+                                                        <ErrorIcon style={{ color: 'red' }} />
+                                                    </Box>
+                                                    <CardActions
+                                                        sx={{
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                        }}
+                                                    >
+                                                        <Button
+                                                            size="small"
+                                                            style={{
+                                                                outline: 'none',
+                                                                color: '#f39c12',
+                                                            }}
+                                                            onClick={() =>
+                                                                handleConfirmRemove(favor.recipeId)
+                                                            }
+                                                        >
+                                                            Remove
+                                                        </Button>
+                                                    </CardActions>
+                                                </CardContent>
+                                            </Card>
+                                        </div>
+                                    )
+                                )}
+                        </div>
+                    )}
                 </>
             ) : (
                 <div style={{ marginTop: 50 }}>
