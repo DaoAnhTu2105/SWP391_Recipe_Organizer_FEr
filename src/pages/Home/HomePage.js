@@ -182,7 +182,11 @@ const HomePage = () => {
                                                             />
                                                             <h5
                                                                 className="mt-3"
-                                                                style={{ fontWeight: '600' }}
+                                                                style={{
+                                                                    fontWeight: '600',
+                                                                    height: '25px',
+                                                                    overflow: 'hidden',
+                                                                }}
                                                             >
                                                                 {bestRecipe.recipeName}
                                                             </h5>
@@ -337,6 +341,9 @@ const HomePage = () => {
                                                                                 style={{
                                                                                     fontWeight: 600,
                                                                                     fontSize: 15,
+                                                                                    height: 25,
+                                                                                    overflow:
+                                                                                        'hidden',
                                                                                 }}
                                                                             >
                                                                                 {recipe.recipeName}

@@ -205,6 +205,10 @@ const SearchResultFavorite = () => {
                                                         <Typography
                                                             variant="body2"
                                                             color="text.primary"
+                                                            sx={{
+                                                                height: 25,
+                                                                overflow: 'hidden',
+                                                            }}
                                                         >
                                                             {recipe.recipeName}
                                                         </Typography>
