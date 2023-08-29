@@ -24,7 +24,7 @@ const Food = ({ id, foodName, calo, isDelete, meal }) => {
     let bgColor, bgColorHover, content;
     const iconStyle = {
         fontSize: 14,
-        marginLeft: 4,
+        marginRight: 4,
         color: '#eb2f06'
     };
     switch (meal) {
@@ -48,10 +48,11 @@ const Food = ({ id, foodName, calo, isDelete, meal }) => {
         ? content = (
             <StyledDiv backgroundColor={bgColor} hoverBackgroundColor={bgColorHover}>
                 <div>
-                    {foodName}
                     <Tooltip title="Cooker deleted this recipe" placement="right">
                         <ErrorIcon style={iconStyle} />
                     </Tooltip>
+                    {foodName}
+
                 </div>
                 <div style={{ color: '#718093' }}>Calories: {calo} kcal</div>
             </StyledDiv>

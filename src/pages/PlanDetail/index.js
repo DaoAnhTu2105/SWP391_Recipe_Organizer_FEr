@@ -167,12 +167,11 @@ const PlanDetail = () => {
         content = (
             <div className="container meal-detail">
                 <div className="meal">
-                    {/* <div className="title"> */}
                     <Typography variant="h5" align="center" color="text.secondary" paragraph>
                         You have no plan at {date}
                         <div style={{ marginTop: '10px' }}>
                             <Button variant="primary" onClick={handleShow}>
-                                Add More Recipe
+                                Add more Recipe
                             </Button>
                             <Modal show={show} onHide={handleClose}>
                                 <Modal.Header closeButton>
@@ -237,7 +236,7 @@ const PlanDetail = () => {
                     <h4>Meal Planner</h4>
                     <div>
                         <Button onClick={handleShow}>
-                            Add More Recipe
+                            Update Meal Plan
                         </Button>
                         <Modal show={show} onHide={handleClose}>
                             <Modal.Header closeButton>
@@ -316,7 +315,6 @@ const PlanDetail = () => {
                     {planDetail?.detail.data?.food.breakfast?.map((food) => (
                         <Fragment>
                             <Food
-                                date={date}
                                 id={food.planDetailId}
                                 foodId={food.recipeId}
                                 name={food.recipeName}
@@ -324,9 +322,7 @@ const PlanDetail = () => {
                                 time={food.totalTime}
                                 ingredient={food.totalIngredient}
                                 calories={food.calories}
-                                fat={food.fat}
-                                carbohydrate={food.carbohydrate}
-                                protein={food.protein}
+                                isDelete={food.isDelete}
                                 handleReload={handleReload}
                             />
                             <br></br>
@@ -338,7 +334,6 @@ const PlanDetail = () => {
                     {planDetail?.detail.data?.food.lunch?.map((food) => (
                         <Fragment>
                             <Food
-                                date={date}
                                 id={food.planDetailId}
                                 foodId={food.recipeId}
                                 name={food.recipeName}
@@ -346,9 +341,7 @@ const PlanDetail = () => {
                                 time={food.totalTime}
                                 ingredient={food.totalIngredient}
                                 calories={food.calories}
-                                fat={food.fat}
-                                carbohydrate={food.carbohydrate}
-                                protein={food.protein}
+                                isDelete={food.isDelete}
                                 handleReload={handleReload}
                             />
                             <br></br>
@@ -360,7 +353,6 @@ const PlanDetail = () => {
                     {planDetail?.detail.data?.food.dinner?.map((food) => (
                         <Fragment>
                             <Food
-                                date={date}
                                 id={food.planDetailId}
                                 foodId={food.recipeId}
                                 name={food.recipeName}
@@ -368,9 +360,7 @@ const PlanDetail = () => {
                                 time={food.totalTime}
                                 ingredient={food.totalIngredient}
                                 calories={food.calories}
-                                fat={food.fat}
-                                carbohydrate={food.carbohydrate}
-                                protein={food.protein}
+                                isDelete={food.isDelete}
                                 handleReload={handleReload}
                             />
                             <br></br>
