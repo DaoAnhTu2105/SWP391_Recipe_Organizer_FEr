@@ -153,8 +153,23 @@ const FavoriteRecipe = () => {
                                                     <Typography
                                                         variant="body2"
                                                         color="text.primary"
+                                                        style={{
+                                                            fontWeight: 600,
+                                                            fontSize: 15,
+                                                            height: 25,
+                                                            overflow: 'hidden',
+                                                            marginBottom: 10,
+                                                        }}
                                                     >
                                                         {favor.recipeName}
+                                                    </Typography>
+                                                    <Typography
+                                                        variant="body3"
+                                                        color="text.secondary"
+                                                    >
+                                                        {new Date(
+                                                            favor.updateTime
+                                                        ).toLocaleDateString()}
                                                     </Typography>
                                                     <CardActions
                                                         sx={{
@@ -218,12 +233,26 @@ const FavoriteRecipe = () => {
                                                                 fontWeight: 600,
                                                                 height: 25,
                                                                 overflow: 'hidden',
+                                                                marginBottom: 10,
                                                             }}
                                                         >
                                                             {favor.recipeName}
                                                         </Typography>
                                                         &nbsp; &nbsp;
-                                                        <ErrorIcon style={{ color: 'red' }} />
+                                                        <ErrorIcon
+                                                            style={{
+                                                                color: 'red',
+                                                                marginBottom: 10,
+                                                            }}
+                                                        />
+                                                        <Typography
+                                                            variant="body3"
+                                                            color="text.secondary"
+                                                        >
+                                                            {new Date(
+                                                                favor.updateTime
+                                                            ).toLocaleDateString()}
+                                                        </Typography>
                                                     </Box>
                                                     <CardActions
                                                         sx={{
