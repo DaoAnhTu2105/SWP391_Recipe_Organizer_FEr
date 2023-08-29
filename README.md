@@ -27,7 +27,7 @@ Recipe organizer is a web app to store recipe of user. User can read recipe and 
 
 ## [Document](https://docs.google.com/document/d/149180q4IW84dwKhbr9cPK8sgwfUOtQwAih36wWQcWzU/edit?usp=sharing)
 
-##[Slide](https://www.canva.com/design/DAFsonrMYBc/l5_-c9zosdJjalEutRMUqg/edit)
+## [Slide](https://www.canva.com/design/DAFsonrMYBc/l5_-c9zosdJjalEutRMUqg/edit)
 
 ## Tech:
 
