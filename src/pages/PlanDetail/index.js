@@ -148,6 +148,7 @@ const PlanDetail = () => {
                 listLunch.push({ value: item.recipeId, label: item.recipeName })
             else
                 listDinner.push({ value: item.recipeId, label: item.recipeName })
+            return 0
         })
         setShow(true);
     }
