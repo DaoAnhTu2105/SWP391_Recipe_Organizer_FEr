@@ -153,7 +153,7 @@ export default function IngredientList() {
         carbohydrate: "",
         protein: "",
         fat: "",
-        calories: ""
+        calories: "0"
     });
     const [reload, setReload] = useState(false) //recall api
 
@@ -195,7 +195,7 @@ export default function IngredientList() {
             carbohydrate: "",
             protein: "",
             fat: "",
-            calories: ""
+            calories: "0"
         })
         setShowCreate(false);
     }
@@ -303,11 +303,11 @@ export default function IngredientList() {
                                 <input type="number" class="form-control" id="formFat" placeholder="Enter fat"
                                     value={value.fat} onChange={e => setValue({ ...value, fat: e.target.value })} min={1} required />
                             </div>
-                            <div class="form-group">
+                            {/* <div class="form-group">
                                 <label for="exampleInputPassword1">calories</label>
                                 <input type="number" class="form-control" id="formCalo" placeholder="Enter calories"
                                     value={value.calories} onChange={e => setValue({ ...value, calories: e.target.value })} min={1} required />
-                            </div>
+                            </div> */}
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="contained" style={{ backgroundColor: '#6c757d' }} onClick={handleCloseModalCreate}>
