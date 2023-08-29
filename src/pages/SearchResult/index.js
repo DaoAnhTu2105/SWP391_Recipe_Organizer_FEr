@@ -103,6 +103,8 @@ const SearchResult = () => {
                                                                         style={{
                                                                             fontWeight: 600,
                                                                             fontSize: 15,
+                                                                            height: 25,
+                                                                            overflow: 'hidden',
                                                                         }}
                                                                     >
                                                                         {recipe.recipeName}

@@ -214,6 +214,11 @@ const FavoriteRecipe = () => {
                                                         <Typography
                                                             variant="body2"
                                                             color="text.primary"
+                                                            style={{
+                                                                fontWeight: 600,
+                                                                height: 25,
+                                                                overflow: 'hidden',
+                                                            }}
                                                         >
                                                             {favor.recipeName}
                                                         </Typography>
