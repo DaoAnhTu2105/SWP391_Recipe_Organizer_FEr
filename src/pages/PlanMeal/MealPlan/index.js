@@ -178,6 +178,7 @@ export default function MealPlan() {
     const handleFormCreate = async (e) => {
         e.preventDefault()
         setShow(false)
+        // console.log(data);
         await Swal.fire({
             title: "Do you want to save the changes?",
             icon: "info",
@@ -190,8 +191,14 @@ export default function MealPlan() {
             if (result.isConfirmed) {
                 await dispatch(createPlan({ data: data })).then((result) => {
                     result.payload.status === 1 ? toast.success(result.payload.message) : toast.error(result.payload.message)
+                    // setData({
+                    //     ...data, recipeId: "",
+                    //     dateSt: "",
+                    //     mealOfDate: ""
+                    // })
                     setReload(!reload)
                 }).catch((err) => {
+                    // console.log(err);
                 });
             } else {
                 toast('Nothing Create!')
@@ -389,15 +396,15 @@ export default function MealPlan() {
                                         <div class="form-group">
                                             <label htmFor="recipe">Recipe for BreakFast</label>
                                             <Select
-                                                defaultValue={test}
+                                                // defaultValue={breakfast}
                                                 isMulti
                                                 name="colors"
                                                 options={list}
                                                 className="basic-multi-select"
                                                 classNamePrefix="select"
                                                 onChange={handleBreakfastChange}
-                                            // required
-                                            // isDisabled={isDisabled}
+                                                required
+                                                isDisabled={isDisabled}
                                             />
                                             <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                                         </div>
@@ -408,8 +415,8 @@ export default function MealPlan() {
                                                 name="colors"
                                                 options={list}
                                                 onChange={handleLunchChange}
-                                            // required
-                                            // isDisabled={isDisabled}
+                                                required
+                                                isDisabled={isDisabled}
                                             />
                                             <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                                         </div>
@@ -420,8 +427,8 @@ export default function MealPlan() {
                                                 name="colors"
                                                 options={list}
                                                 onChange={handleDinnerChange}
-                                            // required
-                                            // isDisabled={isDisabled}
+                                                required
+                                                isDisabled={isDisabled}
                                             />
                                             <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                                         </div>

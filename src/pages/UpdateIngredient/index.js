@@ -17,7 +17,7 @@ const UpdateIngredient = () => {
         carbohydrate: "",
         protein: "",
         fat: "",
-        calories: "0"
+        calories: ""
     });
     const dispatch = useDispatch();
 
@@ -119,11 +119,12 @@ const UpdateIngredient = () => {
                                 <input type="number" class="form-control" id="formFat" placeholder="Enter fat"
                                     value={value.fat} onChange={e => setValue({ ...value, fat: e.target.value })} min={0.1} step={0.1} required />
                             </div>
-                            {/* <div class="form-group">
+                            <div class="form-group">
                                 <label for="exampleInputPassword1">calories</label>
                                 <input type="number" class="form-control" id="formCalo" placeholder="Enter calories"
                                     value={value.calories} onChange={e => setValue({ ...value, calories: e.target.value })} min={1} required />
-                            </div> */}
+                            </div>
+
                             <br />
                             <button className='btn btn-info'>Update</button>
                         </form>
