@@ -1,7 +1,8 @@
 import './index.css'
 import React, { useState, useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getPlanByWeek, createPlan, getRecipesPlan, getPlanByDate } from "../../../redux/apiThunk/planThunk";
+import { getPlanByWeek, createPlan, getRecipesPlan, getPlanForCreate } from "../../../redux/apiThunk/planThunk";
+// import { getPlanForCreateApi } from '../../../api/plan'
 import Food from '../Food'
 import NextIcon from '../../../components/IconComponent/NextIcon'
 import PreviousIcon from '../../../components/IconComponent/PreviousIcon'
@@ -65,13 +66,13 @@ const changeColor = (date) => {
 
 export default function MealPlan() {
     let month, contentAuth;
-    const [show, setShow] = useState(false);
-    const [currentDate, setCurrentDate] = useState(new Date());
+    const [show, setShow] = useState(false)
+    const [currentDate, setCurrentDate] = useState(new Date())
     const [reload, setReload] = useState(false)
-    const [isDisabled, setIsDisabled] = useState(true);
+    const [isDisabled, setIsDisabled] = useState(true)
     const dispatch = useDispatch();
     const [data, setData] = useState({
-        dateSt: new Date(),
+        dateSt: "",
         breakfast: [],
         lunch: [],
         dinner: []
@@ -121,17 +122,18 @@ export default function MealPlan() {
         dispatch(getPlanByWeek({ date: formatDate(getMonday(currentDate)) }))
         dispatch(getRecipesPlan())
     }, [dispatch, currentDate, reload])
-    // useEffect(() => {
-    //     dispatch(getPlanByDate({ date: data.dateSt }))
-    // }, [dispatch, data.dateSt])
+
+    useEffect(() => {
+        dispatch(getPlanForCreate({ date: data.dateSt }))
+    }, [data.dateSt])
 
     const mealPlan = useSelector((state) => state.plan)
     const dataStatus = useSelector((state) => state.plan.loading)
+    const formStatus = useSelector((state) => state.plan.loadingPlan)
     const getAllRecipes = useSelector((state) => state.plan.recipePlan)
-    // const planOfDate = useSelector((state) => state.plan.detail)
+    let getCreate = useSelector((state) => state.plan.detail)
     const user = JSON.parse(localStorage.getItem("user"))
-    // console.log(planOfDate);
-
+    // console.log(getCreate);
     const formatData = (date) => {
         const [y, m, d] = date.split("-")
         return m + "/" + d + "/" + y
@@ -141,6 +143,10 @@ export default function MealPlan() {
     const handleClose = () => {
         setShow(false)
         setList([])
+        setData({
+            ...data,
+            dateSt: "02/29/2000"
+        })
     }
     const handleShow = () => {
         getAllRecipes?.data?.map((item) => (
@@ -150,9 +156,10 @@ export default function MealPlan() {
     };
 
     //set default value
-    let test = [
-        { value: "f4867695e22b4c7c8c1e", label: "hh" }
-    ]
+    const handleDateChange = (e) => {
+        e.preventDefault()
+        setData({ ...data, dateSt: formatData(e.target.value) });
+    };
 
     //get value for each meal
     const handleBreakfastChange = (selected) => {
@@ -178,7 +185,6 @@ export default function MealPlan() {
     const handleFormCreate = async (e) => {
         e.preventDefault()
         setShow(false)
-        // console.log(data);
         await Swal.fire({
             title: "Do you want to save the changes?",
             icon: "info",
@@ -191,14 +197,12 @@ export default function MealPlan() {
             if (result.isConfirmed) {
                 await dispatch(createPlan({ data: data })).then((result) => {
                     result.payload.status === 1 ? toast.success(result.payload.message) : toast.error(result.payload.message)
-                    // setData({
-                    //     ...data, recipeId: "",
-                    //     dateSt: "",
-                    //     mealOfDate: ""
-                    // })
                     setReload(!reload)
+                    setData({
+                        ...data,
+                        dateSt: "02/29/2000"
+                    })
                 }).catch((err) => {
-                    // console.log(err);
                 });
             } else {
                 toast('Nothing Create!')
@@ -206,6 +210,105 @@ export default function MealPlan() {
         });
         setList([])
         setReload(!reload)
+    }
+
+    let contentForm = (<Fragment>
+        <div class="form-group">
+            <label htmFor="recipe">Recipe for BreakFast</label>
+            <Select
+                // defaultValue={firstMeal}
+                isMulti
+                name="colors"
+                options={list}
+                className="basic-multi-select"
+                classNamePrefix="select"
+                onChange={handleBreakfastChange}
+                required
+                isDisabled={isDisabled}
+            />
+            <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
+        </div>
+        <div class="form-group">
+            <label htmFor="recipe">Recipe for Lunch</label>
+            <Select
+                // defaultValue={secondMeal}
+                isMulti
+                name="colors"
+                options={list}
+                onChange={handleLunchChange}
+                required
+                isDisabled={isDisabled}
+            />
+            <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
+        </div>
+        <div class="form-group">
+            <label htmFor="recipe">Recipe for Dinner</label>
+            <Select
+                // defaultValue={finalMeal}
+                isMulti
+                name="colors"
+                options={list}
+                onChange={handleDinnerChange}
+                required
+                isDisabled={isDisabled}
+            />
+            <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
+        </div>
+    </Fragment>)
+    if (formStatus === 'loading') {
+        contentForm = (
+            <CircularProgress
+                sx={{
+                    marginTop: '10%',
+                    marginLeft: '47%',
+                    marginBottom: '10%'
+                }}
+            />
+        )
+    } else {
+        contentForm = (<Fragment>
+            <div class="form-group">
+                <label htmFor="recipe">Recipe for BreakFast</label>
+                <Select
+                    defaultValue={getCreate?.data?.breakfast}
+                    isMulti
+                    name="colors"
+                    options={list}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                    onChange={handleBreakfastChange}
+                    required
+                // isDisabled={isDisabled}
+                />
+                <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
+            </div>
+            <div class="form-group">
+                <label htmFor="recipe">Recipe for Lunch</label>
+                <Select
+                    defaultValue={getCreate?.data?.lunch}
+                    isMulti
+                    name="colors"
+                    options={list}
+                    onChange={handleLunchChange}
+                    required
+                // isDisabled={isDisabled}
+                />
+                <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
+            </div>
+            <div class="form-group">
+                <label htmFor="recipe">Recipe for Dinner</label>
+                <Select
+                    defaultValue={getCreate?.data?.dinner}
+                    isMulti
+                    name="colors"
+                    options={list}
+                    onChange={handleDinnerChange}
+                    required
+                // isDisabled={isDisabled}
+                />
+                <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
+            </div>
+        </Fragment>)
     }
 
     const content = (
@@ -260,7 +363,7 @@ export default function MealPlan() {
                                         <div class="form-group">
                                             <label htmFor="date">Date</label>
                                             <input type="date" class="form-control" id="date" placeholder="Date"
-                                                onChange={(e) => setData({ ...data, dateSt: formatData(e.target.value) })} required />
+                                                onChange={(e) => handleDateChange(e)} required />
                                         </div>
                                         <div class="form-group">
                                             <label htmFor="recipe">Recipe for BreakFast</label>
@@ -414,45 +517,7 @@ export default function MealPlan() {
                                             <input type="date" class="form-control" id="date" placeholder="Date"
                                                 onChange={(e) => setData({ ...data, dateSt: formatData(e.target.value) })} required />
                                         </div>
-                                        <div class="form-group">
-                                            <label htmFor="recipe">Recipe for BreakFast</label>
-                                            <Select
-                                                // defaultValue={breakfast}
-                                                isMulti
-                                                name="colors"
-                                                options={list}
-                                                className="basic-multi-select"
-                                                classNamePrefix="select"
-                                                onChange={handleBreakfastChange}
-                                                required
-                                            // isDisabled={isDisabled}
-                                            />
-                                            <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
-                                        </div>
-                                        <div class="form-group">
-                                            <label htmFor="recipe">Recipe for Lunch</label>
-                                            <Select
-                                                isMulti
-                                                name="colors"
-                                                options={list}
-                                                onChange={handleLunchChange}
-                                                required
-                                            // isDisabled={isDisabled}
-                                            />
-                                            <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
-                                        </div>
-                                        <div class="form-group">
-                                            <label htmFor="recipe">Recipe for Dinner</label>
-                                            <Select
-                                                isMulti
-                                                name="colors"
-                                                options={list}
-                                                onChange={handleDinnerChange}
-                                                required
-                                            // isDisabled={isDisabled}
-                                            />
-                                            <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
-                                        </div>
+                                        {contentForm}
                                     </div>
                                 </Modal.Body>
                                 <Modal.Footer>

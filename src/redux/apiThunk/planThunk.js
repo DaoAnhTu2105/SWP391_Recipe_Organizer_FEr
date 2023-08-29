@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
     getPlanDate,
     getPlanWeek,
+    getPlanForCreateApi,
     getDetailApi,
     createApi,
     updateApi,
@@ -39,6 +40,18 @@ export const getDetail = createAsyncThunk(
     async ({ id }, thunkAPI) => {
         try {
             const response = await getDetailApi(id);
+            return response;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    }
+);
+
+export const getPlanForCreate = createAsyncThunk(
+    "plan/fetchForCreate",
+    async ({ date }, thunkAPI) => {
+        try {
+            const response = await getPlanForCreateApi(date);
             return response;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response.data);
