@@ -276,7 +276,7 @@ function CreateRecipe() {
                                         Swal.fire({
                                             position: 'center',
                                             icon: 'error',
-                                            title: "Add FAILED ",
+                                            title: "ADD FAILED ",
                                             text: "Some error occured, check all input fields again! ",
                                             timer: 3500,
                                         })
@@ -341,6 +341,7 @@ function CreateRecipe() {
             ...ingredientFields,
             { id: Date.now(), ingredientName: '', quantity: 1 },
         ])
+        console.log("after add:",ingredientFields)
     }
 
     const handleDeleteIngredient = (id) => {
@@ -560,7 +561,7 @@ function CreateRecipe() {
                                             value={recipeTitle}
                                             onChange={handleTitleChange}
                                         />
-                                        {!recipeTitle && (
+                                        {(!recipeTitle || recipeTitle.trim === '' )&& (
                                             <Typography
                                                 variant="caption"
                                                 sx={{ color: 'red' }}

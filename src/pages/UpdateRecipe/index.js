@@ -750,16 +750,15 @@ function UpdateRecipe() {
                                     value={recipeTitle}
                                     onChange={handleTitleChange}
                                 />
-                                {!recipeTitle && (
-                                    <Typography
-                                        variant="caption"
-                                        sx={{ color: 'red' }}
-                                        display="block"
-                                        gutterBottom
-                                    >
-                                        {titleError}
-                                    </Typography>
-                                )}
+
+                                <Typography
+                                    variant="caption"
+                                    sx={{ color: 'red' }}
+                                    display="block"
+                                    gutterBottom
+                                >
+                                    {titleError}
+                                </Typography>
                                 <Typography
                                     sx={{
                                         lineHeight: '0.8',
