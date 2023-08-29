@@ -44,10 +44,10 @@ const ViewCooker = () => {
                                     <div className="row about-list">
                                         <div className="col-md-12">
                                             <Box sx={{ display: "flex", alignContent: "center" }}>
-                                                <Box> <MailOutlineIcon   /> &nbsp;</Box>
+                                                <Box> <MailOutlineIcon /> &nbsp;</Box>
                                                 <Box >
-                                                    <Typography variant="h6" gutterBottom  sx={{ fontSize: "20px" }}>
-                                                    {user?.user && user?.user.email}
+                                                    <Typography variant="h6" gutterBottom sx={{ fontSize: "20px" }}>
+                                                        {user?.user && user?.user.email}
                                                     </Typography>
                                                 </Box>
 
@@ -57,9 +57,6 @@ const ViewCooker = () => {
                                     <div style={{ maxWidth: "500px", maxHeight: "150px", overflow: "hidden" }}>
                                         <h6 style={{ fontFamily: "Courier New, Courier, monospace", fontStyle: "italic", fontWeight: "300" }}>{user?.user && user?.user.userInfo}</h6>
                                     </div>
-
-
-
                                 </div>
                                 <div>
                                 </div>
@@ -85,7 +82,7 @@ const ViewCooker = () => {
                             >
 
                                 <div className="container">
-                                    <div className="row justify-content-center">
+                                    <div className="row justify-content-center col-sm-12">
                                         {user?.data && user?.data.map((recipe) => (
                                             <div className="col-sm-4 mb-4" key={recipe.recipeId}>
                                                 <Card style={{ width: 345, maxHeight: 470 }}>
@@ -108,6 +105,7 @@ const ViewCooker = () => {
                                                         <Typography
                                                             variant="body2"
                                                             color="text.primary"
+                                                            sx={{ height: "25px", overflow: "hidden" }}
                                                         >
                                                             {recipe.recipeName}
                                                         </Typography>
