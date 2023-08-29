@@ -104,19 +104,19 @@ const UpdateIngredient = () => {
                                     value={value.measure} onChange={e => setValue({ ...value, measure: e.target.value })} required />
                             </div >
                             <div class="form-group">
-                                <label for="exampleInputPassword1">carbohydrate</label>
+                                <label for="exampleInputPassword1">Carbohydrate:</label>
                                 <input type="number" class="form-control" id="formCarb" placeholder="Enter carbohydrate"
-                                    value={value.carbohydrate} onChange={e => setValue({ ...value, carbohydrate: e.target.value })} min={0.1} step={0.1} required />
+                                    value={value.carbohydrate} onChange={e => setValue({ ...value, carbohydrate: e.target.value })} min={0} step={0.1} required />
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">protein</label>
+                                <label for="exampleInputPassword1">Protein:</label>
                                 <input type="number" class="form-control" id="formProtein" placeholder="Enter protein"
-                                    value={value.protein} onChange={e => setValue({ ...value, protein: e.target.value })} min={0.1} step={0.1} required />
+                                    value={value.protein} onChange={e => setValue({ ...value, protein: e.target.value })} min={0} step={0.1} required />
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">fat</label>
+                                <label for="exampleInputPassword1">Fat:</label>
                                 <input type="number" class="form-control" id="formFat" placeholder="Enter fat"
-                                    value={value.fat} onChange={e => setValue({ ...value, fat: e.target.value })} min={0.1} step={0.1} required />
+                                    value={value.fat} onChange={e => setValue({ ...value, fat: e.target.value })} min={0} step={0.1} required />
                             </div>
                             <br />
                             <button className='btn btn-info'>Update</button>
