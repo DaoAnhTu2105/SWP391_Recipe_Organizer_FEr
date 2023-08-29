@@ -654,7 +654,7 @@ function CreateRecipe() {
                                         variant="h6"
                                         gutterBottom
                                     >
-                                        Ingredients
+                                        Ingredients<span style={{ color: 'red' }}>*</span>
                                     </Typography>
                                     <Typography
                                         sx={{ fontSize: '15px' }}
@@ -942,7 +942,7 @@ function CreateRecipe() {
                                         variant="h6"
                                         gutterBottom
                                     >
-                                        Directions
+                                        Directions<span style={{ color: 'red' }}>*</span>
                                     </Typography>
                                     <Typography
                                         sx={{ fontSize: '15px' }}
@@ -1043,7 +1043,7 @@ function CreateRecipe() {
                                                     gutterBottom
                                                 >
                                                     {' '}
-                                                    Prep Time
+                                                    Prep Time<span style={{ color: 'red' }}>*</span>
                                                 </Typography>
 
                                                 <TextField
@@ -1110,7 +1110,7 @@ function CreateRecipe() {
                                                     gutterBottom
                                                 >
                                                     {' '}
-                                                    Cook Time
+                                                    Cook Time<span style={{ color: 'red' }}>*</span>
                                                 </Typography>
                                                 <TextField
                                                     label="min(s)"
@@ -1194,7 +1194,7 @@ function CreateRecipe() {
                                             gutterBottom
                                         >
                                             {' '}
-                                            Servings{' '}
+                                            Servings{' '}<span style={{ color: 'red' }}>*</span>
                                         </Typography>
                                         <OutlinedInput
                                             onChange={handleServingChange}
@@ -1229,7 +1229,7 @@ function CreateRecipe() {
                                     variant="subtitle1"
                                     gutterBottom
                                 >
-                                    This is optional part! It is very helpful for us to improve the
+                                    This is the last part! It is very helpful for us to improve the
                                     searching engine if you input all this.
                                 </Typography>
                                 <Box sx={{ display: 'flex', paddingTop: '10px' }}>
@@ -1244,7 +1244,7 @@ function CreateRecipe() {
                                             gutterBottom
                                         >
                                             {' '}
-                                            Type of meal{' '}
+                                            Type of meal{' '}<span style={{ color: 'red' }}>*</span>
                                         </Typography>
                                         <Autocomplete
                                             freeSolo
@@ -1291,7 +1291,7 @@ function CreateRecipe() {
                                             gutterBottom
                                         >
                                             {' '}
-                                            Select country
+                                            Select country<span style={{ color: 'red' }}>*</span>
                                         </Typography>
                                         <Autocomplete
                                             freeSolo

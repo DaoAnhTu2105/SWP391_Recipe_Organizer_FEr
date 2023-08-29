@@ -742,7 +742,7 @@ function UpdateRecipe() {
                                     gutterBottom
                                 >
                                     {' '}
-                                    Recipe Title{' '}
+                                    Recipe Title{' '}<span style={{ color: 'red' }}>*</span>
                                 </Typography>
                                 <OutlinedInput
                                     placeholder={updateRecipe.recipeName}
@@ -835,7 +835,7 @@ function UpdateRecipe() {
                                 variant="h6"
                                 gutterBottom
                             >
-                                Ingredients
+                                Ingredients<span style={{ color: 'red' }}>*</span>
                             </Typography>
                             <Typography sx={{ fontSize: '15px' }} variant="subtitle1" gutterBottom>
                                 {' '}
@@ -1087,7 +1087,7 @@ function UpdateRecipe() {
                                 variant="h6"
                                 gutterBottom
                             >
-                                Directions
+                                Directions<span style={{ color: 'red' }}>*</span>
                             </Typography>
                             <Typography sx={{ fontSize: '15px' }} variant="subtitle1" gutterBottom>
                                 Explain how to make your recipe, including oven temperatures, baking
@@ -1181,7 +1181,7 @@ function UpdateRecipe() {
                                             gutterBottom
                                         >
                                             {' '}
-                                            Prep Time
+                                            Prep Time<span style={{ color: 'red' }}>*</span>
                                         </Typography>
                                         <TextField
                                             label="min(s)"
@@ -1245,7 +1245,7 @@ function UpdateRecipe() {
                                             gutterBottom
                                         >
                                             {' '}
-                                            Cook Time
+                                            Cook Time<span style={{ color: 'red' }}>*</span>
                                         </Typography>
                                         <TextField
                                             label="min(s)"
@@ -1326,7 +1326,7 @@ function UpdateRecipe() {
                                     gutterBottom
                                 >
                                     {' '}
-                                    Servings{' '}
+                                    Servings{' '}<span style={{ color: 'red' }}>*</span>
                                 </Typography>
                                 <OutlinedInput
                                     onChange={handleServingChange}
@@ -1358,7 +1358,7 @@ function UpdateRecipe() {
                             }}
                         />
                         <Typography sx={{ fontSize: '15px' }} variant="subtitle1" gutterBottom>
-                            This is optional part! It is very helpful for us to improve the
+                            This is the last part! It is very helpful for us to improve the
                             searching engine if you input all this.
                         </Typography>
                         <Box sx={{ display: 'flex', paddingTop: '10px' }}>
@@ -1369,7 +1369,7 @@ function UpdateRecipe() {
                                     gutterBottom
                                 >
                                     {' '}
-                                    Type of meal{' '}
+                                    Type of meal{' '}<span style={{ color: 'red' }}>*</span>
                                 </Typography>
                                 <Autocomplete
                                     freeSolo
@@ -1408,7 +1408,7 @@ function UpdateRecipe() {
                                     gutterBottom
                                 >
                                     {' '}
-                                    Select country
+                                    Select country<span style={{ color: 'red' }}>*</span>
                                 </Typography>
                                 <Autocomplete
                                     freeSolo
