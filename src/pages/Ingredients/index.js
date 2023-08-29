@@ -152,8 +152,7 @@ export default function IngredientList() {
         measure: "",
         carbohydrate: "",
         protein: "",
-        fat: "",
-        calories: ""
+        fat: ""
     });
     const [reload, setReload] = useState(false) //recall api
 
@@ -194,8 +193,7 @@ export default function IngredientList() {
             measure: "",
             carbohydrate: "",
             protein: "",
-            fat: "",
-            calories: ""
+            fat: ""
         })
         setShowCreate(false);
     }
@@ -214,16 +212,26 @@ export default function IngredientList() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 await dispatch(addIngredient({ data: JSON.stringify(value) })).then((result) => {
-                    result.payload.status === 1 ? toast.success(result.payload.message) : toast.error(result.payload.message)
+                    result.payload.status === 1
+                        ? (
+                            toast.success(result.payload).then(setValue({
+                                ...value,
+                                ingredientName: "",
+                                measure: "",
+                                carbohydrate: "",
+                                protein: "",
+                                fat: ""
+                            }))
+                        )
+                        : toast.error(result.payload)
                     setReload(!reload)
                 }).catch((err) => {
                     console.log(err);
                 });
             } else {
-                // toast('Nothing Create!')
             }
         });
-        setValue({ ...value, ingredientName: "", measure: "" })
+
         handleCloseModalCreate()
     }
 
@@ -241,13 +249,12 @@ export default function IngredientList() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 await dispatch(removeIngredient({ id: id })).then((result) => {
-                    result.payload.status === 1 ? toast.success(result.payload.message) : toast.error(result.payload.message)
+                    result.payload.status === 1 ? toast.success(result.payload.message) : toast.error(result.payload)
                     setReload(!reload)
                 }).catch((err) => {
                     console.log(err);
                 });
             } else {
-                // toast('Nothing Delete!')
             }
         });
         handleClose();
@@ -302,11 +309,6 @@ export default function IngredientList() {
                                 <label for="exampleInputPassword1">fat</label>
                                 <input type="number" class="form-control" id="formFat" placeholder="Enter fat"
                                     value={value.fat} onChange={e => setValue({ ...value, fat: e.target.value })} min={0.1} step={0.1} required />
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">calories</label>
-                                <input type="number" class="form-control" id="formCalo" placeholder="Enter calories"
-                                    value={value.calories} onChange={e => setValue({ ...value, calories: e.target.value })} min={1} required />
                             </div>
                         </Modal.Body>
                         <Modal.Footer>

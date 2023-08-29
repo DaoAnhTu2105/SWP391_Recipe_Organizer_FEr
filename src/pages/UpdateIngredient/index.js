@@ -57,11 +57,11 @@ const UpdateIngredient = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 await dispatch(updateIngredient({ id: id, data: JSON.stringify(value) })).then(async (result) => {
-                    if (result.payload.message === 'Update Ingredient Success') {
-                        toast.success('Update Success!')
+                    if (result.payload.status === 1) {
+                        // toast.success('Update Success!')
                         navigate('/ingredient-list')
                     } else {
-                        toast.error('Update Failed!')
+                        toast.error(result.payload)
                     }
                 }).catch((err) => {
                     console.log(err);
@@ -70,7 +70,6 @@ const UpdateIngredient = () => {
                 // toast('Nothing Create!')
             }
         });
-        // setValue({ ...value, ingredientName: "", measure: "" })
     }
 
     return (
@@ -107,7 +106,7 @@ const UpdateIngredient = () => {
                             <div class="form-group">
                                 <label for="exampleInputPassword1">carbohydrate</label>
                                 <input type="number" class="form-control" id="formCarb" placeholder="Enter carbohydrate"
-                                    value={value.carbohydrate} onChange={e => setValue({ ...value, carbohydrate: parseInt(e.target.value, 10) })} min={0.1} step={0.1} required />
+                                    value={value.carbohydrate} onChange={e => setValue({ ...value, carbohydrate: e.target.value })} min={0.1} step={0.1} required />
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">protein</label>
@@ -119,12 +118,6 @@ const UpdateIngredient = () => {
                                 <input type="number" class="form-control" id="formFat" placeholder="Enter fat"
                                     value={value.fat} onChange={e => setValue({ ...value, fat: e.target.value })} min={0.1} step={0.1} required />
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">calories</label>
-                                <input type="number" class="form-control" id="formCalo" placeholder="Enter calories"
-                                    value={value.calories} onChange={e => setValue({ ...value, calories: e.target.value })} min={1} required />
-                            </div>
-
                             <br />
                             <button className='btn btn-info'>Update</button>
                         </form>

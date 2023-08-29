@@ -252,34 +252,55 @@ export default function MealPlan() {
                         </Button>
                         <Modal show={show} onHide={handleClose}>
                             <Modal.Header closeButton>
-                                <Modal.Title>Modal heading</Modal.Title>
+                                <Modal.Title>Create Meal Plan</Modal.Title>
                             </Modal.Header>
                             <form onSubmit={e => handleFormCreate(e)}>
                                 <Modal.Body>
                                     <div class="form-group">
-                                        <label htmFor="recipe">Recipe</label>
-                                        {/* <select id="recipe" class="form-control" placeholder='Recipe' onChange={(e) => setData({ ...data, recipeId: e.target.value })} required>
-                                            <option value="">...</option>
-                                            {getAllRecipes?.data?.map((item) => (
-                                                <option value={item.recipeId}>{item.recipeName}</option>
-                                            ))}
-                                        </select> */}
-                                        <Select options={getAllRecipes?.data} />
-                                        <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
-                                    </div>
-                                    <div class="form-group">
-                                        <label htmFor="date">Date</label>
-                                        <input type="date" class="form-control" id="date" placeholder="Date"
-                                            onChange={(e) => setData({ ...data, dateSt: formatData(e.target.value) })} required />
-                                    </div>
-                                    <div class="form-group">
-                                        <label htmFor="meal">Meal of date</label>
-                                        <select id="meal" class="form-control" placeholder='Meal' onChange={(e) => setData({ ...data, mealOfDate: e.target.value })} required>
-                                            <option value="">...</option>
-                                            <option value="1">BreakFast</option>
-                                            <option value="2">Lunch</option>
-                                            <option value="3">Dinner</option>
-                                        </select>
+                                        <div class="form-group">
+                                            <label htmFor="date">Date</label>
+                                            <input type="date" class="form-control" id="date" placeholder="Date"
+                                                onChange={(e) => setData({ ...data, dateSt: formatData(e.target.value) })} required />
+                                        </div>
+                                        <div class="form-group">
+                                            <label htmFor="recipe">Recipe for BreakFast</label>
+                                            <Select
+                                                // defaultValue={breakfast}
+                                                isMulti
+                                                name="colors"
+                                                options={list}
+                                                className="basic-multi-select"
+                                                classNamePrefix="select"
+                                                onChange={handleBreakfastChange}
+                                                required
+                                            // isDisabled={isDisabled}
+                                            />
+                                            <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label htmFor="recipe">Recipe for Lunch</label>
+                                            <Select
+                                                isMulti
+                                                name="colors"
+                                                options={list}
+                                                onChange={handleLunchChange}
+                                                required
+                                            // isDisabled={isDisabled}
+                                            />
+                                            <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label htmFor="recipe">Recipe for Dinner</label>
+                                            <Select
+                                                isMulti
+                                                name="colors"
+                                                options={list}
+                                                onChange={handleDinnerChange}
+                                                required
+                                            // isDisabled={isDisabled}
+                                            />
+                                            <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
+                                        </div>
                                     </div>
                                 </Modal.Body>
                                 <Modal.Footer>
@@ -404,7 +425,7 @@ export default function MealPlan() {
                                                 classNamePrefix="select"
                                                 onChange={handleBreakfastChange}
                                                 required
-                                                isDisabled={isDisabled}
+                                            // isDisabled={isDisabled}
                                             />
                                             <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                                         </div>
@@ -416,7 +437,7 @@ export default function MealPlan() {
                                                 options={list}
                                                 onChange={handleLunchChange}
                                                 required
-                                                isDisabled={isDisabled}
+                                            // isDisabled={isDisabled}
                                             />
                                             <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                                         </div>
@@ -428,7 +449,7 @@ export default function MealPlan() {
                                                 options={list}
                                                 onChange={handleDinnerChange}
                                                 required
-                                                isDisabled={isDisabled}
+                                            // isDisabled={isDisabled}
                                             />
                                             <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                                         </div>
