@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import Food from './Food'
-import { getPlanByDate, createPlan, getRecipesPlan, removeDate } from '../../redux/apiThunk/planThunk'
+import { getPlanByDate, createPlan, getRecipesPlan, removeDate, getPlanForCreate } from '../../redux/apiThunk/planThunk'
 import CircularProgress from "@mui/material/CircularProgress";
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button';
@@ -21,19 +21,31 @@ const formatDate = (date) => {
 const PlanDetail = () => {
     const { date } = useParams();
     const [data, setData] = useState({
-        recipeId: "",
         dateSt: formatDate(date),
-        mealOfDate: ""
+        breakfast: [],
+        lunch: [],
+        dinner: []
     })
     const dispatch = useDispatch();
     const [reload, setReload] = useState(false)
     useEffect(() => {
         dispatch(getPlanByDate({ date: formatDate(date) }))
+        dispatch(getPlanForCreate({ date: data.dateSt })).then((result) => {
+            setData({
+                ...data,
+                breakfast: result.payload.data.breakfast.map(item => item.value),
+                lunch: result.payload.data.lunch.map(item => item.value),
+                dinner: result.payload.data.dinner.map(item => item.value)
+            })
+            // console.log(result);
+        }).catch((err) => {
+        });
     }, [dispatch, date, reload]);
 
     const planDetail = useSelector((state) => state.plan);
     const dataStatus = useSelector((state) => state.plan.loading)
     const getAllRecipes = useSelector((state) => state.plan.recipePlan)
+    const getCreate = useSelector((state) => state.plan.form)
 
     const handleReload = () => {
         setReload(!reload)
@@ -196,11 +208,6 @@ const PlanDetail = () => {
                                         </select>
                                         <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                                     </div>
-                                    {/* <div class="form-group">
-                                        <label htmFor="date">Date</label>
-                                        <input type="date" class="form-control" id="date" placeholder="Date"
-                                            onChange={(e) => setData({ ...data, dateSt: formatData(e.target.value) })} required />
-                                    </div> */}
                                     <div class="form-group">
                                         <label htmFor="meal">Meal of date</label>
                                         <select id="meal" class="form-control" placeholder='Meal' onChange={(e) => setData({ ...data, mealOfDate: e.target.value })} required>
@@ -309,7 +316,7 @@ const PlanDetail = () => {
                 </div>
             </div>
             <div className="ingredient">
-                <h4>Shopping List</h4>
+                <h4>Prepare Ingredients</h4>
                 {planDetail?.detail.data?.ingredient?.map((item, index) => (
                     <div className='ingredients'>
                         <b>{index + 1}.  </b> {item?.totalQuantity} {item?.measure} of {item?.ingredientName}
