@@ -219,6 +219,18 @@ const FavoriteRecipe = () => {
                                                     />
                                                 </Link>
                                                 <CardContent>
+                                                    <Typography
+                                                        variant="body2"
+                                                        color="text.primary"
+                                                        style={{
+                                                            fontWeight: 600,
+                                                            height: 25,
+                                                            overflow: 'hidden',
+                                                            marginBottom: 10,
+                                                        }}
+                                                    >
+                                                        {favor.recipeName}
+                                                    </Typography>
                                                     <Box
                                                         sx={{
                                                             display: 'flex',
@@ -227,25 +239,6 @@ const FavoriteRecipe = () => {
                                                         }}
                                                     >
                                                         <Typography
-                                                            variant="body2"
-                                                            color="text.primary"
-                                                            style={{
-                                                                fontWeight: 600,
-                                                                height: 25,
-                                                                overflow: 'hidden',
-                                                                marginBottom: 10,
-                                                            }}
-                                                        >
-                                                            {favor.recipeName}
-                                                        </Typography>
-                                                        &nbsp; &nbsp;
-                                                        <ErrorIcon
-                                                            style={{
-                                                                color: 'red',
-                                                                marginBottom: 10,
-                                                            }}
-                                                        />
-                                                        <Typography
                                                             variant="body3"
                                                             color="text.secondary"
                                                         >
@@ -253,6 +246,12 @@ const FavoriteRecipe = () => {
                                                                 favor.updateTime
                                                             ).toLocaleDateString()}
                                                         </Typography>
+                                                        &nbsp; &nbsp;
+                                                        <ErrorIcon
+                                                            style={{
+                                                                color: 'red',
+                                                            }}
+                                                        />
                                                     </Box>
                                                     <CardActions
                                                         sx={{
