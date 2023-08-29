@@ -1,6 +1,6 @@
 
 import { createSlice } from "@reduxjs/toolkit";
-import { getPlanByDate, getPlanByWeek, getDetail, getRecipesPlan } from "../apiThunk/planThunk";
+import { getPlanByDate, getPlanByWeek, getDetail, getRecipesPlan, getPlanForCreate } from "../apiThunk/planThunk";
 
 const planSlice = createSlice({
     name: "plans",
@@ -35,9 +35,19 @@ const planSlice = createSlice({
             state.loading = "succeeded";
             state.detail = action.payload;
         },
-        [getPlanByDate.rejected]: (state, action) => {
-            state.loading = false;
+        [getPlanForCreate.pending]: (state, action) => {           //get by date for create
+            state.loadingPlan = true;
+            state.loadingPlan = "loading"
+        },
+        [getPlanForCreate.fulfilled]: (state, action) => {
+            state.loadingPlan = false;
+            state.loading = "succeeded";
+            state.detail = action.payload;
+        },
+        [getPlanForCreate.rejected]: (state, action) => {
+            state.loadingPlan = false;
             state.loading = "failed";
+
         },
         [getDetail.pending]: (state, action) => {               //get detail of recipe
             state.loading = true;
