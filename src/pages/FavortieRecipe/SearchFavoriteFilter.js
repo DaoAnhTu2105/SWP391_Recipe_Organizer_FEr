@@ -11,11 +11,11 @@ import axios from 'axios'
 
 const SearchFilterFavorites = () => {
     const minmin = 0
-    const maxmax = 200
+    const maxmax = 1000
     const minServing = 1
     const maxServing = 20
     const [serving, setServing] = useState([1, 20])
-    const [timeValue, setTimeValue] = useState([0, 200])
+    const [timeValue, setTimeValue] = useState([0, 1000])
     const [isCollapsed, setIsCollapsed] = useState(true)
     const [isCollapsedServing, setIsCollapsedServing] = useState(true)
     const [openFilter, setOpenFilter] = useState(false)
