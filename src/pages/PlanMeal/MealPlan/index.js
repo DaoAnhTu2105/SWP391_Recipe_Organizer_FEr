@@ -220,6 +220,9 @@ export default function MealPlan() {
                         ...data,
                         dateSt: "02/29/2000"
                     })
+                    setListBreak([])
+                    setListLunch([])
+                    setListDinner([])
                 }).catch((err) => {
                 });
             } else {
