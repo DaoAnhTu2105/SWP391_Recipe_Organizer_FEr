@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import './index.css'
 import styled from 'styled-components';
+import ErrorIcon from '@mui/icons-material/Error';
+import Tooltip from '@mui/material/Tooltip';
 
 const StyledDiv = styled.div`
     width: 100%;
@@ -18,8 +20,12 @@ const StyledDiv = styled.div`
     }
 `;
 
-const Food = ({ id, foodName, calo, meal }) => {
-    let bgColor, bgColorHover;
+const Food = ({ id, foodName, calo, isDelete, meal }) => {
+    let bgColor, bgColorHover, content;
+    const iconStyle = {
+        fontSize: 14,
+        marginLeft: 4
+    };
     switch (meal) {
         case 'breakfast': {
             bgColor = '#c1e4f5'
@@ -36,14 +42,30 @@ const Food = ({ id, foodName, calo, meal }) => {
             bgColorHover = '#68169c99'
         }
     }
-    return (
-        <a href={`/recipe-detail/${id}`} className='link'>
+
+    isDelete
+        ? content = (
             <StyledDiv backgroundColor={bgColor} hoverBackgroundColor={bgColorHover}>
-                <div>{foodName}</div>
+                <div>
+                    {foodName}
+                    <Tooltip title="Cooker deleted this recipe" placement="right">
+                        <ErrorIcon style={iconStyle} />
+                    </Tooltip>
+                </div>
                 <div style={{ color: '#718093' }}>Calories: {calo} kcal</div>
             </StyledDiv>
-        </a>
-    )
+        )
+        : content = (
+            <a href={`/recipe-detail/${id}`} >
+                <StyledDiv backgroundColor={bgColor} hoverBackgroundColor={bgColorHover}>
+                    <div>
+                        {foodName}
+                    </div>
+                    <div style={{ color: '#718093' }}>Calories: {calo} kcal</div>
+                </StyledDiv>
+            </a>
+        )
+    return <Fragment>{content}</Fragment>
 }
 
 export default Food
