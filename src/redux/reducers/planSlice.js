@@ -9,6 +9,7 @@ const planSlice = createSlice({
         detail: [],
         food: [],
         recipePlan: [],
+        form: [],
         loading: false,
         loadingPlan: false,
     },
@@ -42,12 +43,11 @@ const planSlice = createSlice({
         [getPlanForCreate.fulfilled]: (state, action) => {
             state.loadingPlan = false;
             state.loading = "succeeded";
-            state.detail = action.payload;
+            state.form = action.payload;
         },
         [getPlanForCreate.rejected]: (state, action) => {
             state.loadingPlan = false;
             state.loading = "failed";
-
         },
         [getDetail.pending]: (state, action) => {               //get detail of recipe
             state.loading = true;

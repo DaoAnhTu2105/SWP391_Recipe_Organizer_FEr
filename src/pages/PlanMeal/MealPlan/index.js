@@ -77,7 +77,9 @@ export default function MealPlan() {
         lunch: [],
         dinner: []
     })
-    const [list, setList] = useState([])
+    const [listBreak, setListBreak] = useState([])
+    const [listLunch, setListLunch] = useState([])
+    const [listDinner, setListDinner] = useState([])
     switch (getMonday(currentDate).getMonth() + 1) {
         case 1:
             month = ("January")
@@ -124,14 +126,23 @@ export default function MealPlan() {
     }, [dispatch, currentDate, reload])
 
     useEffect(() => {
-        dispatch(getPlanForCreate({ date: data.dateSt }))
+        dispatch(getPlanForCreate({ date: data.dateSt })).then((result) => {
+            setData({
+                ...data,
+                breakfast: result.payload.data.breakfast.map(item => item.value),
+                lunch: result.payload.data.lunch.map(item => item.value),
+                dinner: result.payload.data.dinner.map(item => item.value)
+            })
+            // console.log(result);
+        }).catch((err) => {
+        });
     }, [data.dateSt])
 
     const mealPlan = useSelector((state) => state.plan)
     const dataStatus = useSelector((state) => state.plan.loading)
     const formStatus = useSelector((state) => state.plan.loadingPlan)
     const getAllRecipes = useSelector((state) => state.plan.recipePlan)
-    let getCreate = useSelector((state) => state.plan.detail)
+    let getCreate = useSelector((state) => state.plan.form)
     const user = JSON.parse(localStorage.getItem("user"))
     // console.log(getCreate);
     const formatData = (date) => {
@@ -142,16 +153,23 @@ export default function MealPlan() {
     //show, close modal
     const handleClose = () => {
         setShow(false)
-        setList([])
+        setListBreak([])
+        setListLunch([])
+        setListDinner([])
         setData({
             ...data,
             dateSt: "02/29/2000"
         })
     }
     const handleShow = () => {
-        getAllRecipes?.data?.map((item) => (
-            list.push({ value: item.recipeId, label: item.recipeName })
-        ))
+        getAllRecipes?.data?.map((item) => {
+            if (item.mealVMs.mealName === 'Breakfast')
+                listBreak.push({ value: item.recipeId, label: item.recipeName })
+            else if (item.mealVMs.mealName === 'Lunch')
+                listLunch.push({ value: item.recipeId, label: item.recipeName })
+            else
+                listDinner.push({ value: item.recipeId, label: item.recipeName })
+        })
         setShow(true)
     };
 
@@ -208,53 +226,56 @@ export default function MealPlan() {
                 toast('Nothing Create!')
             }
         });
-        setList([])
+        setListBreak([])
+        setListLunch([])
+        setListDinner([])
         setReload(!reload)
     }
 
-    let contentForm = (<Fragment>
-        <div class="form-group">
-            <label htmFor="recipe">Recipe for BreakFast</label>
-            <Select
-                // defaultValue={firstMeal}
-                isMulti
-                name="colors"
-                options={list}
-                className="basic-multi-select"
-                classNamePrefix="select"
-                onChange={handleBreakfastChange}
-                required
-                isDisabled={isDisabled}
-            />
-            <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
-        </div>
-        <div class="form-group">
-            <label htmFor="recipe">Recipe for Lunch</label>
-            <Select
-                // defaultValue={secondMeal}
-                isMulti
-                name="colors"
-                options={list}
-                onChange={handleLunchChange}
-                required
-                isDisabled={isDisabled}
-            />
-            <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
-        </div>
-        <div class="form-group">
-            <label htmFor="recipe">Recipe for Dinner</label>
-            <Select
-                // defaultValue={finalMeal}
-                isMulti
-                name="colors"
-                options={list}
-                onChange={handleDinnerChange}
-                required
-                isDisabled={isDisabled}
-            />
-            <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
-        </div>
-    </Fragment>)
+    // let contentForm = (<Fragment>
+    //     <div class="form-group">
+    //         <label htmFor="recipe">Recipe for BreakFast</label>
+    //         <Select
+    //             // defaultValue={firstMeal}
+    //             isMulti
+    //             name="colors"
+    //             options={listBreak}
+    //             className="basic-multi-select"
+    //             classNamePrefix="select"
+    //             onChange={handleBreakfastChange}
+    //             required
+    //             isDisabled={isDisabled}
+    //         />
+    //         <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
+    //     </div>
+    //     <div class="form-group">
+    //         <label htmFor="recipe">Recipe for Lunch</label>
+    //         <Select
+    //             // defaultValue={secondMeal}
+    //             isMulti
+    //             name="colors"
+    //             options={listLunch}
+    //             onChange={handleLunchChange}
+    //             required
+    //             isDisabled={isDisabled}
+    //         />
+    //         <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
+    //     </div>
+    //     <div class="form-group">
+    //         <label htmFor="recipe">Recipe for Dinner</label>
+    //         <Select
+    //             // defaultValue={finalMeal}
+    //             isMulti
+    //             name="colors"
+    //             options={listDinner}
+    //             onChange={handleDinnerChange}
+    //             required
+    //             isDisabled={isDisabled}
+    //         />
+    //         <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
+    //     </div>
+    // </Fragment>)
+    let contentForm
     if (formStatus === 'loading') {
         contentForm = (
             <CircularProgress
@@ -273,12 +294,10 @@ export default function MealPlan() {
                     defaultValue={getCreate?.data?.breakfast}
                     isMulti
                     name="colors"
-                    options={list}
+                    options={listBreak}
                     className="basic-multi-select"
                     classNamePrefix="select"
                     onChange={handleBreakfastChange}
-                    required
-                // isDisabled={isDisabled}
                 />
                 <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
             </div>
@@ -288,10 +307,8 @@ export default function MealPlan() {
                     defaultValue={getCreate?.data?.lunch}
                     isMulti
                     name="colors"
-                    options={list}
+                    options={listLunch}
                     onChange={handleLunchChange}
-                    required
-                // isDisabled={isDisabled}
                 />
                 <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
             </div>
@@ -301,10 +318,8 @@ export default function MealPlan() {
                     defaultValue={getCreate?.data?.dinner}
                     isMulti
                     name="colors"
-                    options={list}
+                    options={listDinner}
                     onChange={handleDinnerChange}
-                    required
-                // isDisabled={isDisabled}
                 />
                 <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
             </div>
@@ -368,15 +383,13 @@ export default function MealPlan() {
                                         <div class="form-group">
                                             <label htmFor="recipe">Recipe for BreakFast</label>
                                             <Select
-                                                // defaultValue={breakfast}
                                                 isMulti
                                                 name="colors"
-                                                options={list}
+                                                options={listBreak}
                                                 className="basic-multi-select"
                                                 classNamePrefix="select"
                                                 onChange={handleBreakfastChange}
                                                 required
-                                            // isDisabled={isDisabled}
                                             />
                                             <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                                         </div>
@@ -385,10 +398,9 @@ export default function MealPlan() {
                                             <Select
                                                 isMulti
                                                 name="colors"
-                                                options={list}
+                                                options={listLunch}
                                                 onChange={handleLunchChange}
                                                 required
-                                            // isDisabled={isDisabled}
                                             />
                                             <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                                         </div>
@@ -397,10 +409,9 @@ export default function MealPlan() {
                                             <Select
                                                 isMulti
                                                 name="colors"
-                                                options={list}
+                                                options={listDinner}
                                                 onChange={handleDinnerChange}
                                                 required
-                                            // isDisabled={isDisabled}
                                             />
                                             <small id="recipeHepl" class="form-text text-muted">Choose recipe you want to add to plan.</small>
                                         </div>

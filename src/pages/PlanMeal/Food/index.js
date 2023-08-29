@@ -24,7 +24,8 @@ const Food = ({ id, foodName, calo, isDelete, meal }) => {
     let bgColor, bgColorHover, content;
     const iconStyle = {
         fontSize: 14,
-        marginLeft: 4
+        marginLeft: 4,
+        color: '#eb2f06'
     };
     switch (meal) {
         case 'breakfast': {
